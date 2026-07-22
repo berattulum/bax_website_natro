@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BaX Composites provides advanced composite engineering, analysis, qualification and industrialization solutions for aerospace and automotive industries.">
+    <meta name="theme-color" content="#f7f9fa">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BaX Composites | Advanced Composite Engineering">
+    <meta property="og:description" content="From concept and analysis to qualification and serial production.">
+    <title data-i18n="pageTitle">Bax Composites | Geleceği Şekillendiriyoruz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"BaX Composites Inc.","url":"https://baxcomposites.com/","email":"info@baxcomposites.com","telephone":"+90-212-565-00-08","foundingDate":"2018","address":{"@type":"PostalAddress","addressLocality":"Istanbul","addressCountry":"TR"}}</script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="#home" aria-label="BAX Composites">
+                    <span class="logo-word"><strong>Ba<span class="logo-x">X</span></strong><small>Composites</small></span>
+                </a>
+            </div>
+            <nav class="main-nav" data-i18n-aria-label="mainNavLabel" aria-label="Ana menü">
+                <ul>
+                    <li><a href="#home" class="active" data-i18n="navHome">Ana Sayfa</a></li>
+                    <li><a href="#about" data-i18n="navAbout">Hakkımızda</a></li>
+                    <li><a href="#expertise" data-i18n="navExpertise">Uzmanlık</a></li>
+                    <li><a href="#references" data-i18n="navReferences">Referanslar</a></li>
+                    <li><a href="#memberships" data-i18n="navMemberships">Üyelikler</a></li>
+                    <li><a href="#contact" data-i18n="navContact">İletişim</a></li>
+                </ul>
+            </nav>
+            <button type="button" class="mobile-menu-toggle" aria-expanded="false" data-i18n-aria-label="mobileMenuLabel" aria-label="Menüyü aç"><span></span><span></span></button>
+            <div class="header-right">
+                <div class="lang-selector">
+                    <select id="lang-select" data-i18n-aria-label="languageLabel" aria-label="Dil seçin">
+                        <option value="tr">TR</option>
+                        <option value="en">EN</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-primary-small" data-modal-open data-i18n="contactButton">BİZE ULAŞIN</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="contact-modal" id="contact-modal" aria-hidden="true">
+        <div class="contact-modal-backdrop" data-modal-close></div>
+        <div class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+            <button type="button" class="modal-close" data-modal-close data-i18n-aria-label="closeModal" aria-label="Pencereyi kapat">&times;</button>
+            <span class="section-label" data-i18n="modalLabel">BAX // İLETİŞİM</span>
+            <h2 id="contact-modal-title" data-i18n="modalTitle">Projenizi konuşalım.</h2>
+            <p class="modal-intro" data-i18n="modalIntro">İhtiyacınızı kısaca anlatın; mesajınızı doğrudan mühendislik ekibimize iletelim.</p>
+            <form id="contact-form">
+                <div class="form-row">
+                    <label><span data-i18n="formName">Ad Soyad</span><input type="text" name="name" autocomplete="name" required></label>
+                    <label><span data-i18n="formCompany">Şirket</span><input type="text" name="company" autocomplete="organization"></label>
+                </div>
+                <div class="form-row">
+                    <label><span data-i18n="formEmail">E-posta</span><input type="email" name="email" autocomplete="email" required></label>
+                    <label><span data-i18n="formPhone">Telefon</span><input type="tel" name="phone" autocomplete="tel"></label>
+                </div>
+                <label><span data-i18n="formSubject">Konu</span><input type="text" name="subject" required></label>
+                <label><span data-i18n="formMessage">Mesajınız</span><textarea name="message" rows="5" required></textarea></label>
+                <label class="consent-label"><input type="checkbox" name="consent" required><span data-i18n="formConsent">İletişim amacıyla bilgilerimin işlenmesini kabul ediyorum.</span></label>
+                <div class="form-footer">
+                    <p data-i18n="formNote">Gönder düğmesi varsayılan e-posta uygulamanızı açar.</p>
+                    <button type="submit" class="form-submit" data-i18n="formSubmit">MESAJI GÖNDER</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Bölümü (Slider + Video + Fonksiyonel Kodlar) -->
+    <section id="home" class="hero-section">
+        <div class="hero-slider">
+            <!-- Slide 1: Video -->
+            <div class="slide opening-slide active" aria-hidden="false">
+                <video autoplay loop muted playsinline class="hero-video">
+                    <source src="ucak-video.mp4" type="video/mp4">
+                </video>
+                <div class="hero-overlay"></div>
+                <div class="container hero-content">
+                    <h2 class="hero-subtitle" data-i18n="hero1Subtitle">İLERİ KOMPOZİT MÜHENDİSLİĞİ</h2>
+                    <h1 class="hero-title" data-i18n="hero1Title">Tasarımdan <br><span>Endüstrileştirmeye</span></h1>
+                    <p class="hero-description" data-i18n="hero1Description">Havacılık ve otomotiv için konsept, analiz, test, kalifikasyon ve ölçeklenebilir kompozit üretim çözümleri geliştiriyoruz.</p>
+                    <div class="hero-actions"><a href="#expertise" class="hero-link hero-link-primary" data-i18n="heroCapabilities">YETKİNLİKLERİMİZ</a><button type="button" class="hero-link" data-modal-open data-i18n="heroContact">PROJENİZİ KONUŞALIM</button></div>
+                </div>
+            </div>
+            <!-- Slide 2: Automotive composites -->
+            <div class="slide opening-slide automotive-slide" aria-hidden="true">
+                 <div class="slide-bg automotive-bg" role="img" data-i18n-aria-label="automotiveImageLabel" aria-label="Karbon fiber monokok otomotiv prototipi"></div>
+                 <div class="hero-overlay"></div>
+                 <div class="container hero-content">
+                    <h2 class="hero-subtitle" data-i18n="heroAutoSubtitle">OTOMOTİV KOMPOZİT TEKNOLOJİLERİ</h2>
+                    <h1 class="hero-title" data-i18n="heroAutoTitle">Hafiflikten <br><span>Performansa</span></h1>
+                    <p class="hero-description" data-i18n="heroAutoDescription">Karbon fiber yapısal parçalar, hafifletme çözümleri ve ölçeklenebilir üretim süreçleriyle yeni nesil mobilite projelerine mühendislik desteği sunuyoruz.</p>
+                 </div>
+            </div>
+            <!-- Slide 3: Automotive composite manufacturing -->
+            <div class="slide opening-slide manufacturing-slide" aria-hidden="true">
+                 <div class="slide-bg manufacturing-bg" role="img" data-i18n-aria-label="manufacturingImageLabel" aria-label="Karbon fiber otomotiv monokok üretim hücresi"></div>
+                 <div class="manufacturing-light" aria-hidden="true"></div>
+                 <div class="hero-overlay"></div>
+                 <div class="container hero-content">
+                    <h2 class="hero-subtitle" data-i18n="heroManufacturingSubtitle">OTOMOTİVDE KOMPOZİT ÜRETİM</h2>
+                    <h1 class="hero-title" data-i18n="heroManufacturingTitle">Malzemeden <br><span>Yapısal Değere</span></h1>
+                    <p class="hero-description" data-i18n="heroManufacturingDescription">Karbon fiber monokoklar ve yapısal parçalar için hassas serim, proses geliştirme ve tekrarlanabilir üretim çözümleri geliştiriyoruz.</p>
+                 </div>
+            </div>
+            <!-- Slide 4: Resim -->
+            <div class="slide">
+                 <div class="slide-bg futuristic-bg" role="img" aria-label="Karbon fiber kompozit kumaş ruloları"></div>
+                 <div class="hero-overlay"></div>
+                 <div class="container hero-content">
+                    <h2 class="hero-subtitle" data-i18n="hero2Subtitle">MÜHENDİSLİK VE TASARIM</h2>
+                    <h1 class="hero-title" data-i18n="hero2Title">Fütüristik <br><span>Çizgiler</span></h1>
+                    <p class="hero-description" data-i18n="hero2Description">Sadece fonksiyonel değil, estetik ve keskin hatlara sahip yenilikçi tasarımları gerçeğe dönüştürüyoruz.</p>
+                 </div>
+            </div>
+            <!-- Slide 4: Resim -->
+            <div class="slide">
+                 <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1620023846933-4f96d091e4f3?q=80&w=2070&auto=format&fit=crop');"></div>
+                 <div class="hero-overlay"></div>
+                 <div class="container hero-content">
+                    <h2 class="hero-subtitle" data-i18n="hero3Subtitle">YÜKSEK TEKNOLOJİ ÜRETİM</h2>
+                    <h1 class="hero-title" data-i18n="hero3Title">Milimetrik <br><span>Hassasiyet</span></h1>
+                    <p class="hero-description" data-i18n="hero3Description">Altium veya MATLAB gibi araçlarla tasarlanan sistemlerin, fiziksel dünyadaki kusursuz kompozit karşılıklarını üretiyoruz.</p>
+                 </div>
+            </div>
+
+        <div class="slider-controls">
+            <button class="slide-btn prev-btn" data-i18n-aria-label="previousSlide" aria-label="Önceki sahne">&#8593;</button>
+            <button class="slide-btn next-btn" data-i18n-aria-label="nextSlideLabel" aria-label="Sonraki sahne">&#8595;</button>
+        </div>
+        <div class="opening-pagination" role="group" data-i18n-aria-label="openingSliderLabel" aria-label="Açılış sahneleri">
+            <button type="button" class="opening-dot active" data-opening-slide="0" data-i18n-aria-label="aircraftSlideLabel" aria-label="Havacılık sahnesini göster" aria-current="true"></button>
+            <button type="button" class="opening-dot" data-opening-slide="1" data-i18n-aria-label="automotiveSlideLabel" aria-label="Otomotiv sahnesini göster" aria-current="false"></button>
+            <button type="button" class="opening-dot" data-opening-slide="2" data-i18n-aria-label="manufacturingSlideLabel" aria-label="Otomotiv kompozit üretim sahnesini göster" aria-current="false"></button>
+        </div>
+        </div>
+    </section>
+
+    <!-- Hakkımızda Bölümü -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-flex">
+                <div class="about-text">
+                    <!-- Internal section index: 01 // KURUMSAL -->
+                    <h2 data-i18n="aboutTitle">Geleceği Kompozit ile <br>Şekillendiriyoruz</h2>
+                </div>
+                <div class="about-desc">
+                    <p data-i18n="aboutDescription">BaX Composites, 2018 yılında İstanbul'da ileri kompozit teknolojileri alanında faaliyet göstermek üzere kurulan bir mühendislik ve üretim şirketidir. Kavramsal parça tasarımı, yapısal analiz, test ve doğrulamadan proses geliştirme, endüstrileştirme ve seri üretime kadar ürün yaşam döngüsünün tüm aşamalarında uçtan uca çözümler geliştiriyoruz.</p>
+                    <p data-i18n="aboutGoal">Havacılık, savunma, otomotiv ve ileri mobilite sektörlerinde yerli ve uluslararası iş ortaklarımıza; daha hafif, verimli ve yüksek performanslı ürünler geliştirmeleri için destek oluyoruz. Tasarım ve üretim kabiliyetlerini ileri taşırken, güvenilir ve ölçeklenebilir kompozit çözümleriyle küresel değer zincirinde kalıcı bir teknoloji ortağı olmayı hedefliyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Uzmanlık Bölümü (Line-Grid) -->
+    <section id="expertise" class="expertise-section">
+        <div class="container">
+            <div class="expertise-wrapper">
+                <div class="expertise-item">
+                    <!-- Internal capability index: 01 -->
+                    <h3 data-i18n="expertise1Title">Kompozit Tasarım & Dijital Mühendislik</h3>
+                    <p data-i18n="expertise1Description">Konsept ve laminat tasarımı, CAD/CAE, sonlu elemanlar analizi, optimizasyon ve üretilebilirlik odaklı doğrulama.</p>
+                </div>
+                <div class="expertise-item">
+                    <!-- Internal capability index: 02 -->
+                    <h3 data-i18n="expertise2Title">Endüstrileştirme & Otomasyon</h3>
+                    <p data-i18n="expertise2Description">Proses seçimi, seri üretim hattı tasarımı, çevrim süresi iyileştirme, otomasyon ve ölçeklenebilir üretim sistemleri.</p>
+                </div>
+                <div class="expertise-item">
+                    <!-- Internal capability index: 03 -->
+                    <h3 data-i18n="expertise3Title">Malzeme & Proses İnovasyonu</h3>
+                    <p data-i18n="expertise3Description">Termoset ve termoplastik kompozitler, sürdürülebilir malzemeler, proses geliştirme ve prototip üretimi.</p>
+                </div>
+                <div class="expertise-item"><!-- Internal capability index: 04 --><h3 data-i18n="expertise4Title">Test, Kalifikasyon & Sertifikasyon</h3><p data-i18n="expertise4Description">Mekanik test planları, yapısal doğrulama, tahribatsız muayene, ürün ve proses kalifikasyonu ile sertifikasyon dokümantasyonu.</p></div>
+                <div class="expertise-item"><!-- Internal capability index: 05 --><h3 data-i18n="expertise5Title">Takım, Makine & Ekipman</h3><p data-i18n="expertise5Description">Kalıp, fikstür, özel makine ve üretim ekipmanlarının tasarımı, imalatı, devreye alınması ve performans doğrulaması.</p></div>
+                <div class="expertise-item"><!-- Internal capability index: 06 --><h3 data-i18n="expertise6Title">Mühendislik Danışmanlığı & Yetkinlik Geliştirme</h3><p data-i18n="expertise6Description">Teknoloji yol haritası, proses ve tedarikçi değerlendirmesi, teknik eğitim ve bilgi transferiyle kurumsal kabiliyet geliştirme.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section" aria-labelledby="process-title">
+        <div class="container">
+            <div class="process-heading"><span class="section-label" data-i18n="processLabel">UÇTAN UCA MÜHENDİSLİK</span><h2 id="process-title" data-i18n="processTitle">Fikirden seri üretime<br>kontrollü ilerleme.</h2></div>
+            <ol class="process-track">
+                <li><!-- Internal process index: 01 --><h3 data-i18n="process1">Konsept</h3><p data-i18n="process1Text">Gereksinimlerin ve performans hedeflerinin tanımlanması.</p></li>
+                <li><!-- Internal process index: 02 --><h3 data-i18n="process2">Tasarım & Analiz</h3><p data-i18n="process2Text">Malzeme, geometri ve yapısal performansın geliştirilmesi.</p></li>
+                <li><!-- Internal process index: 03 --><h3 data-i18n="process3">Test & Doğrulama</h3><p data-i18n="process3Text">Ürün ve proses performansının ölçülmesi ve doğrulanması.</p></li>
+                <li><!-- Internal process index: 04 --><h3 data-i18n="process4">Endüstrileştirme</h3><p data-i18n="process4Text">Tekrarlanabilir, verimli ve ölçeklenebilir üretim sistemi.</p></li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="principles-section" aria-labelledby="principles-title">
+        <div class="container">
+            <div class="principles-heading">
+                <!-- Internal section index: 02 // YAKLAŞIMIMIZ -->
+                <h2 id="principles-title" data-i18n="principlesTitle">Mühendislikten üretime<br>tek bir hedef.</h2>
+            </div>
+            <div class="principles-grid">
+                <article class="principle-card"><span>V</span><h3 data-i18n="visionTitle">Vizyon</h3><p data-i18n="visionText">İleri kompozit mühendisliğinde küresel ölçekte güvenilen, yenilikçi teknolojileri endüstriyel değere dönüştüren öncü bir çözüm ortağı olmak.</p></article>
+                <article class="principle-card"><span>M</span><h3 data-i18n="missionTitle">Misyon</h3><p data-i18n="missionText">Tasarım, analiz, doğrulama ve üretim disiplinlerini bir araya getirerek; iş ortaklarımıza hafif, dayanıklı, verimli ve ölçeklenebilir kompozit çözümleri sunmak.</p></article>
+                <article class="principle-card"><span>D</span><h3 data-i18n="valuesTitle">Değerler</h3><p data-i18n="valuesText">Güven, adalet, samimiyet, tutku, sorumluluk ve bilgi; tüm iş süreçlerimizin temelini oluşturur.</p></article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Magazine / Bento Grid Layout -->
+    <section class="magazine-layout">
+        <div class="grid-item text-block">
+            <span class="label" data-i18n="solutionsLabel">ÇÖZÜMLERİMİZ</span>
+            <h2 data-i18n="solutionsTitle">İleri Kompozit <br>Teknolojileri</h2>
+            <p data-i18n="solutionsDescription">Havacılık ve otomotivin geleceğini, milimetrik tasarımlar ve sürdürülebilir üretim süreçleriyle şekillendiriyoruz.</p>
+        </div>
+        <div class="grid-item image-block solution-defense" role="img" data-i18n-aria-label="defenseImageLabel" aria-label="Karbon kompozit insansız hava aracı gövdesi üretimi">
+            <div class="overlay"><h3 data-i18n="defenseIndustry">Savunma Sanayii</h3></div>
+        </div>
+        <div class="grid-item image-block solution-civil" role="img" data-i18n-aria-label="civilImageLabel" aria-label="Kompozit sivil uçak kanat ve gövde montajı">
+            <div class="overlay"><h3 data-i18n="civilAviation">Sivil Havacılık</h3></div>
+        </div>
+    </section>
+
+    <section id="references" class="references-section" aria-labelledby="references-title">
+        <div class="container">
+            <div class="references-heading">
+                <div>
+                    <!-- Internal section index: 03 // REFERANSLAR -->
+                    <h2 id="references-title" data-i18n="referencesTitle">Güçlü iş birlikleriyle<br>birlikte büyüyoruz.</h2>
+                </div>
+                <p data-i18n="referencesText">Kompozit teknolojileri, havacılık, otomotiv ve ileri üretim ekosistemindeki değerli kurumlarla aynı hedef doğrultusunda çalışıyoruz.</p>
+            </div>
+            <div class="logo-grid" aria-label="Referans kurumlar">
+                <a class="logo-card" href="https://ctc-composites.com/" target="_blank" rel="noopener"><img src="logos/ctc.png" alt="CTC" loading="lazy"><span>CTC · an Airbus company</span></a>
+                <a class="logo-card" href="https://www.ctrm.com.my/" target="_blank" rel="noopener"><img src="logos/ctrm.png" alt="CTRM" loading="lazy"><span>CTRM · DRB-HICOM</span></a>
+                <a class="logo-card" href="https://www.kale.com.tr/" target="_blank" rel="noopener"><img src="logos/kale.png" alt="Kale" loading="lazy"><span>Kale</span></a>
+                <a class="logo-card" href="https://www.toray.com/" target="_blank" rel="noopener"><img src="logos/toray.png" alt="Toray" loading="lazy"><span>Toray</span></a>
+                <a class="logo-card" href="https://www.ecoplas.com.tr/" target="_blank" rel="noopener"><img src="logos/ecoplas.png" alt="Ecoplas" loading="lazy"><span>Ecoplas</span></a>
+                <a class="logo-card" href="https://www.fev.com/" target="_blank" rel="noopener"><img src="logos/fev.png" alt="FEV" loading="lazy"><span>FEV</span></a>
+                <a class="logo-card" href="https://www.rimac-automobili.com/" target="_blank" rel="noopener"><img src="logos/rimac.png" alt="Rimac Automobili" loading="lazy"><span>Rimac Automobili</span></a>
+                <a class="logo-card" href="https://www.man.eu/" target="_blank" rel="noopener"><img src="logos/man.png" alt="MAN" loading="lazy"><span>MAN</span></a>
+                <a class="logo-card" href="https://lightyear.one/" target="_blank" rel="noopener"><img src="logos/lightyear.png" alt="Lightyear" loading="lazy"><span>Lightyear</span></a>
+                <a class="logo-card" href="https://www.list.lu/" target="_blank" rel="noopener"><img src="logos/list.png" alt="Luxembourg Institute of Science and Technology" loading="lazy"><span>LIST Luxembourg</span></a>
+                <a class="logo-card" href="https://www.9tlabs.com/" target="_blank" rel="noopener"><img src="logos/9t-labs.png" alt="9T Labs" loading="lazy"><span>9T Labs</span></a>
+                <a class="logo-card" href="https://www.euro-composites.com/en/" target="_blank" rel="noopener"><img src="logos/euro-composites.png" alt="EURO-COMPOSITES" loading="lazy"><span>EURO-COMPOSITES</span></a>
+                <a class="logo-card" href="https://spiralrtc.com/" target="_blank" rel="noopener"><img src="logos/spiral-rtc.png" alt="SPIRAL RTC" loading="lazy"><span>SPIRAL RTC</span></a>
+                <a class="logo-card" href="https://tprc.nl/" target="_blank" rel="noopener"><img src="logos/tprc.svg" alt="TPRC" loading="lazy"><span>TPRC</span></a>
+                <a class="logo-card" href="https://thermoplasticcomposites.nl/" target="_blank" rel="noopener"><img src="logos/tpac.png" alt="TPAC" loading="lazy"><span>TPAC</span></a>
+                <a class="logo-card" href="https://www.addcomposites.com/" target="_blank" rel="noopener"><img src="logos/addcomposites.png" alt="Addcomposites" loading="lazy"><span>Addcomposites</span></a>
+            </div>
+            <p class="references-note" data-i18n="referencesNote">Seçilmiş iş ortakları ve referans kurumlar</p>
+        </div>
+    </section>
+
+    <section id="memberships" class="memberships-section" aria-labelledby="memberships-title">
+        <div class="container">
+            <div class="memberships-heading">
+                <div><!-- Internal section index: 04 // ÜYELİKLER & EKOSİSTEM --><h2 id="memberships-title" data-i18n="membershipsTitle">Güçlü ağların ve<br>inovasyon ekosisteminin içindeyiz.</h2></div>
+                <p data-i18n="membershipsText">Sektörel ağlar, meslek kuruluşları, ihracat birlikleri ve uluslararası Ar-Ge programlarıyla kurduğumuz bağlar; bilgiye, iş birliğine ve yeni pazarlara erişimimizi güçlendiriyor.</p>
+            </div>
+            <div class="membership-grid">
+                <a class="membership-card membership-card-dark" href="https://composites-united.com/en/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/composites-united.png" alt="Composites United" loading="lazy"></span><span class="membership-meta"><strong>Composites United</strong><small data-i18n="membershipNetwork">SEKTÖREL AĞ</small></span></a>
+                <a class="membership-card" href="https://www.m-era.net/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/m-era-net.png" alt="M-ERA.NET" loading="lazy"></span><span class="membership-meta"><strong>M-ERA.NET</strong><small data-i18n="membershipResearch">AR-GE AĞI</small></span></a>
+                <a class="membership-card" href="https://tubitak.gov.tr/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/tubitak.svg" alt="TÜBİTAK" loading="lazy"></span><span class="membership-meta"><strong>TÜBİTAK</strong><small data-i18n="membershipResearchInstitution">ARAŞTIRMA KURUMU</small></span></a>
+                <a class="membership-card" href="https://www.tobb.org.tr/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/tobb.jpg" alt="TOBB" loading="lazy"></span><span class="membership-meta"><strong>TOBB</strong><small data-i18n="membershipBusiness">MESLEK ÜST KURULUŞU</small></span></a>
+                <a class="membership-card" href="https://www.ito.org.tr/tr" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/ito.png" alt="İstanbul Ticaret Odası" loading="lazy"></span><span class="membership-meta"><strong>İstanbul Ticaret Odası</strong><small data-i18n="membershipChamber">TİCARET ODASI</small></span></a>
+                <a class="membership-card" href="https://www.kosgeb.gov.tr/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/kosgeb.png" alt="KOSGEB" loading="lazy"></span><span class="membership-meta"><strong>KOSGEB</strong><small data-i18n="membershipSupport">KOBİ DESTEK EKOSİSTEMİ</small></span></a>
+                <a class="membership-card" href="https://tim.org.tr/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/tim.svg" alt="Türkiye İhracatçılar Meclisi" loading="lazy"></span><span class="membership-meta"><strong>Türkiye İhracatçılar Meclisi</strong><small data-i18n="membershipExport">İHRACAT EKOSİSTEMİ</small></span></a>
+                <a class="membership-card" href="https://www.turksavunmasanayi.gov.tr/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/ssi.png" alt="Savunma ve Havacılık Sanayi İhracatçıları Birliği" loading="lazy"></span><span class="membership-meta"><strong>SSI</strong><small data-i18n="membershipSectorUnion">SEKTÖR BİRLİĞİ</small></span></a>
+                <a class="membership-card" href="https://oaib.org.tr/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/oaib.png" alt="Orta Anadolu İhracatçı Birlikleri" loading="lazy"></span><span class="membership-meta"><strong>OAİB</strong><small data-i18n="membershipExportUnion">İHRACATÇI BİRLİĞİ</small></span></a>
+                <a class="membership-card" href="https://www.eurekanetwork.org/" target="_blank" rel="noopener"><span class="membership-logo"><img src="logos/memberships/eureka.svg" alt="Eureka Network" loading="lazy"></span><span class="membership-meta"><strong>Eureka Network</strong><small data-i18n="membershipInnovation">İNOVASYON AĞI</small></span></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container contact-grid">
+            <div class="contact-intro">
+                <!-- Internal section index: 05 // İLETİŞİM -->
+                <h2 data-i18n="contactTitle">Bir sonraki kompozit çözümü birlikte geliştirelim.</h2>
+                <p data-i18n="contactText">Tasarım, analiz, kalifikasyon veya seri üretim ihtiyaçlarınız için mühendislik ekibimizle iletişime geçin.</p>
+                <button type="button" class="contact-action" data-modal-open data-i18n="contactAction">PROJENİZİ BİZE ANLATIN</button>
+            </div>
+            <div class="contact-directory">
+                <article data-contact-icon="BX"><span data-i18n="companyLabel">ŞİRKET</span><strong>BaX Composites Inc.</strong></article>
+                <article data-contact-icon="@"><span data-i18n="emailLabel">E-POSTA</span><a href="mailto:info@baxcomposites.com">info@baxcomposites.com</a></article>
+                <article data-contact-icon="+"><span data-i18n="phoneLabel">TELEFON</span><a href="tel:+902125650008">+90 (212) 565 00 08</a></article>
+                <article data-contact-icon="↗"><span data-i18n="websiteLabel">WEB</span><a href="https://baxcomposites.com/">baxcomposites.com</a></article>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand"><a href="#home" class="footer-logo">BaX <span>Composites</span></a><p data-i18n="footerText">İleri kompozit mühendisliği. Tasarımdan endüstrileştirmeye.</p></div>
+            <div><h3 data-i18n="footerNav">Gezinme</h3><a href="#about" data-i18n="navAbout">Hakkımızda</a><a href="#expertise" data-i18n="navExpertise">Uzmanlık</a><a href="#references" data-i18n="navReferences">Referanslar</a></div>
+            <div><h3 data-i18n="footerContact">İletişim</h3><a href="mailto:info@baxcomposites.com">info@baxcomposites.com</a><a href="tel:+902125650008">+90 (212) 565 00 08</a></div>
+            <div class="footer-address"><h3 data-i18n="headOffice">GENEL MERKEZ</h3><p>Yıldız Teknik Üniversitesi Teknopark<br>Çifte Havuzlar Mah., Eski Londra Asfaltı Cad.<br>A1 Blok No: B35, 34220 Esenler / İstanbul</p></div>
+            <div class="footer-address"><h3 data-i18n="branchOffice">ŞUBE</h3><p>İkitelli OSB Mah., Metal-İş Sanayi Sitesi<br>No: 17/10, 34490 Başakşehir / İstanbul</p></div>
+        </div>
+        <div class="container footer-bottom">
+            <span>© 2026 BaX Composites Inc.</span>
+            <nav class="footer-legal" data-i18n-aria-label="legalDocumentsLabel" aria-label="Yasal belgeler">
+                <a href="assets/legal/bax-personal-data-clarification.pdf" target="_blank" rel="noopener" data-i18n="privacyNotice">KVKK Aydınlatma Metni</a>
+                <a href="assets/legal/bax-cookie-policy.pdf" target="_blank" rel="noopener" data-i18n="cookiePolicy">Çerez Politikası</a>
+                <a href="assets/legal/bax-kvkk-application-form.pdf" target="_blank" rel="noopener" data-i18n="kvkkApplication">KVKK Başvuru Formu</a>
+            </nav>
+            <span data-i18n="footerRights">Tüm hakları saklıdır.</span>
+        </div>
+    </footer>
+
+    <script>
+        // NORMAL SAYFA AKIŞINDA GÖRSEL SAHNE GEÇİŞLERİ
+        const slides = document.querySelectorAll('.slide');
+        const narrativeSlides = document.querySelectorAll('.slide:not(.opening-slide)');
+        const aboutSection = document.getElementById('about');
+        const expertiseSection = document.getElementById('expertise');
+
+        // Uçak ve otomotiv sahneleri açılışta art arda gelir;
+        // malzeme ve hassas üretim sahneleri sayfa anlatısına dağıtılır.
+        if (narrativeSlides[0] && aboutSection) aboutSection.after(narrativeSlides[0]);
+        if (narrativeSlides[1] && expertiseSection) expertiseSection.after(narrativeSlides[1]);
+
+        const openingSlides = Array.from(document.querySelectorAll('.opening-slide'));
+        const openingDots = Array.from(document.querySelectorAll('.opening-dot'));
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let openingIndex = 0;
+        let openingTimer;
+
+        function showOpeningSlide(index) {
+            openingIndex = (index + openingSlides.length) % openingSlides.length;
+            openingSlides.forEach((slide, slideIndex) => {
+                const isActive = slideIndex === openingIndex;
+                slide.classList.toggle('active', isActive);
+                slide.setAttribute('aria-hidden', String(!isActive));
+                slide.inert = !isActive;
+                const video = slide.querySelector('video');
+                if (video) isActive ? video.play().catch(() => {}) : video.pause();
+            });
+            openingDots.forEach((dot, dotIndex) => {
+                const isCurrent = dotIndex === openingIndex;
+                dot.classList.toggle('active', isCurrent);
+                dot.setAttribute('aria-current', String(isCurrent));
+            });
+        }
+
+        function startOpeningSlider() {
+            clearInterval(openingTimer);
+            if (reduceMotion.matches) return;
+            openingTimer = setInterval(() => showOpeningSlide(openingIndex + 1), 7000);
+        }
+
+        showOpeningSlide(0);
+        startOpeningSlider();
+        openingDots.forEach(dot => dot.addEventListener('click', () => {
+            showOpeningSlide(Number(dot.dataset.openingSlide));
+            startOpeningSlider();
+        }));
+        reduceMotion.addEventListener?.('change', startOpeningSlider);
+        document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(openingTimer) : startOpeningSlider());
+
+        const sceneObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => entry.target.classList.toggle('in-view', entry.isIntersecting));
+        }, { threshold: 0.32 });
+
+        slides.forEach(slide => sceneObserver.observe(slide));
+        function currentSlide(index) { slides[index]?.scrollIntoView({ behavior: 'smooth' }); }
+
+        const translations = {
+            tr: {
+                pageTitle: 'Bax Composites | Geleceği Şekillendiriyoruz', mainNavLabel: 'Ana menü', languageLabel: 'Dil seçin',
+                navHome: 'Ana Sayfa', navAbout: 'Hakkımızda', navExpertise: 'Uzmanlık', navReferences: 'Referanslar', navMemberships: 'Üyelikler', navContact: 'İletişim', contactButton: 'BİZE ULAŞIN',
+                hero1Subtitle: 'İLERİ KOMPOZİT MÜHENDİSLİĞİ', hero1Title: 'Tasarımdan <br><span>Endüstrileştirmeye</span>', hero1Description: 'Havacılık ve otomotiv için konsept, analiz, test, kalifikasyon ve ölçeklenebilir kompozit üretim çözümleri geliştiriyoruz.',
+                heroAutoSubtitle: 'OTOMOTİV KOMPOZİT TEKNOLOJİLERİ', heroAutoTitle: 'Hafiflikten <br><span>Performansa</span>', heroAutoDescription: 'Karbon fiber yapısal parçalar, hafifletme çözümleri ve ölçeklenebilir üretim süreçleriyle yeni nesil mobilite projelerine mühendislik desteği sunuyoruz.', automotiveImageLabel: 'Karbon fiber monokok otomotiv prototipi', heroManufacturingSubtitle: 'OTOMOTİVDE KOMPOZİT ÜRETİM', heroManufacturingTitle: 'Malzemeden <br><span>Yapısal Değere</span>', heroManufacturingDescription: 'Karbon fiber monokoklar ve yapısal parçalar için hassas serim, proses geliştirme ve tekrarlanabilir üretim çözümleri geliştiriyoruz.', manufacturingImageLabel: 'Karbon fiber otomotiv monokok üretim hücresi', manufacturingSlideLabel: 'Otomotiv kompozit üretim sahnesini göster',
+                hero2Subtitle: 'MÜHENDİSLİK VE TASARIM', hero2Title: 'Fütüristik <br><span>Çizgiler</span>', hero2Description: 'Sadece fonksiyonel değil, estetik ve keskin hatlara sahip yenilikçi tasarımları gerçeğe dönüştürüyoruz.',
+                hero3Subtitle: 'YÜKSEK TEKNOLOJİ ÜRETİM', hero3Title: 'Milimetrik <br><span>Hassasiyet</span>', hero3Description: 'Altium veya MATLAB gibi araçlarla tasarlanan sistemlerin, fiziksel dünyadaki kusursuz kompozit karşılıklarını üretiyoruz.',
+                previousSlide: 'Önceki slayt', nextSlideLabel: 'Sonraki slayt', openingSliderLabel: 'Açılış sahneleri', aircraftSlideLabel: 'Havacılık sahnesini göster', automotiveSlideLabel: 'Otomotiv sahnesini göster', corporateLabel: '01 // KURUMSAL', aboutTitle: 'Geleceği Kompozit ile <br>Şekillendiriyoruz',
+                aboutDescription: "BaX Composites, 2018 yılında İstanbul'da ileri kompozit teknolojileri alanında faaliyet göstermek üzere kurulan bir mühendislik ve üretim şirketidir. Kavramsal parça tasarımı, yapısal analiz, test ve doğrulamadan proses geliştirme, endüstrileştirme ve seri üretime kadar ürün yaşam döngüsünün tüm aşamalarında uçtan uca çözümler geliştiriyoruz.",
+                aboutGoal: 'Havacılık, savunma, otomotiv ve ileri mobilite sektörlerinde yerli ve uluslararası iş ortaklarımıza; daha hafif, verimli ve yüksek performanslı ürünler geliştirmeleri için destek oluyoruz. Tasarım ve üretim kabiliyetlerini ileri taşırken, güvenilir ve ölçeklenebilir kompozit çözümleriyle küresel değer zincirinde kalıcı bir teknoloji ortağı olmayı hedefliyoruz.',
+                expertise1Title: 'Kompozit Tasarım & Dijital Mühendislik', expertise1Description: 'Konsept ve laminat tasarımı, CAD/CAE, sonlu elemanlar analizi, optimizasyon ve üretilebilirlik odaklı doğrulama.', expertise2Title: 'Endüstrileştirme & Otomasyon', expertise2Description: 'Proses seçimi, seri üretim hattı tasarımı, çevrim süresi iyileştirme, otomasyon ve ölçeklenebilir üretim sistemleri.', expertise3Title: 'Malzeme & Proses İnovasyonu', expertise3Description: 'Termoset ve termoplastik kompozitler, sürdürülebilir malzemeler, proses geliştirme ve prototip üretimi.',
+                solutionsLabel: 'ÇÖZÜMLERİMİZ', solutionsTitle: 'İleri Kompozit <br>Teknolojileri', solutionsDescription: 'Havacılık ve otomotivin geleceğini, milimetrik tasarımlar ve sürdürülebilir üretim süreçleriyle şekillendiriyoruz.', defenseIndustry: 'Savunma Sanayii', civilAviation: 'Sivil Havacılık', defenseImageLabel: 'Karbon kompozit insansız hava aracı gövdesi üretimi', civilImageLabel: 'Kompozit sivil uçak kanat ve gövde montajı',
+                membershipsLabel: '04 // ÜYELİKLER & EKOSİSTEM', membershipsTitle: 'Güçlü ağların ve<br>inovasyon ekosisteminin içindeyiz.', membershipsText: 'Sektörel ağlar, meslek kuruluşları, ihracat birlikleri ve uluslararası Ar-Ge programlarıyla kurduğumuz bağlar; bilgiye, iş birliğine ve yeni pazarlara erişimimizi güçlendiriyor.', membershipNetwork: 'SEKTÖREL AĞ', membershipResearch: 'AR-GE AĞI', membershipResearchInstitution: 'ARAŞTIRMA KURUMU', membershipBusiness: 'MESLEK ÜST KURULUŞU', membershipChamber: 'TİCARET ODASI', membershipSupport: 'KOBİ DESTEK EKOSİSTEMİ', membershipExport: 'İHRACAT EKOSİSTEMİ', membershipSectorUnion: 'SEKTÖR BİRLİĞİ', membershipExportUnion: 'İHRACATÇI BİRLİĞİ', membershipInnovation: 'İNOVASYON AĞI',
+                principlesLabel: '02 // YAKLAŞIMIMIZ', principlesTitle: 'Mühendislikten üretime<br>tek bir hedef.', visionTitle: 'Vizyon', visionText: 'İleri kompozit mühendisliğinde küresel ölçekte güvenilen, yenilikçi teknolojileri endüstriyel değere dönüştüren öncü bir çözüm ortağı olmak.', missionTitle: 'Misyon', missionText: 'Tasarım, analiz, doğrulama ve üretim disiplinlerini bir araya getirerek; iş ortaklarımıza hafif, dayanıklı, verimli ve ölçeklenebilir kompozit çözümleri sunmak.', valuesTitle: 'Değerler', valuesText: 'Güven, adalet, samimiyet, tutku, sorumluluk ve bilgi; tüm iş süreçlerimizin temelini oluşturur.', contactLabel: '05 // İLETİŞİM', contactTitle: 'Bir sonraki kompozit çözümü birlikte geliştirelim.', contactText: 'Tasarım, analiz, kalifikasyon veya seri üretim ihtiyaçlarınız için mühendislik ekibimizle iletişime geçin.', contactAction: 'PROJENİZİ BİZE ANLATIN', companyLabel: 'ŞİRKET', emailLabel: 'E-POSTA', phoneLabel: 'TELEFON', websiteLabel: 'WEB', headOffice: 'GENEL MERKEZ', branchOffice: 'ŞUBE',
+                closeModal: 'Pencereyi kapat', modalLabel: 'BAX // İLETİŞİM', modalTitle: 'Projenizi konuşalım.', modalIntro: 'İhtiyacınızı kısaca anlatın; mesajınızı doğrudan mühendislik ekibimize iletelim.', formName: 'Ad Soyad', formCompany: 'Şirket', formEmail: 'E-posta', formPhone: 'Telefon', formSubject: 'Konu', formMessage: 'Mesajınız', formNote: 'Gönder düğmesi varsayılan e-posta uygulamanızı açar.', formSubmit: 'MESAJI GÖNDER', referencesLabel: '03 // REFERANSLAR', referencesTitle: 'Güçlü iş birlikleriyle<br>birlikte büyüyoruz.', referencesText: 'Kompozit teknolojileri, havacılık, otomotiv ve ileri üretim ekosistemindeki değerli kurumlarla aynı hedef doğrultusunda çalışıyoruz.', referencesNote: 'Seçilmiş iş ortakları ve referans kurumlar', mobileMenuLabel: 'Menüyü aç', formConsent: 'İletişim amacıyla bilgilerimin işlenmesini kabul ediyorum.', heroCapabilities: 'YETKİNLİKLERİMİZ', heroContact: 'PROJENİZİ KONUŞALIM', expertise4Title: 'Test, Kalifikasyon & Sertifikasyon', expertise4Description: 'Mekanik test planları, yapısal doğrulama, tahribatsız muayene, ürün ve proses kalifikasyonu ile sertifikasyon dokümantasyonu.', expertise5Title: 'Takım, Makine & Ekipman', expertise5Description: 'Kalıp, fikstür, özel makine ve üretim ekipmanlarının tasarımı, imalatı, devreye alınması ve performans doğrulaması.', expertise6Title: 'Mühendislik Danışmanlığı & Yetkinlik Geliştirme', expertise6Description: 'Teknoloji yol haritası, proses ve tedarikçi değerlendirmesi, teknik eğitim ve bilgi transferiyle kurumsal kabiliyet geliştirme.', processLabel: 'UÇTAN UCA MÜHENDİSLİK', processTitle: 'Fikirden seri üretime<br>kontrollü ilerleme.', process1: 'Konsept', process1Text: 'Gereksinimlerin ve performans hedeflerinin tanımlanması.', process2: 'Tasarım & Analiz', process2Text: 'Malzeme, geometri ve yapısal performansın geliştirilmesi.', process3: 'Test & Doğrulama', process3Text: 'Ürün ve proses performansının ölçülmesi ve doğrulanması.', process4: 'Endüstrileştirme', process4Text: 'Tekrarlanabilir, verimli ve ölçeklenebilir üretim sistemi.', footerText: 'İleri kompozit mühendisliği. Tasarımdan endüstrileştirmeye.', footerNav: 'Gezinme', footerContact: 'İletişim', footerOffice: 'Merkez', legalDocumentsLabel: 'Yasal belgeler', privacyNotice: 'KVKK Aydınlatma Metni', cookiePolicy: 'Çerez Politikası', kvkkApplication: 'KVKK Başvuru Formu', footerRights: 'Tüm hakları saklıdır.'
+            },
+            en: {
+                pageTitle: 'Bax Composites | Shaping the Future', mainNavLabel: 'Main navigation', languageLabel: 'Select language',
+                navHome: 'Home', navAbout: 'About Us', navExpertise: 'Expertise', navReferences: 'References', navMemberships: 'Memberships', navContact: 'Contact', contactButton: 'CONTACT US',
+                hero1Subtitle: 'ADVANCED COMPOSITE ENGINEERING', hero1Title: 'From Design <br><span>to Industrialization</span>', hero1Description: 'We develop concept, analysis, testing, qualification, and scalable composite manufacturing solutions for aerospace and automotive.',
+                heroAutoSubtitle: 'AUTOMOTIVE COMPOSITE TECHNOLOGIES', heroAutoTitle: 'From Lightweighting <br><span>to Performance</span>', heroAutoDescription: 'We support next-generation mobility projects with carbon-fiber structural components, lightweighting solutions and scalable manufacturing processes.', automotiveImageLabel: 'Automotive prototype with a carbon-fiber monocoque', heroManufacturingSubtitle: 'AUTOMOTIVE COMPOSITE MANUFACTURING', heroManufacturingTitle: 'From Material <br><span>to Structural Value</span>', heroManufacturingDescription: 'We develop precision layup, process development and repeatable production solutions for carbon-fiber monocoques and structural automotive components.', manufacturingImageLabel: 'Carbon-fiber automotive monocoque manufacturing cell', manufacturingSlideLabel: 'Show automotive composite manufacturing scene',
+                hero2Subtitle: 'ENGINEERING AND DESIGN', hero2Title: 'Futuristic <br><span>Lines</span>', hero2Description: 'We turn innovative designs with functional, aesthetic, and sharp lines into reality.',
+                hero3Subtitle: 'HIGH-TECH MANUFACTURING', hero3Title: 'Micrometric <br><span>Precision</span>', hero3Description: 'We manufacture flawless physical composite counterparts of systems designed with tools such as Altium and MATLAB.',
+                previousSlide: 'Previous slide', nextSlideLabel: 'Next slide', openingSliderLabel: 'Opening scenes', aircraftSlideLabel: 'Show aerospace scene', automotiveSlideLabel: 'Show automotive scene', corporateLabel: '01 // CORPORATE', aboutTitle: 'Shaping the Future <br>with Composites',
+                aboutDescription: 'Founded in Istanbul in 2018, BaX Composites is an engineering and manufacturing company specializing in advanced composite technologies. We develop end-to-end solutions across the entire product lifecycle—from conceptual part design, structural analysis, testing and verification to process development, industrialization and serial production.',
+                aboutGoal: 'We support domestic and international partners in aerospace, defense, automotive and advanced mobility as they develop lighter, more efficient and higher-performance products. By advancing their design and manufacturing capabilities, we aim to become a long-term technology partner in the global value chain through reliable and scalable composite solutions.',
+                expertise1Title: 'Composite Design & Digital Engineering', expertise1Description: 'Concept and laminate design, CAD/CAE, finite element analysis, optimization and design-for-manufacturing verification.', expertise2Title: 'Industrialization & Automation', expertise2Description: 'Process selection, serial production line design, cycle-time improvement, automation and scalable manufacturing systems.', expertise3Title: 'Material & Process Innovation', expertise3Description: 'Thermoset and thermoplastic composites, sustainable materials, process development and prototype manufacturing.',
+                solutionsLabel: 'OUR SOLUTIONS', solutionsTitle: 'Advanced Composite <br>Technologies', solutionsDescription: 'We shape the future of aerospace and automotive industries through precision design and sustainable manufacturing processes.', defenseIndustry: 'Defense Industry', civilAviation: 'Civil Aviation', defenseImageLabel: 'Carbon-composite unmanned airframe manufacturing', civilImageLabel: 'Composite civil-aircraft wing and fuselage assembly',
+                membershipsLabel: '04 // MEMBERSHIPS & ECOSYSTEM', membershipsTitle: 'Connected to strong networks<br>and the innovation ecosystem.', membershipsText: 'Our connections with industry networks, professional organizations, exporters associations and international R&D programmes strengthen our access to knowledge, collaboration and new markets.', membershipNetwork: 'INDUSTRY NETWORK', membershipResearch: 'R&D NETWORK', membershipResearchInstitution: 'RESEARCH INSTITUTION', membershipBusiness: 'BUSINESS ORGANIZATION', membershipChamber: 'CHAMBER OF COMMERCE', membershipSupport: 'SME SUPPORT ECOSYSTEM', membershipExport: 'EXPORT ECOSYSTEM', membershipSectorUnion: 'SECTOR ASSOCIATION', membershipExportUnion: 'EXPORTERS ASSOCIATION', membershipInnovation: 'INNOVATION NETWORK',
+                principlesLabel: '02 // OUR APPROACH', principlesTitle: 'One objective from engineering<br>to production.', visionTitle: 'Vision', visionText: 'To become a globally trusted advanced-composites partner that transforms innovative technologies into measurable industrial value.', missionTitle: 'Mission', missionText: 'To unite design, analysis, verification and manufacturing disciplines to deliver lightweight, durable, efficient and scalable composite solutions for our partners.', valuesTitle: 'Values', valuesText: 'Trust, fairness, sincerity, passion, responsibility, and knowledge form the foundation of every process.', contactLabel: '05 // CONTACT', contactTitle: "Let's develop the next composite solution together.", contactText: 'Contact our engineering team for your design, analysis, qualification, or serial production requirements.', contactAction: 'TELL US ABOUT YOUR PROJECT', companyLabel: 'COMPANY', emailLabel: 'EMAIL', phoneLabel: 'PHONE', websiteLabel: 'WEB', headOffice: 'HEAD OFFICE', branchOffice: 'BRANCH OFFICE',
+                closeModal: 'Close dialog', modalLabel: 'BAX // CONTACT', modalTitle: "Let's discuss your project.", modalIntro: 'Tell us briefly what you need and send your message directly to our engineering team.', formName: 'Full name', formCompany: 'Company', formEmail: 'Email', formPhone: 'Phone', formSubject: 'Subject', formMessage: 'Your message', formNote: 'The send button opens your default email application.', formSubmit: 'SEND MESSAGE', referencesLabel: '03 // REFERENCES', referencesTitle: 'Growing together through<br>strong partnerships.', referencesText: 'We work toward shared goals with valued organizations across composites, aerospace, automotive, and advanced manufacturing.', referencesNote: 'Selected partners and reference organizations', mobileMenuLabel: 'Open menu', formConsent: 'I consent to the processing of my information for communication purposes.', heroCapabilities: 'OUR CAPABILITIES', heroContact: 'DISCUSS YOUR PROJECT', expertise4Title: 'Testing, Qualification & Certification', expertise4Description: 'Mechanical test plans, structural verification, non-destructive inspection, product and process qualification, and certification documentation.', expertise5Title: 'Tooling, Machinery & Equipment', expertise5Description: 'Design, manufacturing, commissioning and performance verification of molds, fixtures, custom machinery and production equipment.', expertise6Title: 'Engineering Consulting & Capability Development', expertise6Description: 'Technology roadmaps, process and supplier assessments, technical training and knowledge transfer for organizational capability development.', processLabel: 'END-TO-END ENGINEERING', processTitle: 'Controlled progress from concept<br>to serial production.', process1: 'Concept', process1Text: 'Definition of requirements and performance targets.', process2: 'Design & Analysis', process2Text: 'Development of material, geometry and structural performance.', process3: 'Test & Verification', process3Text: 'Measurement and verification of product and process performance.', process4: 'Industrialization', process4Text: 'A repeatable, efficient and scalable production system.', footerText: 'Advanced composite engineering. From design to industrialization.', footerNav: 'Navigation', footerContact: 'Contact', footerOffice: 'Head Office', legalDocumentsLabel: 'Legal documents', privacyNotice: 'Personal Data Clarification', cookiePolicy: 'Cookie Policy', kvkkApplication: 'KVKK Application Form', footerRights: 'All rights reserved.'
+            }
+        };
+
+        const managedContent = window.__BAX_MANAGED_CONTENT__ || {};
+        Object.entries(managedContent).forEach(([locale, values]) => {
+            if (!translations[locale]) return;
+            Object.assign(translations[locale], values.dictionary || {});
+            (values.expertise || []).forEach(item => {
+                if (!item.order || item.order < 1 || item.order > 6) return;
+                translations[locale][`expertise${item.order}Title`] = item.title;
+                translations[locale][`expertise${item.order}Description`] = item.description;
+            });
+        });
+
+        const languageSelect = document.getElementById('lang-select');
+
+        function safeHttpUrl(value) {
+            try {
+                const url = new URL(value, window.location.origin);
+                return ['http:', 'https:'].includes(url.protocol) ? url.href : '#';
+            } catch { return '#'; }
+        }
+
+        function renderManagedCollections(lang) {
+            const content = managedContent[lang] || {};
+            const logoGrid = document.querySelector('#references .logo-grid');
+            if (logoGrid && content.partners?.length) {
+                logoGrid.replaceChildren(...content.partners.map(item => {
+                    const link = document.createElement('a');
+                    link.className = 'logo-card';
+                    link.href = safeHttpUrl(item.website);
+                    link.target = '_blank';
+                    link.rel = 'noopener';
+                    const image = document.createElement('img');
+                    image.src = item.logo;
+                    image.alt = item.name;
+                    image.loading = 'lazy';
+                    const caption = document.createElement('span');
+                    caption.textContent = item.caption || item.name;
+                    link.append(image, caption);
+                    return link;
+                }));
+            }
+
+            const membershipGrid = document.querySelector('#memberships .membership-grid');
+            if (membershipGrid && content.memberships?.length) {
+                membershipGrid.replaceChildren(...content.memberships.map(item => {
+                    const link = document.createElement('a');
+                    link.className = `membership-card${item.darkCard ? ' membership-card-dark' : ''}`;
+                    link.href = safeHttpUrl(item.website);
+                    link.target = '_blank';
+                    link.rel = 'noopener';
+                    const logo = document.createElement('span');
+                    logo.className = 'membership-logo';
+                    const image = document.createElement('img');
+                    image.src = item.logo;
+                    image.alt = item.name;
+                    image.loading = 'lazy';
+                    logo.append(image);
+                    const meta = document.createElement('span');
+                    meta.className = 'membership-meta';
+                    const name = document.createElement('strong');
+                    name.textContent = item.name;
+                    const category = document.createElement('small');
+                    category.textContent = item.category;
+                    meta.append(name, category);
+                    link.append(logo, meta);
+                    return link;
+                }));
+            }
+        }
+
+        function changeLanguage(lang) {
+            const selectedLanguage = translations[lang] ? lang : 'tr';
+            const dictionary = translations[selectedLanguage];
+
+            document.documentElement.lang = selectedLanguage;
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.dataset.i18n;
+                if (dictionary[key] !== undefined) element.innerHTML = dictionary[key];
+            });
+            document.querySelectorAll('[data-i18n-aria-label]').forEach(element => {
+                const key = element.dataset.i18nAriaLabel;
+                if (dictionary[key] !== undefined) element.setAttribute('aria-label', dictionary[key]);
+            });
+
+            languageSelect.value = selectedLanguage;
+            localStorage.setItem('bax-language', selectedLanguage);
+        }
+
+        languageSelect.addEventListener('change', event => {
+            changeLanguage(event.target.value);
+            renderManagedCollections(event.target.value);
+        });
+        const initialLanguage = localStorage.getItem('bax-language') || 'tr';
+        changeLanguage(initialLanguage);
+        renderManagedCollections(initialLanguage);
+
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mainNav = document.querySelector('.main-nav');
+        mobileMenuToggle.addEventListener('click', () => {
+            const isOpen = document.body.classList.toggle('menu-open');
+            mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+        mainNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+            document.body.classList.remove('menu-open');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        }));
+
+        const navLinks = [...mainNav.querySelectorAll('a[href^="#"]')];
+        const navSections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+        const navObserver = new IntersectionObserver(entries => {
+            const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (!visible) return;
+            navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
+        }, { rootMargin: '-30% 0px -55% 0px', threshold: [0, .25, .5] });
+        navSections.forEach(section => navObserver.observe(section));
+
+        const contactModal = document.getElementById('contact-modal');
+        const contactForm = document.getElementById('contact-form');
+        let previousFocus;
+
+        function openContactModal(event) {
+            if (event) event.preventDefault();
+            previousFocus = event?.currentTarget || document.activeElement;
+            contactModal.classList.add('is-open');
+            contactModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+            contactModal.querySelector('input').focus();
+        }
+
+        function closeContactModal() {
+            contactModal.classList.remove('is-open');
+            contactModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+            if (previousFocus) previousFocus.focus();
+        }
+
+        document.querySelectorAll('[data-modal-open]').forEach(element => element.addEventListener('click', openContactModal));
+        contactModal.querySelectorAll('[data-modal-close]').forEach(element => element.addEventListener('click', closeContactModal));
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && contactModal.classList.contains('is-open')) closeContactModal();
+            if (event.key === 'Tab' && contactModal.classList.contains('is-open')) {
+                const focusable = [...contactModal.querySelectorAll('button, input, textarea, [href]')];
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+                if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+            }
+        });
+
+        contactForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            const data = new FormData(contactForm);
+            const submitButton = contactForm.querySelector('[type="submit"]');
+            const originalLabel = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = document.documentElement.lang === 'en' ? 'SENDING…' : 'GÖNDERİLİYOR…';
+
+            try {
+                const response = await fetch('/api/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: data.get('name'), company: data.get('company'), email: data.get('email'),
+                        phone: data.get('phone'), subject: data.get('subject'), message: data.get('message'),
+                        consent: data.get('consent') === 'on'
+                    })
+                });
+                if (!response.ok) throw new Error('Message could not be saved');
+                contactForm.reset();
+                submitButton.textContent = document.documentElement.lang === 'en' ? 'MESSAGE RECEIVED' : 'MESAJINIZ ALINDI';
+                setTimeout(closeContactModal, 1200);
+            } catch {
+                submitButton.textContent = document.documentElement.lang === 'en' ? 'PLEASE TRY AGAIN' : 'LÜTFEN TEKRAR DENEYİN';
+            } finally {
+                setTimeout(() => { submitButton.disabled = false; submitButton.textContent = originalLabel; }, 2200);
+            }
+        });
+    </script>
+</body>
+</html>

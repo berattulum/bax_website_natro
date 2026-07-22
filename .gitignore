@@ -1,0 +1,12 @@
+node_modules
+.next
+.env
+*.db
+*.db-shm
+*.db-wal
+src/payload-types.ts
+media
+.pnpm-store
+tmp
+.agents
+ucak-video.mp4

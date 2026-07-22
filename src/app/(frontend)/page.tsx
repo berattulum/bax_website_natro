@@ -3,6 +3,10 @@ import config from '@payload-config'
 import SiteClient from '@/components/SiteClient'
 import type { ManagedLocale, SectionKey } from '@/components/ManagedSections'
 
+// The page is CMS-backed and must read the database at request time. This also
+// prevents production builds from querying an uninitialised deployment database.
+export const dynamic = 'force-dynamic'
+
 const defaultSectionLayout: ManagedLocale['sectionLayout'] = [
   'about', 'designNarrative', 'expertise', 'manufacturingNarrative', 'process', 'principles', 'solutions', 'partners', 'memberships', 'contact',
 ].map((section) => ({ section: section as SectionKey, enabled: true }))

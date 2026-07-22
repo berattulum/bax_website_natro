@@ -13,6 +13,7 @@ import { SiteContent } from './globals/SiteContent.ts'
 import { ExpertiseItems } from './collections/ExpertiseItems.ts'
 import { Memberships } from './collections/Memberships.ts'
 import { Partners } from './collections/Partners.ts'
+import { migrations } from './migrations/index.ts'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -42,9 +43,8 @@ export default buildConfig({
   db: usePostgres
     ? postgresAdapter({
         pool: { connectionString: databaseURL },
-        // Production normally uses migrations. PAYLOAD_DB_PUSH is reserved for
-        // explicitly approved first-time environment initialisation.
-        push: process.env.PAYLOAD_DB_PUSH === 'true' || process.env.NODE_ENV !== 'production',
+        push: process.env.NODE_ENV !== 'production',
+        prodMigrations: migrations,
       })
     : sqliteAdapter({ client: { url: databaseURL } }),
   plugins: [

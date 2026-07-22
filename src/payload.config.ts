@@ -42,7 +42,9 @@ export default buildConfig({
   db: usePostgres
     ? postgresAdapter({
         pool: { connectionString: databaseURL },
-        push: process.env.NODE_ENV !== 'production',
+        // Production normally uses migrations. PAYLOAD_DB_PUSH is reserved for
+        // explicitly approved first-time environment initialisation.
+        push: process.env.PAYLOAD_DB_PUSH === 'true' || process.env.NODE_ENV !== 'production',
       })
     : sqliteAdapter({ client: { url: databaseURL } }),
   plugins: [

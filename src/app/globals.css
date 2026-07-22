@@ -86,8 +86,8 @@ ul { list-style: none; }
 .image-block { background-size: cover; background-position: center; position: relative; border-right: 1px solid #1e293b; border-top: 1px solid #1e293b; transition: 0.6s; }
 .image-block:hover { transform: scale(0.98); }
 .overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 40px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
-.solution-defense { background-image: url('/assets/solution-defense-composites.png'); background-position: center 44%; }
-.solution-civil { background-image: url('/assets/solution-civil-aviation.png'); background-position: center 46%; }
+.solution-defense { background-image: url('/assets/solution-defense-composites.webp'); background-position: center 44%; }
+.solution-civil { background-image: url('/assets/solution-civil-aviation.webp'); background-position: center 46%; }
 .image-block .overlay { padding: 42px; background: linear-gradient(to top, rgba(5,14,19,.94) 0%, rgba(5,14,19,.48) 48%, transparent 100%); }
 .image-block .overlay h3 { color: #fff; font-size: 1.15rem; letter-spacing: -.01em; text-shadow: 0 2px 14px rgba(0,0,0,.26); }
 
@@ -425,17 +425,17 @@ body::before { display: none; }
 .slide .hero-video, .slide .slide-bg, .slide.active .hero-video, .slide.active .slide-bg { transform: scale(1.035); transition: transform 1.4s cubic-bezier(.22,.61,.36,1); }
 .slide.in-view .hero-video, .slide.in-view .slide-bg { transform: scale(1); }
 .futuristic-bg {
-    background-image: url('/assets/carbon-futuristic-hero.png');
+    background-image: url('/assets/carbon-futuristic-hero.webp');
     background-position: center center;
 }
 .automotive-bg {
-    background-image: url('/assets/automotive-composite-hero.png');
+    background-image: url('/assets/automotive-composite-hero.webp');
     background-position: 68% center;
     animation: automotive-camera 16s ease-in-out infinite alternate;
     will-change: background-position, transform;
 }
 .manufacturing-bg {
-    background-image: url('/assets/automotive-composite-manufacturing.png');
+    background-image: url('/assets/automotive-composite-manufacturing.webp');
     background-position: 64% center;
     animation: manufacturing-camera 11s cubic-bezier(.37,0,.63,1) infinite alternate;
     will-change: transform;

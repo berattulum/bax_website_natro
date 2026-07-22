@@ -1,9 +1,13 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import SiteClient from '@/components/SiteClient'
-import type { ManagedLocale } from '@/components/ManagedSections'
+import type { ManagedLocale, SectionKey } from '@/components/ManagedSections'
 
-const emptyLocale = (): ManagedLocale => ({ dictionary: {}, expertise: [], partners: [], memberships: [] })
+const defaultSectionLayout: ManagedLocale['sectionLayout'] = [
+  'about', 'designNarrative', 'expertise', 'manufacturingNarrative', 'process', 'principles', 'solutions', 'partners', 'memberships', 'contact',
+].map((section) => ({ section: section as SectionKey, enabled: true }))
+
+const emptyLocale = (): ManagedLocale => ({ dictionary: {}, expertise: [], partners: [], memberships: [], sectionLayout: defaultSectionLayout })
 
 export default async function HomePage() {
   const locales: Record<'tr' | 'en', ManagedLocale> = { tr: emptyLocale(), en: emptyLocale() }
@@ -30,6 +34,9 @@ export default async function HomePage() {
 
     locales[locale] = {
       dictionary,
+      sectionLayout: Array.isArray(content.sectionLayout) && content.sectionLayout.length > 0
+        ? content.sectionLayout.map((item) => ({ section: item.section as SectionKey, enabled: item.enabled !== false }))
+        : defaultSectionLayout,
       expertise: expertise.docs.map((item) => ({ order: item.order, title: item.title, description: item.description })),
       partners: partners.docs.map((item) => ({ name: item.name, caption: item.caption || item.name, website: item.website, logo: mediaUrl(item.logo) })),
       memberships: memberships.docs.map((item) => ({ name: item.name, category: item.category, website: item.website, logo: mediaUrl(item.logo), darkCard: item.darkCard || false })),

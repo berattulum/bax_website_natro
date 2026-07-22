@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Memberships: CollectionConfig = {
   slug: 'memberships',
   labels: { singular: 'Üyelik', plural: 'Üyelikler' },
-  admin: { useAsTitle: 'name', defaultColumns: ['order', 'name', 'category', 'active'] },
+  admin: { group: 'Kurumsal İlişkiler', useAsTitle: 'name', defaultColumns: ['order', 'name', 'category', 'active'], description: 'Üyesi olunan kurumları, ağları ve destek kuruluşlarını yönetin.' },
   access: {
     read: () => true,
     create: ({ req }) => Boolean(req.user),
@@ -12,12 +12,12 @@ export const Memberships: CollectionConfig = {
   },
   defaultSort: 'order',
   fields: [
-    { name: 'order', label: 'Sıra', type: 'number', required: true, min: 1 },
+    { name: 'order', label: 'Görüntülenme sırası', type: 'number', required: true, min: 1, admin: { description: 'Küçük sayı daha önce görünür.' } },
     { name: 'name', label: 'Kurum adı', type: 'text', required: true },
-    { name: 'category', label: 'Kategori', type: 'text', localized: true, required: true },
-    { name: 'website', label: 'Web sitesi', type: 'text', required: true },
-    { name: 'logo', label: 'Logo', type: 'upload', relationTo: 'media', required: true },
-    { name: 'darkCard', label: 'Koyu kart', type: 'checkbox', defaultValue: false },
-    { name: 'active', label: 'Yayında', type: 'checkbox', defaultValue: true },
+    { name: 'category', label: 'Üyelik / kurum türü', type: 'text', localized: true, required: true, admin: { description: 'Örnek: Sektörel Ağ, Araştırma Kurumu veya İhracatçı Birliği.' } },
+    { name: 'website', label: 'Kurumsal web sitesi', type: 'text', required: true, admin: { description: 'https:// ile başlayan tam adresi girin.' } },
+    { name: 'logo', label: 'Kurum logosu', type: 'upload', relationTo: 'media', required: true, admin: { description: 'Tercihen şeffaf arka planlı PNG veya SVG kullanın.' } },
+    { name: 'darkCard', label: 'Koyu renkli kart kullan', type: 'checkbox', defaultValue: false, admin: { description: 'Açık renkli logoların daha rahat okunması için kart arka planını koyulaştırır.' } },
+    { name: 'active', label: 'Sitede göster', type: 'checkbox', defaultValue: true, admin: { description: 'Kapalı olduğunda kayıt silinmeden sitede gizlenir.' } },
   ],
 }

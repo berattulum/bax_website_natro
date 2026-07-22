@@ -1,6 +1,8 @@
 type ExpertiseItem = { order: number; title: string; description: string }
 type Partner = { name: string; caption: string; website: string; logo: string }
 type Membership = { name: string; category: string; website: string; logo: string; darkCard?: boolean }
+export type SectionKey = 'about' | 'designNarrative' | 'expertise' | 'manufacturingNarrative' | 'process' | 'principles' | 'solutions' | 'partners' | 'memberships' | 'contact'
+export type SectionLayoutItem = { section: SectionKey; enabled: boolean }
 
 function SafeHeading({ text }: { text: string }) {
   const lines = text.replace(/<\/?span>/gi, '').split(/<br\s*\/?>/gi)
@@ -73,4 +75,5 @@ export type ManagedLocale = {
   expertise: ExpertiseItem[]
   partners: Partner[]
   memberships: Membership[]
+  sectionLayout: SectionLayoutItem[]
 }

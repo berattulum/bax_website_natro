@@ -91,7 +91,7 @@ const partners = [
   ['EURO-COMPOSITES', 'EURO-COMPOSITES', 'https://www.euro-composites.com/en/', 'logos/euro-composites.png'],
   ['SPIRAL RTC', 'SPIRAL RTC', 'https://spiralrtc.com/', 'logos/spiral-rtc.png'],
   ['TPRC', 'TPRC', 'https://tprc.nl/', 'logos/tprc.svg'],
-  ['TPAC', 'TPAC', 'https://thermoplasticcomposites.nl/', ''],
+  ['TPAC', 'TPAC', 'https://thermoplasticcomposites.nl/', 'logos/tpac.jpg'],
   ['Addcomposites', 'Addcomposites', 'https://www.addcomposites.com/', 'logos/addcomposites.png'],
 ]
 
@@ -138,6 +138,28 @@ for (const locale of ['tr', 'en'] as const) {
   }
 }
 
+const currentLayout = await payload.findGlobal({ slug: 'site-content', locale: 'tr' })
+if (!currentLayout.sectionLayout?.length) {
+  await payload.updateGlobal({
+    slug: 'site-content',
+    locale: 'tr',
+    data: {
+      sectionLayout: [
+        { section: 'about', enabled: true },
+        { section: 'designNarrative', enabled: true },
+        { section: 'expertise', enabled: true },
+        { section: 'manufacturingNarrative', enabled: true },
+        { section: 'process', enabled: true },
+        { section: 'principles', enabled: true },
+        { section: 'solutions', enabled: true },
+        { section: 'partners', enabled: true },
+        { section: 'memberships', enabled: true },
+        { section: 'contact', enabled: true },
+      ],
+    },
+  })
+}
+
 if ((await payload.count({ collection: 'expertise-items' })).totalDocs === 0) {
   for (const [index, [trTitle, enTitle, trDescription, enDescription]] of expertise.entries()) {
     const item = await payload.create({ collection: 'expertise-items', locale: 'tr', data: { order: index + 1, title: trTitle, description: trDescription } })
@@ -146,7 +168,7 @@ if ((await payload.count({ collection: 'expertise-items' })).totalDocs === 0) {
 }
 
 for (const [index, [name, caption, website, logoPath]] of partners.entries()) {
-  const existing = await payload.count({ collection: 'partners', where: { name: { equals: name } } })
+  const existing = await payload.find({ collection: 'partners', limit: 1, depth: 0, where: { name: { equals: name } } })
   if (existing.totalDocs === 0) {
     try {
       const logo = logoPath ? await uploadLogo(String(name), String(logoPath)) : null
@@ -154,6 +176,9 @@ for (const [index, [name, caption, website, logoPath]] of partners.entries()) {
     } catch (error) {
       payload.logger.warn({ err: error, msg: `${name} logosu geçerli bir görsel olmadığı için aktarılmadı.` })
     }
+  } else if (!existing.docs[0]?.logo && logoPath) {
+    const logo = await uploadLogo(String(name), String(logoPath))
+    await payload.update({ collection: 'partners', id: existing.docs[0].id, locale: 'tr', data: { logo: logo.id } })
   }
 }
 

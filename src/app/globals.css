@@ -589,8 +589,6 @@ body::before { display: none; }
 
 /* --- 11. KURUMSAL TİPOGRAFİ SİSTEMİ --- */
 :root {
-    --font-display: 'Montserrat', Arial, sans-serif;
-    --font-body: 'Inter', Arial, sans-serif;
     --text-xs: .75rem;
     --text-sm: .875rem;
     --text-base: 1rem;
@@ -598,7 +596,16 @@ body::before { display: none; }
     --leading-copy: 1.75;
     --tracking-label: .14em;
 }
-body { font-family: var(--font-body); font-size: var(--text-base); font-weight: 400; line-height: var(--leading-copy); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+    --font-display: var(--font-montserrat), 'Montserrat', Arial, sans-serif;
+    --font-body: var(--font-inter), 'Inter', Arial, sans-serif;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: 400;
+    line-height: var(--leading-copy);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 700; line-height: 1.14; letter-spacing: -.025em; text-wrap: balance; }
 p { max-width: 68ch; text-wrap: pretty; }
 .logo-word, .hero-title { font-family: var(--font-display); }
@@ -616,6 +623,22 @@ p { max-width: 68ch; text-wrap: pretty; }
 .contact-dialog input, .contact-dialog textarea { font-family: var(--font-body); font-size: .95rem; line-height: 1.55; }
 .contact-dialog label { font-family: var(--font-body); font-size: var(--text-xs); line-height: 1.35; letter-spacing: .08em; }
 .form-footer p { font-size: var(--text-xs); line-height: 1.55; }
+
+/* Ekran altındaki ağır bölümleri görünene yaklaşana kadar çizme. Sabit
+   intrinsic yükseklik, anchor gezinmesinde ve kaydırmada düzen kaymasını önler. */
+.about-section,
+.narrative-scene,
+.expertise-section,
+.process-section,
+.principles-section,
+.magazine-layout,
+.references-section,
+.memberships-section,
+.contact-section,
+.site-footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 760px;
+}
 
 @media (max-width: 768px) {
     body { font-size: .975rem; }

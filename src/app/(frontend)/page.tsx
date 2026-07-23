@@ -11,14 +11,17 @@ const defaultSectionLayout: ManagedLocale['sectionLayout'] = [
   'about', 'designNarrative', 'expertise', 'manufacturingNarrative', 'process', 'principles', 'solutions', 'partners', 'memberships', 'contact',
 ].map((section) => ({ section: section as SectionKey, enabled: true }))
 
-const emptyLocale = (): ManagedLocale => ({ dictionary: {}, expertise: [], partners: [], memberships: [], sectionLayout: defaultSectionLayout })
-
 export default async function HomePage() {
-  const locales: Record<'tr' | 'en', ManagedLocale> = { tr: emptyLocale(), en: emptyLocale() }
   const payload = await getPayload({ config })
 
-  for (const locale of ['tr', 'en'] as const) {
-    const content = await payload.findGlobal({ slug: 'site-content', locale })
+  async function loadLocale(locale: 'tr' | 'en'): Promise<ManagedLocale> {
+    const [content, expertise, partners, memberships] = await Promise.all([
+      payload.findGlobal({ slug: 'site-content', locale }),
+      payload.find({ collection: 'expertise-items', locale, sort: 'order', limit: 20 }),
+      payload.find({ collection: 'partners', locale, sort: 'order', limit: 100, where: { active: { equals: true } } }),
+      payload.find({ collection: 'memberships', locale, sort: 'order', limit: 100, where: { active: { equals: true } } }),
+    ])
+
     const dictionary = Object.fromEntries(
       [
         ['hero1Subtitle', content.heroEyebrow], ['hero1Title', content.heroTitle], ['hero1Description', content.heroDescription],
@@ -29,14 +32,9 @@ export default async function HomePage() {
       ].filter((entry): entry is [string, string] => typeof entry[1] === 'string' && entry[1].length > 0),
     )
 
-    const [expertise, partners, memberships] = await Promise.all([
-      payload.find({ collection: 'expertise-items', locale, sort: 'order', limit: 20 }),
-      payload.find({ collection: 'partners', locale, sort: 'order', limit: 100, where: { active: { equals: true } } }),
-      payload.find({ collection: 'memberships', locale, sort: 'order', limit: 100, where: { active: { equals: true } } }),
-    ])
     const mediaUrl = (media: unknown) => typeof media === 'object' && media && 'url' in media && typeof media.url === 'string' ? media.url : ''
 
-    locales[locale] = {
+    return {
       dictionary,
       sectionLayout: Array.isArray(content.sectionLayout) && content.sectionLayout.length > 0
         ? content.sectionLayout.map((item) => ({ section: item.section as SectionKey, enabled: item.enabled !== false }))
@@ -47,5 +45,7 @@ export default async function HomePage() {
     }
   }
 
-  return <SiteClient locales={locales} />
+  const [tr, en] = await Promise.all([loadLocale('tr'), loadLocale('en')])
+
+  return <SiteClient locales={{ tr, en }} />
 }

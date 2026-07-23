@@ -28,7 +28,22 @@ export default buildConfig({
   },
   admin: {
     user: Users.slug,
-    meta: { titleSuffix: '— BaX İçerik Yönetimi' },
+    dateFormat: 'dd.MM.yyyy HH:mm',
+    importMap: {
+      baseDir: dirname,
+    },
+    meta: {
+      titleSuffix: '— BaX İçerik Yönetimi',
+      description: 'BaX Composites kurumsal içerik ve iletişim yönetim paneli',
+    },
+    components: {
+      actions: ['/admin/components/ViewSiteAction'],
+      beforeDashboard: ['/admin/components/BaxDashboard'],
+      graphics: {
+        Icon: '/admin/components/BaxIcon',
+        Logo: '/admin/components/BaxLogo',
+      },
+    },
   },
   collections: [Users, Media, ExpertiseItems, Partners, Memberships, Messages],
   globals: [SiteContent],

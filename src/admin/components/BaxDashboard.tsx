@@ -12,6 +12,9 @@ const statusLabels: Record<string, string> = {
   closed: 'Kapatıldı',
 }
 
+const displayText = (value: unknown, fallback = 'Belirtilmedi') =>
+  typeof value === 'string' && value.trim() ? value : fallback
+
 export default async function BaxDashboard({ payload }: DashboardProps) {
   const [
     expertise,
@@ -119,20 +122,24 @@ export default async function BaxDashboard({ payload }: DashboardProps) {
           </div>
           {recentMessages.docs.length > 0 ? (
             <div className="bax-message-list">
-              {recentMessages.docs.map((message) => (
-                <a
-                  href={`/admin/collections/messages/${message.id}`}
-                  key={message.id}
-                >
-                  <div>
-                    <strong>{message.subject}</strong>
-                    <span>{message.company || message.name}</span>
-                  </div>
-                  <span className={`bax-status bax-status--${message.status || 'new'}`}>
-                    {statusLabels[message.status || 'new']}
-                  </span>
-                </a>
-              ))}
+              {recentMessages.docs.map((message) => {
+                const status = displayText(message.status, 'new')
+
+                return (
+                  <a
+                    href={`/admin/collections/messages/${String(message.id)}`}
+                    key={String(message.id)}
+                  >
+                    <div>
+                      <strong>{displayText(message.subject, 'Konusuz talep')}</strong>
+                      <span>{displayText(message.company, displayText(message.name))}</span>
+                    </div>
+                    <span className={`bax-status bax-status--${status}`}>
+                      {statusLabels[status] || status}
+                    </span>
+                  </a>
+                )
+              })}
             </div>
           ) : (
             <div className="bax-empty-state">

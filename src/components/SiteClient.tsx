@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useEffect, useState, type FormEvent } from 'react'
+import { Fragment, useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react'
 import { ExpertiseSection, MembershipsSection, ReferencesSection, type ManagedLocale } from './ManagedSections'
 
 type Lang = 'tr' | 'en'
@@ -66,6 +66,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [modalOpen, setModalOpen] = useState(false)
   const [slide, setSlide] = useState(0)
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
+  const navigationLock = useRef<number | null>(null)
   const content = locales[lang]
   const d = content.dictionary
   const copy = ui[lang]
@@ -93,13 +94,57 @@ export default function SiteClient({ locales }: { locales: Locales }) {
 
   useEffect(() => {
     const sections = ['home', 'about', 'expertise', 'references', 'memberships', 'contact'].map((id) => document.getElementById(id)).filter((section): section is HTMLElement => Boolean(section))
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-      if (visible?.target.id) setActiveSection(visible.target.id)
-    }, { rootMargin: '-28% 0px -58% 0px', threshold: [0, 0.15, 0.4] })
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
+    let animationFrame = 0
+
+    const updateActiveSection = () => {
+      animationFrame = 0
+      if (navigationLock.current !== null || sections.length === 0) return
+
+      const headerBottom = document.querySelector<HTMLElement>('.header-container')?.getBoundingClientRect().bottom ?? 84
+      const probeLine = headerBottom + Math.min(window.innerHeight * 0.18, 140)
+      let nextSection = sections[0].id
+
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= probeLine) nextSection = section.id
+        else break
+      }
+
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        nextSection = sections[sections.length - 1].id
+      }
+
+      setActiveSection((current) => current === nextSection ? current : nextSection)
+    }
+
+    const requestUpdate = () => {
+      if (animationFrame === 0) animationFrame = window.requestAnimationFrame(updateActiveSection)
+    }
+
+    updateActiveSection()
+    window.addEventListener('scroll', requestUpdate, { passive: true })
+    window.addEventListener('resize', requestUpdate)
+
+    return () => {
+      window.removeEventListener('scroll', requestUpdate)
+      window.removeEventListener('resize', requestUpdate)
+      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame)
+    }
   }, [])
+
+  function navigateToSection(event: MouseEvent<HTMLAnchorElement>, id: string) {
+    event.preventDefault()
+    setActiveSection(id)
+    setMenuOpen(false)
+
+    if (navigationLock.current !== null) window.clearTimeout(navigationLock.current)
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.history.replaceState(null, '', `#${id}`)
+
+    navigationLock.current = window.setTimeout(() => {
+      navigationLock.current = null
+      window.dispatchEvent(new Event('scroll'))
+    }, 900)
+  }
 
   async function submitContact(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -153,7 +198,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       <div className="container header-container">
         <div className="logo"><a href="#home" aria-label="BaX Composites"><span className="logo-word"><strong>Ba<span className="logo-x">X</span></strong><small>Composites</small></span></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label="Main navigation"><ul>
-          {navigationItems.map(([label, id]) => <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={() => { setActiveSection(id); setMenuOpen(false) }}>{label}</a></li>)}
+          {navigationItems.map(([label, id]) => <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}>{label}</a></li>)}
         </ul></nav>
         <button type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-label="Menü" onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>
         <div className="header-right"><div className="lang-selector" role="group" aria-label="Language"><button type="button" className={lang === 'tr' ? 'active' : ''} aria-pressed={lang === 'tr'} onClick={() => setLang('tr')}>TR</button><button type="button" className={lang === 'en' ? 'active' : ''} aria-pressed={lang === 'en'} onClick={() => setLang('en')}>EN</button></div><button type="button" className="btn-primary-small" onClick={() => setModalOpen(true)}>{copy.contactUs}</button></div>

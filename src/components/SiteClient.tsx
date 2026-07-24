@@ -161,7 +161,12 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     </header>
 
     <section id="home" className="hero-section"><div className="hero-slider">
-      <div className="slide opening-slide active" aria-hidden="false">
+      <div
+        className="slide opening-slide active"
+        data-language={lang}
+        data-slide-index={slide}
+        aria-hidden="false"
+      >
         {slide === 0 ? <video autoPlay loop muted playsInline preload="metadata" poster="/assets/aircraft-hero-poster.webp" className="hero-video"><source src="/ucak-video.mp4" type="video/mp4" /></video> : <div className={`slide-bg ${active[3] || ''}`} />}
         <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{active[0]}</h2><h1 className="hero-title"><Heading text={active[1] || ''} /></h1><p className="hero-description">{active[2]}</p>{slide === 0 && <div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a><button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button></div>}</div>
       </div>

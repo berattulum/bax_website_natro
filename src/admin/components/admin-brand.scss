@@ -79,6 +79,16 @@ body {
   color: var(--bax-ink);
 }
 
+.bax-icon,
+.bax-admin-icon {
+  display: flex;
+  width: 82px;
+  min-width: 82px;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
 .bax-admin-logo img {
   display: block;
   width: 164px;
@@ -87,7 +97,8 @@ body {
 
 .bax-admin-icon img {
   display: block;
-  width: 76px;
+  width: 72px;
+  max-width: none;
   height: auto;
 }
 
@@ -123,11 +134,11 @@ body {
 
 .bax-nav__brand > img {
   display: block;
-  width: 122px;
+  width: 126px;
+  max-height: 64px;
   height: auto;
-  padding: 8px 10px;
-  background: #fff;
-  border-radius: 2px;
+  object-fit: contain;
+  filter: invert(1) grayscale(1) brightness(1.35);
 }
 
 .bax-nav__brand > span {

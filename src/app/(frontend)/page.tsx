@@ -1,5 +1,7 @@
 import { connection } from 'next/server'
+import { draftMode } from 'next/headers'
 
+import DraftModeControls from '@/components/DraftModeControls'
 import SiteClient from '@/components/SiteClient'
 import { getHomeData } from '@/lib/cms/get-home-data'
 
@@ -9,6 +11,13 @@ export default async function HomePage() {
   // time; getHomeData still persists the result in Next's tagged data cache.
   await connection()
 
-  const { tr, en } = await getHomeData()
-  return <SiteClient locales={{ tr, en }} />
+  const { isEnabled: isDraftMode } = await draftMode()
+  const { tr, en } = await getHomeData({ includeDrafts: isDraftMode })
+
+  return (
+    <>
+      <SiteClient locales={{ tr, en }} />
+      {isDraftMode && <DraftModeControls />}
+    </>
+  )
 }

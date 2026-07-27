@@ -11,7 +11,9 @@ const localizedText = (name: string, label: string, textarea = false): Field =>
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   versions: {
-    drafts: true,
+    drafts: {
+      autosave: { interval: 800, showSaveDraftButton: true },
+    },
     max: 20,
   },
   label: 'Arayüz ve Sistem Metinleri',

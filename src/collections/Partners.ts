@@ -10,7 +10,9 @@ const revalidation = createCollectionRevalidationHooks([
 export const Partners: CollectionConfig = {
   slug: 'partners',
   versions: {
-    drafts: true,
+    drafts: {
+      autosave: { interval: 800, showSaveDraftButton: true },
+    },
     maxPerDoc: 20,
   },
   hooks: {

@@ -28,21 +28,21 @@ function mediaUrl(media: unknown) {
     : ''
 }
 
-async function queryHomeData() {
+async function queryHomeData(includeDrafts: boolean) {
   const payload = await getPayload({ config })
 
   async function loadLocale(locale: 'tr' | 'en'): Promise<ManagedLocale> {
     const [content, settings, expertise, partners, memberships] = await Promise.all([
-      payload.findGlobal({ slug: 'site-content', locale, depth: 0, draft: false }),
-      payload.findGlobal({ slug: 'site-settings', locale, depth: 0, draft: false }),
+      payload.findGlobal({ slug: 'site-content', locale, depth: 0, draft: includeDrafts }),
+      payload.findGlobal({ slug: 'site-settings', locale, depth: 0, draft: includeDrafts }),
       payload.find({
         collection: 'expertise-items',
         locale,
         sort: 'order',
         limit: 20,
         depth: 0,
-        draft: false,
-        where: { _status: { equals: 'published' } },
+        draft: includeDrafts,
+        where: includeDrafts ? undefined : { _status: { equals: 'published' } },
       }),
       payload.find({
         collection: 'partners',
@@ -50,12 +50,14 @@ async function queryHomeData() {
         sort: 'order',
         limit: 100,
         depth: 1,
-        draft: false,
+        draft: includeDrafts,
         where: {
-          and: [
-            { active: { equals: true } },
-            { _status: { equals: 'published' } },
-          ],
+          and: includeDrafts
+            ? [{ active: { equals: true } }]
+            : [
+                { active: { equals: true } },
+                { _status: { equals: 'published' } },
+              ],
         },
       }),
       payload.find({
@@ -64,12 +66,14 @@ async function queryHomeData() {
         sort: 'order',
         limit: 100,
         depth: 1,
-        draft: false,
+        draft: includeDrafts,
         where: {
-          and: [
-            { active: { equals: true } },
-            { _status: { equals: 'published' } },
-          ],
+          and: includeDrafts
+            ? [{ active: { equals: true } }]
+            : [
+                { active: { equals: true } },
+                { _status: { equals: 'published' } },
+              ],
         },
       }),
     ])
@@ -141,7 +145,13 @@ async function queryHomeData() {
   return { tr, en }
 }
 
-export const getHomeData = unstable_cache(queryHomeData, ['bax-home-data-v1'], {
+const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v1'], {
   tags: Object.values(CACHE_TAGS),
   revalidate: 86_400,
 })
+
+export async function getHomeData({ includeDrafts = false } = {}) {
+  // Draft responses are deliberately never stored in Next's shared data cache.
+  // Only the public, published response uses tagged ISR.
+  return includeDrafts ? queryHomeData(true) : getPublishedHomeData()
+}

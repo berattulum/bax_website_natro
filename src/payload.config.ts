@@ -21,6 +21,9 @@ const dirname = path.dirname(filename)
 const databaseURL = process.env.DATABASE_URL || 'file:./bax.db'
 const usePostgres = process.env.DATABASE_PROVIDER === 'postgres' || databaseURL.startsWith('postgres://') || databaseURL.startsWith('postgresql://')
 const useCloudStorage = Boolean(process.env.S3_BUCKET && process.env.S3_ENDPOINT && process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY)
+const siteURL = (process.env.NEXT_PUBLIC_SITE_URL || process.env.APP_URL || 'http://localhost:3000').replace(/\/$/, '')
+const previewSecret = process.env.PREVIEW_SECRET || ''
+const previewURL = `${siteURL}/api/draft?secret=${encodeURIComponent(previewSecret)}&redirect=/`
 
 export default buildConfig({
   i18n: {
@@ -30,6 +33,17 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     dateFormat: 'dd.MM.yyyy HH:mm',
+    livePreview: {
+      url: previewURL,
+      collections: [ExpertiseItems.slug, Partners.slug, Memberships.slug],
+      globals: [SiteContent.slug, SiteSettings.slug],
+      openByDefault: false,
+      breakpoints: [
+        { name: 'mobile', label: 'Mobil', width: 390, height: 844 },
+        { name: 'tablet', label: 'Tablet', width: 1024, height: 768 },
+        { name: 'desktop', label: 'Masaüstü', width: 1440, height: 900 },
+      ],
+    },
     importMap: {
       baseDir: dirname,
     },

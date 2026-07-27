@@ -51,6 +51,9 @@ export function createCollectionRevalidationHooks(tags: CacheTag[]): {
 } {
   return {
     afterChange: async ({ doc, req }) => {
+      // Draft autosaves power Live Preview but cannot change the public,
+      // published response. Avoid invalidating public ISR on every keystroke.
+      if (doc?._status && doc._status !== 'published') return doc
       await requestRevalidation(tags, req.payload)
       return doc
     },
@@ -63,6 +66,7 @@ export function createCollectionRevalidationHooks(tags: CacheTag[]): {
 
 export function createGlobalRevalidationHook(tags: CacheTag[]): GlobalAfterChangeHook {
   return async ({ doc, req }) => {
+    if (doc?._status && doc._status !== 'published') return doc
     await requestRevalidation(tags, req.payload)
     return doc
   }

@@ -1,4 +1,6 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { DEFAULT_SITE_SETTINGS } from '../lib/cms/site-settings-defaults'
+import { migrationData } from './20260727_104015_site_settings'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
@@ -397,6 +399,21 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "memberships__status_idx" ON "memberships" USING btree ("_status");
   CREATE INDEX "site_content__status_idx" ON "site_content" USING btree ("_status");
   CREATE INDEX "site_settings__status_idx" ON "site_settings" USING btree ("_status");`)
+
+  await payload.updateGlobal({
+    slug: 'site-settings',
+    locale: 'tr',
+    data: migrationData(DEFAULT_SITE_SETTINGS.tr),
+    overrideAccess: true,
+    req,
+  })
+  await payload.updateGlobal({
+    slug: 'site-settings',
+    locale: 'en',
+    data: migrationData(DEFAULT_SITE_SETTINGS.en),
+    overrideAccess: true,
+    req,
+  })
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {

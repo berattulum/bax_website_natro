@@ -619,18 +619,18 @@ p { max-width: 68ch; text-wrap: pretty; }
     object-fit: contain;
 }
 .brand-logo-header {
-    width: 118px;
-    max-height: 50px;
+    width: 132px;
+    height: auto;
 }
 .brand-logo-footer {
-    width: 154px;
-    filter: invert(1) grayscale(1) brightness(1.9);
+    width: 166px;
+    height: auto;
+    filter: invert(1);
 }
 
 @media (max-width: 767px) {
     .brand-logo-header {
-        width: 94px;
-        max-height: 42px;
+        width: 106px;
     }
 }
 .main-nav a { font-size: .78rem; line-height: 1.2; letter-spacing: .08em; }

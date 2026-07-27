@@ -21,8 +21,8 @@ export const metadata: Metadata = {
   description:
     'Havacılık ve otomotiv için ileri kompozit mühendisliği, analiz, kalifikasyon ve endüstrileştirme çözümleri.',
   icons: {
-    icon: '/brand/bax-icon.png',
-    apple: '/brand/bax-icon.png',
+    icon: '/brand/bax-composites-logo.svg',
+    apple: '/brand/bax-composites-logo.svg',
   },
 }
 

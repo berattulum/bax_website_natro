@@ -22,6 +22,7 @@ async function initializePublishedGlobalVersion({
     locale,
     fallbackLocale: false,
     depth: 0,
+    draft: false,
     overrideAccess: true,
   })
 

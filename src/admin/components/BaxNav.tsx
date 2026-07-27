@@ -29,6 +29,12 @@ const groups: Array<{ label: string; items: NavItem[] }> = [
         match: '/admin/globals/site-content',
       },
       {
+        href: '/admin/globals/site-settings',
+        label: 'Arayüz ve sistem metinleri',
+        detail: 'Header · footer · form · butonlar',
+        match: '/admin/globals/site-settings',
+      },
+      {
         href: '/admin/collections/expertise-items',
         label: 'Uzmanlıklar',
         detail: 'Yetkinlik kartları',

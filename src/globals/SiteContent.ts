@@ -4,6 +4,10 @@ import { createGlobalRevalidationHook } from '@/hooks/revalidate-site'
 
 export const SiteContent: GlobalConfig = {
   slug: 'site-content',
+  versions: {
+    drafts: true,
+    max: 20,
+  },
   hooks: {
     afterChange: [
       createGlobalRevalidationHook([

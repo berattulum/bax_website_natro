@@ -9,6 +9,10 @@ const revalidation = createCollectionRevalidationHooks([
 
 export const Memberships: CollectionConfig = {
   slug: 'memberships',
+  versions: {
+    drafts: true,
+    maxPerDoc: 20,
+  },
   hooks: {
     afterChange: [revalidation.afterChange],
     afterDelete: [revalidation.afterDelete],
@@ -16,7 +20,8 @@ export const Memberships: CollectionConfig = {
   labels: { singular: 'Üyelik', plural: 'Üyelikler' },
   admin: { group: 'Kurumsal İlişkiler', useAsTitle: 'name', defaultColumns: ['order', 'name', 'category', 'active'], description: 'Üyesi olunan kurumları, ağları ve destek kuruluşlarını yönetin.' },
   access: {
-    read: () => true,
+    read: ({ req }) =>
+      req.user ? true : { _status: { equals: 'published' } },
     create: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),

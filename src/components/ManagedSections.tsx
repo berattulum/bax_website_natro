@@ -1,3 +1,5 @@
+import type { SiteUISettings } from '@/lib/cms/site-settings-defaults'
+
 type ExpertiseItem = { order: number; title: string; description: string }
 type Partner = { name: string; caption: string; website: string; logo: string }
 type Membership = { name: string; category: string; website: string; logo: string; darkCard?: boolean }
@@ -26,7 +28,7 @@ export function ExpertiseSection({ items }: { items: ExpertiseItem[] }) {
   )
 }
 
-export function ReferencesSection({ title, description, items }: { title: string; description: string; items: Partner[] }) {
+export function ReferencesSection({ title, description, note, items }: { title: string; description: string; note: string; items: Partner[] }) {
   return (
     <section id="references" className="references-section" aria-labelledby="references-title">
       <div className="container">
@@ -43,7 +45,7 @@ export function ReferencesSection({ title, description, items }: { title: string
             </a>
           ))}
         </div>
-        <p className="references-note" data-i18n="referencesNote">Seçilmiş iş ortakları ve referans kurumlar</p>
+        <p className="references-note" data-i18n="referencesNote">{note}</p>
       </div>
     </section>
   )
@@ -72,6 +74,7 @@ export function MembershipsSection({ title, description, items }: { title: strin
 
 export type ManagedLocale = {
   dictionary: Record<string, string>
+  ui: SiteUISettings
   expertise: ExpertiseItem[]
   partners: Partner[]
   memberships: Membership[]

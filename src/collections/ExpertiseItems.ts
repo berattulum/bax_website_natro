@@ -9,6 +9,10 @@ const revalidation = createCollectionRevalidationHooks([
 
 export const ExpertiseItems: CollectionConfig = {
   slug: 'expertise-items',
+  versions: {
+    drafts: true,
+    maxPerDoc: 20,
+  },
   hooks: {
     afterChange: [revalidation.afterChange],
     afterDelete: [revalidation.afterDelete],
@@ -16,7 +20,8 @@ export const ExpertiseItems: CollectionConfig = {
   labels: { singular: 'Uzmanlık', plural: 'Uzmanlıklar' },
   admin: { group: 'İçerik Yönetimi', useAsTitle: 'title', defaultColumns: ['order', 'title', 'updatedAt'], description: 'Sitedeki uzmanlık kartlarını ve görüntülenme sıralarını yönetin.' },
   access: {
-    read: () => true,
+    read: ({ req }) =>
+      req.user ? true : { _status: { equals: 'published' } },
     create: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),

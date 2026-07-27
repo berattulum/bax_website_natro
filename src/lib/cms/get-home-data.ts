@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { ManagedLocale, SectionKey } from '@/components/ManagedSections'
 import { CACHE_TAGS } from '@/lib/cache/tags'
+import { normalizeSiteSettings } from '@/lib/cms/site-settings-defaults'
 
 const defaultSectionLayout: ManagedLocale['sectionLayout'] = [
   'about',
@@ -31,14 +32,17 @@ async function queryHomeData() {
   const payload = await getPayload({ config })
 
   async function loadLocale(locale: 'tr' | 'en'): Promise<ManagedLocale> {
-    const [content, expertise, partners, memberships] = await Promise.all([
-      payload.findGlobal({ slug: 'site-content', locale, depth: 0 }),
+    const [content, settings, expertise, partners, memberships] = await Promise.all([
+      payload.findGlobal({ slug: 'site-content', locale, depth: 0, draft: false }),
+      payload.findGlobal({ slug: 'site-settings', locale, depth: 0, draft: false }),
       payload.find({
         collection: 'expertise-items',
         locale,
         sort: 'order',
         limit: 20,
         depth: 0,
+        draft: false,
+        where: { _status: { equals: 'published' } },
       }),
       payload.find({
         collection: 'partners',
@@ -46,7 +50,13 @@ async function queryHomeData() {
         sort: 'order',
         limit: 100,
         depth: 1,
-        where: { active: { equals: true } },
+        draft: false,
+        where: {
+          and: [
+            { active: { equals: true } },
+            { _status: { equals: 'published' } },
+          ],
+        },
       }),
       payload.find({
         collection: 'memberships',
@@ -54,7 +64,13 @@ async function queryHomeData() {
         sort: 'order',
         limit: 100,
         depth: 1,
-        where: { active: { equals: true } },
+        draft: false,
+        where: {
+          and: [
+            { active: { equals: true } },
+            { _status: { equals: 'published' } },
+          ],
+        },
       }),
     ])
 
@@ -92,6 +108,7 @@ async function queryHomeData() {
 
     return {
       dictionary,
+      ui: normalizeSiteSettings(settings, locale),
       sectionLayout:
         Array.isArray(content.sectionLayout) && content.sectionLayout.length > 0
           ? content.sectionLayout.map((item) => ({

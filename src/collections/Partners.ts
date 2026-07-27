@@ -9,6 +9,10 @@ const revalidation = createCollectionRevalidationHooks([
 
 export const Partners: CollectionConfig = {
   slug: 'partners',
+  versions: {
+    drafts: true,
+    maxPerDoc: 20,
+  },
   hooks: {
     afterChange: [revalidation.afterChange],
     afterDelete: [revalidation.afterDelete],
@@ -16,7 +20,8 @@ export const Partners: CollectionConfig = {
   labels: { singular: 'İş Ortağı / Referans', plural: 'İş Ortakları ve Referanslar' },
   admin: { group: 'Kurumsal İlişkiler', useAsTitle: 'name', defaultColumns: ['order', 'name', 'logo', 'active'], description: 'Partnerships bölümünde gösterilen şirketleri, logoları ve bağlantıları yönetin.' },
   access: {
-    read: () => true,
+    read: ({ req }) =>
+      req.user ? true : { _status: { equals: 'published' } },
     create: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),

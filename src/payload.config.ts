@@ -10,6 +10,7 @@ import { Media } from './collections/Media.ts'
 import { Messages } from './collections/Messages.ts'
 import { Users } from './collections/Users.ts'
 import { SiteContent } from './globals/SiteContent.ts'
+import { SiteSettings } from './globals/SiteSettings.ts'
 import { ExpertiseItems } from './collections/ExpertiseItems.ts'
 import { Memberships } from './collections/Memberships.ts'
 import { Partners } from './collections/Partners.ts'
@@ -51,7 +52,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, ExpertiseItems, Partners, Memberships, Messages],
-  globals: [SiteContent],
+  globals: [SiteContent, SiteSettings],
   localization: {
     locales: [
       { code: 'tr', label: 'Türkçe' },

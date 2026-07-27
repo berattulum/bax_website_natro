@@ -1,6 +1,7 @@
 export const CACHE_TAGS = {
   home: 'bax:home',
   siteContent: 'bax:global-settings',
+  siteSettings: 'bax:site-settings',
   expertise: 'bax:expertise',
   references: 'bax:references-list',
   memberships: 'bax:memberships',

@@ -272,10 +272,7 @@ body.modal-open { overflow: hidden; }
 .footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3,1fr); gap: clamp(35px,6vw,90px); }
 .footer-logo {
     display: inline-flex;
-    padding: 10px 12px;
     align-items: center;
-    background: #fff;
-    border-radius: 2px;
 }
 .footer-logo span { display: block; margin-top: 8px; font-size: .54rem; font-weight: 400; letter-spacing: .32em; }
 .footer-brand p, .footer-grid > div > p { margin-top: 22px; color: #9fb0b8; font-size: .85rem; line-height: 1.7; }

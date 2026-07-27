@@ -21,9 +21,8 @@ const dirname = path.dirname(filename)
 const databaseURL = process.env.DATABASE_URL || 'file:./bax.db'
 const usePostgres = process.env.DATABASE_PROVIDER === 'postgres' || databaseURL.startsWith('postgres://') || databaseURL.startsWith('postgresql://')
 const useCloudStorage = Boolean(process.env.S3_BUCKET && process.env.S3_ENDPOINT && process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY)
-const siteURL = (process.env.NEXT_PUBLIC_SITE_URL || process.env.APP_URL || 'http://localhost:3000').replace(/\/$/, '')
 const previewSecret = process.env.PREVIEW_SECRET || ''
-const previewURL = `${siteURL}/api/draft?secret=${encodeURIComponent(previewSecret)}&redirect=/`
+const previewURL = `/api/draft?secret=${encodeURIComponent(previewSecret)}&redirect=/`
 
 export default buildConfig({
   i18n: {

@@ -79,6 +79,18 @@ body {
   color: var(--bax-ink);
 }
 
+.bax-admin-logo img {
+  display: block;
+  width: 132px;
+  height: auto;
+}
+
+.bax-admin-icon img {
+  display: block;
+  width: 28px;
+  height: auto;
+}
+
 /* Tek, işlevsel sol navigasyon. */
 .bax-nav {
   position: relative;
@@ -107,6 +119,13 @@ body {
 .bax-nav__brand > strong {
   font-size: 27px;
   letter-spacing: -0.08em;
+}
+
+.bax-nav__brand > img {
+  display: block;
+  width: 104px;
+  height: auto;
+  filter: invert(1) grayscale(1) brightness(1.9);
 }
 
 .bax-nav__brand > span {

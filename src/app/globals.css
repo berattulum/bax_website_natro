@@ -611,6 +611,28 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 700; lin
 p { max-width: 68ch; text-wrap: pretty; }
 .logo-word, .hero-title { font-family: var(--font-display); }
 .main-nav a, .btn-primary-small, .form-submit, .section-label, .text-block .label, .references-note, .logo-card span, .contact-locations span { font-family: var(--font-body); font-weight: 600; }
+
+/* Official BaX Composites artwork supplied by the company. */
+.brand-logo {
+    display: block;
+    width: auto;
+    object-fit: contain;
+}
+.brand-logo-header {
+    width: 118px;
+    max-height: 50px;
+}
+.brand-logo-footer {
+    width: 154px;
+    filter: invert(1) grayscale(1) brightness(1.9);
+}
+
+@media (max-width: 767px) {
+    .brand-logo-header {
+        width: 94px;
+        max-height: 42px;
+    }
+}
 .main-nav a { font-size: .78rem; line-height: 1.2; letter-spacing: .08em; }
 .section-label, .text-block .label { font-size: var(--text-xs); line-height: 1.35; letter-spacing: var(--tracking-label); }
 .hero-subtitle { font-family: var(--font-body); font-size: .78rem; font-weight: 600; line-height: 1.4; letter-spacing: .16em; }

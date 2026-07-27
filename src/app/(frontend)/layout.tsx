@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   title: 'BaX Composites | Geleceği Şekillendiriyoruz',
   description:
     'Havacılık ve otomotiv için ileri kompozit mühendisliği, analiz, kalifikasyon ve endüstrileştirme çözümleri.',
+  icons: {
+    icon: '/brand/bax-icon.png',
+    apple: '/brand/bax-icon.png',
+  },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -3,8 +3,7 @@ import './admin-brand.scss'
 export default function BaxLogo() {
   return (
     <div className="bax-admin-logo" aria-label="BaX Composites">
-      <strong>BaX</strong>
-      <span>COMPOSITES</span>
+      <img src="/brand/bax-composites-logo.png" alt="BaX Composites" />
     </div>
   )
 }

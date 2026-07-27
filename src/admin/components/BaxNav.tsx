@@ -83,7 +83,7 @@ export default function BaxNav() {
   return (
     <aside className="bax-nav">
       <a className="bax-nav__brand" href="/admin" aria-label="BaX içerik merkezi">
-        <strong>BaX</strong>
+        <img src="/brand/bax-composites-logo.png" alt="BaX Composites" />
         <span>CONTENT OPERATIONS</span>
       </a>
 

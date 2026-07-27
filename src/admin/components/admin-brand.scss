@@ -125,7 +125,9 @@ body {
   display: block;
   width: 122px;
   height: auto;
-  filter: invert(1);
+  padding: 8px 10px;
+  background: #fff;
+  border-radius: 2px;
 }
 
 .bax-nav__brand > span {

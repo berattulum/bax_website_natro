@@ -1,7 +1,18 @@
 import type { CollectionConfig } from 'payload'
+import { CACHE_TAGS } from '@/lib/cache/tags'
+import { createCollectionRevalidationHooks } from '@/hooks/revalidate-site'
+
+const revalidation = createCollectionRevalidationHooks([
+  CACHE_TAGS.home,
+  CACHE_TAGS.expertise,
+])
 
 export const ExpertiseItems: CollectionConfig = {
   slug: 'expertise-items',
+  hooks: {
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
+  },
   labels: { singular: 'Uzmanlık', plural: 'Uzmanlıklar' },
   admin: { group: 'İçerik Yönetimi', useAsTitle: 'title', defaultColumns: ['order', 'title', 'updatedAt'], description: 'Sitedeki uzmanlık kartlarını ve görüntülenme sıralarını yönetin.' },
   access: {

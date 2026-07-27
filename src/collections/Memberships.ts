@@ -1,7 +1,18 @@
 import type { CollectionConfig } from 'payload'
+import { CACHE_TAGS } from '@/lib/cache/tags'
+import { createCollectionRevalidationHooks } from '@/hooks/revalidate-site'
+
+const revalidation = createCollectionRevalidationHooks([
+  CACHE_TAGS.home,
+  CACHE_TAGS.memberships,
+])
 
 export const Memberships: CollectionConfig = {
   slug: 'memberships',
+  hooks: {
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
+  },
   labels: { singular: 'Üyelik', plural: 'Üyelikler' },
   admin: { group: 'Kurumsal İlişkiler', useAsTitle: 'name', defaultColumns: ['order', 'name', 'category', 'active'], description: 'Üyesi olunan kurumları, ağları ve destek kuruluşlarını yönetin.' },
   access: {

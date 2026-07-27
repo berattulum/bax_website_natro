@@ -1,6 +1,7 @@
 'use client'
 
 import { Fragment, useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react'
+import Script from 'next/script'
 import { ExpertiseSection, MembershipsSection, ReferencesSection, type ManagedLocale } from './ManagedSections'
 
 type Lang = 'tr' | 'en'
@@ -152,9 +153,10 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     const form = event.currentTarget
     const data = new FormData(form)
     try {
-      const response = await fetch('/api/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: data.get('name'), company: data.get('company'), email: data.get('email'), phone: data.get('phone'), subject: data.get('subject'), message: data.get('message'), consent: data.get('consent') === 'on' }) })
+      const response = await fetch('/api/submit-form', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: data.get('name'), company: data.get('company'), email: data.get('email'), phone: data.get('phone'), subject: data.get('subject'), message: data.get('message'), consent: data.get('consent') === 'on', website: data.get('website') || '', turnstileToken: data.get('cf-turnstile-response') || '' }) })
       if (!response.ok) throw new Error('Message could not be saved')
       form.reset()
+      ;(window as Window & { turnstile?: { reset: () => void } }).turnstile?.reset()
       setFormStatus('received')
       window.setTimeout(() => setModalOpen(false), 1200)
     } catch { setFormStatus('failed') }
@@ -194,6 +196,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   }
 
   return <>
+    <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
     <header className="main-header">
       <div className="container header-container">
         <div className="logo"><a href="#home" aria-label="BaX Composites"><span className="logo-word"><strong>Ba<span className="logo-x">X</span></strong><small>Composites</small></span></a></div>
@@ -221,6 +224,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     {visibleSections.map(({ section }) => <Fragment key={section}>{renderSection(section)}</Fragment>)}
     <footer className="site-footer"><div className="container footer-grid"><div className="footer-brand"><a href="#home" className="footer-logo">BaX <span>Composites</span></a><p>{d.footerText}</p></div><div role="navigation" aria-label={copy.navigation}><h3>{copy.navigation}</h3>{navigationItems.map(([label, id]) => <a href={`#${id}`} key={id} onClick={(event) => navigateToSection(event, id)}>{label}</a>)}</div><div><h3>{copy.contact}</h3><a href={`mailto:${d.email}`}>{d.email}</a><a href={`tel:${(d.phone || '').replace(/[^+\d]/g, '')}`}>{d.phone}</a></div><div className="footer-address"><h3>{copy.headOffice}</h3><p><Address text={d.headOffice} /></p></div><div className="footer-address"><h3>{copy.branchOffice}</h3><p><Address text={d.branchOffice} /></p></div></div><div className="container footer-bottom"><span>© 2026 BaX Composites Inc.</span><nav className="footer-legal" aria-label="Legal"><a href="/assets/legal/bax-personal-data-clarification.pdf" target="_blank">KVKK</a><a href="/assets/legal/bax-cookie-policy.pdf" target="_blank">Cookie Policy</a><a href="/assets/legal/bax-kvkk-application-form.pdf" target="_blank">Application Form</a></nav><span>{copy.rights}</span></div></footer>
 
-    {modalOpen && <div className="contact-modal is-open" id="contact-modal" aria-hidden="false"><button className="contact-modal-backdrop" aria-label="Close" onClick={() => setModalOpen(false)} /><div className="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title"><button type="button" className="modal-close" aria-label="Close" onClick={() => setModalOpen(false)}>×</button><span className="section-label">BAX // {copy.contact.toUpperCase()}</span><h2 id="contact-modal-title">{copy.modalTitle}</h2><p className="modal-intro">{copy.modalIntro}</p><form onSubmit={submitContact}><div className="form-row"><label><span>{copy.name}</span><input type="text" name="name" autoComplete="name" required /></label><label><span>{copy.companyInput}</span><input type="text" name="company" autoComplete="organization" /></label></div><div className="form-row"><label><span>{copy.email}</span><input type="email" name="email" autoComplete="email" required /></label><label><span>{copy.phone}</span><input type="tel" name="phone" autoComplete="tel" /></label></div><label><span>{copy.subject}</span><input type="text" name="subject" required /></label><label><span>{copy.message}</span><textarea name="message" rows={5} required /></label><label className="consent-label"><input type="checkbox" name="consent" required /><span>{copy.consent}</span></label><div className="form-footer"><span /><button type="submit" className="form-submit" disabled={formStatus === 'sending'}>{formStatus === 'sending' ? copy.sending : formStatus === 'received' ? copy.received : formStatus === 'failed' ? copy.failed : copy.send}</button></div></form></div></div>}
+    {modalOpen && <div className="contact-modal is-open" id="contact-modal" aria-hidden="false"><button className="contact-modal-backdrop" aria-label="Close" onClick={() => setModalOpen(false)} /><div className="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title"><button type="button" className="modal-close" aria-label="Close" onClick={() => setModalOpen(false)}>×</button><span className="section-label">BAX // {copy.contact.toUpperCase()}</span><h2 id="contact-modal-title">{copy.modalTitle}</h2><p className="modal-intro">{copy.modalIntro}</p><form onSubmit={submitContact}><input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="form-honeypot" /><div className="form-row"><label><span>{copy.name}</span><input type="text" name="name" autoComplete="name" required /></label><label><span>{copy.companyInput}</span><input type="text" name="company" autoComplete="organization" /></label></div><div className="form-row"><label><span>{copy.email}</span><input type="email" name="email" autoComplete="email" required /></label><label><span>{copy.phone}</span><input type="tel" name="phone" autoComplete="tel" /></label></div><label><span>{copy.subject}</span><input type="text" name="subject" required /></label><label><span>{copy.message}</span><textarea name="message" rows={5} required /></label><label className="consent-label"><input type="checkbox" name="consent" required /><span>{copy.consent}</span></label>{process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <div className="cf-turnstile" data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} data-action="contact_form" />}<div className="form-footer"><span /><button type="submit" className="form-submit" disabled={formStatus === 'sending'}>{formStatus === 'sending' ? copy.sending : formStatus === 'received' ? copy.received : formStatus === 'failed' ? copy.failed : copy.send}</button></div></form></div></div>}
   </>
 }

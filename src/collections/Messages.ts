@@ -5,7 +5,7 @@ export const Messages: CollectionConfig = {
   labels: { singular: 'İletişim Mesajı', plural: 'İletişim Mesajları' },
   admin: { group: 'İletişim Yönetimi', useAsTitle: 'subject', defaultColumns: ['status', 'name', 'company', 'subject', 'createdAt'], description: 'Web sitesindeki proje ve iletişim formundan gelen talepleri takip edin.' },
   access: {
-    create: () => true,
+    create: ({ req }) => Boolean(req.user),
     read: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),

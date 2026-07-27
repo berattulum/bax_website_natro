@@ -1,7 +1,18 @@
 import type { CollectionConfig } from 'payload'
+import { CACHE_TAGS } from '@/lib/cache/tags'
+import { createCollectionRevalidationHooks } from '@/hooks/revalidate-site'
+
+const revalidation = createCollectionRevalidationHooks([
+  CACHE_TAGS.home,
+  CACHE_TAGS.media,
+])
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  hooks: {
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
+  },
   labels: { singular: 'Medya Dosyası', plural: 'Medya Kütüphanesi' },
   admin: { group: 'Dosya Yönetimi', useAsTitle: 'alt', defaultColumns: ['filename', 'alt', 'mimeType', 'updatedAt'], description: 'Site görsellerini, logoları, videoları ve PDF belgelerini yönetin.' },
   access: {

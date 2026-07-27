@@ -1,7 +1,18 @@
 import type { CollectionConfig } from 'payload'
+import { CACHE_TAGS } from '@/lib/cache/tags'
+import { createCollectionRevalidationHooks } from '@/hooks/revalidate-site'
+
+const revalidation = createCollectionRevalidationHooks([
+  CACHE_TAGS.home,
+  CACHE_TAGS.references,
+])
 
 export const Partners: CollectionConfig = {
   slug: 'partners',
+  hooks: {
+    afterChange: [revalidation.afterChange],
+    afterDelete: [revalidation.afterDelete],
+  },
   labels: { singular: 'İş Ortağı / Referans', plural: 'İş Ortakları ve Referanslar' },
   admin: { group: 'Kurumsal İlişkiler', useAsTitle: 'name', defaultColumns: ['order', 'name', 'logo', 'active'], description: 'Partnerships bölümünde gösterilen şirketleri, logoları ve bağlantıları yönetin.' },
   access: {

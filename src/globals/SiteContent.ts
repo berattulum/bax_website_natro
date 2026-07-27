@@ -1,7 +1,17 @@
 import type { GlobalConfig } from 'payload'
+import { CACHE_TAGS } from '@/lib/cache/tags'
+import { createGlobalRevalidationHook } from '@/hooks/revalidate-site'
 
 export const SiteContent: GlobalConfig = {
   slug: 'site-content',
+  hooks: {
+    afterChange: [
+      createGlobalRevalidationHook([
+        CACHE_TAGS.home,
+        CACHE_TAGS.siteContent,
+      ]),
+    ],
+  },
   label: 'Site İçeriği',
   admin: {
     group: 'İçerik Yönetimi',

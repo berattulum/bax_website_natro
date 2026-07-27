@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@payloadcms/db-postgres':
         specifier: 3.86.0
-        version: 3.86.0(@libsql/client@0.14.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))
+        version: 3.86.0(@libsql/client@0.14.0)(@upstash/redis@1.38.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))
       '@payloadcms/db-sqlite':
         specifier: 3.86.0
-        version: 3.86.0(@types/pg@8.20.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)
+        version: 3.86.0(@types/pg@8.20.0)(@upstash/redis@1.38.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)
       '@payloadcms/next':
         specifier: 3.86.0
         version: 3.86.0(@types/react@19.2.2)(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.2.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
@@ -23,6 +23,12 @@ importers:
       '@payloadcms/translations':
         specifier: 3.86.0
         version: 3.86.0
+      '@upstash/ratelimit':
+        specifier: ^2.0.8
+        version: 2.0.8(@upstash/redis@1.38.0)
+      '@upstash/redis':
+        specifier: ^1.38.0
+        version: 1.38.0
       next:
         specifier: 16.2.6
         version: 16.2.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4)
@@ -35,6 +41,9 @@ importers:
       react-dom:
         specifier: 19.2.0
         version: 19.2.0(react@19.2.0)
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@types/node':
         specifier: 22.18.0
@@ -1177,6 +1186,18 @@ packages:
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
+  '@upstash/core-analytics@0.0.10':
+    resolution: {integrity: sha512-7qJHGxpQgQr9/vmeS1PktEwvNAF7TI4iJDi8Pu2CFZ9YUGHZH4fOP5TfYlZ4aVxfopnELiE4BS4FBjyK7V1/xQ==}
+    engines: {node: '>=16.0.0'}
+
+  '@upstash/ratelimit@2.0.8':
+    resolution: {integrity: sha512-YSTMBJ1YIxsoPkUMX/P4DDks/xV5YYCswWMamU8ZIfK9ly6ppjRnVOyBhMDXBmzjODm4UQKcxsJPvaeFAijp5w==}
+    peerDependencies:
+      '@upstash/redis': ^1.34.3
+
+  '@upstash/redis@1.38.0':
+    resolution: {integrity: sha512-wu+dZBptlLy0+MCUEoHmzrY/TnmgDey3+c7EbIGwrLqAvkP8yi5MWZHYGIFtAygmL4Bkz2TdFu+eU0vFPncIcg==}
+
   ajv@8.18.0:
     resolution: {integrity: sha512-PlXPeEWMXMZ7sPYOHqmDyCJzcfNrUr3fGNKtezX14ykXOEIvyK81d+qydx89KY5O71FKMPaQ2vBfBFI5NHR63A==}
 
@@ -2150,6 +2171,9 @@ packages:
     resolution: {integrity: sha512-rvKSBiC5zqCCiDZ9kAOszZcDvdAHwwIKJG33Ykj43OKcWsnmcBRL09YTU4nOeHZ8Y2a7l1MgTd08SBe9A8Qj6A==}
     engines: {node: '>=18'}
 
+  uncrypto@0.1.3:
+    resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
+
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
@@ -2217,6 +2241,9 @@ packages:
   yaml@1.10.3:
     resolution: {integrity: sha512-vIYeF1u3CjlhAFekPPAk2h/Kv4T3mAkMox5OymRiJQB0spDP10LHvt+K7G9Ny6NuuMAb25/6n1qyUjAcGNf/AA==}
     engines: {node: '>= 6'}
+
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
 snapshots:
 
@@ -3058,13 +3085,13 @@ snapshots:
   '@next/swc-win32-x64-msvc@16.2.6':
     optional: true
 
-  '@payloadcms/db-postgres@3.86.0(@libsql/client@0.14.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))':
+  '@payloadcms/db-postgres@3.86.0(@libsql/client@0.14.0)(@upstash/redis@1.38.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))':
     dependencies:
-      '@payloadcms/drizzle': 3.86.0(@libsql/client@0.14.0)(@types/pg@8.20.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)
+      '@payloadcms/drizzle': 3.86.0(@libsql/client@0.14.0)(@types/pg@8.20.0)(@upstash/redis@1.38.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)
       '@types/pg': 8.20.0
       console-table-printer: 2.12.1
       drizzle-kit: 0.31.7
-      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(pg@8.20.0)
+      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(@upstash/redis@1.38.0)(pg@8.20.0)
       payload: 3.86.0(graphql@16.14.2)(typescript@5.9.3)
       pg: 8.20.0
       prompts: 2.4.2
@@ -3101,13 +3128,13 @@ snapshots:
       - sqlite3
       - supports-color
 
-  '@payloadcms/db-sqlite@3.86.0(@types/pg@8.20.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)':
+  '@payloadcms/db-sqlite@3.86.0(@types/pg@8.20.0)(@upstash/redis@1.38.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)':
     dependencies:
       '@libsql/client': 0.14.0
-      '@payloadcms/drizzle': 3.86.0(@libsql/client@0.14.0)(@types/pg@8.20.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)
+      '@payloadcms/drizzle': 3.86.0(@libsql/client@0.14.0)(@types/pg@8.20.0)(@upstash/redis@1.38.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)
       console-table-printer: 2.12.1
       drizzle-kit: 0.31.7
-      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(pg@8.20.0)
+      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(@upstash/redis@1.38.0)(pg@8.20.0)
       payload: 3.86.0(graphql@16.14.2)(typescript@5.9.3)
       prompts: 2.4.2
       to-snake-case: 1.0.0
@@ -3145,11 +3172,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@payloadcms/drizzle@3.86.0(@libsql/client@0.14.0)(@types/pg@8.20.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)':
+  '@payloadcms/drizzle@3.86.0(@libsql/client@0.14.0)(@types/pg@8.20.0)(@upstash/redis@1.38.0)(payload@3.86.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)':
     dependencies:
       console-table-printer: 2.12.1
       dequal: 2.0.3
-      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(pg@8.20.0)
+      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(@upstash/redis@1.38.0)(pg@8.20.0)
       payload: 3.86.0(graphql@16.14.2)(typescript@5.9.3)
       prompts: 2.4.2
       to-snake-case: 1.0.0
@@ -3382,6 +3409,19 @@ snapshots:
     dependencies:
       '@types/node': 22.18.0
 
+  '@upstash/core-analytics@0.0.10':
+    dependencies:
+      '@upstash/redis': 1.38.0
+
+  '@upstash/ratelimit@2.0.8(@upstash/redis@1.38.0)':
+    dependencies:
+      '@upstash/core-analytics': 0.0.10
+      '@upstash/redis': 1.38.0
+
+  '@upstash/redis@1.38.0':
+    dependencies:
+      uncrypto: 0.1.3
+
   ajv@8.18.0:
     dependencies:
       fast-deep-equal: 3.1.3
@@ -3524,10 +3564,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(pg@8.20.0):
+  drizzle-orm@0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(@upstash/redis@1.38.0)(pg@8.20.0):
     optionalDependencies:
       '@libsql/client': 0.14.0
       '@types/pg': 8.20.0
+      '@upstash/redis': 1.38.0
       pg: 8.20.0
 
   end-of-stream@1.4.5:
@@ -4338,6 +4379,8 @@ snapshots:
 
   uint8array-extras@1.5.0: {}
 
+  uncrypto@0.1.3: {}
+
   undici-types@6.21.0: {}
 
   undici@7.28.0: {}
@@ -4377,3 +4420,5 @@ snapshots:
   xtend@4.0.2: {}
 
   yaml@1.10.3: {}
+
+  zod@4.4.3: {}

@@ -38,10 +38,15 @@ export default buildConfig({
     },
     components: {
       actions: ['/admin/components/ViewSiteAction'],
-      beforeDashboard: ['/admin/components/BaxDashboard'],
+      Nav: '/admin/components/BaxNav',
       graphics: {
         Icon: '/admin/components/BaxIcon',
         Logo: '/admin/components/BaxLogo',
+      },
+      views: {
+        dashboard: {
+          Component: '/admin/components/BaxDashboard',
+        },
       },
     },
   },

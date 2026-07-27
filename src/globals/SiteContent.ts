@@ -22,7 +22,7 @@ export const SiteContent: GlobalConfig = {
     description: 'Ana sayfadaki sabit metinleri Türkçe ve İngilizce olarak buradan yönetin. Düzenleme yapmadan önce sağ üstten doğru dili seçin.',
   },
   access: {
-    read: () => true,
+    read: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
   },
   fields: [

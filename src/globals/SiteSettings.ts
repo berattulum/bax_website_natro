@@ -20,7 +20,7 @@ export const SiteSettings: GlobalConfig = {
     description: 'Header, footer, butonlar, formlar ve sistem bildirimlerinde kullanılan Türkçe ve İngilizce metinleri yönetin.',
   },
   access: {
-    read: () => true,
+    read: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
   },
   hooks: {

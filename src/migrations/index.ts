@@ -1,6 +1,7 @@
 import * as migration_20260722_211659_initial_schema from './20260722_211659_initial_schema';
 import * as migration_20260727_104015_site_settings from './20260727_104015_site_settings';
 import * as migration_20260727_105016_content_versioning_drafts from './20260727_105016_content_versioning_drafts';
+import * as migration_20260727_111015_publish_site_settings from './20260727_111015_publish_site_settings';
 
 export const migrations = [
   {
@@ -17,5 +18,10 @@ export const migrations = [
     up: migration_20260727_105016_content_versioning_drafts.up,
     down: migration_20260727_105016_content_versioning_drafts.down,
     name: '20260727_105016_content_versioning_drafts'
+  },
+  {
+    up: migration_20260727_111015_publish_site_settings.up,
+    down: migration_20260727_111015_publish_site_settings.down,
+    name: '20260727_111015_publish_site_settings',
   },
 ];

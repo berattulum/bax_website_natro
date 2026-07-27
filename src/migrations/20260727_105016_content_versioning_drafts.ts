@@ -403,14 +403,20 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await payload.updateGlobal({
     slug: 'site-settings',
     locale: 'tr',
-    data: migrationData(DEFAULT_SITE_SETTINGS.tr),
+    data: {
+      ...migrationData(DEFAULT_SITE_SETTINGS.tr),
+      _status: 'published',
+    },
     overrideAccess: true,
     req,
   })
   await payload.updateGlobal({
     slug: 'site-settings',
     locale: 'en',
-    data: migrationData(DEFAULT_SITE_SETTINGS.en),
+    data: {
+      ...migrationData(DEFAULT_SITE_SETTINGS.en),
+      _status: 'published',
+    },
     overrideAccess: true,
     req,
   })

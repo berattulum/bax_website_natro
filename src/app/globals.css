@@ -13,13 +13,6 @@ ul { list-style: none; }
 .main-header::after { content: ""; position: absolute; left: 0; bottom: -1px; width: 35%; height: 1px; background: linear-gradient(90deg, transparent, var(--cyan)); box-shadow: 0 0 16px var(--cyan); }
 .header-container { width: 94%; max-width: 1380px; display: grid; grid-template-columns: minmax(220px,1fr) auto minmax(220px,1fr); gap: clamp(22px,3vw,52px); align-items: center; min-height: 56px; }
 .logo a { display: inline-flex; align-items: center; gap: 13px; }
-.logo-mark { position: relative; width: 34px; height: 34px; display: block; border: 1px solid rgba(94,222,236,.65); transform: skewX(-10deg); background: repeating-linear-gradient(135deg, rgba(44,196,217,.25) 0 2px, transparent 2px 6px), linear-gradient(135deg, #123c50, #07141e); box-shadow: inset 0 0 15px rgba(44,196,217,.2), 0 0 18px rgba(44,196,217,.12); }
-.logo-mark::after { content: ""; position: absolute; inset: 7px; border-top: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
-.logo-word { display: block; line-height: .82; }
-.logo-word strong { display: block; color: #201e1f; font-size: 2rem; font-weight: 800; letter-spacing: -2.4px; }
-.logo-x { position: relative; display: inline-block; margin-left: 1px; color: #201e1f; text-shadow: 1px 0 0 #606164, 2px 0 0 rgba(255,255,255,.55); }
-.logo-x::after { content: ""; position: absolute; left: 20%; top: 7%; width: 25%; height: 84%; opacity: .72; transform: rotate(-38deg); background: linear-gradient(180deg,#f1f1f1 0 14%,#737477 14% 29%,#d7d8d9 29% 44%,#4c4d4f 44% 59%,#b9babc 59% 74%,#2b2b2d 74% 88%,#e2e2e2 88%); mix-blend-mode: screen; pointer-events: none; }
-.logo-word small { display: block; margin-top: 9px; color: #292728; font-size: .48rem; font-weight: 300; letter-spacing: 5.2px; }
 .main-nav { align-self: stretch; }
 .main-nav ul { display: flex; height: 100%; gap: clamp(22px,2.2vw,38px); align-items: center; justify-content: center; }
 .main-nav a { position: relative; display: flex; align-items: center; height: 100%; color: #b8c8d2; font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.7px; }
@@ -197,8 +190,6 @@ body.modal-open { overflow: hidden; }
     .about-flex { flex-direction: column; }
     .main-header { padding: 10px 0; }
     .header-container { min-height: 50px; }
-    .logo-mark { width: 30px; height: 30px; }
-    .logo-word { font-size: 1.1rem; }
     .btn-primary-small { display: none; }
     .slider-controls { padding: 0 16px; }
     .slide-btn { width: 42px; height: 42px; }
@@ -226,9 +217,6 @@ body.modal-open { overflow: hidden; }
 .main-header::after { display: none; }
 .header-container { width: min(94%,1380px); min-height: 68px; padding: 8px 10px 8px 18px; grid-template-columns: minmax(205px,1fr) auto minmax(205px,1fr); gap: clamp(18px,2.4vw,42px); background: rgba(250,252,253,.92); border: 1px solid rgba(15,40,53,.12); border-radius: 12px; box-shadow: 0 14px 45px rgba(8,27,37,.14), inset 0 1px 0 rgba(255,255,255,.8); backdrop-filter: blur(18px) saturate(1.15); pointer-events: auto; }
 .logo a { gap: 0; }
-.logo-word { display: flex; align-items: baseline; gap: 10px; line-height: 1; }
-.logo-word strong { font-size: 1.75rem; letter-spacing: -2px; }
-.logo-word small { margin: 0; padding-left: 10px; border-left: 1px solid rgba(16,42,58,.16); font-size: .45rem; letter-spacing: .28em; }
 .main-nav { align-self: center; height: 44px; padding: 4px; background: rgba(16,42,58,.045); border: 1px solid rgba(16,42,58,.07); border-radius: 9px; }
 .main-nav ul { gap: 2px; }
 .main-nav a { height: 34px; padding: 0 13px; color: #61747e; border-radius: 6px; font-size: .71rem; letter-spacing: .045em; white-space: nowrap; }
@@ -242,7 +230,6 @@ body.modal-open { overflow: hidden; }
 
 @media (min-width: 769px) and (max-width: 1180px) {
     .header-container { grid-template-columns: auto 1fr auto; gap: 14px; }
-    .logo-word small { display: none; }
     .main-nav a { padding: 0 9px; font-size: .67rem; }
     .header-right { padding-left: 8px; }
 }
@@ -250,9 +237,6 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 768px) {
     .main-header { top: 8px; padding: 0; background: transparent; }
     .header-container { width: calc(100% - 16px); min-height: 62px; padding: 7px 8px 7px 14px; border-radius: 10px; }
-    .logo-word { display: block; }
-    .logo-word strong { font-size: 1.55rem; }
-    .logo-word small { display: block; margin-top: 6px; padding: 0; border: 0; font-size: .39rem; letter-spacing: .24em; }
     .header-right { margin-left: auto; padding-left: 8px; }
     .main-nav { position: fixed; inset: 78px 8px auto; height: auto; padding: 8px 14px 16px; background: rgba(250,252,253,.98); border: 1px solid rgba(16,42,58,.12); border-radius: 10px; box-shadow: 0 18px 45px rgba(8,27,37,.16); }
     .main-nav ul { padding: 0; }
@@ -334,9 +318,6 @@ body { color: var(--navy); background: var(--paper); }
 body::before { display: none; }
 .main-header { background: transparent; border-bottom-color: rgba(16,42,58,.12); box-shadow: 0 10px 35px rgba(20,50,67,.08); }
 .main-header::after { width: 24%; background: linear-gradient(90deg, transparent, var(--cyan)); opacity: .75; }
-.logo-word { color: var(--navy); }
-.logo-word strong { color: #201e1f; }
-.logo-word small { color: #292728; }
 .main-nav a { color: #536a77; }
 .main-nav a:hover, .main-nav a.active { color: #0a7899; }
 .lang-selector select { color: var(--navy); background: #fff; border-color: rgba(16,42,58,.18); color-scheme: light; }
@@ -615,7 +596,7 @@ body {
 }
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 700; line-height: 1.14; letter-spacing: -.025em; text-wrap: balance; }
 p { max-width: 68ch; text-wrap: pretty; }
-.logo-word, .hero-title { font-family: var(--font-display); }
+.hero-title { font-family: var(--font-display); }
 .main-nav a, .btn-primary-small, .form-submit, .section-label, .text-block .label, .references-note, .logo-card span, .contact-locations span { font-family: var(--font-body); font-weight: 600; }
 
 /* Official BaX Composites artwork supplied by the company. */
@@ -696,8 +677,6 @@ p { max-width: 68ch; text-wrap: pretty; }
 @media (max-width: 768px) {
     .main-header { z-index: 1000; }
     .header-container { width: calc(100% - 12px); min-height: 58px; padding: 6px 7px 6px 12px; gap: 7px; }
-    .logo-word strong { font-size: 1.35rem; }
-    .logo-word small { display: none; }
     .header-right { gap: 5px; margin-left: auto; padding-left: 0; border-left: 0; }
     .lang-selector { flex: 0 0 auto; }
     .lang-selector button { min-width: 29px; height: 34px; padding: 0 5px; }
@@ -744,7 +723,6 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 @media (max-width: 390px) {
     .header-container { gap: 4px; }
-    .logo-word strong { font-size: 1.2rem; }
     .lang-selector button { min-width: 26px; padding: 0 3px; }
     .mobile-menu-toggle { flex-basis: 38px; width: 38px; height: 38px; }
     .hero-slider .hero-content { width: calc(100% - 32px); }

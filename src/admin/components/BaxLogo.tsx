@@ -1,9 +1,10 @@
+import Image from 'next/image'
 import './admin-brand.scss'
 
 export default function BaxLogo() {
   return (
     <div className="bax-admin-logo" aria-label="BaX Composites">
-      <img src="/brand/bax-composites-original.svg" alt="BaX Composites" />
+      <Image src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority />
     </div>
   )
 }

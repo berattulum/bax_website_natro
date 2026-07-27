@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 type NavItem = {
@@ -83,7 +84,7 @@ export default function BaxNav() {
   return (
     <aside className="bax-nav">
       <a className="bax-nav__brand" href="/admin" aria-label="BaX içerik merkezi">
-        <img src="/brand/bax-composites-original.svg" alt="BaX Composites" />
+        <Image src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority />
         <span>CONTENT OPERATIONS</span>
       </a>
 

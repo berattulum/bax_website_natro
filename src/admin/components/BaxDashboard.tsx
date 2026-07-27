@@ -1,8 +1,12 @@
 import type { Payload } from 'payload'
+import { redirect } from 'next/navigation'
 import './admin-brand.scss'
 
 type DashboardProps = {
   payload: Payload
+  user?: {
+    id: number | string
+  } | null
 }
 
 type WorkspaceItem = {
@@ -20,7 +24,13 @@ type WorkspaceItem = {
 const text = (value: unknown, fallback: string) =>
   typeof value === 'string' && value.trim() ? value.replace(/<br\s*\/?>/gi, ' ') : fallback
 
-export default async function BaxDashboard({ payload }: DashboardProps) {
+export default async function BaxDashboard({ payload, user }: DashboardProps) {
+  // Payload permits custom admin views to render before its normal auth
+  // redirect. Never expose the operations dashboard without a valid session.
+  if (!user) {
+    redirect('/admin/login?redirect=/admin')
+  }
+
   const [site, expertise, partners, memberships, media, newMessages, activeMessages] =
     await Promise.all([
       payload.findGlobal({

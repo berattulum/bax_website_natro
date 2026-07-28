@@ -1024,3 +1024,36 @@ p { max-width: 68ch; text-wrap: pretty; }
         line-height: 1.4;
     }
 }
+/* Content-first smart navigation: it clears the reading area while scrolling
+   down and returns as soon as the visitor scrolls back up. */
+.main-header {
+  transition:
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease;
+  will-change: transform, opacity;
+}
+
+.main-header.is-visible,
+.menu-open .main-header {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.main-header.is-hidden {
+  transform: translate3d(0, calc(-100% - 24px), 0);
+  opacity: 0;
+}
+
+.main-header.is-hidden .header-container {
+  pointer-events: none;
+}
+
+.menu-open .main-header .header-container {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-header {
+    transition: none;
+  }
+}

@@ -39,12 +39,15 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [lang, setLang] = useState<Lang>('tr')
   const [activeSection, setActiveSection] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [headerHidden, setHeaderHidden] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [slide, setSlide] = useState(0)
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
   const [turnstileReady, setTurnstileReady] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
   const navigationLock = useRef<number | null>(null)
+  const headerRef = useRef<HTMLElement | null>(null)
+  const lastScrollY = useRef(0)
   const turnstileContainer = useRef<HTMLDivElement | null>(null)
   const turnstileWidgetId = useRef<string | null>(null)
   const content = locales[lang]
@@ -81,6 +84,42 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     document.body.classList.toggle('modal-open', modalOpen)
     return () => document.body.classList.remove('menu-open', 'modal-open')
   }, [menuOpen, modalOpen])
+
+  useEffect(() => {
+    let animationFrame = 0
+
+    const updateHeaderVisibility = () => {
+      animationFrame = 0
+      const currentScrollY = Math.max(window.scrollY, 0)
+      const scrollDelta = currentScrollY - lastScrollY.current
+      const headerHasFocus = headerRef.current?.contains(document.activeElement) ?? false
+
+      if (menuOpen || headerHasFocus || currentScrollY <= 96) {
+        setHeaderHidden(false)
+      } else if (scrollDelta > 6) {
+        setHeaderHidden(true)
+      } else if (scrollDelta < -4) {
+        setHeaderHidden(false)
+      }
+
+      lastScrollY.current = currentScrollY
+    }
+
+    const requestVisibilityUpdate = () => {
+      if (animationFrame === 0) {
+        animationFrame = window.requestAnimationFrame(updateHeaderVisibility)
+      }
+    }
+
+    lastScrollY.current = window.scrollY
+    updateHeaderVisibility()
+    window.addEventListener('scroll', requestVisibilityUpdate, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', requestVisibilityUpdate)
+      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame)
+    }
+  }, [menuOpen])
 
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
@@ -126,8 +165,8 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       animationFrame = 0
       if (navigationLock.current !== null || sections.length === 0) return
 
-      const headerBottom = document.querySelector<HTMLElement>('.header-container')?.getBoundingClientRect().bottom ?? 84
-      const probeLine = headerBottom + Math.min(window.innerHeight * 0.18, 140)
+      const headerHeight = document.querySelector<HTMLElement>('.header-container')?.offsetHeight ?? 84
+      const probeLine = headerHeight + Math.min(window.innerHeight * 0.18, 140)
       let nextSection = sections[0].id
 
       for (const section of sections) {
@@ -233,7 +272,11 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       strategy="afterInteractive"
       onLoad={() => setTurnstileReady(true)}
     />
-    <header className="main-header">
+    <header
+      ref={headerRef}
+      className={`main-header${headerHidden ? ' is-hidden' : ' is-visible'}`}
+      onFocusCapture={() => setHeaderHidden(false)}
+    >
       <div className="container header-container">
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel}><ul>

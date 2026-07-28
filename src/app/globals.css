@@ -2006,7 +2006,7 @@ body {
   inset: 0;
   background: rgba(255, 255, 255, .94);
   transform-origin: left;
-  animation: opening-progress 7s linear both;
+  animation: opening-progress 6s linear both;
 }
 
 @keyframes opening-copy-in {

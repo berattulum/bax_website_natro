@@ -114,7 +114,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   }, [modalOpen, turnstileReady])
 
   useEffect(() => {
-    const timer = window.setInterval(() => setSlide((current) => (current + 1) % 3), 7000)
+    const timer = window.setInterval(() => setSlide((current) => (current + 1) % 3), 6000)
     return () => window.clearInterval(timer)
   }, [])
 

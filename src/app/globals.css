@@ -1734,6 +1734,172 @@ p { max-width: 68ch; text-wrap: pretty; }
   }
 }
 
+/* Refined BaX palette: warm neutral surfaces, deep petrol structure and
+   restrained turquoise reserved for meaningful interaction and emphasis. */
+:root {
+  --ink: #071b24;
+  --panel: #0b2631;
+  --panel-soft: #12313c;
+  --line: rgba(145, 166, 169, .2);
+  --cyan: #18a6b8;
+  --blue: #2d5668;
+  --ice: #e4f3f2;
+  --muted: #9aafb2;
+  --paper: #f6f7f4;
+  --paper-blue: #eef2ef;
+  --navy: #173a46;
+  --copy: #60747c;
+}
+
+body {
+  color: var(--navy);
+  background: var(--paper);
+}
+
+.hero-section {
+  background: var(--ink);
+}
+
+.hero-video,
+.slide-bg {
+  filter: saturate(.52) contrast(.96) brightness(.83);
+}
+
+.hero-overlay {
+  background:
+    linear-gradient(90deg, rgba(5, 22, 29, .92) 0%, rgba(7, 28, 36, .61) 49%, rgba(7, 24, 31, .2) 100%),
+    linear-gradient(0deg, rgba(5, 20, 27, .7), transparent 56%);
+}
+
+.hero-subtitle,
+.section-label,
+.text-block .label,
+.contact-locations span,
+.contact-mail {
+  color: var(--cyan);
+}
+
+.hero-subtitle::before {
+  background: var(--cyan);
+  box-shadow: none;
+}
+
+.about-section,
+.principles-section,
+.references-section {
+  background: #fbfcf9;
+}
+
+.expertise-section,
+.memberships-section {
+  background: var(--paper-blue);
+}
+
+.process-section {
+  background: var(--paper);
+}
+
+.expertise-item:hover,
+.principle-card,
+.logo-card,
+.membership-card:hover {
+  background: #fff;
+}
+
+.expertise-item:hover .item-number,
+.logo-card:hover::after,
+.main-nav a:hover,
+.main-nav a.active {
+  color: var(--cyan);
+}
+
+.text-block {
+  background: linear-gradient(145deg, #103441, #071f29);
+}
+
+.text-block p {
+  color: #c3d1d2;
+}
+
+.contact-section {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(24, 166, 184, .08), transparent 28%),
+    #eef2ef;
+}
+
+.site-footer {
+  background: #071b24;
+}
+
+.header-container {
+  background: rgba(250, 251, 248, .84);
+  box-shadow:
+    0 18px 50px rgba(7, 27, 36, .1),
+    0 2px 8px rgba(7, 27, 36, .04),
+    inset 0 0 0 1px rgba(23, 58, 70, .05);
+}
+
+.main-nav a {
+  color: #60747c;
+}
+
+.main-nav a.active {
+  color: #153742;
+  background: rgba(24, 166, 184, .1);
+}
+
+.nav-dot {
+  background: var(--cyan);
+  box-shadow: 0 0 0 4px rgba(24, 166, 184, .1);
+}
+
+.btn-primary-small,
+.mobile-menu-toggle {
+  background: #173a46;
+}
+
+.btn-primary-small:hover {
+  background: #117f90;
+}
+
+.lang-selector button.active {
+  color: #173a46;
+}
+
+.legal-shell,
+.legal-hub {
+  background:
+    radial-gradient(circle at 88% 4%, rgba(24, 166, 184, .075), transparent 25rem),
+    var(--paper);
+}
+
+.legal-layout,
+.legal-card-grid {
+  background: #fbfcf9;
+}
+
+.legal-aside,
+.legal-definition-grid article,
+.legal-methods article,
+.legal-company-data {
+  background: var(--paper-blue);
+}
+
+.legal-download,
+.legal-inline-download,
+.legal-home-link span {
+  background: #173a46;
+}
+
+.legal-eyebrow,
+.legal-card-index,
+.legal-section-heading > span,
+.legal-meta span,
+.legal-aside > span,
+.legal-preview-note > span {
+  color: var(--cyan);
+}
+
 @media (max-width: 768px) {
   .main-header {
     top: 9px;

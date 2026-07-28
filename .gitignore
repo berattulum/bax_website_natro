@@ -8,5 +8,6 @@ src/payload-types.ts
 media
 .pnpm-store
 tmp
+*.tsbuildinfo
 .agents
 /ucak-video.mp4

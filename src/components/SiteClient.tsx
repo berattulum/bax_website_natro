@@ -39,15 +39,12 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [lang, setLang] = useState<Lang>('tr')
   const [activeSection, setActiveSection] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
-  const [headerHidden, setHeaderHidden] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [slide, setSlide] = useState(0)
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
   const [turnstileReady, setTurnstileReady] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
   const navigationLock = useRef<number | null>(null)
-  const headerRef = useRef<HTMLElement | null>(null)
-  const lastScrollY = useRef(0)
   const turnstileContainer = useRef<HTMLDivElement | null>(null)
   const turnstileWidgetId = useRef<string | null>(null)
   const content = locales[lang]
@@ -84,42 +81,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     document.body.classList.toggle('modal-open', modalOpen)
     return () => document.body.classList.remove('menu-open', 'modal-open')
   }, [menuOpen, modalOpen])
-
-  useEffect(() => {
-    let animationFrame = 0
-
-    const updateHeaderVisibility = () => {
-      animationFrame = 0
-      const currentScrollY = Math.max(window.scrollY, 0)
-      const scrollDelta = currentScrollY - lastScrollY.current
-      const headerHasFocus = headerRef.current?.contains(document.activeElement) ?? false
-
-      if (menuOpen || headerHasFocus || currentScrollY <= 96) {
-        setHeaderHidden(false)
-      } else if (scrollDelta > 6) {
-        setHeaderHidden(true)
-      } else if (scrollDelta < -4) {
-        setHeaderHidden(false)
-      }
-
-      lastScrollY.current = currentScrollY
-    }
-
-    const requestVisibilityUpdate = () => {
-      if (animationFrame === 0) {
-        animationFrame = window.requestAnimationFrame(updateHeaderVisibility)
-      }
-    }
-
-    lastScrollY.current = window.scrollY
-    updateHeaderVisibility()
-    window.addEventListener('scroll', requestVisibilityUpdate, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', requestVisibilityUpdate)
-      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame)
-    }
-  }, [menuOpen])
 
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
@@ -272,18 +233,14 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       strategy="afterInteractive"
       onLoad={() => setTurnstileReady(true)}
     />
-    <header
-      ref={headerRef}
-      className={`main-header${headerHidden ? ' is-hidden' : ' is-visible'}`}
-      onFocusCapture={() => setHeaderHidden(false)}
-    >
+    <header className="main-header">
       <div className="container header-container">
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel}><ul>
-          {navigationItems.map(([label, id]) => <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}>{label}</a></li>)}
+          {navigationItems.map(([label, id]) => <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a></li>)}
         </ul></nav>
         <button type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-label={copy.mobileMenuLabel} onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>
-        <div className="header-right"><div className="lang-selector" role="group" aria-label={copy.languageLabel}><button type="button" className={lang === 'tr' ? 'active' : ''} aria-pressed={lang === 'tr'} onClick={() => setLang('tr')}>TR</button><button type="button" className={lang === 'en' ? 'active' : ''} aria-pressed={lang === 'en'} onClick={() => setLang('en')}>EN</button></div><button type="button" className="btn-primary-small" onClick={() => setModalOpen(true)}>{copy.contactUs}</button></div>
+        <div className="header-right"><div className="lang-selector" role="group" aria-label={copy.languageLabel}><button type="button" className={lang === 'tr' ? 'active' : ''} aria-pressed={lang === 'tr'} onClick={() => setLang('tr')}>TR</button><button type="button" className={lang === 'en' ? 'active' : ''} aria-pressed={lang === 'en'} onClick={() => setLang('en')}>EN</button></div><button type="button" className="btn-primary-small" onClick={() => setModalOpen(true)}><span>{copy.contactUs}</span><span className="cta-arrow" aria-hidden="true">↗</span></button></div>
       </div>
     </header>
 

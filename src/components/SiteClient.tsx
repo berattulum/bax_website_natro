@@ -50,7 +50,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [lang, setLang] = useState<Lang>('tr')
   const [activeSection, setActiveSection] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
-  const [headerScrolled, setHeaderScrolled] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [slide, setSlide] = useState(0)
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
@@ -93,23 +92,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     document.body.classList.toggle('modal-open', modalOpen)
     return () => document.body.classList.remove('menu-open', 'modal-open')
   }, [menuOpen, modalOpen])
-
-  useEffect(() => {
-    let animationFrame = 0
-    const updateHeader = () => {
-      animationFrame = 0
-      setHeaderScrolled(window.scrollY > 56)
-    }
-    const requestUpdate = () => {
-      if (animationFrame === 0) animationFrame = window.requestAnimationFrame(updateHeader)
-    }
-    updateHeader()
-    window.addEventListener('scroll', requestUpdate, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', requestUpdate)
-      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame)
-    }
-  }, [])
 
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
@@ -261,7 +243,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       strategy="afterInteractive"
       onLoad={() => setTurnstileReady(true)}
     />
-    <header className={`main-header ${headerScrolled ? 'is-scrolled' : 'is-hero'}`}>
+    <header className="main-header is-hero">
       <div className="container header-container">
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel}><ul>

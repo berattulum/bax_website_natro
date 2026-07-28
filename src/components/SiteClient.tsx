@@ -32,7 +32,7 @@ function Heading({ text, materialTailWords = 0 }: { text: string; materialTailWo
       const splitAt = Math.max(words.length - materialTailWords, 1)
       const lead = words.slice(0, splitAt).join(' ')
       const accent = words.slice(splitAt).join(' ')
-      return <span key={`${cleanLine}-${index}`}>{index > 0 && <br />}{lead}{accent && <> <span className="is-material">{accent}</span></>}</span>
+      return <span key={`${cleanLine}-${index}`}>{index > 0 && <br />}{lead}{accent && <><br /><span className="is-material">{accent}</span></>}</span>
     }
     return <span className={materialAccent ? 'is-material' : undefined} key={`${cleanLine}-${index}`}>{index > 0 && <br />}{cleanLine}</span>
   })}</>
@@ -50,6 +50,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [lang, setLang] = useState<Lang>('tr')
   const [activeSection, setActiveSection] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [headerScrolled, setHeaderScrolled] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [slide, setSlide] = useState(0)
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
@@ -92,6 +93,23 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     document.body.classList.toggle('modal-open', modalOpen)
     return () => document.body.classList.remove('menu-open', 'modal-open')
   }, [menuOpen, modalOpen])
+
+  useEffect(() => {
+    let animationFrame = 0
+    const updateHeader = () => {
+      animationFrame = 0
+      setHeaderScrolled(window.scrollY > 56)
+    }
+    const requestUpdate = () => {
+      if (animationFrame === 0) animationFrame = window.requestAnimationFrame(updateHeader)
+    }
+    updateHeader()
+    window.addEventListener('scroll', requestUpdate, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', requestUpdate)
+      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame)
+    }
+  }, [])
 
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
@@ -243,7 +261,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       strategy="afterInteractive"
       onLoad={() => setTurnstileReady(true)}
     />
-    <header className="main-header">
+    <header className={`main-header ${headerScrolled ? 'is-scrolled' : 'is-hero'}`}>
       <div className="container header-container">
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel}><ul>
@@ -263,7 +281,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         aria-hidden={index !== slide}
       >
         {index === 0 ? <video autoPlay loop muted playsInline preload="metadata" poster="/assets/aircraft-hero-poster.webp" className="hero-video"><source src="/ucak-video.mp4" type="video/mp4" /></video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
-        <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{slideContent[0]}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p>{index === 0 && <div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a><button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button></div>}</div>
+        <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{slideContent[0]}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p><div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a>{index === 0 && <button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button>}</div></div>
       </div>)}
       <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>
     </div></section>

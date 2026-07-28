@@ -1,4 +1,5 @@
 import type { SiteUISettings } from '@/lib/cms/site-settings-defaults'
+import type { CSSProperties } from 'react'
 
 type ExpertiseItem = { order: number; title: string; description: string }
 type Partner = { name: string; caption: string; website: string; logo: string }
@@ -13,11 +14,11 @@ function SafeHeading({ text }: { text: string }) {
 
 export function ExpertiseSection({ items }: { items: ExpertiseItem[] }) {
   return (
-    <section id="expertise" className="expertise-section">
+    <section id="expertise" className="expertise-section scroll-reveal">
       <div className="container">
         <div className="expertise-wrapper">
           {items.map((item) => (
-            <div className="expertise-item" key={item.order}>
+            <div className="expertise-item" style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
               <h3 data-i18n={`expertise${item.order}Title`}>{item.title}</h3>
               <p data-i18n={`expertise${item.order}Description`}>{item.description}</p>
             </div>

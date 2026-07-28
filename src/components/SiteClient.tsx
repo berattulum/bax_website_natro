@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react'
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type FormEvent, type MouseEvent } from 'react'
 import Image from 'next/image'
 import Script from 'next/script'
 import { ExpertiseSection, MembershipsSection, ReferencesSection, type ManagedLocale } from './ManagedSections'
@@ -43,7 +43,7 @@ function Address({ text }: { text?: string }) {
 }
 
 function NarrativeScene({ scene }: { scene: readonly [string, string, string, string] }) {
-  return <section className="slide in-view narrative-scene"><div className={`slide-bg ${scene[3]}`} role="img" aria-label={scene[1]} /><div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{scene[0]}</h2><h2 className="hero-title"><Heading text={scene[1]} materialTailWords={1} /></h2><p className="hero-description">{scene[2]}</p></div></section>
+  return <section className="slide in-view narrative-scene scroll-scene" data-scroll-scene><div className={`slide-bg ${scene[3]}`} role="img" aria-label={scene[1]} /><div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{scene[0]}</h2><h2 className="hero-title"><Heading text={scene[1]} materialTailWords={1} /></h2><p className="hero-description">{scene[2]}</p></div></section>
 }
 
 export default function SiteClient({ locales }: { locales: Locales }) {
@@ -123,6 +123,55 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       setTurnstileToken('')
     }
   }, [modalOpen, turnstileReady])
+
+  useEffect(() => {
+    const revealSections = Array.from(document.querySelectorAll<HTMLElement>('.scroll-reveal'))
+    const scrollScenes = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-scene], .process-section'))
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (reducedMotion) {
+      revealSections.forEach((section) => section.classList.add('is-revealed'))
+      return
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' })
+
+    revealSections.forEach((section) => observer.observe(section))
+
+    let animationFrame = 0
+    const updateScrollScenes = () => {
+      animationFrame = 0
+      const viewportHeight = window.innerHeight
+      scrollScenes.forEach((scene) => {
+        const bounds = scene.getBoundingClientRect()
+        const progress = Math.min(1, Math.max(0, (viewportHeight - bounds.top) / (viewportHeight + bounds.height)))
+        scene.style.setProperty('--scroll-progress', progress.toFixed(4))
+        scene.style.setProperty('--content-shift', `${((progress - 0.5) * -34).toFixed(2)}px`)
+        scene.style.setProperty('--media-shift', `${((progress - 0.5) * -6).toFixed(2)}%`)
+      })
+    }
+    const requestSceneUpdate = () => {
+      if (animationFrame === 0) animationFrame = window.requestAnimationFrame(updateScrollScenes)
+    }
+
+    updateScrollScenes()
+    window.addEventListener('scroll', requestSceneUpdate, { passive: true })
+    window.addEventListener('resize', requestSceneUpdate)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', requestSceneUpdate)
+      window.removeEventListener('resize', requestSceneUpdate)
+      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame)
+    }
+  }, [])
 
   useEffect(() => {
     const timer = window.setInterval(() => setSlide((current) => (current + 1) % 3), 6000)
@@ -215,7 +264,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   function renderSection(section: typeof visibleSections[number]['section']) {
     switch (section) {
       case 'about':
-        return <section id="about" className="about-section"><div className="container"><div className="about-flex"><div className="about-text"><h2><Heading text={d.aboutTitle || ''} /></h2></div><div className="about-desc"><p>{d.aboutDescription}</p><p>{d.aboutGoal}</p></div></div></div></section>
+        return <section id="about" className="about-section scroll-reveal"><div className="container"><div className="about-flex"><div className="about-text"><h2><Heading text={d.aboutTitle || ''} /></h2></div><div className="about-desc"><p>{d.aboutDescription}</p><p>{d.aboutGoal}</p></div></div></div></section>
       case 'designNarrative':
         return <NarrativeScene scene={settings.narratives[0]} />
       case 'expertise':
@@ -223,7 +272,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'manufacturingNarrative':
         return <NarrativeScene scene={settings.narratives[1]} />
       case 'process':
-        return <section className="process-section" aria-labelledby="process-title"><div className="container"><div className="process-heading"><span className="section-label">{copy.processLabel}</span><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text]) => <li key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
+        return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><span className="section-label">{copy.processLabel}</span><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':
         return <section className="principles-section" aria-labelledby="principles-title"><div className="container"><div className="principles-heading"><h2 id="principles-title">{copy.principlesTitle}</h2></div><div className="principles-grid">{[['V', d.visionTitle, d.visionText], ['M', d.missionTitle, d.missionText], ['D', d.valuesTitle, d.valuesText]].map(([letter, title, text]) => <article className="principle-card" key={letter}><span>{letter}</span><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
       case 'solutions':

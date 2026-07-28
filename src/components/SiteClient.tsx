@@ -24,7 +24,11 @@ type TurnstileApi = {
 }
 
 function Heading({ text }: { text: string }) {
-  return <>{text.replace(/<\/?span>/gi, '').split(/<br\s*\/?>/gi).map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</>
+  return <>{text.split(/<br\s*\/?>/gi).map((line, index) => {
+    const materialAccent = /<span>/i.test(line)
+    const cleanLine = line.replace(/<\/?span>/gi, '')
+    return <span className={materialAccent ? 'is-material' : undefined} key={`${cleanLine}-${index}`}>{index > 0 && <br />}{cleanLine}</span>
+  })}</>
 }
 
 function Address({ text }: { text?: string }) {

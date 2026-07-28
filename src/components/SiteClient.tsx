@@ -43,7 +43,7 @@ function Address({ text }: { text?: string }) {
 }
 
 function NarrativeScene({ scene }: { scene: readonly [string, string, string, string] }) {
-  return <section className="slide in-view narrative-scene"><div className={`slide-bg ${scene[3]}`} role="img" aria-label={scene[1]} /><div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{scene[0]}</h2><h2 className="hero-title"><Heading text={scene[1]} /></h2><p className="hero-description">{scene[2]}</p></div></section>
+  return <section className="slide in-view narrative-scene"><div className={`slide-bg ${scene[3]}`} role="img" aria-label={scene[1]} /><div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{scene[0]}</h2><h2 className="hero-title"><Heading text={scene[1]} materialTailWords={1} /></h2><p className="hero-description">{scene[2]}</p></div></section>
 }
 
 export default function SiteClient({ locales }: { locales: Locales }) {

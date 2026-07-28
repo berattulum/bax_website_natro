@@ -1199,6 +1199,97 @@ p { max-width: 68ch; text-wrap: pretty; }
   }
 }
 
+/* Full-screen narrative scenes share the opening sequence's material language. */
+.narrative-scene .hero-content {
+  max-width: 1200px;
+}
+
+.narrative-scene .hero-subtitle {
+  gap: 10px;
+  margin-bottom: 22px;
+  color: #b9cbcd;
+  font-family: var(--font-body);
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .13em;
+}
+
+.narrative-scene .hero-subtitle::before {
+  width: 24px;
+  background: var(--cyan);
+}
+
+.narrative-scene .hero-title {
+  max-width: 900px;
+  margin-bottom: 27px;
+  color: #f5f7f4;
+  font-family: var(--font-body);
+  font-size: clamp(3.4rem, 6.1vw, 6.1rem);
+  font-weight: 500;
+  line-height: .98;
+  letter-spacing: -.06em;
+}
+
+.narrative-scene .hero-title span {
+  color: #f5f7f4;
+  -webkit-text-stroke: 0;
+  text-shadow: 0 4px 26px rgba(0, 0, 0, .22);
+}
+
+.narrative-scene .hero-title .is-material {
+  color: transparent;
+  background:
+    linear-gradient(104deg, #8b9b9e 0%, #f4f6f2 28%, #87999d 52%, #dfe8e6 72%, #778b90 100%),
+    url('/assets/carbon-weave.jpg') center / 190px auto repeat;
+  background-blend-mode: soft-light;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0;
+  filter: drop-shadow(0 5px 18px rgba(0, 0, 0, .24));
+}
+
+.narrative-scene.in-view .hero-title .is-material {
+  animation: carbon-type-shift 7s ease-in-out both;
+}
+
+.narrative-scene .hero-description {
+  max-width: 58ch;
+  color: #c8d4d3;
+  font-family: var(--font-body);
+  font-size: clamp(.98rem, 1.15vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: -.006em;
+}
+
+@media (max-width: 768px) {
+  .narrative-scene .hero-title {
+    max-width: 14ch;
+    margin-bottom: 16px;
+    font-size: clamp(2.1rem, 10vw, 3rem);
+    line-height: 1;
+    letter-spacing: -.05em;
+  }
+
+  .narrative-scene .hero-subtitle {
+    margin-bottom: 13px;
+    font-size: .6rem;
+    letter-spacing: .1em;
+  }
+
+  .narrative-scene .hero-description {
+    font-size: .9rem;
+    line-height: 1.58;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .narrative-scene.in-view .hero-title .is-material {
+    animation: none;
+  }
+}
+
 /* Opening typography: restrained engineering type with a real carbon-weave
    accent only on the content-managed highlighted line. */
 .opening-slide .hero-subtitle {

@@ -196,7 +196,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
 
   const mainSlide = [d.hero1Subtitle, d.hero1Title, d.hero1Description] as const
   const slides = [mainSlide, ...settings.hero.secondarySlides]
-  const active = slides[slide]
   const visibleSections = content.sectionLayout.filter((item) => item.enabled)
   const visibleSectionKeys = new Set(visibleSections.map((item) => item.section))
   const navigationItems = [[copy.home, 'home'], [copy.about, 'about'], [copy.expertise, 'expertise'], [copy.references, 'references'], [copy.memberships, 'memberships'], [copy.contact, 'contact']]
@@ -245,15 +244,16 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     </header>
 
     <section id="home" className="hero-section"><div className="hero-slider">
-      <div
-        className="slide opening-slide active"
+      {slides.map((slideContent, index) => <div
+        key={`${lang}-${index}`}
+        className={`slide opening-slide${index === slide ? ' active' : ''}`}
         data-language={lang}
-        data-slide-index={slide}
-        aria-hidden="false"
+        data-slide-index={index}
+        aria-hidden={index !== slide}
       >
-        {slide === 0 ? <video autoPlay loop muted playsInline preload="metadata" poster="/assets/aircraft-hero-poster.webp" className="hero-video"><source src="/ucak-video.mp4" type="video/mp4" /></video> : <div className={`slide-bg ${active[3] || ''}`} />}
-        <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{active[0]}</h2><h1 className="hero-title"><Heading text={active[1] || ''} /></h1><p className="hero-description">{active[2]}</p>{slide === 0 && <div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a><button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button></div>}</div>
-      </div>
+        {index === 0 ? <video autoPlay loop muted playsInline preload="metadata" poster="/assets/aircraft-hero-poster.webp" className="hero-video"><source src="/ucak-video.mp4" type="video/mp4" /></video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
+        <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{slideContent[0]}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} /></h1><p className="hero-description">{slideContent[2]}</p>{index === 0 && <div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a><button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button></div>}</div>
+      </div>)}
       <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>
     </div></section>
 

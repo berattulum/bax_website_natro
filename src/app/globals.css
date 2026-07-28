@@ -1199,6 +1199,167 @@ p { max-width: 68ch; text-wrap: pretty; }
   }
 }
 
+/* About chapter — transition from the cinematic opening */
+.about-section {
+  z-index: 4;
+  padding-block: clamp(130px, 11vw, 180px);
+  overflow: clip;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(45,179,198,.07), transparent 26%),
+    linear-gradient(135deg, #f4f6f4 0%, #e9eeec 100%);
+}
+
+.about-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .17;
+  background-image:
+    linear-gradient(135deg, rgba(19,56,69,.08) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(19,56,69,.08) 25%, transparent 25%);
+  background-position: 0 0, 9px 9px;
+  background-size: 18px 18px;
+  mask-image: linear-gradient(90deg, #000, transparent 46%);
+  pointer-events: none;
+}
+
+.about-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.about-section .about-flex {
+  display: grid;
+  align-items: flex-start;
+  grid-template-columns: minmax(300px, .82fr) minmax(500px, 1.18fr);
+  gap: clamp(70px, 9vw, 145px);
+}
+
+.about-section .about-text {
+  position: sticky;
+  top: clamp(50px, 10vh, 110px);
+  padding-top: clamp(18px, 3vw, 42px);
+}
+
+.about-section .about-text h2 {
+  max-width: 10ch;
+  font-size: clamp(3.3rem, 5.1vw, 5.8rem);
+  line-height: .94;
+  letter-spacing: -.065em;
+}
+
+.about-section .about-desc {
+  position: relative;
+  min-height: clamp(470px, 47vw, 610px);
+  padding: clamp(58px, 6vw, 92px);
+  overflow: hidden;
+  color: #eef4f3;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.055), transparent 36%),
+    #0b242e;
+  box-shadow: 0 35px 90px rgba(8,32,42,.18);
+}
+
+.about-section .about-desc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .14;
+  background:
+    repeating-linear-gradient(135deg, rgba(120,213,224,.2) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.1) 0 1px, transparent 1px 12px);
+  mask-image: linear-gradient(135deg, transparent 20%, #000 100%);
+  pointer-events: none;
+}
+
+.about-section .about-desc::after {
+  content: "COMPOSITE";
+  position: absolute;
+  right: -9px;
+  bottom: -17px;
+  color: rgba(255,255,255,.035);
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: 700;
+  letter-spacing: -.06em;
+  pointer-events: none;
+}
+
+.about-section .about-desc p {
+  position: relative;
+  z-index: 1;
+  max-width: 47ch;
+  color: rgba(235,244,243,.8);
+  font-size: clamp(1rem, 1.15vw, 1.14rem);
+  line-height: 1.85;
+}
+
+.about-section .about-desc p + p {
+  margin-top: 30px;
+}
+
+.about-section.scroll-reveal .about-desc {
+  transform: translate3d(72px, 48px, 0);
+}
+
+.about-section.scroll-reveal.is-revealed .about-desc {
+  transform: translate3d(0, 0, 0);
+}
+
+@media (max-width: 900px) {
+  .about-section {
+    padding-block: 96px;
+  }
+
+  .about-section .about-flex {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .about-section .about-text {
+    position: static;
+    padding-top: 0;
+  }
+
+  .about-section .about-text h2 {
+    max-width: 12ch;
+    font-size: clamp(2.7rem, 9vw, 4.4rem);
+  }
+
+  .about-section .about-desc {
+    min-height: 0;
+    padding: clamp(38px, 8vw, 58px);
+  }
+}
+
+@media (max-width: 560px) {
+  .about-section {
+    padding-block: 76px;
+  }
+
+  .about-section::before {
+    opacity: .1;
+  }
+
+  .about-section .about-flex {
+    gap: 34px;
+  }
+
+  .about-section .about-text h2 {
+    font-size: clamp(2.35rem, 12vw, 3.5rem);
+  }
+
+  .about-section .about-desc {
+    margin-inline: calc(var(--page-gutter) * -.35);
+    padding: 34px 28px 42px;
+  }
+
+  .about-section .about-desc p {
+    font-size: .94rem;
+    line-height: 1.75;
+  }
+}
+
 /* Final authority for the cinematic hero, kept after legacy compatibility rules. */
 .main-header.is-hero .header-container {
   background: transparent;

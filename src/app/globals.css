@@ -1234,7 +1234,7 @@ p { max-width: 68ch; text-wrap: pretty; }
   text-shadow: 0 4px 26px rgba(0, 0, 0, .22);
 }
 
-.opening-slide .hero-title > .is-material {
+.opening-slide .hero-title .is-material {
   color: transparent;
   background:
     linear-gradient(104deg, #8b9b9e 0%, #f4f6f2 28%, #87999d 52%, #dfe8e6 72%, #778b90 100%),
@@ -1246,7 +1246,7 @@ p { max-width: 68ch; text-wrap: pretty; }
   filter: drop-shadow(0 5px 18px rgba(0, 0, 0, .24));
 }
 
-.opening-slide.active .hero-title > .is-material {
+.opening-slide.active .hero-title .is-material {
   animation: carbon-type-shift 6s ease-in-out both;
 }
 
@@ -1286,8 +1286,91 @@ p { max-width: 68ch; text-wrap: pretty; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .opening-slide.active .hero-title > .is-material {
+  .opening-slide.active .hero-title .is-material {
     animation: none;
+  }
+}
+
+/* Unified corporate type system */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: -.035em;
+}
+
+.about-text h2,
+.process-heading h2,
+.principles-heading h2,
+.references-heading h2,
+.memberships-heading h2,
+.contact-intro h2,
+.text-block h2,
+.contact-dialog h2 {
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.03;
+  letter-spacing: -.052em;
+}
+
+.expertise-item h3,
+.process-track h3,
+.principle-card h3,
+.image-block .overlay h3,
+.membership-meta strong,
+.legal-card h2,
+.legal-section-heading h2,
+.legal-definition-grid h3,
+.legal-methods h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: -.022em;
+}
+
+.section-label,
+.text-block .label,
+.references-note,
+.contact-locations span,
+.footer-grid h3,
+.legal-eyebrow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: .12em;
+}
+
+.opening-slide .hero-title .is-material {
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.opening-slide .hero-title > span > .is-material {
+  display: inline;
+}
+
+.opening-slide.active .hero-title > span > .is-material {
+  animation: carbon-type-shift 6s ease-in-out both;
+}
+
+.legal-hero h1,
+.legal-hub-hero h1 {
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .about-text h2,
+  .process-heading h2,
+  .principles-heading h2,
+  .references-heading h2,
+  .memberships-heading h2,
+  .contact-intro h2,
+  .text-block h2 {
+    line-height: 1.07;
+    letter-spacing: -.043em;
   }
 }
 

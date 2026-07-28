@@ -23,10 +23,17 @@ type TurnstileApi = {
   remove: (widgetId: string) => void
 }
 
-function Heading({ text }: { text: string }) {
+function Heading({ text, materialTailWords = 0 }: { text: string; materialTailWords?: number }) {
   return <>{text.split(/<br\s*\/?>/gi).map((line, index) => {
     const materialAccent = /<span>/i.test(line)
     const cleanLine = line.replace(/<\/?span>/gi, '')
+    if (!materialAccent && materialTailWords > 0) {
+      const words = cleanLine.trim().split(/\s+/)
+      const splitAt = Math.max(words.length - materialTailWords, 1)
+      const lead = words.slice(0, splitAt).join(' ')
+      const accent = words.slice(splitAt).join(' ')
+      return <span key={`${cleanLine}-${index}`}>{index > 0 && <br />}{lead}{accent && <> <span className="is-material">{accent}</span></>}</span>
+    }
     return <span className={materialAccent ? 'is-material' : undefined} key={`${cleanLine}-${index}`}>{index > 0 && <br />}{cleanLine}</span>
   })}</>
 }
@@ -256,7 +263,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         aria-hidden={index !== slide}
       >
         {index === 0 ? <video autoPlay loop muted playsInline preload="metadata" poster="/assets/aircraft-hero-poster.webp" className="hero-video"><source src="/ucak-video.mp4" type="video/mp4" /></video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
-        <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{slideContent[0]}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} /></h1><p className="hero-description">{slideContent[2]}</p>{index === 0 && <div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a><button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button></div>}</div>
+        <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{slideContent[0]}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p>{index === 0 && <div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a><button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button></div>}</div>
       </div>)}
       <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>
     </div></section>

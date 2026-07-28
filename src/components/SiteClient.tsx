@@ -264,7 +264,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   function renderSection(section: typeof visibleSections[number]['section']) {
     switch (section) {
       case 'about':
-        return <section id="about" className="about-section about-showcase scroll-reveal"><div className="container about-showcase-grid"><div className="about-intro"><h2><Heading text={d.aboutTitle || ''} /></h2><p>{d.aboutDescription}</p><p>{d.aboutGoal}</p></div><div className="about-capability-grid">{[settings.narratives[0], settings.narratives[1]].map((scene, index) => <article className={`about-capability-card ${scene[3]}`} style={{ '--card-order': index + 1 } as CSSProperties} key={scene[1]}><div className="about-card-shade" /><div className="about-card-content"><h3>{scene[1].replace(/<br\s*\/?>/gi, ' ')}</h3><p>{scene[2]}</p></div></article>)}</div></div></section>
+        return <section id="about" className="about-section scroll-reveal"><div className="container"><div className="about-flex"><div className="about-text"><h2><Heading text={d.aboutTitle || ''} /></h2></div><div className="about-desc"><p>{d.aboutDescription}</p><p>{d.aboutGoal}</p></div></div></div></section>
       case 'designNarrative':
         return <NarrativeScene scene={settings.narratives[0]} />
       case 'expertise':

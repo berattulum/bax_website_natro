@@ -2761,6 +2761,7 @@ body {
 }
 
 /* Cinematic hero final cascade */
+.main-header { position: absolute; }
 .main-header.is-hero .header-container { background: transparent; border-color: transparent; box-shadow: none; backdrop-filter: none; }
 .main-header.is-hero .brand-logo-header { filter: invert(1) grayscale(1) brightness(2.2); }
 .main-header.is-hero .main-nav a { color: rgba(255,255,255,.78); background: transparent; }

@@ -1,132 +1,122 @@
 'use client'
 
-import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import React, { useState } from 'react'
 
-type NavItem = {
+type NavItemProps = {
+  copy: string
   href: string
   label: string
-  detail: string
-  match?: string
-  external?: boolean
+  marker: string
 }
 
-const groups: Array<{ label: string; items: NavItem[] }> = [
-  {
-    label: 'Çalışma alanı',
-    items: [
-      { href: '/admin', label: 'İçerik merkezi', detail: 'Genel görünüm', match: '/admin' },
-      { href: '/', label: 'Canlı web sitesi', detail: 'Yeni sekmede aç', external: true },
-    ],
-  },
-  {
-    label: 'Web sitesi',
-    items: [
-      {
-        href: '/admin/globals/site-content',
-        label: 'Ana sayfa ve kurumsal',
-        detail: 'Metinler · düzen · SEO',
-        match: '/admin/globals/site-content',
-      },
-      {
-        href: '/admin/globals/site-settings',
-        label: 'Arayüz ve sistem metinleri',
-        detail: 'Header · footer · form · butonlar',
-        match: '/admin/globals/site-settings',
-      },
-      {
-        href: '/admin/collections/expertise-items',
-        label: 'Uzmanlıklar',
-        detail: 'Yetkinlik kartları',
-        match: '/admin/collections/expertise-items',
-      },
-      {
-        href: '/admin/collections/partners',
-        label: 'İş ortakları',
-        detail: 'Referanslar ve logolar',
-        match: '/admin/collections/partners',
-      },
-      {
-        href: '/admin/collections/memberships',
-        label: 'Üyelikler',
-        detail: 'Kurumsal ağlar',
-        match: '/admin/collections/memberships',
-      },
-    ],
-  },
-  {
-    label: 'Operasyon',
-    items: [
-      {
-        href: '/admin/collections/messages',
-        label: 'Proje talepleri',
-        detail: 'Gelen kutusu ve takip',
-        match: '/admin/collections/messages',
-      },
-      {
-        href: '/admin/collections/media',
-        label: 'Medya kütüphanesi',
-        detail: 'Görsel · video · belge',
-        match: '/admin/collections/media',
-      },
-    ],
-  },
-  {
-    label: 'Sistem',
-    items: [
-      {
-        href: '/admin/collections/users',
-        label: 'Kullanıcı ve yetkiler',
-        detail: 'Erişim yönetimi',
-        match: '/admin/collections/users',
-      },
-    ],
-  },
-]
+const NavItem = ({ copy, href, label, marker }: NavItemProps) => (
+  <a className="bax-nav__item" href={href} title={label}>
+    <span className="bax-nav__marker" aria-hidden="true">
+      {marker}
+    </span>
+    <span className="bax-nav__item-copy">
+      <b>{label}</b>
+      <small>{copy}</small>
+    </span>
+    <span className="bax-nav__arrow" aria-hidden="true">
+      ›
+    </span>
+  </a>
+)
 
 export default function BaxNav() {
-  const pathname = usePathname()
+  const [collapsed, setCollapsed] = useState(false)
 
   return (
-    <aside className="bax-nav">
-      <a className="bax-nav__brand" href="/admin" aria-label="BaX içerik merkezi">
-        <Image src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority />
-        <span>CONTENT OPERATIONS</span>
-      </a>
+    <aside className={`bax-nav${collapsed ? ' is-collapsed' : ''}`}>
+      <div className="bax-nav__brand-row">
+        <a className="bax-nav__brand" href="/admin" aria-label="BaX içerik merkezi">
+          <img alt="BaX Composites" src="/images/bax-logo-dark.png" />
+          <span>Content operations</span>
+        </a>
+        <button
+          aria-expanded={!collapsed}
+          aria-label={collapsed ? 'Menüyü genişlet' : 'Menüyü daralt'}
+          className="bax-nav__toggle"
+          onClick={() => setCollapsed((value) => !value)}
+          type="button"
+        >
+          {collapsed ? '›' : '‹'}
+        </button>
+      </div>
 
-      <nav aria-label="Yönetim paneli">
-        {groups.map((group) => (
-          <section key={group.label}>
-            <h2>{group.label}</h2>
-            {group.items.map((item) => {
-              const active =
-                item.match === '/admin'
-                  ? pathname === '/admin' || pathname === '/admin/'
-                  : Boolean(item.match && pathname.startsWith(item.match))
+      <div className="bax-nav__scroll">
+        <section>
+          <h2>Çalışma alanı</h2>
+          <NavItem copy="Genel görünüm" href="/admin" label="İçerik merkezi" marker="00" />
+          <NavItem
+            copy="Yeni sekmede aç"
+            href="/"
+            label="Canlı web sitesi"
+            marker="↗"
+          />
+        </section>
 
-              return (
-                <a
-                  className={active ? 'is-active' : undefined}
-                  href={item.href}
-                  key={item.href}
-                  target={item.external ? '_blank' : undefined}
-                  rel={item.external ? 'noreferrer' : undefined}
-                >
-                  <span>
-                    <strong>{item.label}</strong>
-                    <small>{item.detail}</small>
-                  </span>
-                  <b aria-hidden="true">{item.external ? '↗' : '›'}</b>
-                </a>
-              )
-            })}
-          </section>
-        ))}
-      </nav>
+        <section>
+          <h2>Web sitesi</h2>
+          <NavItem
+            copy="Metinler · düzen · SEO"
+            href="/admin/globals/site-content?locale=tr"
+            label="Ana sayfa ve kurumsal"
+            marker="01"
+          />
+          <NavItem
+            copy="Header · footer · form · butonlar"
+            href="/admin/globals/site-settings?locale=tr"
+            label="Arayüz ve sistem metinleri"
+            marker="02"
+          />
+          <NavItem
+            copy="Yetkinlik kartları"
+            href="/admin/collections/expertise-items"
+            label="Uzmanlıklar"
+            marker="03"
+          />
+          <NavItem
+            copy="Referanslar ve logolar"
+            href="/admin/collections/partners"
+            label="İş ortakları"
+            marker="04"
+          />
+          <NavItem
+            copy="Kurumsal ağlar"
+            href="/admin/collections/memberships"
+            label="Üyelikler"
+            marker="05"
+          />
+        </section>
 
-      <a className="bax-nav__logout" href="/admin/logout">
-        Güvenli çıkış <span aria-hidden="true">→</span>
-      </a>
+        <section>
+          <h2>Operasyon</h2>
+          <NavItem
+            copy="Gelen kutusu ve takip"
+            href="/admin/collections/messages"
+            label="Proje talepleri"
+            marker="06"
+          />
+          <NavItem
+            copy="Görsel · video · belge"
+            href="/admin/collections/media"
+            label="Medya kütüphanesi"
+            marker="07"
+          />
+        </section>
+
+        <section>
+          <h2>Sistem</h2>
+          <NavItem
+            copy="Erişim yönetimi"
+            href="/admin/collections/users"
+            label="Kullanıcı ve yetkiler"
+            marker="08"
+          />
+        </section>
+      </div>
     </aside>
   )
 }

@@ -51,10 +51,9 @@ export default buildConfig({
       description: 'BaX Composites kurumsal içerik ve iletişim yönetim paneli',
     },
     components: {
-      actions: ['/admin/components/ViewSiteAction'],
+      actions: ['/admin/components/ViewSiteAction', '/admin/components/LogoutAction'],
       Nav: '/admin/components/BaxNav',
       graphics: {
-        Icon: '/admin/components/BaxIcon',
         Logo: '/admin/components/BaxLogo',
       },
       views: {

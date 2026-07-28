@@ -292,7 +292,7 @@ export default async function BaxDashboard({ payload, user }: DashboardProps) {
 
         <div className="bax-quick-modules__grid">
           {quickModules.map((module) => (
-            <article className="bax-module-card group relative" key={module.code}>
+            <article className="bax-module-card" key={module.code}>
               <div className="bax-module-card__icon">
                 <ModuleIcon name={module.icon} />
               </div>
@@ -302,11 +302,7 @@ export default async function BaxDashboard({ payload, user }: DashboardProps) {
                 <p>{module.description}</p>
               </div>
               {module.count && <small>{module.count}</small>}
-              <a
-                className="absolute bottom-4 right-4 flex items-center gap-2 opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100 focus-visible:opacity-100 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:shrink-0"
-                href={module.href}
-                aria-label={`${module.title}: doğrudan düzenle`}
-              >
+              <a href={module.href} aria-label={`${module.title}: doğrudan düzenle`}>
                 {quickEditIcon}
                 <span>Doğrudan Düzenle</span>
               </a>

@@ -31,7 +31,7 @@ export default function BaxNav() {
     <aside className={`bax-nav${collapsed ? ' is-collapsed' : ''}`}>
       <div className="bax-nav__brand-row">
         <a className="bax-nav__brand" href="/admin" aria-label="BaX içerik merkezi">
-          <img alt="BaX Composites" src="/images/bax-logo-dark.png" />
+          <img alt="BaX Composites" src="/images/bax-composites-logo-original.png" />
           <span>Content operations</span>
         </a>
         <button

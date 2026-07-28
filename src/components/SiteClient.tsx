@@ -126,7 +126,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
 
   useEffect(() => {
     const revealSections = Array.from(document.querySelectorAll<HTMLElement>('.scroll-reveal'))
-    const scrollScenes = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-scene], .about-section, .process-section'))
+    const scrollScenes = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-scene], .process-section'))
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (reducedMotion) {
@@ -264,7 +264,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   function renderSection(section: typeof visibleSections[number]['section']) {
     switch (section) {
       case 'about':
-        return <section id="about" className="about-section scroll-reveal"><div className="about-progress" aria-hidden="true" /><div className="container"><div className="about-flex"><div className="about-text"><h2><Heading text={d.aboutTitle || ''} /></h2></div><div className="about-desc"><p>{d.aboutDescription}</p><p>{d.aboutGoal}</p></div></div></div></section>
+        return <section id="about" className="about-section scroll-reveal"><div className="container"><div className="about-flex"><div className="about-text"><h2><Heading text={d.aboutTitle || ''} /></h2></div><div className="about-desc"><p>{d.aboutDescription}</p><p>{d.aboutGoal}</p></div></div></div></section>
       case 'designNarrative':
         return <NarrativeScene scene={settings.narratives[0]} />
       case 'expertise':

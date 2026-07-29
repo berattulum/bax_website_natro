@@ -153,7 +153,11 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       scrollScenes.forEach((scene) => {
         const bounds = scene.getBoundingClientRect()
         const progress = Math.min(1, Math.max(0, (viewportHeight - bounds.top) / (viewportHeight + bounds.height)))
+        const surfaceProgress = Math.min(1, progress * 2.05)
         scene.style.setProperty('--scroll-progress', progress.toFixed(4))
+        scene.style.setProperty('--surface-progress', surfaceProgress.toFixed(4))
+        scene.style.setProperty('--surface-shift', `${((1 - surfaceProgress) * 110).toFixed(2)}px`)
+        scene.style.setProperty('--surface-scale', (0.965 + surfaceProgress * 0.035).toFixed(4))
         scene.style.setProperty('--content-shift', `${((progress - 0.5) * -34).toFixed(2)}px`)
         scene.style.setProperty('--media-shift', `${((progress - 0.5) * -6).toFixed(2)}%`)
       })
@@ -289,7 +293,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     switch (section) {
       case 'about':
         return <section id="about" className="home-engineering-showcase scroll-reveal scroll-scene" data-scroll-scene>
-          <div className="container home-engineering-content">
+          <div className="home-engineering-surface"><div className="container home-engineering-content">
             <div className="home-engineering-intro">
               <span className="section-label">{trustBand.eyebrow}</span>
               <h2>{trustBand.title}</h2>
@@ -305,7 +309,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
                 <p>{trustBand.designText}</p>
               </div>
             </div>
-          </div>
+          </div></div>
         </section>
       case 'designNarrative':
         return null

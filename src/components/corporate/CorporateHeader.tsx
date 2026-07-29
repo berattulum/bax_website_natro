@@ -33,9 +33,9 @@ export function CorporateHeader({
           <div className="corporate-about-menu">
             <span>{labels.about}</span>
             <div>
-              <span className="corporate-menu-mark" aria-hidden="true">BaX</span>
-              <Link className={active === 'profile' ? 'is-active' : ''} href="/sirket-profili"><strong>{labels.profile}</strong><small>{labels.profileDesc}</small></Link>
-              <Link className={active === 'records' ? 'is-active' : ''} href="/kurumsal-bilgiler"><strong>{labels.records}</strong><small>{labels.recordsDesc}</small></Link>
+              <span className="corporate-menu-mark" aria-hidden="true"><Image src="/images/bax-composites-logo-original.png" alt="" width={1526} height={781} /></span>
+              <Link className={active === 'profile' ? 'is-active' : ''} href="/sirket-profili"><strong>{labels.profile}</strong><small>{labels.profileDesc}</small><i aria-hidden="true">↗</i></Link>
+              <Link className={active === 'records' ? 'is-active' : ''} href="/kurumsal-bilgiler"><strong>{labels.records}</strong><small>{labels.recordsDesc}</small><i aria-hidden="true">↗</i></Link>
             </div>
           </div>
           <Link href="/#expertise">{labels.expertise}</Link>

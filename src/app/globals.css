@@ -1855,7 +1855,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 .profile-hero {
   position: relative;
-  min-height: clamp(480px, 58vh, 590px);
+  min-height: clamp(330px, 42vh, 430px);
   overflow: hidden;
   background: #071821;
 }
@@ -1873,9 +1873,9 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 .profile-hero-content {
   position: absolute;
-  inset: auto max(28px, calc((100vw - 1200px) / 2)) clamp(54px, 7vh, 78px);
+  inset: auto max(28px, calc((100vw - 1200px) / 2)) clamp(38px, 5vh, 54px);
   z-index: 1;
-  max-width: 760px;
+  max-width: 680px;
   color: #f3f6f4;
 }
 
@@ -1891,7 +1891,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 .profile-hero h1 {
   margin: 0;
-  font-size: clamp(2.8rem, 5vw, 5.35rem);
+  font-size: clamp(2.5rem, 4.2vw, 4.45rem);
   font-weight: 500;
   line-height: .9;
   letter-spacing: -.065em;
@@ -1925,7 +1925,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 .profile-hero p {
   max-width: 58ch;
-  margin-top: 28px;
+  margin-top: 18px;
   color: rgba(239,246,245,.78);
   font-size: clamp(1rem, 1.25vw, 1.18rem);
   line-height: 1.7;
@@ -1941,9 +1941,60 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 .profile-intro {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: minmax(260px, .82fr) 2fr;
   gap: clamp(50px, 9vw, 130px);
   padding-block: clamp(72px, 8vw, 112px);
+}
+
+.profile-journey-rail {
+  padding-top: 4px;
+}
+
+.profile-journey-rail > .profile-kicker {
+  margin-bottom: 34px;
+}
+
+.profile-journey-rail ol {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 24px;
+  border-left: 1px solid rgba(20,57,70,.24);
+}
+
+.profile-journey-rail li {
+  position: relative;
+  display: grid;
+  padding: 0 0 32px;
+  gap: 5px;
+}
+
+.profile-journey-rail li:last-child {
+  padding-bottom: 0;
+}
+
+.profile-journey-rail li::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -29px;
+  width: 9px;
+  height: 9px;
+  background: #30b4c5;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px #f4f6f4;
+}
+
+.profile-journey-rail strong {
+  color: #183f4d;
+  font-size: .9rem;
+}
+
+.profile-journey-rail small {
+  max-width: 24ch;
+  color: #72878e;
+  font-size: .74rem;
+  line-height: 1.5;
 }
 
 .profile-timeline {
@@ -2624,23 +2675,16 @@ p { max-width: 68ch; text-wrap: pretty; }
   }
 
   .profile-hero {
-    min-height: 620px;
+    min-height: 430px;
   }
 
   .profile-hero-content {
     inset-inline: 20px;
-    bottom: 210px;
+    bottom: 44px;
   }
 
   .profile-hero h1 {
     font-size: clamp(2.55rem, 11.5vw, 4.2rem);
-  }
-
-  .profile-hero-identity {
-    right: 20px;
-    bottom: 48px;
-    left: 20px;
-    width: auto;
   }
 
   .profile-intro,
@@ -2651,7 +2695,11 @@ p { max-width: 68ch; text-wrap: pretty; }
   }
 
   .profile-intro {
-    gap: 52px;
+    gap: 58px;
+  }
+
+  .profile-journey-rail {
+    order: 2;
   }
 
   .profile-timeline {

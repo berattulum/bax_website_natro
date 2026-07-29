@@ -8,11 +8,9 @@ export type CorporateLang = 'tr' | 'en'
 
 export function CorporateHeader({
   lang,
-  onLanguageChange,
   active,
 }: {
   lang: CorporateLang
-  onLanguageChange: (lang: CorporateLang) => void
   active: 'profile' | 'records'
 }) {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -46,10 +44,6 @@ export function CorporateHeader({
         </nav>
 
         <div className="corporate-actions">
-          <div className="corporate-language" aria-label={lang === 'tr' ? 'Dil seçimi' : 'Language selection'}>
-            <button className={lang === 'tr' ? 'is-active' : ''} onClick={() => onLanguageChange('tr')} type="button">TR</button>
-            <button className={lang === 'en' ? 'is-active' : ''} onClick={() => onLanguageChange('en')} type="button">EN</button>
-          </div>
           <Link className="corporate-contact" href="/#contact">{labels.contact}<span aria-hidden="true">↗</span></Link>
         </div>
       </div>

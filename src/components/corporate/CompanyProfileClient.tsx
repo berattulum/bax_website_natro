@@ -14,12 +14,6 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
     if (saved === 'tr' || saved === 'en') setLang(saved)
   }, [])
 
-  function changeLanguage(next: CorporateLang) {
-    setLang(next)
-    localStorage.setItem('bax-language', next)
-    document.documentElement.lang = next
-  }
-
   const locale = locales[lang]
   const d = locale.dictionary
   const process = locale.ui.process.steps
@@ -55,18 +49,16 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
 
   return (
     <main className="profile-page">
-      <CorporateHeader lang={lang} onLanguageChange={changeLanguage} active="profile" />
+      <CorporateHeader lang={lang} active="profile" />
       <section className="profile-hero">
         <Image src="/assets/carbon-futuristic-hero.webp" alt="" fill priority sizes="100vw" />
         <div className="profile-hero-shade" />
         <div className="profile-hero-content"><span>{text.heroLabel}</span><h1>{text.heroTitle}</h1><p>{text.heroText}</p></div>
-        <aside className="profile-hero-identity"><span>{text.identity}</span><p>{d.aboutDescription}</p></aside>
       </section>
       <section className="profile-intro">
-        <div className="profile-intro-index"><span>2018</span><small>{text.founded}</small></div>
-        <div className="profile-intro-copy"><span className="profile-kicker">{text.identity}</span><h2>{d.aboutTitle?.replace(/<br\s*\/?>/gi, ' ')}</h2><p>{d.aboutGoal}</p></div>
+        <aside className="profile-journey-rail"><span className="profile-kicker">{text.journey}</span><ol>{text.stages.map(([period, label]) => <li key={period}><strong>{period}</strong><small>{label}</small></li>)}</ol></aside>
+        <div className="profile-intro-copy"><span className="profile-kicker">{text.identity}</span><h2>{d.aboutTitle?.replace(/<br\s*\/?>/gi, ' ')}</h2><p className="profile-lead">{d.aboutDescription}</p><p>{d.aboutGoal}</p></div>
       </section>
-      <section className="profile-timeline" aria-labelledby="profile-timeline-title"><div className="profile-timeline-heading"><span className="profile-kicker">{text.journey}</span><h2 id="profile-timeline-title">{lang === 'tr' ? 'Sürekli gelişen mühendislik kabiliyeti.' : 'Engineering capability in continuous development.'}</h2></div><ol>{text.stages.map(([period, label], index) => <li key={period}><span className="profile-timeline-index">{String(index + 1).padStart(2, '0')}</span><strong>{period}</strong><p>{label}</p></li>)}</ol></section>
       <section className="profile-method">
         <div className="profile-method-heading"><span className="profile-kicker">{text.model}</span><h2>{text.modelTitle}</h2></div>
         <ol>{process.map(([title, description], index) => <li key={title}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{title}</h3><p>{description}</p></div></li>)}</ol>

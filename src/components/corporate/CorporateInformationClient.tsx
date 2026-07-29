@@ -17,14 +17,13 @@ const records = [
 export function CorporateInformationClient() {
   const [lang, setLang] = useState<CorporateLang>('tr')
   useEffect(() => { const saved = localStorage.getItem('bax-language'); if (saved === 'tr' || saved === 'en') setLang(saved) }, [])
-  const changeLanguage = (next: CorporateLang) => { setLang(next); localStorage.setItem('bax-language', next); document.documentElement.lang = next }
   const t = lang === 'tr' ? {
     eyebrow: 'BAX // KURUMSAL ŞEFFAFLIK', title: 'Kurumsal Bilgiler', intro: 'BaX Kompozit A.Ş.’nin ticari kimliği ve doğrulanabilir kurumsal kayıt bilgileri.', identity: 'Ticari kimlik', offices: 'Merkez ve iletişim', head: 'Genel merkez', branch: 'Şube', verify: 'Resmî kaydı doğrulayın', verifyText: 'Güncel şirket kaydını Merkezi Kayıt Kuruluşu e-Şirket Bilgi Portalı üzerinden görüntüleyebilirsiniz.', verifyLink: 'MKK kaydını görüntüle', legal: 'KVKK ve yasal belgeler',
   } : {
     eyebrow: 'BAX // CORPORATE TRANSPARENCY', title: 'Corporate Information', intro: 'The commercial identity and verifiable corporate registration details of BaX Composites Inc.', identity: 'Corporate identity', offices: 'Offices and contact', head: 'Head office', branch: 'Branch office', verify: 'Verify the official record', verifyText: 'View the current company record through the Central Securities Depository e-Company Information Portal.', verifyLink: 'View MKK record', legal: 'Privacy and legal documents',
   }
   return <main className="profile-page corporate-info-page">
-    <CorporateHeader lang={lang} onLanguageChange={changeLanguage} active="records" />
+    <CorporateHeader lang={lang} active="records" />
     <section className="corporate-info-hero"><span>{t.eyebrow}</span><h1>{t.title}</h1><p>{t.intro}</p></section>
     <section className="corporate-info-content">
       <div className="corporate-info-heading"><span>01</span><h2>{t.identity}</h2></div>

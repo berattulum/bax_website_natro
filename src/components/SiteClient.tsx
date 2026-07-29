@@ -153,11 +153,13 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       scrollScenes.forEach((scene) => {
         const bounds = scene.getBoundingClientRect()
         const progress = Math.min(1, Math.max(0, (viewportHeight - bounds.top) / (viewportHeight + bounds.height)))
-        const surfaceProgress = Math.min(1, progress * 2.05)
+        const centerDistance = Math.abs((bounds.top + bounds.height / 2) - viewportHeight / 2)
+        const proximityRange = (viewportHeight + bounds.height) / 2
+        const proximity = Math.min(1, Math.max(0, 1 - centerDistance / proximityRange))
+        const easedProximity = 1 - Math.pow(1 - proximity, 2)
         scene.style.setProperty('--scroll-progress', progress.toFixed(4))
-        scene.style.setProperty('--surface-progress', surfaceProgress.toFixed(4))
-        scene.style.setProperty('--surface-shift', `${((1 - surfaceProgress) * 110).toFixed(2)}px`)
-        scene.style.setProperty('--surface-scale', (0.965 + surfaceProgress * 0.035).toFixed(4))
+        scene.style.setProperty('--surface-shift', `${((1 - easedProximity) * -76).toFixed(2)}px`)
+        scene.style.setProperty('--surface-scale', (0.982 + easedProximity * 0.018).toFixed(4))
         scene.style.setProperty('--content-shift', `${((progress - 0.5) * -34).toFixed(2)}px`)
         scene.style.setProperty('--media-shift', `${((progress - 0.5) * -6).toFixed(2)}%`)
       })
@@ -274,8 +276,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         eyebrow: 'BAX COMPOSITES',
         title: 'İleri kompozit mühendisliği.',
         description: 'Tasarımdan doğrulamaya, proses geliştirmeden seri üretime uzanan bütünleşik mühendislik ve üretim çözümleri.',
-        facts: [['KONUM', 'İstanbul · 2018'], ['KABİLİYET', 'Tasarımdan seri üretime'], ['SEKTÖRLER', 'Havacılık · Savunma · Otomotiv']],
-        action: 'Şirket profilini inceleyin',
         designTitle: 'Kompozit Tasarım ve Dijital Mühendislik',
         designText: 'Malzeme, geometri ve yapısal performansı üretilebilir çözümlere dönüştürüyoruz.',
       }
@@ -283,8 +283,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         eyebrow: 'BAX COMPOSITES',
         title: 'Advanced composite engineering.',
         description: 'Integrated engineering and manufacturing solutions spanning design, validation, process development and serial production.',
-        facts: [['LOCATION', 'Istanbul · 2018'], ['CAPABILITY', 'From design to serial production'], ['SECTORS', 'Aerospace · Defense · Automotive']],
-        action: 'Explore our company profile',
         designTitle: 'Composite Design and Digital Engineering',
         designText: 'We transform material, geometry and structural performance into manufacturable solutions.',
       }

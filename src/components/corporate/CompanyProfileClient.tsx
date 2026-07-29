@@ -21,6 +21,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
     heroLabel: 'BAX // ŞİRKET PROFİLİ',
     heroTitle: <>Kompozitin geleceğini<br />mühendislikle şekillendiriyoruz.</>,
     heroText: 'Tasarımdan doğrulamaya, proses geliştirmeden seri üretime uzanan uçtan uca kabiliyet.',
+    photoTitle: 'Hakkımızda',
     founded: 'İstanbul’da kuruldu',
     identity: 'İLERİ KOMPOZİT MÜHENDİSLİĞİ',
     journey: '2018’DEN GÜNÜMÜZE',
@@ -35,6 +36,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
     heroLabel: 'BAX // COMPANY PROFILE',
     heroTitle: <>Engineering the future<br />of composites.</>,
     heroText: 'End-to-end capability from design and validation to process development and serial production.',
+    photoTitle: 'About Us',
     founded: 'Founded in Istanbul',
     identity: 'ADVANCED COMPOSITE ENGINEERING',
     journey: 'FROM 2018 TO TODAY',
@@ -53,7 +55,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
       <section className="profile-hero profile-hero-facility">
         <Image src="/assets/bax-facility-exterior.jpg" alt={lang === 'tr' ? 'BaX Composites üretim tesisi dış görünümü' : 'Exterior view of the BaX Composites production facility'} fill priority sizes="100vw" quality={88} />
         <div className="profile-hero-shade" />
-        <div className="profile-hero-content"><span>{text.heroLabel}</span><h1>{text.heroTitle}</h1><p>{text.heroText}</p></div>
+        <h1 className="profile-photo-title">{text.photoTitle}</h1>
       </section>
       <section className="profile-intro">
         <aside className="profile-journey-rail"><span className="profile-kicker">{text.journey}</span><ol>{text.stages.map(([period, label]) => <li key={period}><strong>{period}</strong><small>{label}</small></li>)}</ol></aside>

@@ -1773,6 +1773,262 @@ p { max-width: 68ch; text-wrap: pretty; }
   }
 }
 
+/* Unified typography and responsive safeguards.
+   Kept last intentionally so legacy section rules cannot reintroduce overflow. */
+:root {
+  --type-display-weight: 500;
+  --type-heading-tracking: -.045em;
+  --type-copy-leading: 1.68;
+  --page-gutter: clamp(20px, 5vw, 72px);
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  max-width: 100%;
+  font-family: var(--font-display);
+  font-weight: var(--type-display-weight);
+  letter-spacing: var(--type-heading-tracking);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+p,
+li,
+address {
+  font-family: var(--font-body);
+  line-height: var(--type-copy-leading);
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+.container,
+.header-container,
+.corporate-header-inner,
+.profile-intro,
+.profile-method,
+.profile-closing,
+.profile-footer,
+.corporate-info-content {
+  min-width: 0;
+}
+
+.magazine-layout > *,
+.about-flex > *,
+.principles-heading > *,
+.process-heading > *,
+.references-heading > *,
+.memberships-heading > *,
+.contact-grid > *,
+.footer-grid > *,
+.profile-intro > *,
+.profile-method > *,
+.profile-closing > *,
+.corporate-record-grid > *,
+.corporate-office-grid > * {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 72px;
+  }
+
+  .container {
+    width: auto;
+    max-width: none;
+    margin-inline: var(--page-gutter);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .hero-title,
+  .opening-slide .hero-title,
+  .narrative-scene .hero-title,
+  .about-text h2,
+  .text-block h2,
+  .process-heading h2,
+  .principles-heading h2,
+  .references-heading h2,
+  .memberships-heading h2,
+  .contact-intro h2,
+  .home-engineering-intro h2,
+  .home-engineering-capability h3,
+  .profile-intro-copy h2,
+  .profile-method h2,
+  .profile-closing h2,
+  .corporate-info-hero h1,
+  .corporate-info-heading h2,
+  .corporate-verification h2,
+  .legal-section-heading h2,
+  .legal-card h2 {
+    width: 100%;
+    max-width: 100%;
+    letter-spacing: -.038em;
+    text-wrap: balance;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .hero-title span,
+  .opening-slide .hero-title span,
+  .opening-slide .hero-title > span,
+  .about-text h2 span,
+  .narrative-scene .hero-title span {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .hero-slider .opening-slide .hero-title {
+    font-size: clamp(1.85rem, 8.7vw, 3rem);
+    line-height: .98;
+  }
+
+  .narrative-scene .hero-title,
+  .home-engineering-intro h2,
+  .profile-intro-copy h2,
+  .profile-method h2,
+  .profile-closing h2,
+  .corporate-info-hero h1 {
+    font-size: clamp(2rem, 10vw, 3.35rem);
+    line-height: 1;
+  }
+
+  .about-text h2,
+  .text-block h2,
+  .process-heading h2,
+  .principles-heading h2,
+  .references-heading h2,
+  .memberships-heading h2,
+  .contact-intro h2,
+  .corporate-info-heading h2,
+  .corporate-verification h2,
+  .legal-section-heading h2 {
+    font-size: clamp(1.8rem, 8.5vw, 2.75rem);
+    line-height: 1.04;
+  }
+
+  .hero-subtitle,
+  .section-label,
+  .home-engineering-kicker,
+  .profile-kicker,
+  .references-note {
+    max-width: 100%;
+    letter-spacing: .07em;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-description,
+  .about-desc,
+  .text-block p,
+  .contact-intro > p,
+  .references-heading > p,
+  .memberships-heading > p,
+  .profile-lead,
+  .profile-intro-copy > p,
+  .corporate-info-hero p {
+    max-width: 100%;
+    font-size: clamp(.95rem, 4vw, 1.05rem);
+    line-height: 1.62;
+    overflow-wrap: anywhere;
+  }
+
+  .about-section,
+  .expertise-section,
+  .principles-section,
+  .process-section,
+  .references-section,
+  .memberships-section,
+  .contact-section {
+    padding-block: clamp(64px, 16vw, 88px);
+  }
+
+  .text-block,
+  .principle-card,
+  .expertise-item {
+    padding-inline: clamp(20px, 6vw, 32px);
+  }
+
+  .profile-intro,
+  .profile-method,
+  .profile-closing,
+  .profile-footer,
+  .corporate-info-content {
+    padding-inline: var(--page-gutter);
+  }
+
+  .profile-closing,
+  .profile-footer,
+  .form-row,
+  .form-footer {
+    gap: 20px;
+  }
+
+  .contact-mail,
+  .contact-phone,
+  .footer-grid a,
+  .footer-grid p,
+  .profile-footer a,
+  .corporate-contact,
+  .corporate-record-grid strong,
+  .corporate-office-grid p {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 390px) {
+  :root {
+    --page-gutter: 18px;
+  }
+
+  .hero-slider .opening-slide .hero-title {
+    font-size: clamp(1.65rem, 8.2vw, 2.1rem);
+  }
+
+  .profile-intro-copy h2,
+  .profile-method h2,
+  .profile-closing h2,
+  .corporate-info-hero h1 {
+    font-size: clamp(1.85rem, 9.5vw, 2.65rem);
+  }
+
+  .btn-primary-small,
+  .hero-link,
+  .corporate-contact {
+    letter-spacing: .045em;
+  }
+}
+
 @media (max-width: 560px) {
   .corporate-records {
     grid-template-columns: 1fr;
@@ -5333,5 +5589,41 @@ html[lang="tr"] .profile-kicker {
   .home-engineering-kicker,
   .profile-kicker {
     letter-spacing: .08em;
+  }
+}
+
+/* Engineering showcase sits in the document flow without the former
+   floating/scaled scroll-stage treatment. */
+.home-engineering-showcase {
+  perspective: none;
+  background: #f6f7f4;
+}
+
+.home-engineering-surface {
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
+  transform-origin: initial;
+  will-change: auto;
+}
+
+.home-engineering-intro,
+.home-engineering-media,
+.home-engineering-image {
+  transform: none;
+  will-change: auto;
+}
+
+.home-engineering-media {
+  box-shadow: none;
+}
+
+.home-engineering-media::before {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .home-engineering-surface {
+    transform: none;
   }
 }

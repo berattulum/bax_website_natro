@@ -46,6 +46,42 @@ function NarrativeScene({ scene }: { scene: readonly [string, string, string, st
   return <section className="slide in-view narrative-scene scroll-scene" data-scroll-scene><div className={`slide-bg ${scene[3]}`} role="img" aria-label={scene[1]} /><div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{scene[0]}</h2><h2 className="hero-title"><Heading text={scene[1]} materialTailWords={1} /></h2><p className="hero-description">{scene[2]}</p></div></section>
 }
 
+function EngineeringFlow({ items, narratives, title }: { items: ManagedLocale['expertise']; narratives: ManagedLocale['ui']['narratives']; title: string }) {
+  const [activeStep, setActiveStep] = useState(0)
+  const flowRoot = useRef<HTMLElement | null>(null)
+  const visualClasses = [narratives[0][3], 'automotive-bg', 'manufacturing-bg', 'precision-bg', narratives[1][3], 'futuristic-bg']
+
+  useEffect(() => {
+    const root = flowRoot.current
+    if (!root) return
+    const steps = Array.from(root.querySelectorAll<HTMLElement>('.engineering-flow-step'))
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+      if (visible) setActiveStep(Number((visible.target as HTMLElement).dataset.step || 0))
+    }, { threshold: [0.35, 0.55, 0.75], rootMargin: '-18% 0px -28% 0px' })
+    steps.forEach((step) => observer.observe(step))
+    return () => observer.disconnect()
+  }, [])
+
+  return <section id="expertise" className="engineering-flow" ref={flowRoot}>
+    <div className="container engineering-flow-layout">
+      <div className="engineering-flow-stage">
+        <div className="engineering-flow-media" aria-hidden="true">
+          {items.map((item, index) => <div className={`engineering-flow-image ${visualClasses[index % visualClasses.length]}${activeStep === index ? ' is-active' : ''}`} key={item.order} />)}
+          <div className="engineering-flow-shade" />
+          <div className="engineering-flow-heading"><span>{narratives[0][0]}</span><h2><Heading text={title} /></h2></div>
+          <div className="engineering-flow-status"><span>{items[activeStep]?.title}</span></div>
+        </div>
+      </div>
+      <div className="engineering-flow-track">
+        {items.map((item, index) => <article className={`engineering-flow-step${activeStep === index ? ' is-active' : ''}`} data-step={index} key={item.order}><span>{index < Math.ceil(items.length / 2) ? narratives[0][0] : narratives[1][0]}</span><h3>{item.title}</h3><p>{item.description}</p></article>)}
+      </div>
+    </div>
+  </section>
+}
+
 export default function SiteClient({ locales }: { locales: Locales }) {
   const [lang, setLang] = useState<Lang>('tr')
   const [activeSection, setActiveSection] = useState('home')
@@ -258,6 +294,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const slides = [mainSlide, ...settings.hero.secondarySlides]
   const visibleSections = content.sectionLayout.filter((item) => item.enabled)
   const visibleSectionKeys = new Set(visibleSections.map((item) => item.section))
+  const engineeringFlowEnabled = visibleSectionKeys.has('designNarrative') && visibleSectionKeys.has('expertise') && visibleSectionKeys.has('manufacturingNarrative')
   const navigationItems = [[copy.home, 'home'], [copy.about, 'about'], [copy.expertise, 'expertise'], [copy.references, 'references'], [copy.memberships, 'memberships'], [copy.contact, 'contact']]
     .filter(([, id]) => id === 'home' || visibleSectionKeys.has(id === 'references' ? 'partners' : id as typeof visibleSections[number]['section']))
 
@@ -266,11 +303,11 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'about':
         return <section id="about" className="about-section scroll-reveal"><div className="container"><div className="about-flex"><div className="about-text"><h2><Heading text={d.aboutTitle || ''} /></h2></div><div className="about-desc"><p>{d.aboutDescription}</p><p>{d.aboutGoal}</p></div></div></div></section>
       case 'designNarrative':
-        return <NarrativeScene scene={settings.narratives[0]} />
+        return engineeringFlowEnabled ? <EngineeringFlow items={content.expertise} narratives={settings.narratives} title={d.expertiseTitle || ''} /> : <NarrativeScene scene={settings.narratives[0]} />
       case 'expertise':
-        return <ExpertiseSection items={content.expertise} />
+        return engineeringFlowEnabled ? null : <ExpertiseSection items={content.expertise} />
       case 'manufacturingNarrative':
-        return <NarrativeScene scene={settings.narratives[1]} />
+        return engineeringFlowEnabled ? null : <NarrativeScene scene={settings.narratives[1]} />
       case 'process':
         return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><span className="section-label">{copy.processLabel}</span><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':

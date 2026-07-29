@@ -289,21 +289,22 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     switch (section) {
       case 'about':
         return <section id="about" className="home-engineering-showcase scroll-reveal scroll-scene" data-scroll-scene>
-          <div className="home-engineering-media" aria-hidden="true"><div className={`home-engineering-image ${settings.narratives[0][3]}`} /></div>
-          <div className="home-engineering-shade" aria-hidden="true" />
           <div className="container home-engineering-content">
             <div className="home-engineering-intro">
               <span className="section-label">{trustBand.eyebrow}</span>
               <h2>{trustBand.title}</h2>
               <p>{trustBand.description}</p>
-              <a className="home-engineering-link" href="/sirket-profili"><span>{trustBand.action}</span><span aria-hidden="true">↗</span></a>
+              <a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a>
             </div>
-            <div className="home-engineering-capability">
-              <span className="home-engineering-kicker">{settings.narratives[0][0]}</span>
-              <h3>{trustBand.designTitle}</h3>
-              <p>{trustBand.designText}</p>
+            <div className="home-engineering-media">
+              <div className={`home-engineering-image ${settings.narratives[0][3]}`} role="img" aria-label={trustBand.designTitle} />
+              <div className="home-engineering-shade" aria-hidden="true" />
+              <div className="home-engineering-capability">
+                <span className="home-engineering-kicker">{settings.narratives[0][0]}</span>
+                <h3>{trustBand.designTitle}</h3>
+                <p>{trustBand.designText}</p>
+              </div>
             </div>
-            <div className="home-engineering-facts">{trustBand.facts.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>
           </div>
         </section>
       case 'designNarrative':

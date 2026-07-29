@@ -288,9 +288,26 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   function renderSection(section: typeof visibleSections[number]['section']) {
     switch (section) {
       case 'about':
-        return <section id="about" className="about-section home-trust-band scroll-reveal"><div className="container"><div className="home-trust-intro"><span className="section-label">{trustBand.eyebrow}</span><h2>{trustBand.title}</h2><p>{trustBand.description}</p></div><div className="home-trust-facts">{trustBand.facts.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><a className="home-trust-link" href="/sirket-profili"><span>{trustBand.action}</span><span aria-hidden="true">↗</span></a></div></section>
+        return <section id="about" className="home-engineering-showcase scroll-reveal scroll-scene" data-scroll-scene>
+          <div className="home-engineering-media" aria-hidden="true"><div className={`home-engineering-image ${settings.narratives[0][3]}`} /></div>
+          <div className="home-engineering-shade" aria-hidden="true" />
+          <div className="container home-engineering-content">
+            <div className="home-engineering-intro">
+              <span className="section-label">{trustBand.eyebrow}</span>
+              <h2>{trustBand.title}</h2>
+              <p>{trustBand.description}</p>
+              <a className="home-engineering-link" href="/sirket-profili"><span>{trustBand.action}</span><span aria-hidden="true">↗</span></a>
+            </div>
+            <div className="home-engineering-capability">
+              <span className="home-engineering-kicker">{settings.narratives[0][0]}</span>
+              <h3>{trustBand.designTitle}</h3>
+              <p>{trustBand.designText}</p>
+            </div>
+            <div className="home-engineering-facts">{trustBand.facts.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>
+          </div>
+        </section>
       case 'designNarrative':
-        return <NarrativeScene scene={[settings.narratives[0][0], trustBand.designTitle, trustBand.designText, settings.narratives[0][3]]} />
+        return null
       case 'expertise':
         return <ExpertiseSection items={content.expertise} />
       case 'manufacturingNarrative':

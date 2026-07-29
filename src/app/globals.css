@@ -1944,6 +1944,267 @@ p { max-width: 68ch; text-wrap: pretty; }
   border-color: #143946;
 }
 
+/* Homepage engineering showcase: corporate proof and capability in one scene. */
+.home-engineering-showcase {
+  position: relative;
+  min-height: clamp(650px, 82svh, 860px);
+  overflow: hidden;
+  isolation: isolate;
+  color: #f4f7f4;
+  background: #061820;
+}
+
+.home-engineering-media,
+.home-engineering-shade {
+  position: absolute;
+  inset: 0;
+}
+
+.home-engineering-media {
+  z-index: -3;
+  overflow: hidden;
+}
+
+.home-engineering-image {
+  position: absolute;
+  inset: -7% -3%;
+  background-position: center;
+  background-size: cover;
+  filter: saturate(.48) contrast(1.05) brightness(.72);
+  transform: translate3d(0, var(--content-shift, 0), 0) scale(1.06);
+  transition: filter .8s ease;
+  will-change: transform;
+}
+
+.home-engineering-shade {
+  z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(4,20,27,.96) 0%, rgba(5,24,32,.84) 35%, rgba(5,22,29,.27) 68%, rgba(4,17,23,.65) 100%),
+    linear-gradient(0deg, rgba(4,19,26,.96) 0%, transparent 39%, rgba(4,18,24,.3) 100%);
+}
+
+.home-engineering-showcase::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .17;
+  background: repeating-linear-gradient(135deg, transparent 0 14px, rgba(122,203,214,.11) 14px 15px);
+  mask-image: linear-gradient(90deg, transparent 30%, #000 100%);
+  pointer-events: none;
+}
+
+.home-engineering-content {
+  display: grid;
+  min-height: inherit;
+  padding-block: clamp(82px, 11vh, 126px) 0;
+  grid-template-columns: minmax(300px, .88fr) minmax(390px, 1.12fr);
+  grid-template-rows: 1fr auto;
+  column-gap: clamp(74px, 9vw, 148px);
+  align-items: center;
+}
+
+.home-engineering-intro {
+  max-width: 500px;
+  transform: translate3d(0, calc(var(--content-shift, 0px) * .35), 0);
+  will-change: transform;
+}
+
+.home-engineering-intro .section-label {
+  display: block;
+  margin-bottom: 20px;
+  color: #38bdd0;
+}
+
+.home-engineering-intro h2,
+.home-engineering-capability h3 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -.055em;
+}
+
+.home-engineering-intro h2 {
+  max-width: 11ch;
+  font-size: clamp(3rem, 5vw, 5.4rem);
+  line-height: .94;
+}
+
+.home-engineering-intro p {
+  max-width: 48ch;
+  margin: 25px 0 0;
+  color: rgba(226,235,234,.72);
+  font-size: clamp(.95rem, 1.05vw, 1.05rem);
+  line-height: 1.72;
+}
+
+.home-engineering-link {
+  display: inline-flex;
+  min-width: 220px;
+  min-height: 52px;
+  margin-top: 31px;
+  padding: 0 17px;
+  align-items: center;
+  justify-content: space-between;
+  color: #f4f7f4;
+  border: 1px solid rgba(235,244,243,.42);
+  font-size: .63rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: color .25s ease, background .25s ease, border-color .25s ease;
+}
+
+.home-engineering-link:hover {
+  color: #123845;
+  background: #f4f7f4;
+  border-color: #f4f7f4;
+}
+
+.home-engineering-capability {
+  max-width: 650px;
+  padding: clamp(30px, 4vw, 58px);
+  align-self: end;
+  background: rgba(7,30,39,.7);
+  border-left: 1px solid rgba(56,189,208,.7);
+  backdrop-filter: blur(12px);
+  transform: translate3d(0, calc(var(--content-shift, 0px) * -.32), 0);
+  will-change: transform;
+}
+
+.home-engineering-kicker {
+  display: block;
+  margin-bottom: 18px;
+  color: #38bdd0;
+  font-size: .67rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.home-engineering-capability h3 {
+  max-width: 13ch;
+  font-size: clamp(2.25rem, 4vw, 4.6rem);
+  line-height: .96;
+}
+
+.home-engineering-capability p {
+  max-width: 43ch;
+  margin: 23px 0 0;
+  color: rgba(228,237,236,.76);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.home-engineering-facts {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: clamp(58px, 8vh, 86px);
+  border-top: 1px solid rgba(226,239,239,.25);
+  background: rgba(4,20,27,.7);
+}
+
+.home-engineering-facts > div {
+  min-height: 105px;
+  padding: 24px clamp(18px, 2.5vw, 34px);
+  border-right: 1px solid rgba(226,239,239,.16);
+}
+
+.home-engineering-facts > div:first-child {
+  padding-left: 0;
+}
+
+.home-engineering-facts > div:last-child {
+  border-right: 0;
+}
+
+.home-engineering-facts span,
+.home-engineering-facts strong {
+  display: block;
+}
+
+.home-engineering-facts span {
+  margin-bottom: 13px;
+  color: rgba(184,205,207,.62);
+  font-size: .59rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.home-engineering-facts strong {
+  max-width: 24ch;
+  color: #f0f4f1;
+  font-size: .84rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .home-engineering-showcase {
+    min-height: auto;
+  }
+
+  .home-engineering-content {
+    padding-block: 76px 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 44px;
+  }
+
+  .home-engineering-intro,
+  .home-engineering-capability {
+    transform: none;
+  }
+
+  .home-engineering-capability {
+    width: min(100%, 620px);
+    justify-self: end;
+  }
+
+  .home-engineering-facts {
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-engineering-media {
+    opacity: .76;
+  }
+
+  .home-engineering-content {
+    padding-top: 64px;
+    gap: 34px;
+  }
+
+  .home-engineering-intro h2 {
+    font-size: clamp(2.5rem, 13vw, 3.6rem);
+  }
+
+  .home-engineering-capability {
+    padding: 27px 23px;
+  }
+
+  .home-engineering-capability h3 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .home-engineering-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .home-engineering-facts > div,
+  .home-engineering-facts > div:first-child {
+    min-height: 0;
+    padding: 17px 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(226,239,239,.16);
+  }
+
+  .home-engineering-facts > div:last-child {
+    border-bottom: 0;
+  }
+}
+
 /* Company profile */
 .profile-page {
   min-height: 100vh;

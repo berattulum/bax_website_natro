@@ -6,11 +6,17 @@ type LegalPageProps = {
   eyebrow: string
   title: string
   description: string
-  pdfHref: string
+  pdfHref?: string
+  asideTitle?: string
+  asideDescription?: string
+  externalHref?: string
+  externalLabel?: string
+  metaTitle?: string
+  metaDescription?: string
   children: ReactNode
 }
 
-export function LegalPage({ eyebrow, title, description, pdfHref, children }: LegalPageProps) {
+export function LegalPage({ eyebrow, title, description, pdfHref, asideTitle = 'Belge erişimi', asideDescription = 'İçeriği bu sayfadan okuyabilir veya kaynak PDF belgesini indirebilirsiniz.', externalHref, externalLabel, metaTitle = 'Mevcut şirket belgesi', metaDescription = 'Nihai yayından önce hukuk onayı planlanmaktadır.', children }: LegalPageProps) {
   return (
     <main className="legal-shell">
       <header className="legal-header">
@@ -24,6 +30,7 @@ export function LegalPage({ eyebrow, title, description, pdfHref, children }: Le
           />
         </Link>
         <nav aria-label="Yasal belgeler">
+          <Link href="/kurumsal-bilgiler">Kurumsal Bilgiler</Link>
           <Link href="/kvkk">KVKK Merkezi</Link>
           <Link href="/cerez-politikasi">Çerez Politikası</Link>
           <Link href="/kvkk/basvuru">Başvuru</Link>
@@ -39,25 +46,29 @@ export function LegalPage({ eyebrow, title, description, pdfHref, children }: Le
         </div>
         <div className="legal-meta">
           <span>Sunum sürümü</span>
-          <strong>Mevcut şirket belgesi</strong>
-          <small>Nihai yayından önce hukuk onayı planlanmaktadır.</small>
+          <strong>{metaTitle}</strong>
+          <small>{metaDescription}</small>
         </div>
       </section>
 
       <div className="legal-layout">
         <aside className="legal-aside">
-          <span>Belge erişimi</span>
-          <p>İçeriği bu sayfadan okuyabilir veya kaynak PDF belgesini indirebilirsiniz.</p>
-          <a href={pdfHref} target="_blank" rel="noreferrer" className="legal-download">
+          <span>{asideTitle}</span>
+          <p>{asideDescription}</p>
+          {pdfHref && <a href={pdfHref} target="_blank" rel="noreferrer" className="legal-download">
             PDF belgesini aç <span aria-hidden="true">↗</span>
-          </a>
-          <Link href="/kvkk" className="legal-all-link">Tüm yasal belgeler</Link>
+          </a>}
+          {externalHref && <a href={externalHref} target="_blank" rel="noreferrer" className="legal-download">
+            {externalLabel || 'Kaydı doğrula'} <span aria-hidden="true">↗</span>
+          </a>}
+          <Link href="/kvkk" className="legal-all-link">KVKK ve yasal belgeler</Link>
         </aside>
         <article className="legal-document">{children}</article>
       </div>
 
       <footer className="legal-footer">
         <span>© 2026 BaX Composites Inc.</span>
+        <Link href="/kurumsal-bilgiler">Kurumsal Bilgiler</Link>
         <Link href="/kvkk">KVKK ve yasal belgeler</Link>
         <Link href="/#home">baxcomposites.com</Link>
       </footer>

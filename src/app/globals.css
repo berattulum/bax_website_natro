@@ -4989,9 +4989,10 @@ body {
   background:
     radial-gradient(circle at 8% 12%, rgba(41,178,196,.055), transparent 24%),
     #f6f7f4;
-  box-shadow: 0 -6px 20px rgba(2,15,21,.08);
-  transform: translate3d(0, var(--surface-shift, -76px), 0) scale(var(--surface-scale, .982));
-  transform-origin: center top;
+  opacity: var(--surface-opacity, .5);
+  box-shadow: var(--surface-shadow, 0 -30px 74px rgba(2,15,21,.2));
+  transform: translate3d(0, var(--surface-shift, -42px), 0) scale(var(--surface-scale, .91));
+  transform-origin: center center;
   will-change: transform;
 }
 
@@ -5086,10 +5087,6 @@ body {
 
 .home-engineering-showcase.is-revealed::before {
   transform: scaleX(1);
-}
-
-.home-engineering-showcase.is-revealed .home-engineering-surface {
-  box-shadow: 0 -28px 70px rgba(2,15,21,.18);
 }
 
 .home-engineering-showcase.is-revealed .home-engineering-intro .section-label,

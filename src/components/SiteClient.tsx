@@ -156,10 +156,13 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         const centerDistance = Math.abs((bounds.top + bounds.height / 2) - viewportHeight / 2)
         const proximityRange = (viewportHeight + bounds.height) / 2
         const proximity = Math.min(1, Math.max(0, 1 - centerDistance / proximityRange))
-        const easedProximity = 1 - Math.pow(1 - proximity, 2)
+        const easedProximity = proximity * proximity * (3 - 2 * proximity)
+        const lift = 1 - easedProximity
         scene.style.setProperty('--scroll-progress', progress.toFixed(4))
-        scene.style.setProperty('--surface-shift', `${((1 - easedProximity) * -76).toFixed(2)}px`)
-        scene.style.setProperty('--surface-scale', (0.982 + easedProximity * 0.018).toFixed(4))
+        scene.style.setProperty('--surface-shift', `${(lift * -42).toFixed(2)}px`)
+        scene.style.setProperty('--surface-scale', (0.91 + easedProximity * 0.09).toFixed(4))
+        scene.style.setProperty('--surface-opacity', (0.5 + easedProximity * 0.5).toFixed(4))
+        scene.style.setProperty('--surface-shadow', `0 ${(-8 - lift * 22).toFixed(1)}px ${(26 + lift * 48).toFixed(1)}px rgba(2,15,21,${(0.08 + lift * 0.12).toFixed(3)})`)
         scene.style.setProperty('--content-shift', `${((progress - 0.5) * -34).toFixed(2)}px`)
         scene.style.setProperty('--media-shift', `${((progress - 0.5) * -6).toFixed(2)}%`)
       })

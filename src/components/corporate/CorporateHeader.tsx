@@ -17,8 +17,8 @@ export function CorporateHeader({
 }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const labels = lang === 'tr'
-    ? { about: 'Hakkımızda', profile: 'Şirket Profili', records: 'Kurumsal Bilgiler', expertise: 'Uzmanlık', references: 'Referanslar', memberships: 'Üyelikler', contact: 'Bize Ulaşın', menu: 'Menüyü aç' }
-    : { about: 'About', profile: 'Company Profile', records: 'Corporate Information', expertise: 'Expertise', references: 'References', memberships: 'Memberships', contact: 'Contact Us', menu: 'Open menu' }
+    ? { about: 'Hakkımızda', profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', records: 'Kurumsal Bilgiler', recordsDesc: 'Ticari ve doğrulanabilir şirket kayıtları', expertise: 'Uzmanlık', references: 'Referanslar', memberships: 'Üyelikler', contact: 'Bize Ulaşın', menu: 'Menüyü aç' }
+    : { about: 'About', profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', records: 'Corporate Information', recordsDesc: 'Commercial and verifiable company records', expertise: 'Expertise', references: 'References', memberships: 'Memberships', contact: 'Contact Us', menu: 'Open menu' }
 
   return (
     <header className="corporate-header">
@@ -35,8 +35,9 @@ export function CorporateHeader({
           <div className="corporate-about-menu">
             <span>{labels.about}</span>
             <div>
-              <Link className={active === 'profile' ? 'is-active' : ''} href="/sirket-profili">{labels.profile}</Link>
-              <Link className={active === 'records' ? 'is-active' : ''} href="/kurumsal-bilgiler">{labels.records}</Link>
+              <span className="corporate-menu-mark" aria-hidden="true">BaX</span>
+              <Link className={active === 'profile' ? 'is-active' : ''} href="/sirket-profili"><strong>{labels.profile}</strong><small>{labels.profileDesc}</small></Link>
+              <Link className={active === 'records' ? 'is-active' : ''} href="/kurumsal-bilgiler"><strong>{labels.records}</strong><small>{labels.recordsDesc}</small></Link>
             </div>
           </div>
           <Link href="/#expertise">{labels.expertise}</Link>

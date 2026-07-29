@@ -260,11 +260,11 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const slides = [mainSlide, ...settings.hero.secondarySlides]
   const visibleSections = content.sectionLayout.filter((item) => item.enabled)
   const visibleSectionKeys = new Set(visibleSections.map((item) => item.section))
-  const navigationItems = [[copy.home, 'home'], [copy.about, 'about'], [copy.expertise, 'expertise'], [copy.references, 'references'], [copy.memberships, 'memberships'], [copy.contact, 'contact']]
-    .filter(([, id]) => id === 'home' || visibleSectionKeys.has(id === 'references' ? 'partners' : id as typeof visibleSections[number]['section']))
+  const navigationItems = [[copy.about, 'about'], [copy.expertise, 'expertise'], [copy.references, 'references'], [copy.memberships, 'memberships'], [copy.contact, 'contact']]
+    .filter(([, id]) => visibleSectionKeys.has(id === 'references' ? 'partners' : id as typeof visibleSections[number]['section']))
   const aboutNavigation = lang === 'tr'
-    ? { profile: 'Şirket Profili', corporate: 'Kurumsal Bilgiler', toggle: 'Hakkımızda menüsünü aç', teaser: 'BaX’ı Tanıyın' }
-    : { profile: 'Company Profile', corporate: 'Corporate Information', toggle: 'Open About menu', teaser: 'Discover BaX' }
+    ? { profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', corporate: 'Kurumsal Bilgiler', corporateDesc: 'Ticari ve doğrulanabilir şirket kayıtları', toggle: 'Hakkımızda menüsünü aç', teaser: 'BaX’ı Tanıyın' }
+    : { profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', corporate: 'Corporate Information', corporateDesc: 'Commercial and verifiable company records', toggle: 'Open About menu', teaser: 'Discover BaX' }
 
   function renderSection(section: typeof visibleSections[number]['section']) {
     switch (section) {
@@ -302,7 +302,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel}><ul>
           {navigationItems.map(([label, id]) => id === 'about'
-            ? <li className={`nav-with-submenu${aboutMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="/sirket-profili" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={aboutMenuOpen} aria-label={aboutNavigation.toggle} onClick={() => setAboutMenuOpen((open) => !open)}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu"><a href="/sirket-profili">{aboutNavigation.profile}</a><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}</a></div></li>
+            ? <li className={`nav-with-submenu${aboutMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="/sirket-profili" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={aboutMenuOpen} aria-label={aboutNavigation.toggle} onClick={() => setAboutMenuOpen((open) => !open)}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu"><span className="nav-submenu-mark" aria-hidden="true">BaX</span><a href="/sirket-profili"><strong>{aboutNavigation.profile}</strong><small>{aboutNavigation.profileDesc}</small></a><a href="/kurumsal-bilgiler"><strong>{aboutNavigation.corporate}</strong><small>{aboutNavigation.corporateDesc}</small></a></div></li>
             : <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a></li>)}
         </ul></nav>
         <button type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-label={copy.mobileMenuLabel} onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>

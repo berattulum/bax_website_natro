@@ -2182,18 +2182,22 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 /* Shared corporate subpage navigation */
 .corporate-header {
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
   z-index: 50;
-  min-height: 88px;
+  min-height: 74px;
   color: #edf4f4;
-  background: #09232e;
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  background: linear-gradient(180deg, rgba(5,22,29,.78), rgba(5,22,29,.5));
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(14px) saturate(.85);
 }
 
 .corporate-header-inner {
   display: grid;
   width: min(calc(100% - 56px), 1320px);
-  min-height: 88px;
+  min-height: 74px;
   margin-inline: auto;
   grid-template-columns: 150px 1fr auto;
   align-items: center;
@@ -2202,7 +2206,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 .corporate-brand {
   display: block;
-  width: 94px;
+  width: 82px;
 }
 
 .corporate-brand img {
@@ -2225,8 +2229,8 @@ p { max-width: 68ch; text-wrap: pretty; }
   display: flex;
   height: 100%;
   align-items: center;
-  color: rgba(239,247,247,.68);
-  font-size: .68rem;
+  color: rgba(239,247,247,.64);
+  font-size: .64rem;
   font-weight: 700;
   letter-spacing: .055em;
   text-transform: uppercase;
@@ -2245,7 +2249,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 .corporate-about-menu > span::after {
   content: "⌄";
   margin-left: 8px;
-  color: #56ccda;
+  color: rgba(91,205,217,.72);
 }
 
 .corporate-about-menu > div {
@@ -2401,13 +2405,13 @@ p { max-width: 68ch; text-wrap: pretty; }
 
 .corporate-contact {
   display: flex;
-  min-height: 42px;
-  padding: 0 15px;
+  min-height: 38px;
+  padding: 0 14px;
   align-items: center;
   gap: 22px;
   color: #fff;
-  border: 1px solid rgba(255,255,255,.45);
-  font-size: .64rem;
+  border: 1px solid rgba(255,255,255,.3);
+  font-size: .61rem;
   font-weight: 700;
   letter-spacing: .065em;
   text-transform: uppercase;
@@ -2416,6 +2420,14 @@ p { max-width: 68ch; text-wrap: pretty; }
 .corporate-contact:hover {
   color: #10323e;
   background: #fff;
+}
+
+.profile-hero {
+  padding-top: 74px;
+}
+
+.corporate-info-hero {
+  padding-top: max(136px, 12vw);
 }
 
 .corporate-menu-toggle {
@@ -2601,7 +2613,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 
   .corporate-header,
   .corporate-header-inner {
-    min-height: 72px;
+    min-height: 66px;
   }
 
   .corporate-header-inner {
@@ -2611,7 +2623,7 @@ p { max-width: 68ch; text-wrap: pretty; }
   }
 
   .corporate-brand {
-    width: 76px;
+    width: 70px;
   }
 
   .corporate-menu-toggle {
@@ -2632,7 +2644,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 
   .corporate-header nav {
     position: absolute;
-    top: 72px;
+    top: 66px;
     right: 0;
     left: 0;
     display: none;
@@ -2676,6 +2688,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 
   .profile-hero {
     min-height: 430px;
+    padding-top: 66px;
   }
 
   .profile-hero-content {

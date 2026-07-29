@@ -263,13 +263,13 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const navigationItems = [[copy.home, 'home'], [copy.about, 'about'], [copy.expertise, 'expertise'], [copy.references, 'references'], [copy.memberships, 'memberships'], [copy.contact, 'contact']]
     .filter(([, id]) => id === 'home' || visibleSectionKeys.has(id === 'references' ? 'partners' : id as typeof visibleSections[number]['section']))
   const aboutNavigation = lang === 'tr'
-    ? { profile: 'Şirket Profili', corporate: 'Kurumsal Bilgiler', toggle: 'Hakkımızda menüsünü aç' }
-    : { profile: 'Company Profile', corporate: 'Corporate Information', toggle: 'Open About menu' }
+    ? { profile: 'Şirket Profili', corporate: 'Kurumsal Bilgiler', toggle: 'Hakkımızda menüsünü aç', teaser: 'BaX’ı Tanıyın' }
+    : { profile: 'Company Profile', corporate: 'Corporate Information', toggle: 'Open About menu', teaser: 'Discover BaX' }
 
   function renderSection(section: typeof visibleSections[number]['section']) {
     switch (section) {
       case 'about':
-        return <section id="about" className="about-section scroll-reveal"><div className="container"><div className="about-flex"><div className="about-text"><h2><Heading text={d.aboutTitle || ''} /></h2></div><div className="about-desc"><p>{d.aboutDescription}</p><p>{d.aboutGoal}</p></div></div></div></section>
+        return <section id="about" className="about-section about-teaser scroll-reveal"><div className="container"><div className="about-teaser-inner"><div className="about-teaser-copy"><span className="section-label">BAX // {copy.about}</span><h2><Heading text={d.aboutTitle || ''} /></h2></div><a className="about-teaser-link" href="/sirket-profili"><span>{aboutNavigation.teaser}</span><span aria-hidden="true">↗</span></a></div></div></section>
       case 'designNarrative':
         return <NarrativeScene scene={settings.narratives[0]} />
       case 'expertise':
@@ -302,7 +302,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel}><ul>
           {navigationItems.map(([label, id]) => id === 'about'
-            ? <li className={`nav-with-submenu${aboutMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="#about" className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={aboutMenuOpen} aria-label={aboutNavigation.toggle} onClick={() => setAboutMenuOpen((open) => !open)}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu"><a href="#about" onClick={(event) => navigateToSection(event, 'about')}>{aboutNavigation.profile}</a><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}</a></div></li>
+            ? <li className={`nav-with-submenu${aboutMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="/sirket-profili" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={aboutMenuOpen} aria-label={aboutNavigation.toggle} onClick={() => setAboutMenuOpen((open) => !open)}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu"><a href="/sirket-profili">{aboutNavigation.profile}</a><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}</a></div></li>
             : <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a></li>)}
         </ul></nav>
         <button type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-label={copy.mobileMenuLabel} onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>

@@ -17,6 +17,7 @@ const records = [
 export function CorporateInformationClient() {
   const [lang, setLang] = useState<CorporateLang>('tr')
   useEffect(() => { const saved = localStorage.getItem('bax-language'); if (saved === 'tr' || saved === 'en') setLang(saved) }, [])
+  useEffect(() => { document.documentElement.lang = lang }, [lang])
   const t = lang === 'tr' ? {
     eyebrow: 'BAX // KURUMSAL ŞEFFAFLIK', title: 'Kurumsal Bilgiler', intro: 'BaX Kompozit A.Ş.’nin ticari kimliği ve doğrulanabilir kurumsal kayıt bilgileri.', identity: 'Ticari kimlik', offices: 'Merkez ve iletişim', head: 'Genel merkez', branch: 'Şube', verify: 'Resmî kaydı doğrulayın', verifyText: 'Güncel şirket kaydını Merkezi Kayıt Kuruluşu e-Şirket Bilgi Portalı üzerinden görüntüleyebilirsiniz.', verifyLink: 'MKK kaydını görüntüle', legal: 'KVKK ve yasal belgeler',
   } : {

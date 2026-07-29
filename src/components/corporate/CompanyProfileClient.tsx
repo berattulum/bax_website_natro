@@ -14,6 +14,10 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
     if (saved === 'tr' || saved === 'en') setLang(saved)
   }, [])
 
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
+
   const locale = locales[lang]
   const d = locale.dictionary
   const process = locale.ui.process.steps

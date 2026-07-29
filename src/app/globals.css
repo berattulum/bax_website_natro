@@ -5157,3 +5157,181 @@ body {
   .opening-slide .hero-link,
   .opening-slide .hero-link-primary { min-width: 0; min-height: 42px; padding: 10px 14px; font-size: .58rem; }
 }
+
+/* BaX type system — one premium hierarchy across TR/EN and every viewport. */
+:root,
+body {
+  --font-display: var(--font-inter), Inter, "Segoe UI", Arial, sans-serif;
+  --font-body: var(--font-inter), Inter, "Segoe UI", Arial, sans-serif;
+  --font-technical: var(--font-montserrat), Montserrat, Arial, sans-serif;
+}
+
+html {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.hero-title,
+.opening-slide .hero-title,
+.home-engineering-intro h2,
+.home-engineering-capability h3,
+.profile-photo-title,
+.profile-intro-copy h2,
+.profile-method h2,
+.profile-closing h2,
+.corporate-info-hero h1,
+.corporate-info-heading h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -.052em;
+  text-wrap: balance;
+}
+
+p,
+li,
+address,
+.hero-description,
+.profile-lead {
+  font-family: var(--font-body);
+  letter-spacing: -.008em;
+}
+
+.section-label,
+.hero-subtitle,
+.home-engineering-kicker,
+.profile-kicker,
+.corporate-info-hero > span,
+.corporate-record-grid article > span,
+.corporate-office-grid article > span,
+.main-nav a,
+.corporate-header nav > a,
+.corporate-about-menu > span,
+.btn-primary-small,
+.hero-link,
+.home-engineering-link,
+.contact-action,
+.form-submit,
+.footer-grid h3 {
+  font-family: var(--font-technical);
+  font-weight: 600;
+  letter-spacing: .105em;
+}
+
+.opening-slide .hero-title {
+  max-width: 14ch;
+  font-weight: 500;
+  line-height: .94;
+  letter-spacing: -.058em;
+}
+
+.opening-slide .hero-description {
+  max-width: 57ch;
+  line-height: 1.65;
+}
+
+.home-engineering-intro h2 {
+  max-width: 10.5ch;
+  line-height: .98;
+  letter-spacing: -.058em;
+}
+
+.home-engineering-capability h3 {
+  line-height: .96;
+  letter-spacing: -.055em;
+}
+
+.process-heading h2,
+.principles-heading h2,
+.references-heading h2,
+.memberships-heading h2,
+.contact-intro h2 {
+  font-weight: 500;
+  line-height: 1.01;
+  letter-spacing: -.052em;
+}
+
+.expertise-item h3,
+.process-track h3,
+.principle-card h3,
+.profile-method h3 {
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.026em;
+}
+
+.profile-intro-copy h2,
+.profile-method h2,
+.profile-closing h2,
+.corporate-info-hero h1 {
+  line-height: .98;
+  letter-spacing: -.06em;
+}
+
+.corporate-info-heading h2 {
+  line-height: 1.05;
+  letter-spacing: -.045em;
+}
+
+.footer-grid h3,
+.main-nav a,
+.corporate-header nav > a {
+  letter-spacing: .075em;
+}
+
+html[lang="tr"] .section-label,
+html[lang="tr"] .hero-subtitle,
+html[lang="tr"] .home-engineering-kicker,
+html[lang="tr"] .profile-kicker {
+  letter-spacing: .09em;
+}
+
+@media (max-width: 768px) {
+  h1,
+  h2,
+  .hero-title,
+  .opening-slide .hero-title,
+  .home-engineering-intro h2,
+  .home-engineering-capability h3,
+  .profile-intro-copy h2,
+  .profile-method h2,
+  .profile-closing h2,
+  .corporate-info-hero h1 {
+    letter-spacing: -.045em;
+  }
+
+  .opening-slide .hero-title {
+    max-width: 12ch;
+    line-height: .98;
+  }
+
+  .opening-slide .hero-description,
+  .home-engineering-intro p,
+  .home-engineering-capability p,
+  .profile-lead,
+  .profile-intro-copy > p {
+    line-height: 1.62;
+  }
+
+  .section-label,
+  .hero-subtitle,
+  .home-engineering-kicker,
+  .profile-kicker {
+    letter-spacing: .08em;
+  }
+}

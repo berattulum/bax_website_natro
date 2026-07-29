@@ -60,6 +60,10 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const turnstileContainer = useRef<HTMLDivElement | null>(null)
   const turnstileWidgetId = useRef<string | null>(null)
   const content = locales[lang]
+
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
   const d = content.dictionary
   const settings = content.ui
   const copy = {

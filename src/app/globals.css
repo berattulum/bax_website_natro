@@ -1843,6 +1843,107 @@ p { max-width: 68ch; text-wrap: pretty; }
   border-color: #143946;
 }
 
+/* Homepage corporate trust bridge */
+.about-section.home-trust-band {
+  padding-block: clamp(58px, 6vw, 82px);
+  background: #f4f6f4;
+  border-top: 0;
+}
+
+.home-trust-band::after {
+  display: none;
+}
+
+.home-trust-band > .container {
+  display: grid;
+  grid-template-columns: minmax(300px, 1.2fr) minmax(420px, 1.55fr) auto;
+  gap: clamp(34px, 4.5vw, 70px);
+  align-items: end;
+}
+
+.home-trust-intro .section-label {
+  display: block;
+  margin-bottom: 17px;
+  color: #18a8ba;
+}
+
+.home-trust-intro h2 {
+  max-width: 13ch;
+  margin: 0;
+  color: #143946;
+  font-size: clamp(2.1rem, 3.5vw, 3.7rem);
+  font-weight: 500;
+  line-height: .98;
+  letter-spacing: -.052em;
+}
+
+.home-trust-intro p {
+  max-width: 54ch;
+  margin-top: 19px;
+  color: #657c85;
+  font-size: .92rem;
+  line-height: 1.7;
+}
+
+.home-trust-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(20,57,70,.18);
+}
+
+.home-trust-facts > div {
+  min-height: 112px;
+  padding: 24px 18px 10px 0;
+  border-right: 1px solid rgba(20,57,70,.12);
+}
+
+.home-trust-facts > div + div {
+  padding-left: 20px;
+}
+
+.home-trust-facts span,
+.home-trust-facts strong {
+  display: block;
+}
+
+.home-trust-facts span {
+  margin-bottom: 22px;
+  color: #8a9ca2;
+  font-size: .61rem;
+  font-weight: 700;
+  letter-spacing: .11em;
+}
+
+.home-trust-facts strong {
+  max-width: 18ch;
+  color: #244754;
+  font-size: .82rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.home-trust-link {
+  display: flex;
+  width: 205px;
+  min-height: 52px;
+  padding: 0 16px;
+  align-items: center;
+  justify-content: space-between;
+  color: #173e4b;
+  border: 1px solid rgba(20,57,70,.25);
+  font-size: .63rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  transition: color .25s ease, background .25s ease, border-color .25s ease;
+}
+
+.home-trust-link:hover {
+  color: #fff;
+  background: #143946;
+  border-color: #143946;
+}
+
 /* Company profile */
 .profile-page {
   min-height: 100vh;
@@ -2689,6 +2790,36 @@ p { max-width: 68ch; text-wrap: pretty; }
 }
 
 @media (max-width: 768px) {
+  .home-trust-band > .container {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .home-trust-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .home-trust-facts > div {
+    display: grid;
+    min-height: 0;
+    padding: 18px 0;
+    grid-template-columns: 105px 1fr;
+    border-right: 0;
+    border-bottom: 1px solid rgba(20,57,70,.12);
+  }
+
+  .home-trust-facts > div + div {
+    padding-left: 0;
+  }
+
+  .home-trust-facts span {
+    margin-bottom: 0;
+  }
+
+  .home-trust-facts strong {
+    max-width: none;
+  }
+
   .about-teaser-inner,
   .profile-intro,
   .profile-method,

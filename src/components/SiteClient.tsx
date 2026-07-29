@@ -265,13 +265,32 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const aboutNavigation = lang === 'tr'
     ? { profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', corporate: 'Kurumsal Bilgiler', corporateDesc: 'Ticari ve doğrulanabilir şirket kayıtları', toggle: 'Hakkımızda menüsünü aç', teaser: 'BaX’ı Tanıyın' }
     : { profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', corporate: 'Corporate Information', corporateDesc: 'Commercial and verifiable company records', toggle: 'Open About menu', teaser: 'Discover BaX' }
+  const trustBand = lang === 'tr'
+    ? {
+        eyebrow: 'BAX COMPOSITES',
+        title: 'İleri kompozit mühendisliği.',
+        description: 'Tasarımdan doğrulamaya, proses geliştirmeden seri üretime uzanan bütünleşik mühendislik ve üretim çözümleri.',
+        facts: [['KONUM', 'İstanbul · 2018'], ['KABİLİYET', 'Tasarımdan seri üretime'], ['SEKTÖRLER', 'Havacılık · Savunma · Otomotiv']],
+        action: 'Şirket profilini inceleyin',
+        designTitle: 'Kompozit Tasarım ve Dijital Mühendislik',
+        designText: 'Malzeme, geometri ve yapısal performansı üretilebilir çözümlere dönüştürüyoruz.',
+      }
+    : {
+        eyebrow: 'BAX COMPOSITES',
+        title: 'Advanced composite engineering.',
+        description: 'Integrated engineering and manufacturing solutions spanning design, validation, process development and serial production.',
+        facts: [['LOCATION', 'Istanbul · 2018'], ['CAPABILITY', 'From design to serial production'], ['SECTORS', 'Aerospace · Defense · Automotive']],
+        action: 'Explore our company profile',
+        designTitle: 'Composite Design and Digital Engineering',
+        designText: 'We transform material, geometry and structural performance into manufacturable solutions.',
+      }
 
   function renderSection(section: typeof visibleSections[number]['section']) {
     switch (section) {
       case 'about':
-        return <section id="about" className="about-section about-teaser scroll-reveal"><div className="container"><div className="about-teaser-inner"><div className="about-teaser-copy"><span className="section-label">BAX // {copy.about}</span><h2><Heading text={d.aboutTitle || ''} /></h2></div><a className="about-teaser-link" href="/sirket-profili"><span>{aboutNavigation.teaser}</span><span aria-hidden="true">↗</span></a></div></div></section>
+        return <section id="about" className="about-section home-trust-band scroll-reveal"><div className="container"><div className="home-trust-intro"><span className="section-label">{trustBand.eyebrow}</span><h2>{trustBand.title}</h2><p>{trustBand.description}</p></div><div className="home-trust-facts">{trustBand.facts.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><a className="home-trust-link" href="/sirket-profili"><span>{trustBand.action}</span><span aria-hidden="true">↗</span></a></div></section>
       case 'designNarrative':
-        return <NarrativeScene scene={settings.narratives[0]} />
+        return <NarrativeScene scene={[settings.narratives[0][0], trustBand.designTitle, trustBand.designText, settings.narratives[0][3]]} />
       case 'expertise':
         return <ExpertiseSection items={content.expertise} />
       case 'manufacturingNarrative':

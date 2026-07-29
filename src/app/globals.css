@@ -1865,10 +1865,21 @@ p { max-width: 68ch; text-wrap: pretty; }
   transform: scale(1.025);
 }
 
+.profile-hero-facility > img {
+  object-position: 50% 57%;
+  filter: saturate(.72) contrast(1.06) brightness(.78);
+}
+
 .profile-hero-shade {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, rgba(3,17,24,.94) 0%, rgba(5,23,31,.72) 42%, rgba(5,23,31,.12) 78%), linear-gradient(0deg, rgba(4,19,26,.68), transparent 55%);
+}
+
+.profile-hero-facility .profile-hero-shade {
+  background:
+    linear-gradient(90deg, rgba(4,19,26,.28) 0%, rgba(4,19,26,.38) 38%, rgba(4,19,26,.9) 72%, rgba(4,19,26,.96) 100%),
+    linear-gradient(0deg, rgba(3,16,22,.74) 0%, rgba(3,16,22,.08) 65%);
 }
 
 .profile-hero-content {
@@ -1877,6 +1888,16 @@ p { max-width: 68ch; text-wrap: pretty; }
   z-index: 1;
   max-width: 680px;
   color: #f3f6f4;
+}
+
+.profile-hero-facility .profile-hero-content {
+  right: max(28px, calc((100vw - 1200px) / 2));
+  left: max(52%, calc((100vw - 1200px) / 2 + 590px));
+  max-width: 620px;
+}
+
+.profile-hero-facility .profile-hero-content > span {
+  color: #62d0dc;
 }
 
 .profile-hero-content > span,
@@ -2694,6 +2715,20 @@ p { max-width: 68ch; text-wrap: pretty; }
   .profile-hero-content {
     inset-inline: 20px;
     bottom: 44px;
+  }
+
+  .profile-hero-facility > img {
+    object-position: 30% 55%;
+  }
+
+  .profile-hero-facility .profile-hero-shade {
+    background: linear-gradient(0deg, rgba(3,16,22,.95) 0%, rgba(3,16,22,.58) 68%, rgba(3,16,22,.36) 100%);
+  }
+
+  .profile-hero-facility .profile-hero-content {
+    right: 20px;
+    left: 20px;
+    max-width: 600px;
   }
 
   .profile-hero h1 {

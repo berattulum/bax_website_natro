@@ -50,8 +50,8 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
   return (
     <main className="profile-page">
       <CorporateHeader lang={lang} active="profile" />
-      <section className="profile-hero">
-        <Image src="/assets/carbon-futuristic-hero.webp" alt="" fill priority sizes="100vw" />
+      <section className="profile-hero profile-hero-facility">
+        <Image src="/assets/bax-facility-exterior.jpg" alt={lang === 'tr' ? 'BaX Composites üretim tesisi dış görünümü' : 'Exterior view of the BaX Composites production facility'} fill priority sizes="100vw" quality={88} />
         <div className="profile-hero-shade" />
         <div className="profile-hero-content"><span>{text.heroLabel}</span><h1>{text.heroTitle}</h1><p>{text.heroText}</p></div>
       </section>

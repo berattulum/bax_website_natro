@@ -7034,7 +7034,7 @@ html[lang="tr"] .profile-kicker {
   overflow: hidden;
   border: 1px solid rgba(93, 210, 223, .34);
   border-radius: 50%;
-  background: url('/assets/carbon-weave-sharp.png') 58% 52% / cover no-repeat;
+  background: url('/assets/carbon-weave-panoramic.png') center / cover no-repeat;
   box-shadow:
     0 -1px 0 rgba(173, 235, 240, .08),
     0 -10px 38px rgba(70, 197, 211, .12);
@@ -7089,7 +7089,7 @@ html[lang="tr"] .profile-kicker {
     width: 176vw;
     height: 108vw;
     border-radius: 50%;
-    background-position: 56% 52%;
+    background: url('/assets/carbon-weave-panoramic.png') center / cover no-repeat;
   }
 }
 

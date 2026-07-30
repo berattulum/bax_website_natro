@@ -6985,6 +6985,45 @@ html[lang="tr"] .profile-kicker {
     linear-gradient(180deg, #111313 0%, #020303 30%, #000 62%, #071013 100%);
 }
 
+.engineering-continuum::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  height: clamp(130px, 16vh, 180px);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 58% 0%, rgba(177, 221, 222, .16), transparent 48%),
+    linear-gradient(
+      180deg,
+      #eaf0ee 0%,
+      #cdd6d3 14%,
+      #7a8381 34%,
+      #343938 57%,
+      rgba(17, 19, 19, .82) 78%,
+      transparent 100%
+    );
+}
+
+.engineering-continuum::after {
+  content: "";
+  position: absolute;
+  top: clamp(128px, calc(16vh - 2px), 178px);
+  right: 0;
+  left: 0;
+  z-index: 4;
+  height: 1px;
+  opacity: .48;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0 9%, rgba(80, 198, 210, .2) 27%, #5ccbd7 50%, rgba(80, 198, 210, .16) 73%, transparent 93%);
+}
+
+.engineering-continuum .principles-orbit-inner {
+  padding-top: clamp(174px, 19vh, 214px);
+}
+
 .engineering-continuum-orbit {
   position: absolute;
   top: calc(min(900px, 96vh) - 19.5vw);
@@ -7032,6 +7071,18 @@ html[lang="tr"] .profile-kicker {
 }
 
 @media (max-width: 720px) {
+  .engineering-continuum::before {
+    height: 112px;
+  }
+
+  .engineering-continuum::after {
+    top: 110px;
+  }
+
+  .engineering-continuum .principles-orbit-inner {
+    padding-top: 142px;
+  }
+
   .engineering-continuum-orbit {
     top: calc(1000px - 33vw);
     left: -68vw;

@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef, useState, type CSSProperties, type FormEvent, type MouseEvent } from 'react'
 import Image from 'next/image'
 import Script from 'next/script'
-import { ExpertiseSection, MembershipsSection, ReferencesSection, type ManagedLocale } from './ManagedSections'
+import { EcosystemPreview, ExpertiseSection, type ManagedLocale } from './ManagedSections'
 
 type Lang = 'tr' | 'en'
 type Locales = Record<Lang, ManagedLocale>
@@ -47,6 +47,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [activeSection, setActiveSection] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
   const [aboutMenuOpen, setAboutMenuOpen] = useState(false)
+  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [slide, setSlide] = useState(0)
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
@@ -189,7 +190,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   }, [])
 
   useEffect(() => {
-    const sections = ['home', 'about', 'expertise', 'references', 'memberships', 'contact'].map((id) => document.getElementById(id)).filter((section): section is HTMLElement => Boolean(section))
+    const sections = ['home', 'about', 'expertise', 'ecosystem', 'contact'].map((id) => document.getElementById(id)).filter((section): section is HTMLElement => Boolean(section))
     let animationFrame = 0
 
     const updateActiveSection = () => {
@@ -232,6 +233,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     setActiveSection(id)
     setMenuOpen(false)
     setAboutMenuOpen(false)
+    setEcosystemMenuOpen(false)
 
     if (navigationLock.current !== null) window.clearTimeout(navigationLock.current)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -269,8 +271,27 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const slides = [mainSlide, ...settings.hero.secondarySlides]
   const visibleSections = content.sectionLayout.filter((item) => item.enabled)
   const visibleSectionKeys = new Set(visibleSections.map((item) => item.section))
-  const navigationItems = [[copy.about, 'about'], [copy.expertise, 'expertise'], [copy.references, 'references'], [copy.memberships, 'memberships'], [copy.contact, 'contact']]
-    .filter(([, id]) => visibleSectionKeys.has(id === 'references' ? 'partners' : id as typeof visibleSections[number]['section']))
+  const ecosystemNavigation = lang === 'tr'
+    ? {
+        label: 'Ekosistem',
+        partnerships: 'İş Ortaklıkları',
+        partnershipsDesc: 'Stratejik iş birlikleri ve referans kurumlar',
+        networks: 'Ağlar ve Üyelikler',
+        networksDesc: 'Sektörel ağlar, Ar-Ge ve inovasyon ekosistemi',
+        toggle: 'Ekosistem menüsünü aç',
+      }
+    : {
+        label: 'Ecosystem',
+        partnerships: 'Partnerships',
+        partnershipsDesc: 'Strategic collaborations and reference organizations',
+        networks: 'Networks & Memberships',
+        networksDesc: 'Industry networks, R&D and innovation ecosystem',
+        toggle: 'Open ecosystem menu',
+      }
+  const navigationItems = [[copy.about, 'about'], [copy.expertise, 'expertise'], [ecosystemNavigation.label, 'ecosystem'], [copy.contact, 'contact']]
+    .filter(([, id]) => id === 'ecosystem'
+      ? visibleSectionKeys.has('partners') || visibleSectionKeys.has('memberships')
+      : visibleSectionKeys.has(id as typeof visibleSections[number]['section']))
   const aboutNavigation = lang === 'tr'
     ? { profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', corporate: 'Kurumsal Bilgiler', corporateDesc: 'Ticari ve doğrulanabilir şirket kayıtları', toggle: 'Hakkımızda menüsünü aç', teaser: 'BaX’ı Tanıyın' }
     : { profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', corporate: 'Corporate Information', corporateDesc: 'Commercial and verifiable company records', toggle: 'Open About menu', teaser: 'Discover BaX' }
@@ -357,9 +378,9 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'solutions':
         return <section className="magazine-layout"><div className="grid-item text-block"><span className="label">{copy.solutionsLabel}</span><h2>{copy.solutionsTitle}</h2><p>{copy.solutionsText}</p></div><div className="grid-item image-block solution-defense" role="group" aria-label={copy.defense}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-defense-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.defense}</h3></div></div><div className="grid-item image-block solution-civil" role="group" aria-label={copy.aviation}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.aviation}</h3></div></div></section>
       case 'partners':
-        return <ReferencesSection title={d.referencesTitle || ''} description={d.referencesText || ''} note={copy.selectedPartners} items={content.partners} />
+        return <EcosystemPreview lang={lang} partners={content.partners} memberships={content.memberships} />
       case 'memberships':
-        return <MembershipsSection title={d.membershipsTitle || ''} description={d.membershipsText || ''} items={content.memberships} />
+        return null
       case 'contact':
         return <section id="contact" className="contact-section"><div className="container contact-grid"><div className="contact-intro"><h2>{d.contactTitle}</h2><p>{d.contactText}</p><button type="button" className="contact-action" onClick={() => setModalOpen(true)}>{copy.tellProject}</button></div><div className="contact-directory"><article data-contact-icon="BX"><span>{copy.company}</span><strong>{copy.companyName}</strong></article><article data-contact-icon="@"><span>{copy.email}</span><a href={`mailto:${d.email}`}>{d.email}</a></article><article data-contact-icon="+"><span>{copy.phone}</span><a href={`tel:${(d.phone || '').replace(/[^+\d]/g, '')}`}>{d.phone}</a></article><article data-contact-icon="↗"><span>{copy.web}</span><a href={copy.websiteUrl}>{copy.websiteLabel}</a></article></div></div></section>
     }
@@ -375,9 +396,11 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       <div className="container header-container">
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel}><ul>
-          {navigationItems.map(([label, id]) => id === 'about'
-            ? <li className={`nav-with-submenu${aboutMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="/sirket-profili" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={aboutMenuOpen} aria-label={aboutNavigation.toggle} onClick={() => setAboutMenuOpen((open) => !open)}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu"><span className="nav-submenu-mark" aria-hidden="true"><Image src="/images/bax-composites-logo-original.png" alt="" width={1526} height={781} /></span><a href="/sirket-profili"><strong>{aboutNavigation.profile}</strong><small>{aboutNavigation.profileDesc}</small><i aria-hidden="true">↗</i></a><a href="/kurumsal-bilgiler"><strong>{aboutNavigation.corporate}</strong><small>{aboutNavigation.corporateDesc}</small><i aria-hidden="true">↗</i></a></div></li>
-            : <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a></li>)}
+          {navigationItems.map(([label, id]) => {
+            if (id === 'about') return <li className={`nav-with-submenu${aboutMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="/sirket-profili" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={aboutMenuOpen} aria-label={aboutNavigation.toggle} onClick={() => { setAboutMenuOpen((open) => !open); setEcosystemMenuOpen(false) }}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu"><span className="nav-submenu-mark" aria-hidden="true"><Image src="/images/bax-composites-logo-original.png" alt="" width={1526} height={781} /></span><a href="/sirket-profili"><strong>{aboutNavigation.profile}</strong><small>{aboutNavigation.profileDesc}</small><i aria-hidden="true">↗</i></a><a href="/kurumsal-bilgiler"><strong>{aboutNavigation.corporate}</strong><small>{aboutNavigation.corporateDesc}</small><i aria-hidden="true">↗</i></a></div></li>
+            if (id === 'ecosystem') return <li className={`nav-with-submenu nav-ecosystem${ecosystemMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="#ecosystem" className={activeSection === id ? 'active' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={ecosystemMenuOpen} aria-label={ecosystemNavigation.toggle} onClick={() => { setEcosystemMenuOpen((open) => !open); setAboutMenuOpen(false) }}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu nav-submenu-ecosystem"><span className="nav-submenu-index" aria-hidden="true">02</span><a href="/is-ortakliklari"><strong>{ecosystemNavigation.partnerships}</strong><small>{ecosystemNavigation.partnershipsDesc}</small><i aria-hidden="true">↗</i></a><a href="/aglar-ve-uyelikler"><strong>{ecosystemNavigation.networks}</strong><small>{ecosystemNavigation.networksDesc}</small><i aria-hidden="true">↗</i></a></div></li>
+            return <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a></li>
+          })}
         </ul></nav>
         <button type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-label={copy.mobileMenuLabel} onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>
         <div className="header-right"><div className="lang-selector" role="group" aria-label={copy.languageLabel}><button type="button" className={lang === 'tr' ? 'active' : ''} aria-pressed={lang === 'tr'} onClick={() => setLang('tr')}>TR</button><button type="button" className={lang === 'en' ? 'active' : ''} aria-pressed={lang === 'en'} onClick={() => setLang('en')}>EN</button></div><button type="button" className="btn-primary-small" onClick={() => setModalOpen(true)}><span>{copy.contactUs}</span><span className="cta-arrow" aria-hidden="true">↗</span></button></div>

@@ -2,8 +2,8 @@ import type { SiteUISettings } from '@/lib/cms/site-settings-defaults'
 import type { CSSProperties } from 'react'
 
 type ExpertiseItem = { order: number; title: string; description: string }
-type Partner = { name: string; caption: string; website: string; logo: string }
-type Membership = { name: string; category: string; website: string; logo: string; darkCard?: boolean }
+export type Partner = { name: string; caption: string; website: string; logo: string }
+export type Membership = { name: string; category: string; website: string; logo: string; darkCard?: boolean }
 export type SectionKey = 'about' | 'designNarrative' | 'expertise' | 'manufacturingNarrative' | 'process' | 'principles' | 'solutions' | 'partners' | 'memberships' | 'contact'
 export type SectionLayoutItem = { section: SectionKey; enabled: boolean }
 
@@ -66,6 +66,62 @@ export function MembershipsSection({ title, description, items }: { title: strin
             <a className={`membership-card${item.darkCard ? ' membership-card-dark' : ''}`} href={item.website} target="_blank" rel="noopener" key={item.name}>
               <span className="membership-logo"><img src={item.logo} alt={item.name} loading="lazy" /></span>
               <span className="membership-meta"><strong>{item.name}</strong><small>{item.category}</small></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function EcosystemPreview({
+  lang,
+  partners,
+  memberships,
+}: {
+  lang: 'tr' | 'en'
+  partners: Partner[]
+  memberships: Membership[]
+}) {
+  const copy = lang === 'tr'
+    ? {
+        eyebrow: 'BAX // EKOSİSTEM',
+        title: 'Mühendisliğin güçlü bağlantıları',
+        text: 'İleri kompozit çözümlerimizi stratejik iş ortaklıkları, araştırma ağları ve uluslararası teknoloji ekosistemiyle güçlendiriyoruz.',
+        partners: 'İş Ortaklıklarını Keşfedin',
+        networks: 'Ağlar ve Üyelikler',
+        selected: 'Seçilmiş ekosistem bağlantıları',
+      }
+    : {
+        eyebrow: 'BAX // ECOSYSTEM',
+        title: 'Strong connections for advanced engineering',
+        text: 'We strengthen advanced-composite solutions through strategic partnerships, research networks and the international technology ecosystem.',
+        partners: 'Explore Partnerships',
+        networks: 'Networks & Memberships',
+        selected: 'Selected ecosystem connections',
+      }
+  const selected = [
+    ...partners.slice(0, 4).map((item) => ({ ...item, type: 'partner' as const })),
+    ...memberships.slice(0, 2).map((item) => ({ ...item, caption: item.category, type: 'network' as const })),
+  ]
+
+  return (
+    <section id="ecosystem" className="ecosystem-preview scroll-reveal" aria-labelledby="ecosystem-preview-title">
+      <div className="container ecosystem-preview-inner">
+        <div className="ecosystem-preview-copy">
+          <span className="ecosystem-eyebrow">{copy.eyebrow}</span>
+          <h2 id="ecosystem-preview-title">{copy.title}</h2>
+          <p>{copy.text}</p>
+          <div className="ecosystem-preview-actions">
+            <a href="/is-ortakliklari">{copy.partners}<span aria-hidden="true">↗</span></a>
+            <a href="/aglar-ve-uyelikler">{copy.networks}<span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div className="ecosystem-preview-logos" aria-label={copy.selected}>
+          {selected.map((item) => (
+            <a href={item.website} target="_blank" rel="noopener" key={`${item.type}-${item.name}`}>
+              {item.logo ? <img src={item.logo} alt={item.name} loading="lazy" /> : <strong>{item.name}</strong>}
+              <span>{item.name}</span>
             </a>
           ))}
         </div>

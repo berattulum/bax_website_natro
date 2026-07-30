@@ -42,10 +42,6 @@ function Address({ text }: { text?: string }) {
   return <>{(text || '').split('\n').map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</>
 }
 
-function NarrativeScene({ scene }: { scene: readonly [string, string, string, string] }) {
-  return <section className="slide in-view narrative-scene scroll-scene" data-scroll-scene><div className={`slide-bg ${scene[3]}`} role="img" aria-label={scene[1]} /><div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{scene[0]}</h2><h2 className="hero-title"><Heading text={scene[1]} materialTailWords={1} /></h2><p className="hero-description">{scene[2]}</p></div></section>
-}
-
 export default function SiteClient({ locales }: { locales: Locales }) {
   const [lang, setLang] = useState<Lang>('tr')
   const [activeSection, setActiveSection] = useState('home')
@@ -349,7 +345,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'expertise':
         return null
       case 'manufacturingNarrative':
-        return <NarrativeScene scene={settings.narratives[1]} />
+        return null
       case 'process':
         return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><span className="section-label">{copy.processLabel}</span><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':

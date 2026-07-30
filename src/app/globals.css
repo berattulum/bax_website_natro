@@ -6869,6 +6869,112 @@ html[lang="tr"] .profile-kicker {
   }
 }
 
+/* The carbon orbit continues through the expertise field as one material surface. */
+.principles-orbit + .expertise-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #eef5f3;
+  background:
+    radial-gradient(circle at 78% 72%, rgba(48, 123, 132, .08), transparent 28%),
+    linear-gradient(180deg, #000 0%, #030607 48%, #071013 100%);
+}
+
+.principles-orbit + .expertise-section::before {
+  content: "";
+  position: absolute;
+  top: -20vw;
+  left: -13vw;
+  z-index: -2;
+  width: 76vw;
+  height: 39vw;
+  border: 1px solid rgba(93, 210, 223, .34);
+  border-radius: 50%;
+  background: url('/assets/carbon-weave.jpg') 72% 76% / cover no-repeat;
+  box-shadow: 0 12px 34px rgba(70, 197, 211, .1);
+  transform: rotate(8deg);
+}
+
+.principles-orbit + .expertise-section::after {
+  content: "";
+  position: absolute;
+  top: clamp(120px, 18vw, 300px);
+  left: -18%;
+  z-index: -1;
+  width: 82%;
+  height: 1px;
+  opacity: .7;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(86, 205, 217, .16) 34%, #64d8e3 50%, rgba(86, 205, 217, .12) 67%, transparent 100%);
+  transform: rotate(-8deg);
+  animation: expertise-orbit-scan 6.5s ease-in-out infinite alternate;
+}
+
+.principles-orbit + .expertise-section > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.principles-orbit + .expertise-section .expertise-wrapper {
+  border-top-color: rgba(122, 190, 197, .28);
+  border-bottom: 1px solid rgba(122, 190, 197, .16);
+}
+
+.principles-orbit + .expertise-section .expertise-item {
+  color: #eaf2f0;
+  background: rgba(4, 15, 19, .68);
+  border-right-color: rgba(122, 190, 197, .18);
+  border-bottom-color: rgba(122, 190, 197, .18);
+  backdrop-filter: blur(8px);
+}
+
+.principles-orbit + .expertise-section .expertise-item:nth-child(2)::after {
+  opacity: .1;
+  background: repeating-linear-gradient(135deg, #59cad6 0 1px, transparent 1px 11px);
+}
+
+.principles-orbit + .expertise-section .expertise-item h3 {
+  color: #eef5f3;
+}
+
+.principles-orbit + .expertise-section .expertise-item p {
+  color: rgba(205, 224, 222, .7);
+}
+
+.principles-orbit + .expertise-section .expertise-item:hover {
+  color: #fff;
+  background: rgba(13, 42, 50, .88);
+}
+
+@keyframes expertise-orbit-scan {
+  from { transform: translateX(-8%) rotate(-8deg); }
+  to { transform: translateX(54%) rotate(-8deg); }
+}
+
+@media (max-width: 720px) {
+  .principles-orbit + .expertise-section::before {
+    top: -35vw;
+    left: -35vw;
+    width: 140vw;
+    height: 70vw;
+  }
+
+  .principles-orbit + .expertise-section::after {
+    top: 92px;
+    width: 118%;
+  }
+
+  .principles-orbit + .expertise-section .expertise-item {
+    backdrop-filter: blur(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .principles-orbit + .expertise-section::after {
+    animation: none;
+  }
+}
+
 /* Strong technical grotesk for the original BaX statement. */
 .home-engineering-intro h2 {
   display: flex;

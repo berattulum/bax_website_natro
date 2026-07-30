@@ -338,12 +338,16 @@ export default function SiteClient({ locales }: { locales: Locales }) {
               </div>
             </div>
           </section>
-          {principlesOrbit}
+          <div className="engineering-continuum">
+            <div className="engineering-continuum-orbit" aria-hidden="true"><i /><i /><i /></div>
+            {principlesOrbit}
+            <ExpertiseSection items={content.expertise} />
+          </div>
         </>
       case 'designNarrative':
         return null
       case 'expertise':
-        return <ExpertiseSection items={content.expertise} />
+        return null
       case 'manufacturingNarrative':
         return <NarrativeScene scene={settings.narratives[1]} />
       case 'process':

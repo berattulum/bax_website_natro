@@ -7516,8 +7516,8 @@ html[lang="tr"] .profile-kicker {
 }
 
 .home-engineering-surface {
-  min-height: clamp(540px, 66vh, 640px);
-  padding-block: clamp(56px, 7vh, 82px);
+  min-height: clamp(480px, 57vh, 550px);
+  padding-block: clamp(42px, 5.5vh, 62px);
   color: #173a46;
   background:
     radial-gradient(circle at 10% 12%, rgba(42, 178, 196, .1), transparent 25%),
@@ -7578,6 +7578,12 @@ html[lang="tr"] .profile-kicker {
 
 .home-engineering-intro h2 > strong {
   color: #173a46;
+}
+
+.home-engineering-showcase[data-language='en'] .home-engineering-intro h2 {
+  gap: .17em;
+  font-size: clamp(3rem, 4vw, 4.75rem);
+  letter-spacing: -.06em;
 }
 
 .home-engineering-intro p {
@@ -7688,6 +7694,11 @@ html[lang="tr"] .profile-kicker {
     display: grid;
     gap: 0;
     white-space: normal;
+  }
+
+  .home-engineering-showcase[data-language='en'] .home-engineering-intro h2 {
+    gap: 0;
+    font-size: clamp(2.8rem, 9.5vw, 4.1rem);
   }
 
   .home-principles {

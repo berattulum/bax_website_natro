@@ -323,7 +323,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     switch (section) {
       case 'about':
         return <>
-          <section id="about" className="home-engineering-showcase scroll-reveal scroll-scene" data-scroll-scene>
+          <section id="about" className="home-engineering-showcase scroll-reveal scroll-scene" data-scroll-scene data-language={lang}>
             <div className="home-engineering-surface">
               <div className="container home-engineering-layout">
                 <div className="home-engineering-intro">

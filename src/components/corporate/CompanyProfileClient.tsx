@@ -22,57 +22,97 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
   const d = locale.dictionary
   const process = locale.ui.process.steps
   const text = lang === 'tr' ? {
-    heroLabel: 'BAX // ŞİRKET PROFİLİ',
-    heroTitle: <>Kompozitin geleceğini<br />mühendislikle şekillendiriyoruz.</>,
-    heroText: 'Tasarımdan doğrulamaya, proses geliştirmeden seri üretime uzanan uçtan uca kabiliyet.',
-    photoTitle: 'Hakkımızda',
-    founded: 'İstanbul’da kuruldu',
-    identity: 'İLERİ KOMPOZİT MÜHENDİSLİĞİ',
-    journey: '2018’DEN GÜNÜMÜZE',
-    stages: [['2018', 'Kuruluş'], ['Gelişim', 'Tasarım ve analiz kabiliyeti'], ['Endüstriyelleşme', 'Proses ve üretim altyapısı'], ['Bugün', 'Uçtan uca kompozit çözümleri']],
-    model: 'NASIL ÇALIŞIYORUZ?',
-    modelTitle: <>Fikirden güvenilir<br />üretime.</>,
-    transparency: 'KURUMSAL ŞEFFAFLIK',
-    closing: <>Doğrulanabilir bilgiler.<br />Açık iletişim.</>,
+    heroTitle: 'Şirket Profili',
+    heroKicker: 'BAX // İLERİ KOMPOZİT MÜHENDİSLİĞİ',
+    statement: <>Malzeme potansiyelini<br /><em>üretilebilir değere</em><br />dönüştürüyoruz</>,
+    founded: '2018’de İstanbul’da kuruldu',
+    capability: 'Tasarımdan seri üretime',
+    sectors: 'Havacılık · Savunma · Mobilite',
+    flow: 'Mühendislik akışı',
+    flowTitle: <>Tek ekip<br /><em>Kesintisiz süreç</em></>,
+    flowIntro: 'Tasarım kararlarını üretim gerçekleriyle aynı akışta buluşturuyor, her aşamayı doğrulanabilir çıktılarla ilerletiyoruz.',
+    closingKicker: 'KURUMSAL ŞEFFAFLIK',
+    closing: <>Güvenilir mühendislik,<br /><em>açık bilgiyle başlar.</em></>,
     records: 'Kurumsal bilgileri inceleyin',
     legal: 'KVKK ve yasal belgeler',
   } : {
-    heroLabel: 'BAX // COMPANY PROFILE',
-    heroTitle: <>Engineering the future<br />of composites.</>,
-    heroText: 'End-to-end capability from design and validation to process development and serial production.',
-    photoTitle: 'About Us',
-    founded: 'Founded in Istanbul',
-    identity: 'ADVANCED COMPOSITE ENGINEERING',
-    journey: 'FROM 2018 TO TODAY',
-    stages: [['2018', 'Foundation'], ['Development', 'Design and analysis capability'], ['Industrialization', 'Process and production infrastructure'], ['Today', 'End-to-end composite solutions']],
-    model: 'HOW WE WORK',
-    modelTitle: <>From concept to reliable<br />production.</>,
-    transparency: 'CORPORATE TRANSPARENCY',
-    closing: <>Verifiable information.<br />Clear communication.</>,
+    heroTitle: 'Company Profile',
+    heroKicker: 'BAX // ADVANCED COMPOSITE ENGINEERING',
+    statement: <>Transforming material potential<br />into <em>manufacturable value</em></>,
+    founded: 'Founded in Istanbul in 2018',
+    capability: 'From design to serial production',
+    sectors: 'Aviation · Defense · Mobility',
+    flow: 'Engineering flow',
+    flowTitle: <>One team<br /><em>One continuous process</em></>,
+    flowIntro: 'We bring design decisions and production realities into one workflow, advancing every stage through verifiable outputs.',
+    closingKicker: 'CORPORATE TRANSPARENCY',
+    closing: <>Reliable engineering begins<br /><em>with clear information.</em></>,
     records: 'View corporate information',
     legal: 'Privacy and legal documents',
   }
 
   return (
-    <main className="profile-page">
+    <main className="profile-page cp-page">
       <CorporateHeader lang={lang} active="profile" />
-      <section className="profile-hero profile-hero-facility">
-        <Image src="/assets/bax-facility-exterior.jpg" alt={lang === 'tr' ? 'BaX Composites üretim tesisi dış görünümü' : 'Exterior view of the BaX Composites production facility'} fill priority sizes="100vw" quality={88} />
-        <div className="profile-hero-shade" />
-        <div className="profile-photo-title">
-          <h1>{text.photoTitle}</h1>
+
+      <section className="cp-hero">
+        <Image
+          src="/assets/bax-facility-exterior.jpg"
+          alt={lang === 'tr' ? 'BaX Composites üretim tesisi' : 'BaX Composites production facility'}
+          fill
+          priority
+          sizes="100vw"
+          quality={75}
+        />
+        <div className="cp-hero-shade" />
+        <div className="cp-hero-content">
+          <span>{text.heroKicker}</span>
+          <h1>{text.heroTitle}</h1>
         </div>
       </section>
-      <section className="profile-intro">
-        <aside className="profile-journey-rail"><span className="profile-kicker">{text.journey}</span><ol>{text.stages.map(([period, label]) => <li key={period}><strong>{period}</strong><small>{label}</small></li>)}</ol></aside>
-        <div className="profile-intro-copy"><span className="profile-kicker">{text.identity}</span><h2>{d.aboutTitle?.replace(/<br\s*\/?>/gi, ' ')}</h2><p className="profile-lead">{d.aboutDescription}</p><p>{d.aboutGoal}</p></div>
+
+      <section className="cp-intro">
+        <div className="cp-intro-title">
+          <span>BAX // 2018—BUGÜN</span>
+          <h2>{text.statement}</h2>
+        </div>
+        <div className="cp-intro-copy">
+          <p className="cp-lead">{d.aboutDescription}</p>
+          <p>{d.aboutGoal}</p>
+          <dl>
+            <div><dt>01</dt><dd>{text.founded}</dd></div>
+            <div><dt>02</dt><dd>{text.capability}</dd></div>
+            <div><dt>03</dt><dd>{text.sectors}</dd></div>
+          </dl>
+        </div>
       </section>
-      <section className="profile-method">
-        <div className="profile-method-heading"><span className="profile-kicker">{text.model}</span><h2>{text.modelTitle}</h2></div>
-        <ol>{process.map(([title, description], index) => <li key={title}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{title}</h3><p>{description}</p></div></li>)}</ol>
+
+      <section className="cp-flow">
+        <header>
+          <span>{text.flow}</span>
+          <h2>{text.flowTitle}</h2>
+          <p>{text.flowIntro}</p>
+        </header>
+        <ol>
+          {process.map(([title, description], index) => (
+            <li key={title}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div><h3>{title}</h3><p>{description}</p></div>
+            </li>
+          ))}
+        </ol>
       </section>
-      <section className="profile-closing"><div><span className="profile-kicker">{text.transparency}</span><h2>{text.closing}</h2></div><Link href="/kurumsal-bilgiler">{text.records}<span aria-hidden="true">↗</span></Link></section>
-      <footer className="profile-footer"><span>© 2026 BaX Composites Inc.</span><Link href="/kvkk">{text.legal}</Link><Link href="/#home">baxcomposites.com</Link></footer>
+
+      <section className="cp-next">
+        <div><span>{text.closingKicker}</span><h2>{text.closing}</h2></div>
+        <Link href="/kurumsal-bilgiler">{text.records}<span aria-hidden="true">↗</span></Link>
+      </section>
+
+      <footer className="profile-footer">
+        <span>© 2026 BaX Composites Inc.</span>
+        <Link href="/kvkk">{text.legal}</Link>
+        <Link href="/#home">baxcomposites.com</Link>
+      </footer>
     </main>
   )
 }

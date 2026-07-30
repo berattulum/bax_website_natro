@@ -309,17 +309,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
                 <p>{trustBand.description}</p>
                 <a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a>
               </div>
-              <div className="home-principles">
-                <div className="home-principles-heading">
-                  <span className="section-label">BAX / 01—03</span>
-                  <h3>{copy.principlesTitle}</h3>
-                </div>
-                <div className="home-principles-grid">
-                  {[['01', d.visionTitle, d.visionText], ['02', d.missionTitle, d.missionText], ['03', d.valuesTitle, d.valuesText]].map(([index, title, text]) => <article key={index}>
-                    <span>{index}</span><h4>{title}</h4><p>{text}</p>
-                  </article>)}
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -332,7 +321,31 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'process':
         return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><span className="section-label">{copy.processLabel}</span><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':
-        return null
+        return <section className="principles-orbit scroll-reveal" aria-labelledby="principles-orbit-title">
+          <div className="principles-orbit-grid" aria-hidden="true" />
+          <div className="principles-orbit-horizon" aria-hidden="true"><i /><i /><i /></div>
+          <div className="principles-orbit-scan" aria-hidden="true" />
+          <div className="container principles-orbit-inner">
+            <header className="principles-orbit-heading">
+              <span>BAX // {lang === 'tr' ? 'MÜHENDİSLİK İLKELERİ' : 'ENGINEERING PRINCIPLES'}</span>
+              <h2 id="principles-orbit-title">{lang === 'tr'
+                ? <>Geleceği malzemeden<br /><strong>mühendisliğe taşıyoruz.</strong></>
+                : <>From material potential<br /><strong>to engineered futures.</strong></>}</h2>
+            </header>
+            <div className="principles-orbit-path" aria-hidden="true"><i /><i /><i /></div>
+            <div className="principles-orbit-items">
+              {[
+                ['01', lang === 'tr' ? 'YÖN' : 'DIRECTION', d.visionTitle, d.visionText],
+                ['02', lang === 'tr' ? 'SİSTEM' : 'SYSTEM', d.missionTitle, d.missionText],
+                ['03', lang === 'tr' ? 'TEMEL' : 'FOUNDATION', d.valuesTitle, d.valuesText],
+              ].map(([index, code, title, text]) => <article key={index}>
+                <span className="principles-orbit-code"><i aria-hidden="true" />{index} / {code}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>)}
+            </div>
+          </div>
+        </section>
       case 'solutions':
         return <section className="magazine-layout"><div className="grid-item text-block"><span className="label">{copy.solutionsLabel}</span><h2>{copy.solutionsTitle}</h2><p>{copy.solutionsText}</p></div><div className="grid-item image-block solution-defense" role="group" aria-label={copy.defense}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-defense-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.defense}</h3></div></div><div className="grid-item image-block solution-civil" role="group" aria-label={copy.aviation}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.aviation}</h3></div></div></section>
       case 'partners':

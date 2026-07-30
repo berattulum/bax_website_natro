@@ -6507,6 +6507,318 @@ html[lang="tr"] .profile-kicker {
   }
 }
 
+/* Carbon Orbit — independent vision, mission and values scene. */
+.home-engineering-surface {
+  min-height: min(680px, 76vh);
+}
+
+.principles-orbit {
+  position: relative;
+  min-height: min(900px, 96vh);
+  overflow: hidden;
+  isolation: isolate;
+  color: #edf5f3;
+  background:
+    radial-gradient(circle at 72% 22%, rgba(54, 173, 189, .13), transparent 23%),
+    radial-gradient(circle at 22% 84%, rgba(25, 94, 108, .22), transparent 34%),
+    linear-gradient(145deg, #07171d 0%, #081f27 50%, #041015 100%);
+  border-top: 1px solid rgba(89, 205, 218, .28);
+}
+
+.principles-orbit-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  opacity: .12;
+  background:
+    linear-gradient(rgba(125, 205, 214, .13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 205, 214, .13) 1px, transparent 1px);
+  background-size: 78px 78px;
+  mask-image: radial-gradient(circle at 61% 48%, #000, transparent 70%);
+}
+
+.principles-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .1;
+  background: repeating-linear-gradient(135deg, rgba(151, 224, 232, .28) 0 1px, transparent 1px 12px);
+  mask-image: linear-gradient(110deg, transparent 0 48%, #000 67%, transparent 91%);
+  pointer-events: none;
+}
+
+.principles-orbit-inner {
+  position: relative;
+  min-height: min(900px, 96vh);
+  padding-block: clamp(80px, 9vh, 120px);
+}
+
+.principles-orbit-heading {
+  position: relative;
+  z-index: 4;
+  max-width: 720px;
+}
+
+.principles-orbit-heading > span,
+.principles-orbit-code {
+  color: #58d0dd;
+  font-family: var(--font-technical);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+}
+
+.principles-orbit-heading h2 {
+  margin-top: 24px;
+  color: rgba(226, 235, 233, .4);
+  font-size: clamp(3.2rem, 5.1vw, 6rem);
+  font-weight: 550;
+  line-height: .91;
+  letter-spacing: -.065em;
+}
+
+.principles-orbit-heading h2 strong {
+  color: #f0f5f3;
+  font-weight: 600;
+}
+
+.principles-orbit-horizon {
+  position: absolute;
+  bottom: -19vw;
+  left: -13vw;
+  z-index: -2;
+  width: 76vw;
+  height: 39vw;
+  overflow: hidden;
+  border: 1px solid rgba(93, 210, 223, .34);
+  border-radius: 50%;
+  background:
+    linear-gradient(168deg, transparent 0 36%, rgba(67, 183, 197, .13) 37%, rgba(9, 43, 52, .55) 52%, rgba(3, 14, 19, .95) 78%),
+    repeating-linear-gradient(12deg, rgba(118, 208, 217, .12) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(102deg, rgba(118, 208, 217, .08) 0 1px, transparent 1px 11px);
+  box-shadow:
+    inset 0 22px 45px rgba(79, 200, 213, .08),
+    0 -6px 34px rgba(70, 197, 211, .11);
+  transform: rotate(8deg);
+}
+
+.principles-orbit-horizon::before {
+  content: "";
+  position: absolute;
+  inset: 8% 5%;
+  border: 1px solid rgba(104, 205, 216, .16);
+  border-radius: 50%;
+}
+
+.principles-orbit-horizon i {
+  position: absolute;
+  right: -10%;
+  left: -10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(88, 208, 221, .28), transparent);
+}
+
+.principles-orbit-horizon i:nth-child(1) { top: 26%; }
+.principles-orbit-horizon i:nth-child(2) { top: 48%; }
+.principles-orbit-horizon i:nth-child(3) { top: 68%; }
+
+.principles-orbit-scan {
+  position: absolute;
+  bottom: 14%;
+  left: 7%;
+  z-index: 1;
+  width: 58vw;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(89, 207, 220, .1);
+  transform: rotate(-8deg);
+}
+
+.principles-orbit-scan::after {
+  content: "";
+  display: block;
+  width: 18%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #62d8e4, transparent);
+  animation: orbit-scan 5.5s ease-in-out infinite;
+}
+
+.principles-orbit-items {
+  position: absolute;
+  top: 26%;
+  right: 0;
+  left: 34%;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(22px, 3vw, 50px);
+}
+
+.principles-orbit-items article {
+  position: relative;
+  min-width: 0;
+  padding: 26px 22px 30px;
+  background: linear-gradient(145deg, rgba(19, 54, 64, .48), rgba(7, 25, 32, .16));
+  border-top: 1px solid rgba(178, 224, 228, .18);
+  border-left: 1px solid rgba(178, 224, 228, .12);
+  backdrop-filter: blur(5px);
+  transition: background .35s ease, transform .45s cubic-bezier(.16, 1, .3, 1), border-color .35s ease;
+}
+
+.principles-orbit-items article:nth-child(1) { transform: translateY(88px); }
+.principles-orbit-items article:nth-child(2) { transform: translateY(222px); }
+.principles-orbit-items article:nth-child(3) { transform: translateY(18px); }
+
+.principles-orbit-items article:hover {
+  background: rgba(22, 70, 81, .72);
+  border-color: rgba(93, 210, 223, .45);
+  transform: translateY(0);
+}
+
+.principles-orbit-code {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(171, 217, 222, .55);
+}
+
+.principles-orbit-code i {
+  width: 15px;
+  height: 15px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(213, 238, 239, .52);
+}
+
+.principles-orbit-code i::after {
+  content: "";
+  width: 3px;
+  height: 3px;
+  background: #5dd3df;
+}
+
+.principles-orbit-items h3 {
+  margin-top: 29px;
+  color: #f1f6f4;
+  font-size: clamp(1.55rem, 2vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.principles-orbit-items p {
+  margin-top: 18px;
+  color: rgba(208, 226, 225, .62);
+  font-size: clamp(.77rem, .84vw, .88rem);
+  line-height: 1.65;
+}
+
+.principles-orbit-path {
+  position: absolute;
+  top: 45%;
+  right: 4%;
+  left: 29%;
+  z-index: 2;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(91, 204, 216, .3), transparent);
+  transform: rotate(12deg);
+}
+
+.principles-orbit-path i {
+  position: absolute;
+  top: -4px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(194, 232, 235, .5);
+  background: #0a242c;
+  transform: rotate(45deg);
+}
+
+.principles-orbit-path i:nth-child(1) { left: 9%; }
+.principles-orbit-path i:nth-child(2) { left: 49%; }
+.principles-orbit-path i:nth-child(3) { left: 88%; }
+
+@keyframes orbit-scan {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(640%); }
+}
+
+@media (max-width: 1000px) {
+  .principles-orbit,
+  .principles-orbit-inner {
+    min-height: 940px;
+  }
+
+  .principles-orbit-items {
+    top: 35%;
+    left: 18%;
+  }
+
+  .principles-orbit-horizon {
+    bottom: -12vw;
+    width: 92vw;
+    height: 47vw;
+  }
+}
+
+@media (max-width: 720px) {
+  .home-engineering-surface {
+    min-height: auto;
+  }
+
+  .principles-orbit {
+    min-height: auto;
+  }
+
+  .principles-orbit-inner {
+    min-height: auto;
+    padding-block: 72px 96px;
+  }
+
+  .principles-orbit-heading h2 {
+    font-size: clamp(2.75rem, 12vw, 4.15rem);
+  }
+
+  .principles-orbit-items {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    margin-top: 64px;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .principles-orbit-items article,
+  .principles-orbit-items article:nth-child(1),
+  .principles-orbit-items article:nth-child(2),
+  .principles-orbit-items article:nth-child(3) {
+    min-height: 0;
+    padding: 26px 22px 30px;
+    transform: none;
+  }
+
+  .principles-orbit-horizon {
+    bottom: -6vw;
+    left: -35vw;
+    width: 140vw;
+    height: 70vw;
+    opacity: .7;
+  }
+
+  .principles-orbit-path,
+  .principles-orbit-scan {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .principles-orbit-scan::after {
+    animation: none;
+  }
+}
+
 /* Strong technical grotesk for the original BaX statement. */
 .home-engineering-intro h2 {
   display: flex;

@@ -12,10 +12,11 @@ function SafeHeading({ text }: { text: string }) {
   return <>{lines.map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</>
 }
 
-export function ExpertiseSection({ items }: { items: ExpertiseItem[] }) {
+export function ExpertiseSection({ items, label }: { items: ExpertiseItem[]; label: string }) {
   return (
     <section id="expertise" className="expertise-section scroll-reveal">
       <div className="container">
+        <div className="expertise-kicker"><i aria-hidden="true" />{label}</div>
         <div className="expertise-wrapper">
           {items.map((item) => (
             <div className="expertise-item" style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>

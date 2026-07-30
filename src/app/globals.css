@@ -7065,6 +7065,42 @@ html[lang="tr"] .profile-kicker {
   backdrop-filter: none;
 }
 
+.engineering-continuum .expertise-kicker {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: fit-content;
+  margin: 0 0 20px;
+  color: #58cad7;
+  font-family: var(--font-technical);
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.engineering-continuum .expertise-kicker i {
+  width: 22px;
+  height: 1px;
+  flex: 0 0 auto;
+  background: currentColor;
+  box-shadow: 29px 0 0 rgba(88, 202, 215, .28);
+}
+
+.scroll-reveal .expertise-kicker {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity .75s cubic-bezier(.2, .72, .2, 1),
+    transform .9s cubic-bezier(.16, 1, .3, 1);
+}
+
+.scroll-reveal.is-revealed .expertise-kicker {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
 .engineering-continuum .principles-orbit-horizon,
 .engineering-continuum > .expertise-section::before {
   display: none;
@@ -7090,6 +7126,12 @@ html[lang="tr"] .profile-kicker {
     height: 108vw;
     border-radius: 50%;
     background: url('/assets/carbon-weave-panoramic.png') center / cover no-repeat;
+  }
+
+  .engineering-continuum .expertise-kicker {
+    margin-bottom: 14px;
+    font-size: .6rem;
+    letter-spacing: .13em;
   }
 }
 

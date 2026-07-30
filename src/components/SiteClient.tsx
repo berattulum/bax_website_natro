@@ -337,7 +337,10 @@ export default function SiteClient({ locales }: { locales: Locales }) {
           <div className="engineering-continuum">
             <div className="engineering-continuum-orbit" aria-hidden="true"><i /><i /><i /></div>
             {principlesOrbit}
-            <ExpertiseSection items={content.expertise} />
+            <ExpertiseSection
+              items={content.expertise}
+              label={`BAX // ${lang === 'tr' ? 'MÜHENDİSLİK YETKİNLİKLERİ' : 'ENGINEERING CAPABILITIES'}`}
+            />
           </div>
         </>
       case 'designNarrative':

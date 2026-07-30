@@ -341,6 +341,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
               items={content.expertise}
               label={`BAX // ${lang === 'tr' ? 'MÜHENDİSLİK YETKİNLİKLERİ' : 'ENGINEERING CAPABILITIES'}`}
             />
+            <div className="engineering-continuum-exit" aria-hidden="true"><i /></div>
           </div>
         </>
       case 'designNarrative':

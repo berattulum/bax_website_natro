@@ -31,7 +31,7 @@ export function CorporateInformationClient() {
       <div className="corporate-record-grid">{records.map(([tr, en, value]) => <article key={tr}><span>{lang === 'tr' ? tr : en}</span><strong>{value}</strong></article>)}</div>
       <div className="corporate-info-heading"><span>02</span><h2>{t.offices}</h2></div>
       <div className="corporate-office-grid"><article><span>{t.head}</span><p>Yıldız Teknik Üniversitesi Teknopark, Çifte Havuzlar Mah., Eski Londra Asfaltı Cad., A1 Blok No: B35, 34220 Esenler / İstanbul</p></article><article><span>{t.branch}</span><p>İkitelli OSB Mah., Metal-İş Sanayi Sitesi, No: 17/10, 34490 Başakşehir / İstanbul</p></article></div>
-      <aside className="corporate-verification"><div><span>03</span><h2>{t.verify}</h2><p>{t.verifyText}</p></div><a href="https://e-sirket.mkk.com.tr/?page=company&company=10566#" target="_blank" rel="noreferrer">{t.verifyLink}<span aria-hidden="true">↗</span></a></aside>
+      <aside className="corporate-verification"><div><span>03</span><h2>{t.verify}</h2><p>{t.verifyText}</p></div><a href="https://e-sirket.mkk.com.tr/" target="_blank" rel="noreferrer">{t.verifyLink}<span aria-hidden="true">↗</span></a></aside>
     </section>
     <footer className="profile-footer"><span>© 2026 BaX Composites Inc.</span><Link href="/kvkk">{t.legal}</Link><Link href="/#home">baxcomposites.com</Link></footer>
   </main>

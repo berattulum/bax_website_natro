@@ -19,6 +19,45 @@ const defaultSectionLayout: ManagedLocale['sectionLayout'] = [
   'contact',
 ].map((section) => ({ section: section as SectionKey, enabled: true }))
 
+const defaultPartners = [
+  ['CTC', 'CTC · an Airbus company', 'https://ctc-composites.com/', '/logos/ctc.png'],
+  ['CTRM', 'CTRM · DRB-HICOM', 'https://www.ctrm.com.my/', '/logos/ctrm.png'],
+  ['Kale', 'Kale', 'https://www.kale.com.tr/', '/logos/kale.png'],
+  ['Toray', 'Toray', 'https://www.toray.com/', '/logos/toray.png'],
+  ['Ecoplas', 'Ecoplas', 'https://www.ecoplas.com.tr/', '/logos/ecoplas.png'],
+  ['FEV', 'FEV', 'https://www.fev.com/', '/logos/fev.png'],
+  ['Rimac', 'Rimac Automobili', 'https://www.rimac-automobili.com/', '/logos/rimac.png'],
+  ['MAN', 'MAN', 'https://www.man.eu/', '/logos/man.png'],
+  ['Lightyear', 'Lightyear', 'https://lightyear.one/', '/logos/lightyear.png'],
+  ['LIST Luxembourg', 'LIST Luxembourg', 'https://www.list.lu/', '/logos/list.png'],
+  ['9T Labs', '9T Labs', 'https://www.9tlabs.com/', '/logos/9t-labs.png'],
+  ['EURO-COMPOSITES', 'EURO-COMPOSITES', 'https://www.euro-composites.com/en/', '/logos/euro-composites.png'],
+  ['SPIRAL RTC', 'SPIRAL RTC', 'https://spiralrtc.com/', '/logos/spiral-rtc.png'],
+  ['TPRC', 'TPRC', 'https://tprc.nl/', '/logos/tprc.svg'],
+  ['TPAC', 'TPAC', 'https://thermoplasticcomposites.nl/', '/logos/tpac.jpg'],
+  ['Addcomposites', 'Addcomposites', 'https://www.addcomposites.com/', '/logos/addcomposites.png'],
+].map(([name, caption, website, logo]) => ({ name, caption, website, logo }))
+
+const defaultMemberships = [
+  ['Composites United', 'SEKTÖREL AĞ', 'INDUSTRY NETWORK', 'https://composites-united.com/en/', '/logos/memberships/composites-united.png', true],
+  ['M-ERA.NET', 'AR-GE AĞI', 'R&D NETWORK', 'https://www.m-era.net/', '/logos/memberships/m-era-net.png', false],
+  ['TÜBİTAK', 'ARAŞTIRMA KURUMU', 'RESEARCH INSTITUTION', 'https://tubitak.gov.tr/', '/logos/memberships/tubitak.svg', false],
+  ['TOBB', 'MESLEK ÜST KURULUŞU', 'BUSINESS ORGANIZATION', 'https://www.tobb.org.tr/', '/logos/memberships/tobb.jpg', false],
+  ['İstanbul Ticaret Odası', 'TİCARET ODASI', 'CHAMBER OF COMMERCE', 'https://www.ito.org.tr/tr', '/logos/memberships/ito.png', false],
+  ['KOSGEB', 'KOBİ DESTEK EKOSİSTEMİ', 'SME SUPPORT ECOSYSTEM', 'https://www.kosgeb.gov.tr/', '/logos/memberships/kosgeb.png', false],
+  ['Türkiye İhracatçılar Meclisi', 'İHRACAT EKOSİSTEMİ', 'EXPORT ECOSYSTEM', 'https://tim.org.tr/', '/logos/memberships/tim.svg', false],
+  ['SSI', 'SEKTÖR BİRLİĞİ', 'SECTOR ASSOCIATION', 'https://www.turksavunmasanayi.gov.tr/', '/logos/memberships/ssi.png', false],
+  ['OAİB', 'İHRACATÇI BİRLİĞİ', 'EXPORTERS ASSOCIATION', 'https://oaib.org.tr/', '/logos/memberships/oaib.png', false],
+  ['Eureka Network', 'İNOVASYON AĞI', 'INNOVATION NETWORK', 'https://www.eurekanetwork.org/', '/logos/memberships/eureka.svg', false],
+].map(([name, categoryTr, categoryEn, website, logo, darkCard]) => ({
+  name: name as string,
+  categoryTr: categoryTr as string,
+  categoryEn: categoryEn as string,
+  website: website as string,
+  logo: logo as string,
+  darkCard: darkCard as boolean,
+}))
+
 function mediaUrl(media: unknown) {
   return typeof media === 'object' &&
     media &&
@@ -125,19 +164,29 @@ async function queryHomeData(includeDrafts: boolean) {
         title: item.title,
         description: item.description,
       })),
-      partners: partners.docs.map((item) => ({
-        name: item.name,
-        caption: item.caption || item.name,
-        website: item.website,
-        logo: mediaUrl(item.logo),
-      })),
-      memberships: memberships.docs.map((item) => ({
-        name: item.name,
-        category: item.category,
-        website: item.website,
-        logo: mediaUrl(item.logo),
-        darkCard: item.darkCard || false,
-      })),
+      partners: partners.docs.length > 0
+        ? partners.docs.map((item) => ({
+            name: item.name,
+            caption: item.caption || item.name,
+            website: item.website,
+            logo: mediaUrl(item.logo),
+          }))
+        : defaultPartners,
+      memberships: memberships.docs.length > 0
+        ? memberships.docs.map((item) => ({
+            name: item.name,
+            category: item.category,
+            website: item.website,
+            logo: mediaUrl(item.logo),
+            darkCard: item.darkCard || false,
+          }))
+        : defaultMemberships.map((item) => ({
+            name: item.name,
+            category: locale === 'tr' ? item.categoryTr : item.categoryEn,
+            website: item.website,
+            logo: item.logo,
+            darkCard: item.darkCard,
+          })),
     }
   }
 
@@ -145,7 +194,7 @@ async function queryHomeData(includeDrafts: boolean) {
   return { tr, en }
 }
 
-const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v1'], {
+const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v2'], {
   tags: Object.values(CACHE_TAGS),
   revalidate: 86_400,
 })

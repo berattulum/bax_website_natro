@@ -298,23 +298,30 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     switch (section) {
       case 'about':
         return <section id="about" className="home-engineering-showcase scroll-reveal scroll-scene" data-scroll-scene>
-          <div className="home-engineering-surface"><div className="container home-engineering-content">
-            <div className="home-engineering-intro">
-              <span className="section-label">{trustBand.eyebrow}</span>
-              <h2>{trustBand.title}</h2>
-              <p>{trustBand.description}</p>
-              <a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a>
-            </div>
-            <div className="home-engineering-media">
-              <div className={`home-engineering-image ${settings.narratives[0][3]}`} role="img" aria-label={trustBand.designTitle} />
-              <div className="home-engineering-shade" aria-hidden="true" />
-              <div className="home-engineering-capability">
-                <span className="home-engineering-kicker">{settings.narratives[0][0]}</span>
-                <h3>{trustBand.designTitle}</h3>
-                <p>{trustBand.designText}</p>
+          <div className="home-engineering-surface">
+            <div className="container home-engineering-layout">
+              <div className="home-engineering-intro">
+                <span className="section-label">{trustBand.eyebrow}</span>
+                <h2>
+                  <span>{lang === 'tr' ? 'İleri kompozit' : 'Advanced composite'}</span>
+                  <strong>{lang === 'tr' ? 'mühendisliği' : 'engineering'}</strong>
+                </h2>
+                <p>{trustBand.description}</p>
+                <a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a>
+              </div>
+              <div className="home-principles">
+                <div className="home-principles-heading">
+                  <span className="section-label">BAX / 01—03</span>
+                  <h3>{copy.principlesTitle}</h3>
+                </div>
+                <div className="home-principles-grid">
+                  {[['01', d.visionTitle, d.visionText], ['02', d.missionTitle, d.missionText], ['03', d.valuesTitle, d.valuesText]].map(([index, title, text]) => <article key={index}>
+                    <span>{index}</span><h4>{title}</h4><p>{text}</p>
+                  </article>)}
+                </div>
               </div>
             </div>
-          </div></div>
+          </div>
         </section>
       case 'designNarrative':
         return null
@@ -325,7 +332,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'process':
         return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><span className="section-label">{copy.processLabel}</span><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':
-        return <section className="principles-section" aria-labelledby="principles-title"><div className="container"><div className="principles-heading"><h2 id="principles-title">{copy.principlesTitle}</h2></div><div className="principles-grid">{[['V', d.visionTitle, d.visionText], ['M', d.missionTitle, d.missionText], ['D', d.valuesTitle, d.valuesText]].map(([letter, title, text]) => <article className="principle-card" key={letter}><span>{letter}</span><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
+        return null
       case 'solutions':
         return <section className="magazine-layout"><div className="grid-item text-block"><span className="label">{copy.solutionsLabel}</span><h2>{copy.solutionsTitle}</h2><p>{copy.solutionsText}</p></div><div className="grid-item image-block solution-defense" role="group" aria-label={copy.defense}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-defense-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.defense}</h3></div></div><div className="grid-item image-block solution-civil" role="group" aria-label={copy.aviation}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.aviation}</h3></div></div></section>
       case 'partners':

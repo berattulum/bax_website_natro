@@ -301,8 +301,8 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       <header className="principles-orbit-heading">
         <span>BAX // {lang === 'tr' ? 'MÜHENDİSLİK İLKELERİ' : 'ENGINEERING PRINCIPLES'}</span>
         <h2 id="principles-orbit-title">{lang === 'tr'
-          ? <>Geleceği malzemeden<br /><strong>mühendisliğe taşıyoruz.</strong></>
-          : <>From material potential<br /><strong>to engineered futures.</strong></>}</h2>
+          ? <>Geleceği malzemeden<br /><strong>mühendisliğe taşıyoruz</strong></>
+          : <>From material potential<br /><strong>to engineered futures</strong></>}</h2>
       </header>
       <div className="principles-orbit-path" aria-hidden="true"><i /><i /><i /></div>
       <div className="principles-orbit-items">

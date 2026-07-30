@@ -6559,6 +6559,8 @@ html[lang="tr"] .profile-kicker {
 
 .principles-orbit-inner {
   position: relative;
+  width: min(calc(100% - (var(--page-gutter) * 2)), 1480px);
+  max-width: none;
   min-height: min(900px, 96vh);
   padding-block: clamp(112px, 13vh, 150px) clamp(80px, 9vh, 120px);
 }
@@ -6566,7 +6568,7 @@ html[lang="tr"] .profile-kicker {
 .principles-orbit-heading {
   position: relative;
   z-index: 4;
-  max-width: 720px;
+  max-width: 620px;
 }
 
 .principles-orbit-heading > span,
@@ -6581,7 +6583,7 @@ html[lang="tr"] .profile-kicker {
 .principles-orbit-heading h2 {
   margin-top: 24px;
   color: rgba(226, 235, 233, .4);
-  font-size: clamp(3.2rem, 5.1vw, 6rem);
+  font-size: clamp(3.2rem, 4.75vw, 5.65rem);
   font-weight: 550;
   line-height: .91;
   letter-spacing: -.065em;
@@ -6603,9 +6605,11 @@ html[lang="tr"] .profile-kicker {
   border: 1px solid rgba(93, 210, 223, .34);
   border-radius: 50%;
   background:
-    linear-gradient(168deg, transparent 0 36%, rgba(67, 183, 197, .13) 37%, rgba(9, 43, 52, .55) 52%, rgba(3, 14, 19, .95) 78%),
-    repeating-linear-gradient(12deg, rgba(118, 208, 217, .12) 0 1px, transparent 1px 9px),
-    repeating-linear-gradient(102deg, rgba(118, 208, 217, .08) 0 1px, transparent 1px 11px);
+    linear-gradient(168deg, transparent 0 42%, rgba(4, 29, 35, .12) 70%, rgba(1, 7, 10, .34) 100%),
+    repeating-linear-gradient(12deg, rgba(118, 208, 217, .14) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(102deg, rgba(118, 208, 217, .1) 0 1px, transparent 1px 11px),
+    linear-gradient(90deg, rgba(2, 13, 17, .02), rgba(4, 25, 31, .07)),
+    url('/assets/carbon-weave.jpg') center 44% / cover no-repeat;
   box-shadow:
     inset 0 22px 45px rgba(79, 200, 213, .08),
     0 -6px 34px rgba(70, 197, 211, .11);
@@ -6618,6 +6622,10 @@ html[lang="tr"] .profile-kicker {
   inset: 8% 5%;
   border: 1px solid rgba(104, 205, 216, .16);
   border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 54% 40%, rgba(91, 213, 225, .035), transparent 52%),
+    linear-gradient(180deg, transparent 60%, rgba(2, 18, 23, .08) 100%);
+  box-shadow: inset 0 0 34px rgba(2, 12, 16, .1);
 }
 
 .principles-orbit-horizon i {
@@ -6655,9 +6663,9 @@ html[lang="tr"] .profile-kicker {
 
 .principles-orbit-items {
   position: absolute;
-  top: 26%;
+  top: 23%;
   right: 0;
-  left: 34%;
+  left: 43%;
   z-index: 3;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6665,6 +6673,7 @@ html[lang="tr"] .profile-kicker {
 }
 
 .principles-orbit-items article {
+  --orbit-card-y: 0px;
   position: relative;
   min-width: 0;
   padding: 26px 22px 30px;
@@ -6672,17 +6681,18 @@ html[lang="tr"] .profile-kicker {
   border-top: 1px solid rgba(178, 224, 228, .18);
   border-left: 1px solid rgba(178, 224, 228, .12);
   backdrop-filter: blur(5px);
+  transform: translateY(var(--orbit-card-y));
   transition: background .35s ease, transform .45s cubic-bezier(.16, 1, .3, 1), border-color .35s ease;
 }
 
-.principles-orbit-items article:nth-child(1) { transform: translateY(88px); }
-.principles-orbit-items article:nth-child(2) { transform: translateY(222px); }
-.principles-orbit-items article:nth-child(3) { transform: translateY(18px); }
+.principles-orbit-items article:nth-child(1) { --orbit-card-y: 190px; }
+.principles-orbit-items article:nth-child(2) { --orbit-card-y: 102px; }
+.principles-orbit-items article:nth-child(3) { --orbit-card-y: 14px; }
 
 .principles-orbit-items article:hover {
   background: rgba(22, 70, 81, .72);
   border-color: rgba(93, 210, 223, .45);
-  transform: translateY(0);
+  transform: translateY(calc(var(--orbit-card-y) - 8px));
 }
 
 .principles-orbit-code {
@@ -6760,8 +6770,16 @@ html[lang="tr"] .profile-kicker {
   }
 
   .principles-orbit-items {
-    top: 35%;
-    left: 18%;
+    top: 43%;
+    left: 8%;
+  }
+
+  .principles-orbit-items article:nth-child(1) {
+    --orbit-card-y: 0px;
+  }
+
+  .principles-orbit-items article:nth-child(2) {
+    --orbit-card-y: 86px;
   }
 
   .principles-orbit-horizon {
@@ -6803,9 +6821,14 @@ html[lang="tr"] .profile-kicker {
   .principles-orbit-items article:nth-child(1),
   .principles-orbit-items article:nth-child(2),
   .principles-orbit-items article:nth-child(3) {
+    --orbit-card-y: 0px;
     min-height: 0;
     padding: 26px 22px 30px;
     transform: none;
+  }
+
+  .principles-orbit-items article:hover {
+    transform: translateY(-4px);
   }
 
   .principles-orbit-horizon {
@@ -6825,6 +6848,39 @@ html[lang="tr"] .profile-kicker {
 @media (prefers-reduced-motion: reduce) {
   .principles-orbit-scan::after {
     animation: none;
+  }
+}
+
+/* Opening scene → light engineering surface transition. */
+.hero-section::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  height: clamp(110px, 14vh, 170px);
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(8, 14, 17, .1) 18%, rgba(46, 57, 58, .38) 48%, rgba(180, 194, 190, .72) 78%, #edf3f1 100%);
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  height: 1px;
+  opacity: .38;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0 8%, #58c8d4 32%, rgba(88, 200, 212, .16) 68%, transparent 94%);
+}
+
+@media (max-width: 768px) {
+  .hero-section::after {
+    height: clamp(78px, 12svh, 110px);
   }
 }
 
@@ -7475,8 +7531,8 @@ html[lang="tr"] .profile-kicker {
 }
 
 .home-engineering-surface {
-  min-height: min(880px, 94vh);
-  padding-block: clamp(80px, 9vh, 120px);
+  min-height: clamp(540px, 66vh, 640px);
+  padding-block: clamp(56px, 7vh, 82px);
   color: #173a46;
   background:
     radial-gradient(circle at 10% 12%, rgba(42, 178, 196, .1), transparent 25%),

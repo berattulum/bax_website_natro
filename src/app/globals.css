@@ -6519,17 +6519,26 @@ html[lang="tr"] .profile-kicker {
   isolation: isolate;
   color: #edf5f3;
   background:
-    radial-gradient(circle at 72% 22%, rgba(54, 173, 189, .13), transparent 23%),
-    radial-gradient(circle at 22% 84%, rgba(25, 94, 108, .22), transparent 34%),
-    linear-gradient(145deg, #07171d 0%, #081f27 50%, #041015 100%);
-  border-top: 1px solid rgba(89, 205, 218, .28);
+    radial-gradient(circle at 73% 25%, rgba(85, 164, 173, .08), transparent 26%),
+    radial-gradient(circle at 18% 86%, rgba(48, 104, 110, .1), transparent 36%),
+    linear-gradient(
+      180deg,
+      #dfe7e4 0%,
+      #727977 4%,
+      #272b2b 10%,
+      #111313 20%,
+      #070808 42%,
+      #020303 72%,
+      #000 100%
+    );
+  border-top: 0;
 }
 
 .principles-orbit-grid {
   position: absolute;
   inset: 0;
   z-index: -3;
-  opacity: .12;
+  opacity: .085;
   background:
     linear-gradient(rgba(125, 205, 214, .13) 1px, transparent 1px),
     linear-gradient(90deg, rgba(125, 205, 214, .13) 1px, transparent 1px);
@@ -6542,7 +6551,7 @@ html[lang="tr"] .profile-kicker {
   position: absolute;
   inset: 0;
   z-index: -1;
-  opacity: .1;
+  opacity: .075;
   background: repeating-linear-gradient(135deg, rgba(151, 224, 232, .28) 0 1px, transparent 1px 12px);
   mask-image: linear-gradient(110deg, transparent 0 48%, #000 67%, transparent 91%);
   pointer-events: none;
@@ -6551,7 +6560,7 @@ html[lang="tr"] .profile-kicker {
 .principles-orbit-inner {
   position: relative;
   min-height: min(900px, 96vh);
-  padding-block: clamp(80px, 9vh, 120px);
+  padding-block: clamp(112px, 13vh, 150px) clamp(80px, 9vh, 120px);
 }
 
 .principles-orbit-heading {

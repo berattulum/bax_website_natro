@@ -293,25 +293,53 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         designTitle: 'Composite Design and Digital Engineering',
         designText: 'We transform material, geometry and structural performance into manufacturable solutions.',
       }
+  const principlesOrbit = <section className="principles-orbit scroll-reveal" aria-labelledby="principles-orbit-title">
+    <div className="principles-orbit-grid" aria-hidden="true" />
+    <div className="principles-orbit-horizon" aria-hidden="true"><i /><i /><i /></div>
+    <div className="principles-orbit-scan" aria-hidden="true" />
+    <div className="container principles-orbit-inner">
+      <header className="principles-orbit-heading">
+        <span>BAX // {lang === 'tr' ? 'MÜHENDİSLİK İLKELERİ' : 'ENGINEERING PRINCIPLES'}</span>
+        <h2 id="principles-orbit-title">{lang === 'tr'
+          ? <>Geleceği malzemeden<br /><strong>mühendisliğe taşıyoruz.</strong></>
+          : <>From material potential<br /><strong>to engineered futures.</strong></>}</h2>
+      </header>
+      <div className="principles-orbit-path" aria-hidden="true"><i /><i /><i /></div>
+      <div className="principles-orbit-items">
+        {[
+          ['01', lang === 'tr' ? 'YÖN' : 'DIRECTION', d.visionTitle, d.visionText],
+          ['02', lang === 'tr' ? 'SİSTEM' : 'SYSTEM', d.missionTitle, d.missionText],
+          ['03', lang === 'tr' ? 'TEMEL' : 'FOUNDATION', d.valuesTitle, d.valuesText],
+        ].map(([index, code, title, text]) => <article key={index}>
+          <span className="principles-orbit-code"><i aria-hidden="true" />{index} / {code}</span>
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </article>)}
+      </div>
+    </div>
+  </section>
 
   function renderSection(section: typeof visibleSections[number]['section']) {
     switch (section) {
       case 'about':
-        return <section id="about" className="home-engineering-showcase scroll-reveal scroll-scene" data-scroll-scene>
-          <div className="home-engineering-surface">
-            <div className="container home-engineering-layout">
-              <div className="home-engineering-intro">
-                <span className="section-label">{trustBand.eyebrow}</span>
-                <h2>
-                  <span>{lang === 'tr' ? 'İleri kompozit' : 'Advanced composite'}</span>
-                  <strong>{lang === 'tr' ? 'mühendisliği' : 'engineering'}</strong>
-                </h2>
-                <p>{trustBand.description}</p>
-                <a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a>
+        return <>
+          <section id="about" className="home-engineering-showcase scroll-reveal scroll-scene" data-scroll-scene>
+            <div className="home-engineering-surface">
+              <div className="container home-engineering-layout">
+                <div className="home-engineering-intro">
+                  <span className="section-label">{trustBand.eyebrow}</span>
+                  <h2>
+                    <span>{lang === 'tr' ? 'İleri kompozit' : 'Advanced composite'}</span>
+                    <strong>{lang === 'tr' ? 'mühendisliği' : 'engineering'}</strong>
+                  </h2>
+                  <p>{trustBand.description}</p>
+                  <a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+          {principlesOrbit}
+        </>
       case 'designNarrative':
         return null
       case 'expertise':
@@ -321,31 +349,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'process':
         return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><span className="section-label">{copy.processLabel}</span><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':
-        return <section className="principles-orbit scroll-reveal" aria-labelledby="principles-orbit-title">
-          <div className="principles-orbit-grid" aria-hidden="true" />
-          <div className="principles-orbit-horizon" aria-hidden="true"><i /><i /><i /></div>
-          <div className="principles-orbit-scan" aria-hidden="true" />
-          <div className="container principles-orbit-inner">
-            <header className="principles-orbit-heading">
-              <span>BAX // {lang === 'tr' ? 'MÜHENDİSLİK İLKELERİ' : 'ENGINEERING PRINCIPLES'}</span>
-              <h2 id="principles-orbit-title">{lang === 'tr'
-                ? <>Geleceği malzemeden<br /><strong>mühendisliğe taşıyoruz.</strong></>
-                : <>From material potential<br /><strong>to engineered futures.</strong></>}</h2>
-            </header>
-            <div className="principles-orbit-path" aria-hidden="true"><i /><i /><i /></div>
-            <div className="principles-orbit-items">
-              {[
-                ['01', lang === 'tr' ? 'YÖN' : 'DIRECTION', d.visionTitle, d.visionText],
-                ['02', lang === 'tr' ? 'SİSTEM' : 'SYSTEM', d.missionTitle, d.missionText],
-                ['03', lang === 'tr' ? 'TEMEL' : 'FOUNDATION', d.valuesTitle, d.valuesText],
-              ].map(([index, code, title, text]) => <article key={index}>
-                <span className="principles-orbit-code"><i aria-hidden="true" />{index} / {code}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>)}
-            </div>
-          </div>
-        </section>
+        return null
       case 'solutions':
         return <section className="magazine-layout"><div className="grid-item text-block"><span className="label">{copy.solutionsLabel}</span><h2>{copy.solutionsTitle}</h2><p>{copy.solutionsText}</p></div><div className="grid-item image-block solution-defense" role="group" aria-label={copy.defense}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-defense-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.defense}</h3></div></div><div className="grid-item image-block solution-civil" role="group" aria-label={copy.aviation}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.aviation}</h3></div></div></section>
       case 'partners':

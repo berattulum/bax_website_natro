@@ -6596,7 +6596,7 @@ html[lang="tr"] .profile-kicker {
 
 .principles-orbit-horizon {
   position: absolute;
-  bottom: -19vw;
+  bottom: -19.5vw;
   left: -13vw;
   z-index: -2;
   width: 76vw;
@@ -6606,7 +6606,7 @@ html[lang="tr"] .profile-kicker {
   border-radius: 50%;
   background: url('/assets/carbon-weave.jpg') 72% 76% / cover no-repeat;
   box-shadow: 0 -6px 34px rgba(70, 197, 211, .11);
-  transform: rotate(8deg);
+  transform: none;
 }
 
 .principles-orbit-horizon::before {
@@ -6768,9 +6768,9 @@ html[lang="tr"] .profile-kicker {
   }
 
   .principles-orbit-horizon {
-    bottom: -12vw;
-    width: 92vw;
-    height: 47vw;
+    bottom: -19.5vw;
+    width: 76vw;
+    height: 39vw;
   }
 }
 
@@ -6817,7 +6817,7 @@ html[lang="tr"] .profile-kicker {
   }
 
   .principles-orbit-horizon {
-    bottom: -6vw;
+    bottom: -35vw;
     left: -35vw;
     width: 140vw;
     height: 70vw;
@@ -6883,7 +6883,7 @@ html[lang="tr"] .profile-kicker {
 .principles-orbit + .expertise-section::before {
   content: "";
   position: absolute;
-  top: -20vw;
+  top: -19.5vw;
   left: -13vw;
   z-index: -2;
   width: 76vw;
@@ -6892,7 +6892,7 @@ html[lang="tr"] .profile-kicker {
   border-radius: 50%;
   background: url('/assets/carbon-weave.jpg') 72% 76% / cover no-repeat;
   box-shadow: 0 12px 34px rgba(70, 197, 211, .1);
-  transform: rotate(8deg);
+  transform: none;
 }
 
 .principles-orbit + .expertise-section::after {

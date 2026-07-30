@@ -6122,6 +6122,179 @@ html[lang="tr"] .profile-kicker {
   }
 }
 
+/* BaX action system — strong outlined capsules derived from the opening scene. */
+.opening-slide .hero-link,
+.opening-slide .hero-link-primary,
+.home-engineering-intro .home-engineering-link,
+.btn-primary-small,
+.contact-action,
+.contact-dialog-main .form-submit,
+.profile-closing > a,
+.corporate-verification > a,
+.legal-home-link {
+  position: relative;
+  min-height: 52px;
+  display: inline-flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+  overflow: hidden;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--font-technical);
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .085em;
+  text-transform: uppercase;
+  box-shadow: none;
+  transition:
+    color .32s ease,
+    background-color .32s ease,
+    border-color .32s ease,
+    transform .32s cubic-bezier(.16, 1, .3, 1),
+    box-shadow .32s ease;
+}
+
+.opening-slide .hero-link,
+.opening-slide .hero-link-primary {
+  min-width: 228px;
+  color: #f5f7f4;
+  background: rgba(4, 11, 14, .2);
+  border-color: rgba(245, 247, 244, .78);
+  backdrop-filter: blur(5px);
+}
+
+.opening-slide .hero-link:hover,
+.opening-slide .hero-link-primary:hover {
+  color: #09161c;
+  background: #f5f7f4;
+  border-color: #f5f7f4;
+  box-shadow: 0 15px 34px rgba(0, 0, 0, .2);
+  transform: translateY(-2px);
+}
+
+.home-engineering-intro .home-engineering-link {
+  min-width: 228px;
+  min-height: 52px;
+  padding: 0 22px 0 28px;
+  color: #173a46;
+  background: rgba(255, 255, 255, .25);
+  border-color: rgba(23, 58, 70, .55);
+}
+
+.home-engineering-intro .home-engineering-link::before {
+  top: 50%;
+  left: 0;
+  width: 18px;
+  height: 1px;
+  background: #2bb8c9;
+  transform: translateY(-50%);
+}
+
+.home-engineering-intro .home-engineering-link > span:last-child {
+  width: auto;
+  min-height: 0;
+  color: #159fb1;
+  background: transparent;
+  border: 0;
+  font-size: .8rem;
+}
+
+.home-engineering-intro .home-engineering-link:hover {
+  color: #f4f7f5;
+  background: #173a46;
+  border-color: #173a46;
+  box-shadow: 0 15px 30px rgba(15, 54, 65, .16);
+  transform: translateY(-2px);
+}
+
+.home-engineering-intro .home-engineering-link:hover::before {
+  width: 18px;
+  background: #64d5df;
+}
+
+.home-engineering-intro .home-engineering-link:hover > span:last-child {
+  color: #64d5df;
+  background: transparent;
+}
+
+.btn-primary-small {
+  min-height: 42px;
+  padding-inline: 20px;
+  color: #173a46;
+  background: rgba(244, 248, 246, .76);
+  border-color: rgba(23, 58, 70, .34);
+}
+
+.main-header.is-hero .btn-primary-small {
+  color: #f3f6f4;
+  background: rgba(5, 15, 19, .18);
+  border-color: rgba(243, 246, 244, .64);
+}
+
+.btn-primary-small:hover,
+.main-header.is-hero .btn-primary-small:hover {
+  color: #0b2028;
+  background: #f4f7f5;
+  border-color: #f4f7f5;
+  transform: translateY(-1px);
+}
+
+.contact-action,
+.contact-dialog-main .form-submit {
+  color: #f3f7f5;
+  background: #173a46;
+  border-color: #173a46;
+}
+
+.contact-action:hover,
+.contact-dialog-main .form-submit:hover:not(:disabled) {
+  color: #173a46;
+  background: transparent;
+  border-color: rgba(23, 58, 70, .55);
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
+.profile-closing > a,
+.corporate-verification > a,
+.legal-home-link {
+  color: inherit;
+  background: transparent;
+}
+
+.profile-closing > a:hover,
+.corporate-verification > a:hover,
+.legal-home-link:hover {
+  color: #f2f7f5;
+  background: #173a46;
+  border-color: #173a46;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .opening-slide .hero-link,
+  .opening-slide .hero-link-primary,
+  .home-engineering-intro .home-engineering-link,
+  .contact-action,
+  .contact-dialog-main .form-submit,
+  .profile-closing > a,
+  .corporate-verification > a,
+  .legal-home-link {
+    min-width: 0;
+    min-height: 46px;
+    padding-inline: 20px;
+    font-size: .61rem;
+    letter-spacing: .075em;
+  }
+
+  .opening-slide .hero-actions {
+    gap: 10px;
+  }
+}
+
 @media (max-width: 560px) {
   .profile-intro {
     width: calc(100% - 32px);

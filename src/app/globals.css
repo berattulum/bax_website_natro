@@ -6604,28 +6604,13 @@ html[lang="tr"] .profile-kicker {
   overflow: hidden;
   border: 1px solid rgba(93, 210, 223, .34);
   border-radius: 50%;
-  background:
-    linear-gradient(168deg, transparent 0 42%, rgba(4, 29, 35, .12) 70%, rgba(1, 7, 10, .34) 100%),
-    repeating-linear-gradient(12deg, rgba(118, 208, 217, .14) 0 1px, transparent 1px 9px),
-    repeating-linear-gradient(102deg, rgba(118, 208, 217, .1) 0 1px, transparent 1px 11px),
-    linear-gradient(90deg, rgba(2, 13, 17, .02), rgba(4, 25, 31, .07)),
-    url('/assets/carbon-weave.jpg') center 44% / cover no-repeat;
-  box-shadow:
-    inset 0 22px 45px rgba(79, 200, 213, .08),
-    0 -6px 34px rgba(70, 197, 211, .11);
+  background: url('/assets/carbon-weave.jpg') 72% 76% / cover no-repeat;
+  box-shadow: 0 -6px 34px rgba(70, 197, 211, .11);
   transform: rotate(8deg);
 }
 
 .principles-orbit-horizon::before {
-  content: "";
-  position: absolute;
-  inset: 8% 5%;
-  border: 1px solid rgba(104, 205, 216, .16);
-  border-radius: 50%;
-  background:
-    radial-gradient(ellipse at 54% 40%, rgba(91, 213, 225, .035), transparent 52%),
-    linear-gradient(180deg, transparent 60%, rgba(2, 18, 23, .08) 100%);
-  box-shadow: inset 0 0 34px rgba(2, 12, 16, .1);
+  display: none;
 }
 
 .principles-orbit-horizon i {

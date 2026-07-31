@@ -27,7 +27,7 @@ export function CorporateInformationClient() {
   }, [lang])
 
   const t = lang === 'tr' ? {
-    eyebrow: 'BAX // KURUMSAL BİLGİLER',
+    eyebrow: 'KURUMSAL BİLGİLER',
     title: <>Açık, düzenli,<br /><em>doğrulanabilir.</em></>,
     intro: 'BaX Kompozit A.Ş.’nin güncel ticari kimliği, operasyon adresleri ve resmî kayıt bağlantısı.',
     identity: 'Şirket kayıtları',
@@ -39,7 +39,7 @@ export function CorporateInformationClient() {
     verifyLink: 'MKK kaydını görüntüle',
     legal: 'KVKK ve yasal belgeler',
   } : {
-    eyebrow: 'BAX // CORPORATE INFORMATION',
+    eyebrow: 'CORPORATE INFORMATION',
     title: <>Clear, structured,<br /><em>verifiable.</em></>,
     intro: 'The current commercial identity, operating addresses and official registry link of BaX Composites Inc.',
     identity: 'Company records',

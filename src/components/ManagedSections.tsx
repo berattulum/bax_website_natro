@@ -16,7 +16,7 @@ export function ExpertiseSection({ items, label }: { items: ExpertiseItem[]; lab
   return (
     <section id="expertise" className="expertise-section scroll-reveal">
       <div className="container">
-        <div className="expertise-kicker"><i aria-hidden="true" />{label}</div>
+        <div className="expertise-kicker">{label}</div>
         <div className="expertise-wrapper">
           {items.map((item) => (
             <div className="expertise-item" style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
@@ -85,7 +85,7 @@ export function EcosystemPreview({
 }) {
   const copy = lang === 'tr'
     ? {
-        eyebrow: 'BAX // EKOSİSTEM',
+        eyebrow: 'EKOSİSTEM',
         title: 'Mühendisliğin güçlü bağlantıları',
         text: 'İleri kompozit çözümlerimizi stratejik iş ortaklıkları, araştırma ağları ve uluslararası teknoloji ekosistemiyle güçlendiriyoruz.',
         partners: 'İş Ortaklıklarını Keşfedin',
@@ -93,7 +93,7 @@ export function EcosystemPreview({
         selected: 'Seçilmiş ekosistem bağlantıları',
       }
     : {
-        eyebrow: 'BAX // ECOSYSTEM',
+        eyebrow: 'ECOSYSTEM',
         title: 'Strong connections for advanced engineering',
         text: 'We strengthen advanced-composite solutions through strategic partnerships, research networks and the international technology ecosystem.',
         partners: 'Explore Partnerships',

@@ -5978,6 +5978,44 @@ html[lang="tr"] .profile-kicker {
   }
 }
 
+/* Header brand standard: identical logo footprint on every site page. */
+.main-header .logo > a,
+.corporate-brand {
+  width: 126px;
+  min-width: 126px;
+  min-height: 58px;
+  padding: 7px 11px;
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+}
+
+.brand-logo-header,
+.corporate-brand img {
+  display: block;
+  width: 104px;
+  max-width: 100%;
+  max-height: none;
+  height: auto;
+  object-fit: contain;
+  filter: none !important;
+}
+
+@media (max-width: 768px) {
+  .main-header .logo > a,
+  .corporate-brand {
+    width: 108px;
+    min-width: 108px;
+    min-height: 50px;
+    padding: 6px 10px;
+  }
+
+  .brand-logo-header,
+  .corporate-brand img {
+    width: 88px;
+  }
+}
+
 /* Shared dropdown system: homepage and every inner page update together. */
 :root {
   --bax-menu-width: min(410px, calc(100vw - 32px));
@@ -11037,6 +11075,103 @@ h2 > b {
 }
 
 /* Final authority: fresh, unified and stacked navigation dropdowns. */
+/* Editorial eyebrow standard: one restrained label at major section openings. */
+:is(
+  .hero-subtitle,
+  .section-label,
+  .text-block .label,
+  .expertise-kicker,
+  .home-engineering-kicker,
+  .profile-kicker,
+  .legal-eyebrow,
+  .ecosystem-eyebrow,
+  .cp-hero-content > span,
+  .cp-intro-title > span,
+  .ci-hero > div > span,
+  .ecosystem-page-hero-inner > span,
+  .ecosystem-next > div > span
+) {
+  color: #18b7c9;
+  font-family: var(--font-body);
+  font-size: 12px !important;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+:is(
+  .hero-subtitle,
+  .section-label,
+  .text-block .label,
+  .expertise-kicker,
+  .home-engineering-kicker,
+  .profile-kicker,
+  .legal-eyebrow,
+  .ecosystem-eyebrow,
+  .cp-hero-content > span,
+  .cp-intro-title > span,
+  .ci-hero > div > span,
+  .ecosystem-page-hero-inner > span,
+  .ecosystem-next > div > span
+)::before,
+:is(
+  .hero-subtitle,
+  .section-label,
+  .text-block .label,
+  .expertise-kicker,
+  .home-engineering-kicker,
+  .profile-kicker,
+  .legal-eyebrow,
+  .ecosystem-eyebrow,
+  .cp-hero-content > span,
+  .cp-intro-title > span,
+  .ci-hero > div > span,
+  .ecosystem-page-hero-inner > span,
+  .ecosystem-next > div > span
+)::after,
+.expertise-kicker > i {
+  display: none !important;
+}
+
+.main-header,
+.corporate-header {
+  top: 18px;
+}
+
+.header-container,
+.corporate-header-inner {
+  width: min(90%, 1380px);
+  min-height: 66px;
+  margin-inline: auto;
+  padding: 7px 8px 7px 20px;
+  gap: clamp(16px, 2vw, 32px);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+.main-header .logo > a,
+.corporate-brand {
+  width: 126px;
+  min-width: 126px;
+  min-height: 58px;
+  padding: 7px 11px;
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+}
+
+.brand-logo-header,
+.corporate-brand img {
+  display: block;
+  width: 104px;
+  max-width: 100%;
+  max-height: none;
+  height: auto;
+  object-fit: contain;
+  filter: none !important;
+}
+
 .main-nav .nav-submenu,
 .main-nav .nav-submenu.nav-submenu-ecosystem,
 .corporate-about-menu > div,
@@ -11158,6 +11293,51 @@ h2 > b {
 }
 
 @media (max-width: 768px) {
+  :is(
+    .hero-subtitle,
+    .section-label,
+    .text-block .label,
+    .expertise-kicker,
+    .home-engineering-kicker,
+    .profile-kicker,
+    .legal-eyebrow,
+    .ecosystem-eyebrow,
+    .cp-hero-content > span,
+    .cp-intro-title > span,
+    .ci-hero > div > span,
+    .ecosystem-page-hero-inner > span,
+    .ecosystem-next > div > span
+  ) {
+    font-size: 11px !important;
+    letter-spacing: .1em;
+  }
+
+  .main-header,
+  .corporate-header {
+    top: 9px;
+  }
+
+  .header-container,
+  .corporate-header-inner {
+    width: calc(100% - 18px);
+    min-height: 60px;
+    padding: 6px 7px 6px 14px;
+    gap: 7px;
+  }
+
+  .main-header .logo > a,
+  .corporate-brand {
+    width: 108px;
+    min-width: 108px;
+    min-height: 50px;
+    padding: 6px 10px;
+  }
+
+  .brand-logo-header,
+  .corporate-brand img {
+    width: 88px;
+  }
+
   .main-nav .nav-submenu,
   .main-nav .nav-submenu.nav-submenu-ecosystem,
   .corporate-about-menu > div,

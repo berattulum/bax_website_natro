@@ -23,7 +23,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
   const process = locale.ui.process.steps
   const text = lang === 'tr' ? {
     heroTitle: 'Şirket Profili',
-    heroKicker: 'BAX // İLERİ KOMPOZİT MÜHENDİSLİĞİ',
+    heroKicker: 'İLERİ KOMPOZİT MÜHENDİSLİĞİ',
     statement: <>Malzeme potansiyelini<br /><em>üretilebilir değere</em><br />dönüştürüyoruz</>,
     founded: '2018’de İstanbul’da kuruldu',
     capability: 'Tasarımdan seri üretime',
@@ -37,7 +37,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
     legal: 'KVKK ve yasal belgeler',
   } : {
     heroTitle: 'Company Profile',
-    heroKicker: 'BAX // ADVANCED COMPOSITE ENGINEERING',
+    heroKicker: 'ADVANCED COMPOSITE ENGINEERING',
     statement: <>Transforming material potential<br />into <em>manufacturable value</em></>,
     founded: 'Founded in Istanbul in 2018',
     capability: 'From design to serial production',
@@ -73,7 +73,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
 
       <section className="cp-intro">
         <div className="cp-intro-title">
-          <span>BAX // 2018—BUGÜN</span>
+          <span>2018—BUGÜN</span>
           <h2>{text.statement}</h2>
         </div>
         <div className="cp-intro-copy">

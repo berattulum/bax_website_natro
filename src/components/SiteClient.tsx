@@ -7,6 +7,7 @@ import { EcosystemPreview, ExpertiseSection, type ManagedLocale } from './Manage
 
 type Lang = 'tr' | 'en'
 type Locales = Record<Lang, ManagedLocale>
+const cleanEyebrow = (text: string) => text.replace(/^BAX(?:\s+COMPOSITES)?\s*(?:\/\/)?\s*/i, '').trim()
 type TurnstileApi = {
   render: (
     container: HTMLElement,
@@ -297,14 +298,14 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     : { profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', corporate: 'Corporate Information', corporateDesc: 'Commercial and verifiable company records', toggle: 'Open About menu', teaser: 'Discover BaX' }
   const trustBand = lang === 'tr'
     ? {
-        eyebrow: 'BAX COMPOSITES',
+        eyebrow: 'MÜHENDİSLİK YAKLAŞIMI',
         title: 'İleri kompozit mühendisliği.',
         description: 'Tasarımdan doğrulamaya, proses geliştirmeden seri üretime uzanan bütünleşik mühendislik ve üretim çözümleri.',
         designTitle: 'Kompozit Tasarım ve Dijital Mühendislik',
         designText: 'Malzeme, geometri ve yapısal performansı üretilebilir çözümlere dönüştürüyoruz.',
       }
     : {
-        eyebrow: 'BAX COMPOSITES',
+        eyebrow: 'ENGINEERING APPROACH',
         title: 'Advanced composite engineering.',
         description: 'Integrated engineering and manufacturing solutions spanning design, validation, process development and serial production.',
         designTitle: 'Composite Design and Digital Engineering',
@@ -316,7 +317,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     <div className="principles-orbit-scan" aria-hidden="true" />
     <div className="container principles-orbit-inner">
       <header className="principles-orbit-heading">
-        <span>BAX // {lang === 'tr' ? 'MÜHENDİSLİK İLKELERİ' : 'ENGINEERING PRINCIPLES'}</span>
+        <span>{lang === 'tr' ? 'MÜHENDİSLİK İLKELERİ' : 'ENGINEERING PRINCIPLES'}</span>
         <h2 id="principles-orbit-title">{lang === 'tr'
           ? <>Geleceği malzemeden<br /><strong>mühendisliğe taşıyoruz</strong></>
           : <>From material potential<br /><strong>to engineered futures</strong></>}</h2>
@@ -360,7 +361,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
             {principlesOrbit}
             <ExpertiseSection
               items={content.expertise}
-              label={`BAX // ${lang === 'tr' ? 'MÜHENDİSLİK YETKİNLİKLERİ' : 'ENGINEERING CAPABILITIES'}`}
+              label={lang === 'tr' ? 'MÜHENDİSLİK YETKİNLİKLERİ' : 'ENGINEERING CAPABILITIES'}
             />
             <div className="engineering-continuum-exit" aria-hidden="true"><i /></div>
           </div>
@@ -416,7 +417,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         aria-hidden={index !== slide}
       >
         {index === 0 ? <video autoPlay loop muted playsInline preload="metadata" poster="/assets/aircraft-hero-poster.webp" className="hero-video"><source src="/ucak-video.mp4" type="video/mp4" /></video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
-        <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{slideContent[0]}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p><div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a>{index === 0 && <button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button>}</div></div>
+        <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{cleanEyebrow(slideContent[0])}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p><div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a>{index === 0 && <button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button>}</div></div>
       </div>)}
       <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>
     </div></section>

@@ -30,7 +30,7 @@ export default function EcosystemPageClient({
   const copy = lang === 'tr'
     ? isPartnerships
       ? {
-          eyebrow: 'BAX // İŞ ORTAKLIKLARI',
+          eyebrow: 'İŞ ORTAKLIKLARI',
           lead: 'Birlikte geliştiriyoruz',
           title: 'Güçlü iş birlikleriyle mühendisliği ileri taşıyoruz',
           description: 'Tasarım, malzeme teknolojileri ve ileri üretim alanlarında dünyanın farklı noktalarındaki uzman kuruluşlarla aynı mühendislik hedefi doğrultusunda çalışıyoruz.',
@@ -39,7 +39,7 @@ export default function EcosystemPageClient({
           nextText: 'Araştırma, ihracat ve inovasyon ekosistemindeki bağlantılarımızı keşfedin.',
         }
       : {
-          eyebrow: 'BAX // AĞLAR VE ÜYELİKLER',
+          eyebrow: 'AĞLAR VE ÜYELİKLER',
           lead: 'Bağlantılı bilgi',
           title: 'Bilginin, iş birliğinin ve inovasyonun içindeyiz',
           description: 'Sektörel ağlar, meslek kuruluşları, ihracat birlikleri ve uluslararası Ar-Ge programlarıyla kurduğumuz bağlar; bilgiye, iş birliğine ve yeni pazarlara erişimimizi güçlendiriyor.',
@@ -49,7 +49,7 @@ export default function EcosystemPageClient({
         }
     : isPartnerships
       ? {
-          eyebrow: 'BAX // PARTNERSHIPS',
+          eyebrow: 'PARTNERSHIPS',
           lead: 'Engineered together',
           title: 'Advancing engineering through strong partnerships',
           description: 'We work toward shared engineering goals with expert organizations across design, material technologies and advanced manufacturing.',
@@ -58,7 +58,7 @@ export default function EcosystemPageClient({
           nextText: 'Discover our connections across research, export and innovation ecosystems.',
         }
       : {
-          eyebrow: 'BAX // NETWORKS & MEMBERSHIPS',
+          eyebrow: 'NETWORKS & MEMBERSHIPS',
           lead: 'Connected knowledge',
           title: 'Part of a global ecosystem of knowledge and innovation',
           description: 'Our connections with industry networks, professional organizations, exporters associations and international R&D programmes strengthen access to knowledge, collaboration and new markets.',
@@ -107,7 +107,7 @@ export default function EcosystemPageClient({
       </section>
 
       <section className="ecosystem-next">
-        <div><span>BAX // NEXT CONNECTION</span><h2>{copy.next}</h2><p>{copy.nextText}</p></div>
+        <div><span>{lang === 'tr' ? 'SONRAKİ BAĞLANTI' : 'NEXT CONNECTION'}</span><h2>{copy.next}</h2><p>{copy.nextText}</p></div>
         <Link href={nextHref}>Keşfedin<span aria-hidden="true">↗</span></Link>
       </section>
 

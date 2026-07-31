@@ -373,8 +373,21 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':
         return null
-      case 'solutions':
-        return <section className="magazine-layout"><div className="grid-item text-block"><span className="label">{copy.solutionsLabel}</span><h2>{copy.solutionsTitle}</h2><p>{copy.solutionsText}</p></div><div className="grid-item image-block solution-defense" role="group" aria-label={copy.defense}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-defense-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.defense}</h3></div></div><div className="grid-item image-block solution-civil" role="group" aria-label={copy.aviation}><video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video><div className="overlay"><h3>{copy.aviation}</h3></div></div></section>
+      case 'solutions': {
+        const manufacturingLabel = lang === 'tr' ? 'Kompozit Üretimi' : 'Composite Manufacturing'
+        const analysisLabel = lang === 'tr' ? 'Tasarım ve Yapısal Analiz' : 'Design & Structural Analysis'
+        return <section className="magazine-layout">
+          <div className="grid-item text-block"><span className="label">{copy.solutionsLabel}</span><h2>{copy.solutionsTitle}</h2><p>{copy.solutionsText}</p></div>
+          <div className="grid-item image-block solution-defense" role="group" aria-label={manufacturingLabel}>
+            <video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-defense-loop.mp4" type="video/mp4" /></video>
+            <div className="overlay"><h3>{manufacturingLabel}</h3></div>
+          </div>
+          <div className="grid-item image-block solution-civil" role="group" aria-label={analysisLabel}>
+            <video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video>
+            <div className="overlay"><h3>{analysisLabel}</h3></div>
+          </div>
+        </section>
+      }
       case 'partners':
         return <EcosystemPreview lang={lang} partners={content.partners} memberships={content.memberships} />
       case 'memberships':

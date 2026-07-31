@@ -589,7 +589,7 @@ body::before { display: none; }
 }
 body {
     --font-display: var(--font-montserrat), 'Montserrat', Arial, sans-serif;
-    --font-body: var(--font-inter), 'Inter', Arial, sans-serif;
+    --font-body: var(--font-montserrat), 'Montserrat', Arial, sans-serif;
     font-family: var(--font-body);
     font-size: var(--text-base);
     font-weight: 400;
@@ -5417,8 +5417,8 @@ body {
 /* BaX type system — one premium hierarchy across TR/EN and every viewport. */
 :root,
 body {
-  --font-display: var(--font-inter), Inter, "Segoe UI", Arial, sans-serif;
-  --font-body: var(--font-inter), Inter, "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-montserrat), Montserrat, Arial, sans-serif;
+  --font-body: var(--font-montserrat), Montserrat, Arial, sans-serif;
   --font-technical: var(--font-montserrat), Montserrat, Arial, sans-serif;
 }
 
@@ -10365,5 +10365,136 @@ html[lang="en"] .ci-hero h1 {
   .footer-logo {
     min-width: 174px;
     min-height: 94px;
+  }
+}
+
+/* BaX typography lock — the approved grotesk is the only frontend typeface. */
+body,
+button,
+input,
+textarea,
+select,
+option,
+a,
+p,
+li,
+span,
+small,
+strong,
+label,
+address,
+table,
+th,
+td {
+  font-family: var(--font-montserrat), Montserrat, Arial, sans-serif !important;
+  font-synthesis: none;
+}
+
+body,
+p,
+li,
+address,
+input,
+textarea,
+select,
+option,
+table,
+td {
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.hero-title,
+.opening-slide .hero-title,
+.home-engineering-intro h2,
+.principles-orbit-heading h2,
+.process-heading h2,
+.references-heading h2,
+.memberships-heading h2,
+.contact-intro h2,
+.profile-photo-title,
+.profile-intro-copy h2,
+.profile-method h2,
+.profile-closing h2,
+.corporate-info-hero h1,
+.ci-hero h1,
+.cp-hero h1,
+.legal-hero h1,
+.legal-hub-hero h1 {
+  font-family: var(--font-montserrat), Montserrat, Arial, sans-serif !important;
+  font-weight: 700 !important;
+  line-height: .94;
+  letter-spacing: -.06em;
+  font-synthesis: none;
+}
+
+h3,
+h4,
+h5,
+h6,
+.expertise-item h3,
+.process-track h3,
+.principles-orbit-items h3,
+.profile-method h3,
+.legal-document h2,
+.legal-document h3,
+.legal-card h2 {
+  font-weight: 600 !important;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.section-label,
+.hero-subtitle,
+.home-engineering-kicker,
+.profile-kicker,
+.legal-eyebrow,
+.legal-hub-label,
+.main-nav a,
+.corporate-header nav a,
+.btn-primary-small,
+.hero-link,
+.contact-action,
+.form-submit,
+.footer-grid h3,
+.references-note {
+  font-family: var(--font-montserrat), Montserrat, Arial, sans-serif !important;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  h1,
+  h2,
+  .hero-title,
+  .opening-slide .hero-title,
+  .home-engineering-intro h2,
+  .principles-orbit-heading h2,
+  .process-heading h2,
+  .references-heading h2,
+  .memberships-heading h2,
+  .contact-intro h2,
+  .profile-photo-title,
+  .profile-intro-copy h2,
+  .profile-method h2,
+  .profile-closing h2,
+  .corporate-info-hero h1,
+  .ci-hero h1,
+  .cp-hero h1,
+  .legal-hero h1,
+  .legal-hub-hero h1 {
+    line-height: .98;
+    letter-spacing: -.045em;
   }
 }

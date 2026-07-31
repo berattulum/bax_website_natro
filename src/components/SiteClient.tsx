@@ -317,7 +317,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     <div className="principles-orbit-scan" aria-hidden="true" />
     <div className="container principles-orbit-inner">
       <header className="principles-orbit-heading">
-        <span>{lang === 'tr' ? 'MÜHENDİSLİK İLKELERİ' : 'ENGINEERING PRINCIPLES'}</span>
         <h2 id="principles-orbit-title">{lang === 'tr'
           ? <>Geleceği malzemeden<br /><strong>mühendisliğe taşıyoruz</strong></>
           : <>From material potential<br /><strong>to engineered futures</strong></>}</h2>
@@ -328,8 +327,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
           ['01', lang === 'tr' ? 'YÖN' : 'DIRECTION', d.visionTitle, d.visionText],
           ['02', lang === 'tr' ? 'SİSTEM' : 'SYSTEM', d.missionTitle, d.missionText],
           ['03', lang === 'tr' ? 'TEMEL' : 'FOUNDATION', d.valuesTitle, d.valuesText],
-        ].map(([index, code, title, text]) => <article key={index}>
-          <span className="principles-orbit-code"><i aria-hidden="true" />{index} / {code}</span>
+        ].map(([index, , title, text]) => <article key={index}>
           <h3>{title}</h3>
           <p>{text}</p>
         </article>)}
@@ -345,7 +343,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
             <div className="home-engineering-surface">
               <div className="container home-engineering-layout">
                 <div className="home-engineering-intro">
-                  <span className="section-label">{trustBand.eyebrow}</span>
                   <h2>
                     <span>{lang === 'tr' ? 'İleri kompozit' : 'Advanced composite'}</span>
                     <strong>{lang === 'tr' ? 'mühendisliği' : 'engineering'}</strong>
@@ -373,7 +370,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'manufacturingNarrative':
         return null
       case 'process':
-        return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><span className="section-label">{copy.processLabel}</span><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
+        return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':
         return null
       case 'solutions':

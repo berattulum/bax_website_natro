@@ -57,30 +57,29 @@ export function CorporateInformationClient() {
       <CorporateHeader lang={lang} active="records" />
 
       <section className="ci-hero">
-        <div><span>{t.eyebrow}</span><h1>{t.title}</h1></div>
+        <div><h1>{t.title}</h1></div>
         <p>{t.intro}</p>
       </section>
 
       <section className="ci-content">
-        <header className="ci-section-title"><span>01</span><h2>{t.identity}</h2></header>
+        <header className="ci-section-title"><h2>{t.identity}</h2></header>
         <div className="ci-records">
-          {records.map(([tr, en, value], index) => (
+          {records.map(([tr, en, value]) => (
             <article key={tr}>
-              <i>{String(index + 1).padStart(2, '0')}</i>
               <span>{lang === 'tr' ? tr : en}</span>
               <strong>{value}</strong>
             </article>
           ))}
         </div>
 
-        <header className="ci-section-title"><span>02</span><h2>{t.offices}</h2></header>
+        <header className="ci-section-title"><h2>{t.offices}</h2></header>
         <div className="ci-offices">
           <article><span>{t.head}</span><p>Yıldız Teknik Üniversitesi Teknopark, Çifte Havuzlar Mah., Eski Londra Asfaltı Cad., A1 Blok No: B35, 34220 Esenler / İstanbul</p></article>
           <article><span>{t.branch}</span><p>İkitelli OSB Mah., Metal-İş Sanayi Sitesi, No: 17/10, 34490 Başakşehir / İstanbul</p></article>
         </div>
 
         <aside className="ci-verify">
-          <div><span>03 / MKK</span><h2>{t.verify}</h2><p>{t.verifyText}</p></div>
+          <div><h2>{t.verify}</h2><p>{t.verifyText}</p></div>
           <a href="https://e-sirket.mkk.com.tr/" target="_blank" rel="noreferrer">{t.verifyLink}<span aria-hidden="true">↗</span></a>
         </aside>
       </section>

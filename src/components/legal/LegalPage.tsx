@@ -16,7 +16,7 @@ type LegalPageProps = {
   children: ReactNode
 }
 
-export function LegalPage({ eyebrow, title, description, pdfHref, asideTitle = 'Belge erişimi', asideDescription = 'İçeriği bu sayfadan okuyabilir veya kaynak PDF belgesini indirebilirsiniz.', externalHref, externalLabel, metaTitle = 'Mevcut şirket belgesi', metaDescription = 'Nihai yayından önce hukuk onayı planlanmaktadır.', children }: LegalPageProps) {
+export function LegalPage({ title, description, pdfHref, asideTitle = 'Belge erişimi', asideDescription = 'İçeriği bu sayfadan okuyabilir veya kaynak PDF belgesini indirebilirsiniz.', externalHref, externalLabel, metaTitle = 'Mevcut şirket belgesi', metaDescription = 'Nihai yayından önce hukuk onayı planlanmaktadır.', children }: LegalPageProps) {
   return (
     <main className="legal-shell">
       <header className="legal-header">
@@ -40,7 +40,6 @@ export function LegalPage({ eyebrow, title, description, pdfHref, asideTitle = '
 
       <section className="legal-hero">
         <div>
-          <span className="legal-eyebrow">{eyebrow}</span>
           <h1>{title}</h1>
           <p>{description}</p>
         </div>

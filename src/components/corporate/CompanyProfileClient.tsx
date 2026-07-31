@@ -66,14 +66,12 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
         />
         <div className="cp-hero-shade" />
         <div className="cp-hero-content">
-          <span>{text.heroKicker}</span>
           <h1>{text.heroTitle}</h1>
         </div>
       </section>
 
       <section className="cp-intro">
         <div className="cp-intro-title">
-          <span>2018—BUGÜN</span>
           <h2>{text.statement}</h2>
         </div>
         <div className="cp-intro-copy">
@@ -89,14 +87,12 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
 
       <section className="cp-flow">
         <header>
-          <span>{text.flow}</span>
           <h2>{text.flowTitle}</h2>
           <p>{text.flowIntro}</p>
         </header>
         <ol>
-          {process.map(([title, description], index) => (
+          {process.map(([title, description]) => (
             <li key={title}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
               <div><h3>{title}</h3><p>{description}</p></div>
             </li>
           ))}
@@ -104,7 +100,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
       </section>
 
       <section className="cp-next">
-        <div><span>{text.closingKicker}</span><h2>{text.closing}</h2></div>
+        <div><h2>{text.closing}</h2></div>
         <Link href="/kurumsal-bilgiler">{text.records}<span aria-hidden="true">↗</span></Link>
       </section>
 

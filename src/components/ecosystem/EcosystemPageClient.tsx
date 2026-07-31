@@ -77,7 +77,6 @@ export default function EcosystemPageClient({
         <div className="ecosystem-page-grid" aria-hidden="true" />
         <div className="ecosystem-page-orbit" aria-hidden="true"><i /><i /></div>
         <div className="ecosystem-page-hero-inner">
-          <span>{copy.eyebrow}</span>
           <p>{copy.lead}</p>
           <h1>{copy.title}</h1>
           <div className="ecosystem-page-intro"><p>{copy.description}</p><i aria-hidden="true" /></div>
@@ -86,13 +85,11 @@ export default function EcosystemPageClient({
 
       <section className="ecosystem-directory" aria-labelledby="ecosystem-directory-title">
         <div className="ecosystem-directory-heading">
-          <span>01 / {String(items.length).padStart(2, '0')}</span>
           <h2 id="ecosystem-directory-title">{copy.index}</h2>
         </div>
         <div className={`ecosystem-directory-grid${isPartnerships ? ' is-partnerships' : ' is-networks'}`}>
-          {items.map((item, index) => (
+          {items.map((item) => (
             <a href={item.website} target="_blank" rel="noopener" key={item.name}>
-              <span className="ecosystem-card-index">{String(index + 1).padStart(2, '0')}</span>
               <span className="ecosystem-card-logo">
                 {item.logo ? <img src={item.logo} alt={item.name} loading="lazy" /> : <strong>{item.name}</strong>}
               </span>
@@ -107,7 +104,7 @@ export default function EcosystemPageClient({
       </section>
 
       <section className="ecosystem-next">
-        <div><span>{lang === 'tr' ? 'SONRAKİ BAĞLANTI' : 'NEXT CONNECTION'}</span><h2>{copy.next}</h2><p>{copy.nextText}</p></div>
+        <div><h2>{copy.next}</h2><p>{copy.nextText}</p></div>
         <Link href={nextHref}>Keşfedin<span aria-hidden="true">↗</span></Link>
       </section>
 

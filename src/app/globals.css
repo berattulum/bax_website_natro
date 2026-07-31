@@ -11075,6 +11075,45 @@ h2 > b {
 }
 
 /* Final authority: fresh, unified and stacked navigation dropdowns. */
+/* Content hierarchy: slider topics remain; repetitive presentation labels do not. */
+:is(
+  .section-label,
+  .text-block .label,
+  .expertise-kicker,
+  .home-engineering-kicker,
+  .profile-kicker,
+  .legal-eyebrow,
+  .ecosystem-eyebrow,
+  .principles-orbit-heading > span,
+  .principles-orbit-code,
+  .cp-hero-content > span,
+  .cp-intro-title > span,
+  .cp-flow header > span,
+  .cp-flow li > span,
+  .cp-next > div > span,
+  .ci-hero > div > span,
+  .ci-section-title > span,
+  .ci-records article > i,
+  .ci-verify > div > span,
+  .ecosystem-page-hero-inner > span,
+  .ecosystem-directory-heading > span,
+  .ecosystem-card-index,
+  .ecosystem-next > div > span
+) {
+  display: none !important;
+}
+
+.cp-intro-copy dt {
+  display: none;
+}
+
+.cp-intro-copy dl > div,
+.cp-flow li,
+.ci-section-title,
+.ecosystem-directory-heading {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 /* Editorial eyebrow standard: one restrained label at major section openings. */
 :is(
   .hero-subtitle,

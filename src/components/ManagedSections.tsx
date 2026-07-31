@@ -14,9 +14,8 @@ function SafeHeading({ text }: { text: string }) {
 
 export function ExpertiseSection({ items, label }: { items: ExpertiseItem[]; label: string }) {
   return (
-    <section id="expertise" className="expertise-section scroll-reveal">
+    <section id="expertise" className="expertise-section scroll-reveal" aria-label={label}>
       <div className="container">
-        <div className="expertise-kicker">{label}</div>
         <div className="expertise-wrapper">
           {items.map((item) => (
             <div className="expertise-item" style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
@@ -109,7 +108,6 @@ export function EcosystemPreview({
     <section id="ecosystem" className="ecosystem-preview scroll-reveal" aria-labelledby="ecosystem-preview-title">
       <div className="container ecosystem-preview-inner">
         <div className="ecosystem-preview-copy">
-          <span className="ecosystem-eyebrow">{copy.eyebrow}</span>
           <h2 id="ecosystem-preview-title">{copy.title}</h2>
           <p>{copy.text}</p>
           <div className="ecosystem-preview-actions">

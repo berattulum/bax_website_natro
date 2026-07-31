@@ -170,16 +170,35 @@ body,
   text-decoration: none;
 }
 
-.bax-nav__brand > img {
-  display: block;
+.bax-nav__logo-glass {
+  display: grid;
   width: 126px;
-  max-height: 67px;
+  padding: 8px 10px;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08)),
+    rgba(220, 231, 235, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 10px 26px rgba(3, 15, 20, 0.2);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+
+.bax-nav__logo-glass img {
+  display: block;
+  width: 100%;
   height: auto;
+  max-height: 51px;
   object-fit: contain;
+  mix-blend-mode: screen;
   filter: invert(1) grayscale(1) brightness(1.35);
 }
 
-.bax-nav__brand > span {
+.bax-nav__brand > span:last-child {
   max-width: 92px;
   color: #a8c0ca;
   font-size: 9px;
@@ -288,11 +307,12 @@ body,
   padding-inline: 10px;
 }
 
-.bax-nav.is-collapsed .bax-nav__brand img {
+.bax-nav.is-collapsed .bax-nav__logo-glass {
   width: 54px;
+  padding: 6px;
 }
 
-.bax-nav.is-collapsed .bax-nav__brand span,
+.bax-nav.is-collapsed .bax-nav__brand > span:last-child,
 .bax-nav.is-collapsed nav h2,
 .bax-nav.is-collapsed nav a span,
 .bax-nav.is-collapsed nav a b {
@@ -743,11 +763,12 @@ button:focus-visible {
     padding-inline: 10px;
   }
 
-  .bax-nav .bax-nav__brand img {
+  .bax-nav .bax-nav__logo-glass {
     width: 54px;
+    padding: 6px;
   }
 
-  .bax-nav .bax-nav__brand span,
+  .bax-nav .bax-nav__brand > span:last-child,
   .bax-nav__section-title,
   .bax-nav__item-copy,
   .bax-nav__arrow {

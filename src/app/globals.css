@@ -616,7 +616,7 @@ p { max-width: 68ch; text-wrap: pretty; }
 .brand-logo-footer {
     width: 166px;
     height: auto;
-    filter: invert(1) grayscale(1) brightness(1.35);
+    filter: none;
 }
 
 @media (max-width: 767px) {
@@ -10223,5 +10223,147 @@ html[lang="en"] .ci-hero h1 {
 
   .ci-verify {
     padding: 32px 24px;
+  }
+}
+
+/* Official BaX artwork — preserve the supplied colors, proportions and X texture. */
+.logo > a,
+.corporate-brand,
+.footer-logo,
+.legal-brand {
+  box-sizing: border-box;
+}
+
+.brand-logo,
+.brand-logo-header,
+.brand-logo-footer,
+.corporate-brand img,
+.legal-brand img,
+.nav-submenu-mark img,
+.corporate-menu-mark img {
+  filter: none !important;
+  object-fit: contain;
+}
+
+.main-header .logo > a {
+  min-width: 126px;
+  min-height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(121, 212, 225, .2), transparent 48%),
+    linear-gradient(145deg, rgba(255, 255, 255, .78), rgba(235, 244, 244, .52));
+  border: 1px solid rgba(255, 255, 255, .58);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .76),
+    0 10px 30px rgba(3, 15, 20, .16);
+  backdrop-filter: blur(16px) saturate(1.12);
+  -webkit-backdrop-filter: blur(16px) saturate(1.12);
+}
+
+.brand-logo-header {
+  width: 104px;
+  max-height: none;
+}
+
+.footer-logo {
+  min-width: 194px;
+  min-height: 104px;
+  justify-content: center;
+  padding: 13px 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 14% 0%, rgba(92, 205, 222, .18), transparent 52%),
+    linear-gradient(145deg, rgba(255, 255, 255, .76), rgba(222, 234, 234, .5));
+  border: 1px solid rgba(216, 240, 243, .26);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .62),
+    0 16px 38px rgba(1, 12, 17, .24);
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+}
+
+.brand-logo-footer {
+  width: 160px;
+}
+
+.corporate-brand {
+  width: 108px;
+  min-height: 58px;
+  display: grid;
+  place-items: center;
+  padding: 8px 11px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(106, 207, 222, .18), transparent 50%),
+    linear-gradient(145deg, rgba(255, 255, 255, .8), rgba(227, 238, 238, .54));
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .7),
+    0 10px 30px rgba(2, 13, 18, .2);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+}
+
+.corporate-brand img {
+  width: 86px;
+  height: auto;
+}
+
+.legal-brand {
+  min-width: 122px;
+  min-height: 64px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, .72);
+  border: 1px solid rgba(20, 70, 82, .1);
+}
+
+.legal-brand img {
+  width: 96px;
+}
+
+.nav-submenu-mark,
+.corporate-menu-mark {
+  padding: 18px;
+  background: rgba(246, 249, 247, .96);
+}
+
+.nav-submenu-mark img,
+.corporate-menu-mark img {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .main-header .logo > a {
+    min-width: 108px;
+    min-height: 50px;
+    padding: 6px 9px;
+  }
+
+  .brand-logo-header {
+    width: 88px;
+  }
+
+  .corporate-brand {
+    width: 92px;
+    min-height: 50px;
+    padding: 6px 9px;
+  }
+
+  .corporate-brand img {
+    width: 74px;
+  }
+
+  .footer-logo {
+    min-width: 174px;
+    min-height: 94px;
   }
 }

@@ -48,7 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="tr" suppressHydrationWarning>
       <head>
-        <link rel="preload" href="/assets/aircraft-hero-poster.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/assets/aircraft-hero-keyframe-v2.png" as="image" type="image/png" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData).replace(/</g, '\\u003c') }} />
       </head>
       <body className={montserrat.variable}>{children}</body>

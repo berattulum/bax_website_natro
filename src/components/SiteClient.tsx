@@ -465,7 +465,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         data-slide-index={index}
         aria-hidden={index !== slide}
       >
-        {index === 0 ? <video autoPlay={motionEnabled} loop muted playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/aircraft-hero-poster.webp" className="hero-video">{motionEnabled && <source src="/ucak-video.mp4" type="video/mp4" />}</video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
+        {index === 0 ? <video autoPlay={motionEnabled} loop muted playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/aircraft-hero-keyframe-v2.png" className="hero-video">{motionEnabled && <source src="/assets/aircraft-gemini-cinematic-v1.mp4" type="video/mp4" />}</video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
         <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{cleanEyebrow(slideContent[0])}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p><div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a>{index === 0 && <button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button>}</div></div>
       </div>)}
       <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>

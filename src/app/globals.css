@@ -10595,7 +10595,10 @@ h4 {
 }
 
 .hero-slider .opening-slide[data-slide-index='0'] .hero-video {
-  filter: saturate(.58) contrast(1.02) brightness(1.16) hue-rotate(187deg);
+  object-position: center center;
+  filter: saturate(.92) contrast(1.02) brightness(.94);
+  transform: scale(1.14);
+  transition: none;
 }
 
 .hero-slider .opening-slide[data-slide-index='0']::before {
@@ -10612,7 +10615,7 @@ h4 {
 .hero-slider .opening-slide[data-slide-index='0'] .hero-overlay {
   background:
     linear-gradient(90deg, rgba(4, 19, 27, .78) 0%, rgba(5, 23, 32, .48) 34%, rgba(5, 23, 32, .08) 64%, transparent 84%),
-    linear-gradient(0deg, rgba(3, 15, 22, .84) 0%, rgba(4, 19, 27, .28) 34%, transparent 64%);
+    linear-gradient(0deg, rgba(2, 16, 22, 1) 0%, rgba(2, 16, 22, .94) 10%, rgba(2, 16, 22, .58) 21%, rgba(2, 16, 22, .08) 38%, transparent 52%);
 }
 
 .hero-slider .opening-slide[data-slide-index='0'] .hero-subtitle {

@@ -23,6 +23,11 @@ const usePostgres = process.env.DATABASE_PROVIDER === 'postgres' || databaseURL.
 const useCloudStorage = Boolean(process.env.S3_BUCKET && process.env.S3_ENDPOINT && process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY)
 const previewSecret = process.env.PREVIEW_SECRET || ''
 const previewURL = `/api/draft?secret=${encodeURIComponent(previewSecret)}&redirect=/`
+const payloadSecret = process.env.PAYLOAD_SECRET
+
+if (!payloadSecret && process.env.NODE_ENV === 'production') {
+  throw new Error('PAYLOAD_SECRET must be configured in production.')
+}
 
 export default buildConfig({
   i18n: {
@@ -97,6 +102,6 @@ export default buildConfig({
       },
     }),
   ],
-  secret: process.env.PAYLOAD_SECRET || 'development-only-change-before-production',
+  secret: payloadSecret || 'development-only-change-before-production',
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
 })

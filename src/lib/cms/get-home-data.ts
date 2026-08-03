@@ -151,6 +151,10 @@ async function queryHomeData(includeDrafts: boolean) {
 
     return {
       dictionary,
+      seo: {
+        title: typeof content.seoTitle === 'string' ? content.seoTitle : '',
+        description: typeof content.seoDescription === 'string' ? content.seoDescription : '',
+      },
       ui: normalizeSiteSettings(settings, locale),
       sectionLayout:
         Array.isArray(content.sectionLayout) && content.sectionLayout.length > 0
@@ -194,7 +198,7 @@ async function queryHomeData(includeDrafts: boolean) {
   return { tr, en }
 }
 
-const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v2'], {
+const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v3'], {
   tags: Object.values(CACHE_TAGS),
   revalidate: 86_400,
 })

@@ -54,6 +54,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
   const [turnstileReady, setTurnstileReady] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
+  const [motionEnabled, setMotionEnabled] = useState(false)
   const navigationLock = useRef<number | null>(null)
   const modalCloseButton = useRef<HTMLButtonElement | null>(null)
   const turnstileContainer = useRef<HTMLDivElement | null>(null)
@@ -84,6 +85,12 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   useEffect(() => {
     const saved = localStorage.getItem('bax-language')
     if (saved === 'tr' || saved === 'en') setLang(saved)
+  }, [])
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    setMotionEnabled(!reducedMotion && !connection?.saveData)
   }, [])
 
   useEffect(() => {
@@ -288,7 +295,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     const form = event.currentTarget
     const data = new FormData(form)
     try {
-      const response = await fetch('/api/submit-form', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: data.get('name'), company: data.get('company'), email: data.get('email'), phone: data.get('phone'), subject: data.get('subject'), message: data.get('message'), consent: data.get('consent') === 'on', website: data.get('website') || '', turnstileToken }) })
+      const response = await fetch('/api/submit-form', { method: 'POST', headers: { 'Content-Type': 'application/json' }, cache: 'no-store', signal: AbortSignal.timeout(15_000), body: JSON.stringify({ name: data.get('name'), company: data.get('company'), email: data.get('email'), phone: data.get('phone'), subject: data.get('subject'), message: data.get('message'), consent: data.get('consent') === 'on', website: data.get('website') || '', turnstileToken }) })
       if (!response.ok) throw new Error('Message could not be saved')
       form.reset()
       if (turnstileWidgetId.current) {
@@ -375,12 +382,12 @@ export default function SiteClient({ locales }: { locales: Locales }) {
             <div className="home-engineering-surface">
               <div className="container home-engineering-layout">
                 <div className="home-engineering-intro">
+                  <span className="home-engineering-kicker">{trustBand.eyebrow}</span>
                   <h2>
                     <span>{lang === 'tr' ? 'İleri kompozit' : 'Advanced composite'}</span>
                     <strong>{lang === 'tr' ? 'mühendisliği' : 'engineering'}</strong>
                   </h2>
-                  <p>{trustBand.description}</p>
-                  <a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a>
+                  <div className="home-engineering-statement"><p>{trustBand.description}</p><a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a></div>
                 </div>
               </div>
             </div>
@@ -411,11 +418,11 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         return <section className="magazine-layout">
           <div className="grid-item text-block"><span className="label">{copy.solutionsLabel}</span><h2>{copy.solutionsTitle}</h2><p>{copy.solutionsText}</p></div>
           <div className="grid-item image-block solution-defense" role="group" aria-label={manufacturingLabel}>
-            <video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-defense-loop.mp4" type="video/mp4" /></video>
+            <video className="solution-video" autoPlay={motionEnabled} muted loop playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}>{motionEnabled && <source src="/assets/solution-defense-loop.mp4" type="video/mp4" />}</video>
             <div className="overlay"><h3>{manufacturingLabel}</h3></div>
           </div>
           <div className="grid-item image-block solution-civil" role="group" aria-label={analysisLabel}>
-            <video className="solution-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video>
+            <video className="solution-video" autoPlay={motionEnabled} muted loop playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}>{motionEnabled && <source src="/assets/solution-civil-loop.mp4" type="video/mp4" />}</video>
             <div className="overlay"><h3>{analysisLabel}</h3></div>
           </div>
         </section>
@@ -458,11 +465,11 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         data-slide-index={index}
         aria-hidden={index !== slide}
       >
-        {index === 0 ? <video autoPlay loop muted playsInline preload="metadata" poster="/assets/aircraft-hero-poster.webp" className="hero-video"><source src="/ucak-video.mp4" type="video/mp4" /></video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
+        {index === 0 ? <video autoPlay={motionEnabled} loop muted playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/aircraft-hero-poster.webp" className="hero-video">{motionEnabled && <source src="/ucak-video.mp4" type="video/mp4" />}</video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
         <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{cleanEyebrow(slideContent[0])}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p><div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a>{index === 0 && <button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button>}</div></div>
       </div>)}
       <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>
-    </div></section>
+    </div><div className="hero-cloud-transition" aria-hidden="true"><span /><span /><span /></div></section>
 
     {visibleSections.map(({ section }) => <Fragment key={section}>{renderSection(section)}</Fragment>)}
     <footer className="site-footer"><div className="container footer-grid"><div className="footer-brand"><a href="#home" className="footer-logo" aria-label="BaX Composites"><Image className="brand-logo brand-logo-footer" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} /></a><p>{d.footerText}</p></div><div role="navigation" aria-label={copy.navigation}><h3>{copy.navigation}</h3>{navigationItems.map(([label, id]) => <a href={`#${id}`} key={id} onClick={(event) => navigateToSection(event, id)}>{label}</a>)}</div><div><h3>{copy.contact}</h3><a href={`mailto:${d.email}`}>{d.email}</a><a href={`tel:${(d.phone || '').replace(/[^+\d]/g, '')}`}>{d.phone}</a></div><div className="footer-address"><h3>{copy.headOffice}</h3><p><Address text={d.headOffice} /></p></div><div className="footer-address"><h3>{copy.branchOffice}</h3><p><Address text={d.branchOffice} /></p></div></div><div className="container footer-bottom"><span>{settings.footer.copyright}</span><nav className="footer-legal" aria-label={settings.footer.legalNavigationLabel}><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}</a><a href="/kvkk/aydinlatma-metni">{settings.footer.privacyLabel}</a><a href="/cerez-politikasi">{settings.footer.cookieLabel}</a><a href="/kvkk/basvuru">{settings.footer.applicationLabel}</a></nav><span>{copy.rights}</span></div></footer>

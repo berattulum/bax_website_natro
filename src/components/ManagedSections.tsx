@@ -130,6 +130,7 @@ export function EcosystemPreview({
 
 export type ManagedLocale = {
   dictionary: Record<string, string>
+  seo: { title: string; description: string }
   ui: SiteUISettings
   expertise: ExpertiseItem[]
   partners: Partner[]

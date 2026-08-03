@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { CACHE_TAGS } from '@/lib/cache/tags'
 import { createGlobalRevalidationHook } from '@/hooks/revalidate-site'
+import { validateUniqueSections } from '@/lib/cms/validators'
 
 export const SiteContent: GlobalConfig = {
   slug: 'site-content',
@@ -86,6 +87,7 @@ export const SiteContent: GlobalConfig = {
               type: 'array',
               minRows: 1,
               maxRows: 10,
+              validate: validateUniqueSections,
               labels: { singular: 'Bölüm', plural: 'Bölümler' },
               admin: {
                 description: 'Satırları sol taraftaki tutamaçtan sürükleyebilirsiniz. Aynı bölümü iki kez eklemeyin.',

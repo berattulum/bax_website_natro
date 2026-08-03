@@ -8213,17 +8213,6 @@ h4 {
   -webkit-text-fill-color: transparent;
 }
 
-.home-engineering-intro h2 > strong::after {
-  content: "";
-  position: absolute;
-  top: .08em;
-  right: -.16em;
-  width: .07em;
-  height: .5em;
-  background: linear-gradient(180deg, #55d2df, #159caf);
-  clip-path: polygon(35% 0, 100% 0, 65% 100%, 0 100%);
-}
-
 .home-engineering-intro p {
   position: relative;
   padding-left: 18px;
@@ -8250,13 +8239,6 @@ h4 {
 .home-engineering-intro .home-engineering-link:hover::before {
   opacity: .16;
   transform: translateX(6px);
-}
-
-@media (max-width: 820px) {
-  .home-engineering-intro h2 > strong::after {
-    right: auto;
-    left: 100%;
-  }
 }
 
 /* Editorial statement: flat, high-contrast typography over decorative effects. */
@@ -8290,13 +8272,6 @@ h4 {
   font-weight: 650;
 }
 
-.home-engineering-intro h2 > strong::after {
-  top: .07em;
-  right: -.14em;
-  width: .055em;
-  height: .42em;
-}
-
 .home-engineering-intro p {
   max-width: 62ch;
   font-size: clamp(.88rem, .98vw, .98rem);
@@ -8310,10 +8285,6 @@ h4 {
     line-height: .94;
   }
 
-  .home-engineering-intro h2 > strong::after {
-    right: auto;
-    left: 100%;
-  }
 }
 
 @media (max-width: 520px) {
@@ -10104,6 +10075,295 @@ h4 {
   right: max(var(--page-gutter), calc((100vw - 1260px) / 2));
   bottom: clamp(48px, 7vw, 92px);
   left: max(var(--page-gutter), calc((100vw - 1260px) / 2));
+}
+
+/* Opening aircraft: a cleaner daylight-blue sky with a focused text scrim. */
+.hero-slider .opening-slide[data-slide-index='0'] {
+  background: #82b6d1;
+}
+
+.hero-slider .opening-slide[data-slide-index='0'] .hero-video {
+  filter: saturate(.58) contrast(1.02) brightness(1.16) hue-rotate(187deg);
+}
+
+.hero-slider .opening-slide[data-slide-index='0']::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(93, 166, 211, .34) 0%, rgba(141, 193, 221, .13) 48%, rgba(18, 47, 61, .04) 100%);
+  mix-blend-mode: soft-light;
+}
+
+.hero-slider .opening-slide[data-slide-index='0'] .hero-overlay {
+  background:
+    linear-gradient(90deg, rgba(4, 19, 27, .78) 0%, rgba(5, 23, 32, .48) 34%, rgba(5, 23, 32, .08) 64%, transparent 84%),
+    linear-gradient(0deg, rgba(3, 15, 22, .84) 0%, rgba(4, 19, 27, .28) 34%, transparent 64%);
+}
+
+.hero-slider .opening-slide[data-slide-index='0'] .hero-subtitle {
+  color: #8fe8f1;
+}
+
+.hero-slider .opening-slide[data-slide-index='0'] .hero-link-primary {
+  color: #0e3545;
+  background: #f7fbfc;
+  border-color: #f7fbfc;
+}
+
+/* Moving cloud bank that carries the aircraft scene into the light section. */
+.hero-section {
+  overflow: visible;
+}
+
+.hero-cloud-transition {
+  position: absolute;
+  right: 0;
+  bottom: -92px;
+  left: 0;
+  z-index: 6;
+  height: clamp(210px, 27vh, 300px);
+  overflow: hidden;
+  pointer-events: none;
+  filter: blur(.2px);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 78%, transparent 100%);
+}
+
+.hero-cloud-transition::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 48%;
+  background: linear-gradient(180deg, transparent, rgba(237, 243, 241, .68));
+}
+
+.hero-cloud-transition span {
+  position: absolute;
+  width: 128%;
+  height: 100%;
+  opacity: .76;
+  will-change: transform;
+  filter: blur(14px);
+  background:
+    radial-gradient(ellipse 16% 46% at 5% 70%, rgba(242, 248, 248, .96) 0 42%, transparent 72%),
+    radial-gradient(ellipse 21% 58% at 24% 59%, rgba(181, 210, 222, .88) 0 40%, transparent 70%),
+    radial-gradient(ellipse 18% 48% at 44% 76%, rgba(244, 248, 247, .98) 0 44%, transparent 73%),
+    radial-gradient(ellipse 23% 62% at 65% 56%, rgba(176, 207, 220, .88) 0 38%, transparent 69%),
+    radial-gradient(ellipse 18% 52% at 84% 73%, rgba(241, 247, 247, .96) 0 43%, transparent 72%),
+    radial-gradient(ellipse 16% 46% at 99% 58%, rgba(184, 211, 222, .86) 0 40%, transparent 70%);
+  background-size: 100% 100%;
+}
+
+.hero-cloud-transition span:nth-child(1) {
+  top: 8%;
+  left: -14%;
+  animation: hero-cloud-drift 18s ease-in-out infinite alternate;
+}
+
+.hero-cloud-transition span:nth-child(2) {
+  top: 24%;
+  left: -2%;
+  opacity: .48;
+  filter: blur(22px);
+  transform: scale(1.1);
+  animation: hero-cloud-drift-reverse 24s ease-in-out infinite alternate;
+}
+
+.hero-cloud-transition span:nth-child(3) {
+  top: 42%;
+  left: -18%;
+  opacity: .34;
+  filter: blur(30px);
+  transform: scale(1.22);
+  animation: hero-cloud-drift 30s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes hero-cloud-drift {
+  from { translate: -2.5% 0; scale: 1; }
+  to { translate: 5% -5%; scale: 1.04; }
+}
+
+@keyframes hero-cloud-drift-reverse {
+  from { translate: 4% 2%; scale: 1.08; }
+  to { translate: -3.5% -4%; scale: 1.13; }
+}
+
+@media (max-width: 768px) {
+  .hero-cloud-transition {
+    bottom: -54px;
+    height: clamp(150px, 22svh, 210px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cloud-transition span {
+    animation: none;
+  }
+}
+
+.hero-section::after {
+  height: 96px;
+  opacity: .28;
+}
+
+.hero-cloud-transition::after {
+  opacity: .34;
+}
+
+/* Technical bridge: atmospheric hero above, precise engineering system below. */
+.home-engineering-surface {
+  min-height: auto;
+  padding-block: clamp(92px, 10vw, 138px) clamp(72px, 8vw, 112px);
+  border-top: 1px solid rgba(23, 58, 70, .18);
+  background: linear-gradient(145deg, #f7f9f6, #edf2ef);
+}
+
+.home-engineering-surface::after {
+  opacity: .08;
+  background: repeating-linear-gradient(135deg, rgba(23, 58, 70, .18) 0 1px, transparent 1px 16px);
+  mask-image: linear-gradient(90deg, transparent 36%, #000 100%);
+}
+
+.home-engineering-layout {
+  position: relative;
+  display: block;
+}
+
+.home-engineering-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(290px, .55fr);
+  column-gap: clamp(48px, 7vw, 112px);
+  align-items: end;
+  padding-left: 0;
+}
+
+.home-engineering-intro::before,
+.home-engineering-intro::after {
+  display: none;
+}
+
+.home-engineering-kicker {
+  grid-column: 1 / -1;
+  width: fit-content;
+  margin-bottom: 22px;
+  padding-left: 46px;
+  position: relative;
+  color: #159fb1;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.home-engineering-kicker::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 32px;
+  height: 1px;
+  background: #159fb1;
+}
+
+.home-engineering-intro h2 {
+  max-width: 11ch;
+  display: grid;
+  gap: 0;
+  font-size: clamp(4rem, 6.7vw, 7.8rem);
+  line-height: .84;
+  white-space: normal;
+}
+
+.home-engineering-intro h2 > span {
+  color: #789096;
+}
+
+.home-engineering-intro h2 > strong {
+  color: #143b48;
+}
+
+.home-engineering-statement {
+  padding: 24px 0 0;
+  border-top: 1px solid rgba(23, 58, 70, .24);
+}
+
+.home-engineering-intro .home-engineering-statement p {
+  max-width: 38ch;
+  margin: 0;
+  color: #4f6871;
+  font-size: clamp(.9rem, 1vw, 1.02rem);
+  font-weight: 500;
+  line-height: 1.62;
+}
+
+.home-engineering-intro p {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.home-engineering-intro .home-engineering-link {
+  min-width: 190px;
+  margin-top: 28px;
+  border-radius: 0;
+}
+
+@media (max-width: 900px) {
+  .home-engineering-surface {
+    padding-block: 82px 68px;
+  }
+
+  .home-engineering-intro {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .home-engineering-intro h2 {
+    max-width: 10ch;
+    font-size: clamp(3.2rem, 11vw, 5.8rem);
+  }
+
+  .home-engineering-statement {
+    width: min(100%, 520px);
+  }
+}
+
+@media (max-width: 620px) {
+  .home-engineering-intro h2 {
+    font-size: clamp(2.7rem, 14vw, 4.2rem);
+  }
+
+}
+
+/* The light engineering field resolves into carbon weave instead of a blur. */
+.engineering-continuum::before {
+  height: clamp(96px, 10vh, 122px);
+  background:
+    repeating-linear-gradient(36deg, transparent 0 9px, rgba(163, 205, 209, .12) 9px 10px, transparent 10px 20px),
+    repeating-linear-gradient(144deg, transparent 0 9px, rgba(10, 35, 42, .16) 9px 10px, transparent 10px 20px),
+    linear-gradient(180deg, #edf2ef 0%, #dbe3e0 18%, #8b9794 42%, #35403f 68%, rgba(11, 15, 16, .94) 92%, transparent 100%);
+}
+
+.engineering-continuum::after {
+  top: clamp(94px, calc(10vh - 2px), 120px);
+  opacity: .28;
+}
+
+.engineering-continuum .principles-orbit-inner {
+  padding-top: clamp(142px, 16vh, 184px);
+}
+
+@media (max-width: 620px) {
+  .engineering-continuum::before {
+    height: 92px;
+  }
+
+  .engineering-continuum::after {
+    top: 90px;
+  }
 }
 
 .cp-hero-content > span,

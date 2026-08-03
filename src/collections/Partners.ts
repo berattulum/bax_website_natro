@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { CACHE_TAGS } from '@/lib/cache/tags'
 import { createCollectionRevalidationHooks } from '@/hooks/revalidate-site'
+import { validateHttpsUrl } from '@/lib/cms/validators'
 
 const revalidation = createCollectionRevalidationHooks([
   CACHE_TAGS.home,
@@ -33,7 +34,7 @@ export const Partners: CollectionConfig = {
     { name: 'order', label: 'Görüntülenme sırası', type: 'number', required: true, min: 1, admin: { description: 'Küçük sayı daha önce görünür.' } },
     { name: 'name', label: 'Şirket / kurum adı', type: 'text', required: true },
     { name: 'caption', label: 'Kartta görünen açıklama', type: 'text', localized: true, admin: { description: 'Boş bırakırsanız kurum adı kullanılır. Gerekirse Türkçe ve İngilizce ayrı yazın.' } },
-    { name: 'website', label: 'Kurumsal web sitesi', type: 'text', required: true, admin: { description: 'https:// ile başlayan tam adresi girin. Örnek: https://example.com/' } },
+    { name: 'website', label: 'Kurumsal web sitesi', type: 'text', required: true, validate: validateHttpsUrl, admin: { description: 'https:// ile başlayan tam adresi girin. Örnek: https://example.com/' } },
     { name: 'logo', label: 'Kurum logosu', type: 'upload', relationTo: 'media', admin: { description: 'Kartın doğru görünmesi için logo yükleyin. Tercihen şeffaf arka planlı, yatay ve yüksek çözünürlüklü PNG veya SVG kullanın.' } },
     { name: 'active', label: 'Sitede göster', type: 'checkbox', defaultValue: true, admin: { description: 'Kapalı olduğunda kayıt silinmez, yalnızca sitede gizlenir.' } },
   ],

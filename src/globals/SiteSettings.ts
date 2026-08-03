@@ -2,6 +2,7 @@ import type { Field, GlobalConfig } from 'payload'
 
 import { createGlobalRevalidationHook } from '@/hooks/revalidate-site'
 import { CACHE_TAGS } from '@/lib/cache/tags'
+import { validateHttpsUrl, validateInternalPathOrHttpsUrl } from '@/lib/cms/validators'
 
 const localizedText = (name: string, label: string, textarea = false): Field =>
   textarea
@@ -123,7 +124,7 @@ export const SiteSettings: GlobalConfig = {
                 localizedText('tellProject', 'Projenizi anlatın butonu'),
                 localizedText('companyName', 'Şirket adı'),
                 localizedText('websiteLabel', 'Web sitesi görünen adı'),
-                { name: 'websiteUrl', label: 'Web sitesi bağlantısı', type: 'text', required: true, defaultValue: 'https://baxcomposites.com/' },
+                { name: 'websiteUrl', label: 'Web sitesi bağlantısı', type: 'text', required: true, defaultValue: 'https://baxcomposites.com/', validate: validateHttpsUrl },
               ],
             },
             {
@@ -159,9 +160,9 @@ export const SiteSettings: GlobalConfig = {
               localizedText('privacyLabel', 'KVKK / gizlilik bağlantısı etiketi'),
               localizedText('cookieLabel', 'Çerez politikası bağlantısı etiketi'),
               localizedText('applicationLabel', 'Başvuru formu bağlantısı etiketi'),
-              { name: 'privacyUrl', label: 'KVKK / gizlilik dosyası', type: 'text', required: true, defaultValue: '/assets/legal/bax-personal-data-clarification.pdf' },
-              { name: 'cookieUrl', label: 'Çerez politikası dosyası', type: 'text', required: true, defaultValue: '/assets/legal/bax-cookie-policy.pdf' },
-              { name: 'applicationUrl', label: 'Başvuru formu dosyası', type: 'text', required: true, defaultValue: '/assets/legal/bax-kvkk-application-form.pdf' },
+              { name: 'privacyUrl', label: 'KVKK / gizlilik dosyası', type: 'text', required: true, defaultValue: '/assets/legal/bax-personal-data-clarification.pdf', validate: validateInternalPathOrHttpsUrl },
+              { name: 'cookieUrl', label: 'Çerez politikası dosyası', type: 'text', required: true, defaultValue: '/assets/legal/bax-cookie-policy.pdf', validate: validateInternalPathOrHttpsUrl },
+              { name: 'applicationUrl', label: 'Başvuru formu dosyası', type: 'text', required: true, defaultValue: '/assets/legal/bax-kvkk-application-form.pdf', validate: validateInternalPathOrHttpsUrl },
             ],
           }],
         },

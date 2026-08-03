@@ -41,7 +41,7 @@ export function ReferencesSection({ title, description, note, items }: { title: 
           {items.map((item) => (
             <a className="logo-card" href={item.website} target="_blank" rel="noopener" key={item.name}>
               {/* Payload validates and owns these uploaded image URLs. */}
-              {item.logo ? <img src={item.logo} alt={item.name} loading="lazy" /> : <strong className="logo-fallback">{item.name}</strong>}
+              {item.logo ? <img src={item.logo} alt="" loading="lazy" decoding="async" /> : <strong className="logo-fallback">{item.name}</strong>}
               <span>{item.caption || item.name}</span>
             </a>
           ))}
@@ -63,7 +63,7 @@ export function MembershipsSection({ title, description, items }: { title: strin
         <div className="membership-grid">
           {items.map((item) => (
             <a className={`membership-card${item.darkCard ? ' membership-card-dark' : ''}`} href={item.website} target="_blank" rel="noopener" key={item.name}>
-              <span className="membership-logo"><img src={item.logo} alt={item.name} loading="lazy" /></span>
+              <span className="membership-logo"><img src={item.logo} alt="" loading="lazy" decoding="async" /></span>
               <span className="membership-meta"><strong>{item.name}</strong><small>{item.category}</small></span>
             </a>
           ))}
@@ -118,7 +118,7 @@ export function EcosystemPreview({
         <div className="ecosystem-preview-logos" aria-label={copy.selected}>
           {selected.map((item) => (
             <a href={item.website} target="_blank" rel="noopener" key={`${item.type}-${item.name}`}>
-              {item.logo ? <img src={item.logo} alt={item.name} loading="lazy" /> : <strong>{item.name}</strong>}
+              {item.logo ? <img src={item.logo} alt="" loading="lazy" decoding="async" /> : <strong>{item.name}</strong>}
               <span>{item.name}</span>
             </a>
           ))}

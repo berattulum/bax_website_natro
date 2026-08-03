@@ -57,7 +57,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
 
       <section className="cp-hero">
         <Image
-          src="/assets/bax-facility-exterior.jpg"
+          src="/assets/bax-facility-exterior-clean.png"
           alt={lang === 'tr' ? 'BaX Composites üretim tesisi' : 'BaX Composites production facility'}
           fill
           priority

@@ -55,6 +55,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [turnstileReady, setTurnstileReady] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
   const navigationLock = useRef<number | null>(null)
+  const modalCloseButton = useRef<HTMLButtonElement | null>(null)
   const turnstileContainer = useRef<HTMLDivElement | null>(null)
   const turnstileWidgetId = useRef<string | null>(null)
   const content = locales[lang]
@@ -86,6 +87,20 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   }, [])
 
   useEffect(() => {
+    const targetId = window.location.hash.slice(1)
+    if (!targetId) return
+
+    const scrollToHashTarget = () => document.getElementById(targetId)?.scrollIntoView({ block: 'start' })
+    const animationFrame = window.requestAnimationFrame(scrollToHashTarget)
+    const settleTimer = window.setTimeout(scrollToHashTarget, 350)
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame)
+      window.clearTimeout(settleTimer)
+    }
+  }, [])
+
+  useEffect(() => {
     document.documentElement.lang = lang
     localStorage.setItem('bax-language', lang)
   }, [lang])
@@ -95,6 +110,23 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     document.body.classList.toggle('modal-open', modalOpen)
     return () => document.body.classList.remove('menu-open', 'modal-open')
   }, [menuOpen, modalOpen])
+
+  useEffect(() => {
+    if (!modalOpen) return
+
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const animationFrame = window.requestAnimationFrame(() => modalCloseButton.current?.focus())
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setModalOpen(false)
+    }
+
+    window.addEventListener('keydown', closeOnEscape)
+    return () => {
+      window.cancelAnimationFrame(animationFrame)
+      window.removeEventListener('keydown', closeOnEscape)
+      previouslyFocused?.focus()
+    }
+  }, [modalOpen])
 
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
@@ -435,6 +467,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     {visibleSections.map(({ section }) => <Fragment key={section}>{renderSection(section)}</Fragment>)}
     <footer className="site-footer"><div className="container footer-grid"><div className="footer-brand"><a href="#home" className="footer-logo" aria-label="BaX Composites"><Image className="brand-logo brand-logo-footer" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} /></a><p>{d.footerText}</p></div><div role="navigation" aria-label={copy.navigation}><h3>{copy.navigation}</h3>{navigationItems.map(([label, id]) => <a href={`#${id}`} key={id} onClick={(event) => navigateToSection(event, id)}>{label}</a>)}</div><div><h3>{copy.contact}</h3><a href={`mailto:${d.email}`}>{d.email}</a><a href={`tel:${(d.phone || '').replace(/[^+\d]/g, '')}`}>{d.phone}</a></div><div className="footer-address"><h3>{copy.headOffice}</h3><p><Address text={d.headOffice} /></p></div><div className="footer-address"><h3>{copy.branchOffice}</h3><p><Address text={d.branchOffice} /></p></div></div><div className="container footer-bottom"><span>{settings.footer.copyright}</span><nav className="footer-legal" aria-label={settings.footer.legalNavigationLabel}><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}</a><a href="/kvkk/aydinlatma-metni">{settings.footer.privacyLabel}</a><a href="/cerez-politikasi">{settings.footer.cookieLabel}</a><a href="/kvkk/basvuru">{settings.footer.applicationLabel}</a></nav><span>{copy.rights}</span></div></footer>
 
-    {modalOpen && <div className="contact-modal is-open" id="contact-modal" aria-hidden="false"><button className="contact-modal-backdrop" aria-label={copy.closeLabel} onClick={() => setModalOpen(false)} /><div className="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title"><button type="button" className="modal-close" aria-label={copy.closeLabel} onClick={() => setModalOpen(false)}>×</button><aside className="contact-dialog-aside"><span className="section-label">BAX // {copy.contact.toUpperCase()}</span><h3>{d.contactTitle}</h3><p>{d.contactText}</p><div className="contact-dialog-scope">{copy.process.slice(0, 3).map(([title]) => <span key={title}>{title}</span>)}</div><div className="contact-dialog-direct"><a href={`mailto:${d.email}`}>{d.email}</a><a href={`tel:${(d.phone || '').replace(/[^+\d]/g, '')}`}>{d.phone}</a></div></aside><div className="contact-dialog-main"><h2 id="contact-modal-title">{copy.modalTitle}</h2><p className="modal-intro">{copy.modalIntro}</p><form onSubmit={submitContact}><input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="form-honeypot" /><div className="form-row"><label><span>{copy.name}</span><input type="text" name="name" autoComplete="name" required /></label><label><span>{copy.companyInput}</span><input type="text" name="company" autoComplete="organization" /></label></div><div className="form-row"><label><span>{copy.email}</span><input type="email" name="email" autoComplete="email" required /></label><label><span>{copy.phone}</span><input type="tel" name="phone" autoComplete="tel" /></label></div><label><span>{copy.subject}</span><input type="text" name="subject" required /></label><label><span>{copy.message}</span><textarea name="message" rows={4} required /></label><label className="consent-label"><input type="checkbox" name="consent" required /><span>{copy.consent}</span></label>{process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <div ref={turnstileContainer} className="turnstile-container" />}<div className="form-footer"><span /><button type="submit" className="form-submit" disabled={formStatus === 'sending' || Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken)}><span>{formStatus === 'sending' ? copy.sending : formStatus === 'received' ? copy.received : formStatus === 'failed' ? copy.failed : copy.send}</span><span aria-hidden="true">→</span></button></div></form></div></div></div>}
+    {modalOpen && <div className="contact-modal is-open" id="contact-modal" aria-hidden="false"><button className="contact-modal-backdrop" aria-label={copy.closeLabel} onClick={() => setModalOpen(false)} /><div className="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" aria-describedby="contact-modal-description"><button ref={modalCloseButton} type="button" className="modal-close" aria-label={copy.closeLabel} onClick={() => setModalOpen(false)}>×</button><aside className="contact-dialog-aside"><span className="section-label">BAX // {copy.contact.toUpperCase()}</span><h3>{d.contactTitle}</h3><p>{d.contactText}</p><div className="contact-dialog-scope">{copy.process.slice(0, 3).map(([title]) => <span key={title}>{title}</span>)}</div><div className="contact-dialog-direct"><a href={`mailto:${d.email}`}>{d.email}</a><a href={`tel:${(d.phone || '').replace(/[^+\d]/g, '')}`}>{d.phone}</a></div></aside><div className="contact-dialog-main"><h2 id="contact-modal-title">{copy.modalTitle}</h2><p className="modal-intro" id="contact-modal-description">{copy.modalIntro}</p><form onSubmit={submitContact}><input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="form-honeypot" /><div className="form-row"><label><span>{copy.name}</span><input type="text" name="name" autoComplete="name" required /></label><label><span>{copy.companyInput}</span><input type="text" name="company" autoComplete="organization" /></label></div><div className="form-row"><label><span>{copy.email}</span><input type="email" name="email" autoComplete="email" required /></label><label><span>{copy.phone}</span><input type="tel" name="phone" autoComplete="tel" /></label></div><label><span>{copy.subject}</span><input type="text" name="subject" required /></label><label><span>{copy.message}</span><textarea name="message" rows={4} required /></label><label className="consent-label"><input type="checkbox" name="consent" required /><span>{copy.consent}</span></label>{process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <div ref={turnstileContainer} className="turnstile-container" />}<div className="form-footer"><span role="status" aria-live="polite">{formStatus === 'received' ? copy.received : formStatus === 'failed' ? copy.failed : ''}</span><button type="submit" className="form-submit" disabled={formStatus === 'sending' || Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken)}><span>{formStatus === 'sending' ? copy.sending : formStatus === 'received' ? copy.received : formStatus === 'failed' ? copy.failed : copy.send}</span><span aria-hidden="true">→</span></button></div></form></div></div></div>}
   </>
 }

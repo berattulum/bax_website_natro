@@ -49,7 +49,7 @@ export function CorporateHeader({
         </nav>
 
         <div className="corporate-actions">
-          <Link className="corporate-contact" href="/#contact">{labels.contact}<span aria-hidden="true">↗</span></Link>
+          <a className="corporate-contact" href="/#contact">{labels.contact}<span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </header>

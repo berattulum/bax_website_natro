@@ -37,6 +37,7 @@ export default function EcosystemPageClient({
           index: 'Seçilmiş iş ortakları ve referans kurumlar',
           next: 'Ağlar ve Üyelikleri İnceleyin',
           nextText: 'Araştırma, ihracat ve inovasyon ekosistemindeki bağlantılarımızı keşfedin.',
+          explore: 'Keşfedin',
         }
       : {
           eyebrow: 'AĞLAR VE ÜYELİKLER',
@@ -46,6 +47,7 @@ export default function EcosystemPageClient({
           index: 'Kurumsal ağlar ve inovasyon ekosistemi',
           next: 'İş Ortaklıklarını İnceleyin',
           nextText: 'Mühendislik ve üretim yolculuğumuzu güçlendiren stratejik iş birliklerini görün.',
+          explore: 'Keşfedin',
         }
     : isPartnerships
       ? {
@@ -56,6 +58,7 @@ export default function EcosystemPageClient({
           index: 'Selected partners and reference organizations',
           next: 'Explore Networks & Memberships',
           nextText: 'Discover our connections across research, export and innovation ecosystems.',
+          explore: 'Explore',
         }
       : {
           eyebrow: 'NETWORKS & MEMBERSHIPS',
@@ -65,6 +68,7 @@ export default function EcosystemPageClient({
           index: 'Institutional networks and innovation ecosystem',
           next: 'Explore Partnerships',
           nextText: 'See the strategic collaborations supporting our engineering and manufacturing journey.',
+          explore: 'Explore',
         }
 
   const items: Array<Partner | Membership> = isPartnerships ? locale.partners : locale.memberships
@@ -91,7 +95,7 @@ export default function EcosystemPageClient({
           {items.map((item) => (
             <a href={item.website} target="_blank" rel="noopener" key={item.name}>
               <span className="ecosystem-card-logo">
-                {item.logo ? <img src={item.logo} alt={item.name} loading="lazy" /> : <strong>{item.name}</strong>}
+                {item.logo ? <img src={item.logo} alt="" loading="lazy" decoding="async" /> : <strong>{item.name}</strong>}
               </span>
               <span className="ecosystem-card-meta">
                 <strong>{item.name}</strong>
@@ -105,7 +109,7 @@ export default function EcosystemPageClient({
 
       <section className="ecosystem-next">
         <div><h2>{copy.next}</h2><p>{copy.nextText}</p></div>
-        <Link href={nextHref}>Keşfedin<span aria-hidden="true">↗</span></Link>
+        <Link href={nextHref}>{copy.explore}<span aria-hidden="true">↗</span></Link>
       </section>
 
       <footer className="profile-footer">

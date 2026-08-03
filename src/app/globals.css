@@ -5978,6 +5978,469 @@ html[lang="tr"] .profile-kicker {
   }
 }
 
+.contact-command {
+  min-height: 100svh;
+  color: #eaf2f1;
+  background: #06191f;
+}
+
+.contact-command-shell {
+  width: min(94%, 1660px);
+  min-height: calc(100svh - 116px);
+  margin: 116px auto 28px;
+  border: 1px solid rgba(157, 199, 204, .22);
+  background: #091f26;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .24);
+}
+
+.contact-command-language {
+  display: flex;
+  border-left: 1px solid rgba(157, 199, 204, .18);
+}
+
+.contact-command-language button {
+  width: 38px;
+  height: 47px;
+  color: #78969d;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid rgba(157, 199, 204, .18);
+  cursor: pointer;
+}
+
+.contact-command-language button.is-active {
+  color: #06191f;
+  background: #eaf2f1;
+}
+
+.contact-command-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, .78fr) minmax(620px, 1.35fr);
+}
+
+.contact-command-brief {
+  min-width: 0;
+  padding: clamp(42px, 4.2vw, 72px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 42px;
+  border-right: 1px solid rgba(157, 199, 204, .18);
+  background:
+    linear-gradient(145deg, rgba(21, 66, 77, .42), transparent 55%),
+    #071b22;
+}
+
+.contact-command-heading > span,
+.contact-command-channels > span,
+.contact-command-flow > span,
+.contact-command-form-panel header span,
+.contact-command-types legend,
+.contact-command-field > span,
+.contact-command-location > span {
+  display: block;
+  margin-bottom: 12px;
+  color: #43c7d5;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.contact-command-heading h1 {
+  max-width: 620px;
+  margin: 0;
+  color: #f4f8f7;
+  font-size: clamp(48px, 5vw, 82px);
+  font-weight: 450;
+  letter-spacing: -.065em;
+  line-height: .94;
+}
+
+.contact-command-heading p {
+  max-width: 560px;
+  margin: 26px 0 0;
+  color: #9db4b9;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.contact-command-channels {
+  border-top: 1px solid rgba(157, 199, 204, .2);
+  padding-top: 22px;
+}
+
+.contact-command-channels > span {
+  margin-bottom: 8px;
+}
+
+.contact-command-channels a {
+  min-height: 50px;
+  padding: 0 3px;
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  color: #eaf2f1;
+  border-bottom: 1px solid rgba(157, 199, 204, .14);
+  text-decoration: none;
+  transition: color .2s ease, padding .2s ease;
+}
+
+.contact-command-channels a:hover {
+  padding-left: 9px;
+  color: #58d4df;
+}
+
+.contact-command-channels small {
+  color: #78969d;
+  font-size: 8px;
+  letter-spacing: .14em;
+}
+
+.contact-command-channels strong {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+}
+
+.contact-command-channels b {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.contact-command-flow > div {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.contact-command-flow strong {
+  position: relative;
+  flex: 1;
+  padding-top: 13px;
+  color: #abc0c4;
+  border-top: 1px solid rgba(157, 199, 204, .25);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.contact-command-flow strong:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  color: #3ba9b7;
+}
+
+.contact-command-form-panel {
+  min-width: 0;
+  padding: clamp(34px, 3.4vw, 58px);
+  color: #102f38;
+  background: #f0f4f2;
+}
+
+.contact-command-form-panel > header {
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: 1fr minmax(180px, 300px);
+  align-items: end;
+  gap: 28px;
+}
+
+.contact-command-form-panel header span {
+  color: #188fa0;
+  margin-bottom: 9px;
+}
+
+.contact-command-form-panel h2 {
+  margin: 0;
+  color: #0a2b34;
+  font-size: clamp(30px, 3vw, 48px);
+  font-weight: 500;
+  letter-spacing: -.055em;
+  line-height: 1;
+}
+
+.contact-command-form-panel > header p {
+  margin: 0;
+  color: #627b82;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.contact-command-form-panel form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 14px;
+}
+
+.contact-command-wide,
+.contact-command-types {
+  grid-column: 1 / -1;
+}
+
+.contact-command-types {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.contact-command-types legend,
+.contact-command-field > span {
+  margin-bottom: 7px;
+  color: #58737a;
+  font-size: 9px;
+}
+
+.contact-command-types > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid #b9c9ca;
+}
+
+.contact-command-types label {
+  min-width: 0;
+  cursor: pointer;
+}
+
+.contact-command-types label + label {
+  border-left: 1px solid #b9c9ca;
+}
+
+.contact-command-types input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-command-types span {
+  min-height: 46px;
+  padding: 0 12px;
+  display: grid;
+  place-items: center;
+  color: #536d74;
+  background: rgba(255, 255, 255, .25);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  transition: .18s ease;
+}
+
+.contact-command-types input:checked + span {
+  color: #f1f7f6;
+  background: #0c3540;
+}
+
+.contact-command-types input:focus-visible + span {
+  outline: 2px solid #27b8c8;
+  outline-offset: -3px;
+}
+
+.contact-command-field input,
+.contact-command-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  color: #0b2b34;
+  background: rgba(255, 255, 255, .34);
+  border: 0;
+  border-bottom: 1px solid #9fb3b6;
+  border-radius: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 13px;
+  transition: border-color .2s ease, background .2s ease;
+}
+
+.contact-command-field input {
+  height: 42px;
+  padding: 0 12px;
+}
+
+.contact-command-field textarea {
+  min-height: 86px;
+  padding: 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.contact-command-field input:focus,
+.contact-command-field textarea:focus {
+  background: #fff;
+  border-bottom-color: #12a9ba;
+  box-shadow: inset 0 -2px #12a9ba;
+}
+
+.contact-command-field textarea::placeholder {
+  color: #82979b;
+  font-size: 11px;
+}
+
+.contact-command-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #627b82;
+  font-size: 10px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.contact-command-consent input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: #0c7180;
+}
+
+.contact-command-consent a {
+  color: #174d5a;
+}
+
+.contact-command-submit {
+  min-height: 52px;
+  display: grid;
+  grid-template-columns: 1fr minmax(210px, 260px);
+  align-items: stretch;
+  border-top: 1px solid #c0cecf;
+}
+
+.contact-command-submit p {
+  margin: 0;
+  padding: 10px 16px 0 0;
+  color: #a13f34;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.contact-command-submit p.is-received {
+  color: #257252;
+}
+
+.contact-command-submit button {
+  min-height: 52px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 52px;
+  align-items: center;
+  color: #edf6f5;
+  background: #0a3039;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-align: left;
+}
+
+.contact-command-submit button > span {
+  padding-left: 18px;
+}
+
+.contact-command-submit button b {
+  height: 52px;
+  display: grid;
+  place-items: center;
+  color: #092d36;
+  background: #4acbd7;
+  font-size: 17px;
+  font-weight: 400;
+  transition: background .2s ease;
+}
+
+.contact-command-submit button:hover b {
+  background: #7de1e8;
+}
+
+.contact-command-submit button:disabled {
+  cursor: wait;
+  opacity: .55;
+}
+
+.contact-command-base {
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr)) minmax(350px, 1.4fr);
+  border-top: 1px solid rgba(157, 199, 204, .18);
+}
+
+.contact-command-location,
+.contact-command-base nav {
+  padding: 17px 22px;
+}
+
+.contact-command-location + .contact-command-location,
+.contact-command-base nav {
+  border-left: 1px solid rgba(157, 199, 204, .18);
+}
+
+.contact-command-location > span {
+  margin-bottom: 5px;
+  color: #4abfcb;
+  font-size: 8px;
+}
+
+.contact-command-location p {
+  margin: 0;
+  color: #91aab0;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.contact-command-base nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 26px;
+  color: #78969d;
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+
+.contact-command-base nav a {
+  color: #c3d2d3;
+  text-decoration: none;
+}
+
+@media (max-width: 1100px) {
+  .contact-command-shell { width: calc(100% - 28px); }
+  .contact-command-grid { grid-template-columns: minmax(300px, .72fr) minmax(520px, 1.28fr); }
+  .contact-command-brief { padding: 38px 32px; }
+  .contact-command-heading h1 { font-size: clamp(44px, 5vw, 62px); }
+  .contact-command-form-panel { padding: 36px 30px; }
+  .contact-command-types > div { grid-template-columns: repeat(2, 1fr); }
+  .contact-command-types label:nth-child(3) { border-left: 0; border-top: 1px solid #b9c9ca; }
+  .contact-command-types label:nth-child(4) { border-top: 1px solid #b9c9ca; }
+  .contact-command-base { grid-template-columns: 1fr 1fr; }
+  .contact-command-base nav { grid-column: 1 / -1; border-top: 1px solid rgba(157, 199, 204, .18); border-left: 0; }
+}
+
+@media (max-width: 760px) {
+  .contact-page.contact-command .corporate-header { top: 9px; }
+  .contact-page.contact-command .corporate-header-inner { width: calc(100% - 18px); min-height: 60px; padding: 6px 7px 6px 14px; }
+  .contact-page.contact-command .corporate-actions { display: none; }
+  .contact-command-shell { width: calc(100% - 16px); margin-top: 88px; }
+  .contact-command-grid { display: block; }
+  .contact-command-brief { padding: 34px 22px; border-right: 0; border-bottom: 1px solid rgba(157, 199, 204, .18); }
+  .contact-command-heading h1 { max-width: 430px; font-size: clamp(46px, 14vw, 68px); }
+  .contact-command-heading p { margin-top: 20px; }
+  .contact-command-flow { display: none; }
+  .contact-command-form-panel { padding: 32px 18px; }
+  .contact-command-form-panel > header { grid-template-columns: 1fr; gap: 12px; }
+  .contact-command-form-panel form { grid-template-columns: 1fr; }
+  .contact-command-wide,
+  .contact-command-types { grid-column: auto; }
+  .contact-command-submit { grid-template-columns: 1fr; border-top: 0; }
+  .contact-command-submit p { min-height: 16px; padding: 0 0 10px; }
+  .contact-command-base { grid-template-columns: 1fr; }
+  .contact-command-location + .contact-command-location,
+  .contact-command-base nav { border-left: 0; border-top: 1px solid rgba(157, 199, 204, .18); }
+  .contact-command-base nav { grid-column: auto; justify-content: flex-start; flex-wrap: wrap; gap: 16px; }
+}
+
 /* Header brand standard: identical logo footprint on every site page. */
 .main-header .logo > a,
 .corporate-brand {
@@ -8763,6 +9226,55 @@ h4 {
   .principles-orbit + .expertise-section::after {
     animation: none;
   }
+}
+
+/* One continuous material surface shared by principles and expertise. */
+.engineering-continuum {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 74%, rgba(48, 123, 132, .08), transparent 28%),
+    linear-gradient(180deg, #111313 0%, #020303 30%, #000 62%, #071013 100%);
+}
+
+.engineering-continuum::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  height: clamp(130px, 16vh, 180px);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 58% 0%, rgba(177, 221, 222, .16), transparent 48%),
+    linear-gradient(
+      180deg,
+      #eaf0ee 0%,
+      #cdd6d3 14%,
+      #7a8381 34%,
+      #343938 57%,
+      rgba(17, 19, 19, .82) 78%,
+      transparent 100%
+    );
+}
+
+.engineering-continuum::after {
+  content: "";
+  position: absolute;
+  top: clamp(128px, calc(16vh - 2px), 178px);
+  right: 0;
+  left: 0;
+  z-index: 4;
+  height: 1px;
+  opacity: .48;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0 9%, rgba(80, 198, 210, .2) 27%, #5ccbd7 50%, rgba(80, 198, 210, .16) 73%, transparent 93%);
+}
+
+.engineering-continuum .principles-orbit-inner {
+  padding-top: clamp(174px, 19vh, 214px);
 }
 
 /* One continuous material surface shared by principles and expertise. */

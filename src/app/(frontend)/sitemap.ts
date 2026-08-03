@@ -8,6 +8,7 @@ const routes = [
   '/kurumsal-bilgiler',
   '/is-ortakliklari',
   '/aglar-ve-uyelikler',
+  '/iletisim',
   '/kvkk',
   '/kvkk/aydinlatma-metni',
   '/kvkk/basvuru',

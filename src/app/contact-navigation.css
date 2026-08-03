@@ -1,0 +1,222 @@
+/* Contact route: a natural document flow, not a viewport-bound composition. */
+.contact-page.contact-command {
+  min-height: 100svh;
+  color: #eaf2f1;
+  background: #06191f;
+}
+
+.contact-page.contact-command .corporate-header {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  pointer-events: none;
+}
+
+.contact-page.contact-command .corporate-header::before,
+.contact-page.contact-command .corporate-header::after { display: none; }
+
+.contact-page.contact-command .corporate-header-inner {
+  width: min(90%, 1380px);
+  min-height: 66px;
+  margin-inline: auto;
+  padding: 7px 8px 7px 20px;
+  color: #fff;
+  background: transparent;
+  border: 1px solid transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  pointer-events: auto;
+}
+
+.contact-page.contact-command .corporate-brand img { filter: none !important; }
+.contact-page.contact-command .corporate-actions { gap: 10px; }
+.contact-page.contact-command .corporate-lang-selector { display: flex; background: rgba(255,255,255,.1); }
+.contact-page.contact-command .corporate-lang-selector button { color: rgba(255,255,255,.66); }
+.contact-page.contact-command .corporate-lang-selector button.active { color: #102b35; background: #fff; }
+
+.contact-page.contact-command .corporate-header nav > a,
+.contact-page.contact-command .corporate-about-menu > span,
+.contact-page.contact-command .corporate-ecosystem-menu > button {
+  color: rgba(255,255,255,.78);
+  text-shadow: none;
+}
+
+.contact-page.contact-command .corporate-contact,
+.contact-page.contact-command .corporate-contact.is-active {
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.62);
+  text-shadow: none;
+}
+
+.contact-command-shell {
+  width: 100%;
+  margin: 0;
+  padding-top: 112px;
+  overflow: visible;
+  border: 0;
+  background: #06191f;
+  box-shadow: none;
+}
+
+.contact-command-intro {
+  padding: clamp(82px, 9vw, 150px) 0 clamp(76px, 8vw, 130px);
+  background:
+    radial-gradient(circle at 16% 24%, rgba(47,184,200,.12), transparent 32%),
+    linear-gradient(135deg, #06191f, #08252d 68%, #06191f);
+}
+
+.contact-command-intro-inner,
+.contact-command-intake-inner,
+.contact-command-base {
+  width: min(90%, 1380px);
+  margin-inline: auto;
+}
+
+.contact-command-intro-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(360px, .8fr);
+  align-items: end;
+  gap: clamp(70px, 10vw, 160px);
+}
+
+.contact-command-heading h1 {
+  max-width: 780px;
+  margin: 0;
+  color: #f4f8f7;
+  font-size: clamp(64px, 6.2vw, 104px);
+  font-weight: 450;
+  letter-spacing: -.065em;
+  line-height: .92;
+}
+
+.contact-command-heading p {
+  max-width: 620px;
+  margin: 34px 0 0;
+  color: #a6bdc1;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.contact-command-channels {
+  padding-top: 22px;
+  border-top: 1px solid rgba(157,199,204,.24);
+}
+
+.contact-command-channels a { min-height: 62px; }
+
+.contact-command-intake {
+  padding: clamp(84px, 8vw, 132px) 0;
+  color: #102f38;
+  background: #f0f4f2;
+}
+
+.contact-command-intake-inner {
+  display: grid;
+  grid-template-columns: minmax(280px, .52fr) minmax(0, 1.48fr);
+  align-items: start;
+  gap: clamp(70px, 9vw, 150px);
+}
+
+.contact-command-form-intro > span {
+  display: block;
+  margin-bottom: 15px;
+  color: #1595a6;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.contact-command-form-intro h2 {
+  max-width: 440px;
+  margin: 0;
+  color: #0a2b34;
+  font-size: clamp(42px, 4vw, 64px);
+  font-weight: 500;
+  letter-spacing: -.06em;
+  line-height: .96;
+}
+
+.contact-command-form-intro > p {
+  max-width: 36ch;
+  margin: 24px 0 0;
+  color: #627b82;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.contact-command-flow {
+  margin-top: 64px;
+}
+
+.contact-command-flow > span { color: #188fa0; }
+.contact-command-flow > div { display: grid; grid-template-columns: 1fr; }
+.contact-command-flow strong { padding: 15px 0; border-top: 1px solid #c4d1d1; color: #536d74; }
+.contact-command-flow strong::after { display: none !important; }
+
+.contact-command-form-panel {
+  padding: 0;
+  color: #102f38;
+  background: transparent;
+}
+
+.contact-command-form-panel form { gap: 24px 18px; }
+.contact-command-types span { min-height: 54px; font-size: 11px; }
+.contact-command-field input { height: 50px; }
+.contact-command-field textarea { min-height: 130px; padding: 16px; }
+.contact-command-submit { min-height: 60px; margin-top: 6px; }
+.contact-command-submit button,
+.contact-command-submit button b { min-height: 60px; height: 60px; }
+
+.contact-command-form-panel .form-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-command-base {
+  min-height: 120px;
+  border-top: 1px solid rgba(157,199,204,.18);
+  border-bottom: 1px solid rgba(157,199,204,.18);
+}
+
+@media (max-width: 900px) {
+  .contact-command-intro-inner,
+  .contact-command-intake-inner { grid-template-columns: 1fr; gap: 54px; }
+  .contact-command-heading h1 { max-width: 680px; }
+  .contact-command-channels { max-width: 620px; }
+  .contact-command-flow { margin-top: 38px; }
+  .contact-command-flow > div { grid-template-columns: repeat(3, 1fr); }
+  .contact-command-flow strong { padding-right: 14px; }
+}
+
+@media (max-width: 768px) {
+  .contact-page.contact-command .corporate-header { top: 9px; }
+  .contact-page.contact-command .corporate-header-inner { width: calc(100% - 18px); min-height: 60px; padding: 6px 7px 6px 14px; }
+  .contact-page.contact-command .corporate-actions { display: none; }
+  .contact-command-shell { padding-top: 82px; }
+  .contact-command-intro { padding: 62px 0 72px; }
+  .contact-command-intake { padding: 68px 0 76px; }
+  .contact-command-intro-inner,
+  .contact-command-intake-inner,
+  .contact-command-base { width: calc(100% - 36px); }
+  .contact-command-heading h1 { font-size: clamp(52px, 15vw, 74px); }
+  .contact-command-form-panel form { grid-template-columns: 1fr; }
+  .contact-command-wide,
+  .contact-command-types { grid-column: auto; }
+  .contact-command-types > div { grid-template-columns: repeat(2, 1fr); }
+  .contact-command-flow > div { grid-template-columns: 1fr; }
+  .contact-command-submit { grid-template-columns: 1fr; border-top: 0; }
+  .contact-command-submit p { min-height: 18px; padding-bottom: 10px; }
+}

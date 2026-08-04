@@ -1,0 +1,29 @@
+# Use LF for text files so the Windows checkout matches Linux/Docker/Natro.
+* text=auto eol=lf
+
+# Windows-native scripts keep their required line endings.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Treat media, archives, fonts, and other binary assets as binary.
+*.avif binary
+*.eot binary
+*.gif binary
+*.gz binary
+*.ico binary
+*.jpeg binary
+*.jpg binary
+*.mp3 binary
+*.mp4 binary
+*.otf binary
+*.pdf binary
+*.png binary
+*.tar binary
+*.tgz binary
+*.ttf binary
+*.webm binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.zip binary

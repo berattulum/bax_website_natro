@@ -1,0 +1,124 @@
+name: bax-production
+
+x-app-environment: &app-environment
+  NODE_ENV: production
+  DATABASE_PROVIDER: postgres
+  DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+  PAYLOAD_SECRET: ${PAYLOAD_SECRET}
+  NEXT_PUBLIC_SITE_URL: ${SITE_URL}
+  APP_URL: ${SITE_URL}
+  REVALIDATION_SECRET: ${REVALIDATION_SECRET}
+  PREVIEW_SECRET: ${PREVIEW_SECRET}
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
+  TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
+  TURNSTILE_ALLOWED_HOSTS: ${TURNSTILE_ALLOWED_HOSTS}
+  UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}
+  UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN:-}
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+
+  migrate:
+    image: bax-production-migrate:local
+    build:
+      context: .
+      target: migrator
+    restart: "no"
+    environment: *app-environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+
+  media-init:
+    image: bax-production-app:local
+    user: "0:0"
+    entrypoint: ["/bin/sh", "-ec"]
+    command:
+      - |
+        if [ -z "$$(find /app/media -mindepth 1 -maxdepth 1 -print -quit)" ]; then
+          cp -a /app/media-seed/. /app/media/
+        fi
+        chown -R 1001:1001 /app/media
+        mkdir -p /app/.next/cache
+        chown -R 1001:1001 /app/.next/cache
+    volumes:
+      - media_data:/app/media
+      - next_cache:/app/.next/cache
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+
+  app:
+    image: bax-production-app:local
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_SITE_URL: ${SITE_URL}
+    restart: unless-stopped
+    environment: *app-environment
+    ports:
+      - "127.0.0.1:${APP_PORT:-3000}:3000"
+    volumes:
+      - media_data:/app/media
+      - next_cache:/app/.next/cache
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      media-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - fetch('http://127.0.0.1:3000/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 30s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - backend
+      - frontend
+
+volumes:
+  postgres_data:
+    name: bax_production_postgres_data
+  media_data:
+    name: bax_production_media_data
+  next_cache:
+    name: bax_production_next_cache
+
+networks:
+  backend:
+    internal: true
+  frontend:
+    name: bax_frontend

@@ -1,6 +1,7 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 
 export default withPayload({
+  output: 'standalone',
   allowedDevOrigins: ['192.168.1.44'],
   reactCompiler: false,
   async headers() {

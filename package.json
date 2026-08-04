@@ -11,6 +11,8 @@
     "db:down": "docker compose --env-file .env.postgres -f compose.local.yml down",
     "db:logs": "docker compose --env-file .env.postgres -f compose.local.yml logs -f postgres",
     "db:psql": "docker compose --env-file .env.postgres -f compose.local.yml exec postgres psql -U bax -d bax",
+    "db:import:check": "node --env-file=.env scripts/migrate-sqlite-to-postgres.mjs",
+    "db:import": "node --env-file=.env scripts/migrate-sqlite-to-postgres.mjs --apply",
     "start": "payload migrate && next start",
     "start:production": "payload migrate && next start",
     "migrate": "payload migrate",
@@ -36,8 +38,10 @@
   },
   "devDependencies": {
     "@types/node": "22.18.0",
+    "@types/pg": "8.20.0",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
+    "pg": "8.20.0",
     "tsx": "4.22.4",
     "typescript": "5.9.3"
   }

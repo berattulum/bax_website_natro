@@ -51,12 +51,18 @@ importers:
       '@types/node':
         specifier: 22.18.0
         version: 22.18.0
+      '@types/pg':
+        specifier: 8.20.0
+        version: 8.20.0
       '@types/react':
         specifier: 19.2.2
         version: 19.2.2
       '@types/react-dom':
         specifier: 19.2.2
         version: 19.2.2(@types/react@19.2.2)
+      pg:
+        specifier: 8.20.0
+        version: 8.20.0
       tsx:
         specifier: 4.22.4
         version: 4.22.4

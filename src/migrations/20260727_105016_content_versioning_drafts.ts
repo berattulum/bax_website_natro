@@ -400,6 +400,17 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "site_content__status_idx" ON "site_content" USING btree ("_status");
   CREATE INDEX "site_settings__status_idx" ON "site_settings" USING btree ("_status");`)
 
+  // Payload's current version query selects `autosave` while the globals below
+  // are being published. Add it before using the Local API; the later dedicated
+  // migration remains idempotent and creates the matching indexes.
+  await db.execute(sql`
+    ALTER TABLE "_site_content_v" ADD COLUMN IF NOT EXISTS "autosave" boolean DEFAULT false;
+    ALTER TABLE "_site_settings_v" ADD COLUMN IF NOT EXISTS "autosave" boolean DEFAULT false;
+    ALTER TABLE "_expertise_items_v" ADD COLUMN IF NOT EXISTS "autosave" boolean DEFAULT false;
+    ALTER TABLE "_partners_v" ADD COLUMN IF NOT EXISTS "autosave" boolean DEFAULT false;
+    ALTER TABLE "_memberships_v" ADD COLUMN IF NOT EXISTS "autosave" boolean DEFAULT false;
+  `)
+
   await payload.updateGlobal({
     slug: 'site-settings',
     locale: 'tr',

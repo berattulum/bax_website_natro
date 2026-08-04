@@ -7,6 +7,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "db:up": "docker compose --env-file .env.postgres -f compose.local.yml up -d --wait postgres",
+    "db:down": "docker compose --env-file .env.postgres -f compose.local.yml down",
+    "db:logs": "docker compose --env-file .env.postgres -f compose.local.yml logs -f postgres",
+    "db:psql": "docker compose --env-file .env.postgres -f compose.local.yml exec postgres psql -U bax -d bax",
     "start": "payload migrate && next start",
     "start:production": "payload migrate && next start",
     "migrate": "payload migrate",

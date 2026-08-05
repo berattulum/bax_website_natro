@@ -9,6 +9,7 @@ node_modules
 !.env.postgres.example
 !.env.production.example
 backups
+media
 tmp
 *.db
 *.db-shm

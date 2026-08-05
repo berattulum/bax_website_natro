@@ -57,12 +57,12 @@ server {
     proxy_set_header X-Forwarded-Proto https;
   }
 
-  location /media/ {
+  location ^~ /api/media/file/ {
     proxy_pass http://bax_app;
     include /etc/nginx/bax_proxy_params;
     proxy_set_header X-Forwarded-Proto https;
+    proxy_force_ranges on;
     expires 7d;
-    add_header Cache-Control "public, max-age=604800";
   }
 
   location / {

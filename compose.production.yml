@@ -9,6 +9,9 @@ x-app-environment: &app-environment
   APP_URL: ${SITE_URL}
   REVALIDATION_SECRET: ${REVALIDATION_SECRET}
   PREVIEW_SECRET: ${PREVIEW_SECRET}
+  MEDIA_DIR: /app/media
+  MEDIA_EXPECTED_FILES: ${MEDIA_EXPECTED_FILES:-}
+  MEDIA_EXPECTED_SHA256: ${MEDIA_EXPECTED_SHA256:-}
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
   TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
   TURNSTILE_ALLOWED_HOSTS: ${TURNSTILE_ALLOWED_HOSTS}
@@ -57,18 +60,64 @@ services:
     entrypoint: ["/bin/sh", "-ec"]
     command:
       - |
-        if [ -z "$$(find /app/media -mindepth 1 -maxdepth 1 -print -quit)" ]; then
-          cp -a /app/media-seed/. /app/media/
-        fi
+        mkdir -p /app/media
         chown -R 1001:1001 /app/media
         mkdir -p /app/.next/cache
         chown -R 1001:1001 /app/.next/cache
     volumes:
-      - media_data:/app/media
+      - type: volume
+        source: media_data
+        target: /app/media
+        volume:
+          nocopy: true
       - next_cache:/app/.next/cache
     restart: "no"
     security_opt:
       - no-new-privileges:true
+
+  media-import:
+    image: bax-production-app:local
+    profiles: ["media"]
+    user: "0:0"
+    entrypoint: ["node", "/app/scripts/media-volume.mjs", "import"]
+    environment:
+      MEDIA_SOURCE_DIR: /import
+      MEDIA_DIR: /app/media
+      MEDIA_EXPECTED_FILES: ${MEDIA_EXPECTED_FILES:-}
+      MEDIA_EXPECTED_SHA256: ${MEDIA_EXPECTED_SHA256:-}
+      MEDIA_OWNER_UID: 1001
+      MEDIA_OWNER_GID: 1001
+    volumes:
+      - ./media:/import:ro
+      - type: volume
+        source: media_data
+        target: /app/media
+        volume:
+          nocopy: true
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+
+  media-audit:
+    image: bax-production-app:local
+    profiles: ["media"]
+    entrypoint: ["node", "/app/scripts/media-volume.mjs", "audit"]
+    environment: *app-environment
+    volumes:
+      - type: volume
+        source: media_data
+        target: /app/media
+        read_only: true
+        volume:
+          nocopy: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
 
   app:
     image: bax-production-app:local
@@ -82,7 +131,11 @@ services:
     ports:
       - "127.0.0.1:${APP_PORT:-3000}:3000"
     volumes:
-      - media_data:/app/media
+      - type: volume
+        source: media_data
+        target: /app/media
+        volume:
+          nocopy: true
       - next_cache:/app/.next/cache
     depends_on:
       postgres:

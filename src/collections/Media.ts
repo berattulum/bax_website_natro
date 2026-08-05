@@ -1,3 +1,4 @@
+import path from 'node:path'
 import type { CollectionConfig } from 'payload'
 import { CACHE_TAGS } from '@/lib/cache/tags'
 import { createCollectionRevalidationHooks } from '@/hooks/revalidate-site'
@@ -6,6 +7,8 @@ const revalidation = createCollectionRevalidationHooks([
   CACHE_TAGS.home,
   CACHE_TAGS.media,
 ])
+
+const mediaDirectory = process.env.MEDIA_DIR || path.resolve(process.cwd(), 'media')
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -22,7 +25,7 @@ export const Media: CollectionConfig = {
     delete: ({ req }) => Boolean(req.user),
   },
   upload: {
-    staticDir: 'media',
+    staticDir: mediaDirectory,
     mimeTypes: ['image/*', 'application/pdf', 'video/mp4'],
   },
   fields: [

@@ -6,6 +6,7 @@ import pg from 'pg'
 
 const { Client } = pg
 const apply = process.argv.includes('--apply')
+const publish = process.argv.includes('--publish')
 const sourceURL = process.env.SQLITE_DATABASE_URL || 'file:./bax.db'
 const sourcePath = path.resolve(sourceURL.replace(/^file:/, ''))
 const targetURL = process.env.DATABASE_URL
@@ -157,6 +158,7 @@ try {
   console.log(`Source: ${sourcePath}`)
   console.log(`Target tables planned: ${plans.length}`)
   console.log(`Media records/files: ${mediaRows.length}/${mediaFiles.size}`)
+  console.log(`Publish imported content: ${publish ? 'yes' : 'no'}`)
   for (const plan of plans) {
     console.log(`${plan.table}\t${plan.rows.length}\t${checksum(plan.rows)}`)
   }
@@ -180,6 +182,20 @@ try {
 
         for (const row of rows) {
           await client.query(insertSQL, columns.map((column) => targetValue(row[column.column_name], column)))
+        }
+      }
+
+      if (publish) {
+        const publishTargets = [
+          ['site_content', '_site_content_v'],
+          ['expertise_items', '_expertise_items_v'],
+          ['partners', '_partners_v'],
+          ['memberships', '_memberships_v'],
+        ].filter(([table, versionsTable]) => targetTables.has(table) && targetTables.has(versionsTable))
+
+        for (const [table, versionsTable] of publishTargets) {
+          await client.query(`UPDATE ${quoteIdentifier(table)} SET _status = 'published'`)
+          await client.query(`UPDATE ${quoteIdentifier(versionsTable)} SET version__status = 'published' WHERE latest = true`)
         }
       }
 
@@ -208,6 +224,7 @@ try {
 
       await client.query('COMMIT')
       console.log(`Import committed successfully: ${plans.reduce((total, plan) => total + plan.rows.length, 0)} rows`)
+      console.log(`Imported content published: ${publish ? 'yes' : 'no'}`)
       console.log(`Foreign keys verified: ${verifiedForeignKeys}`)
     } catch (error) {
       await client.query('ROLLBACK')

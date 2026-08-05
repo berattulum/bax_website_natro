@@ -70,6 +70,43 @@ services:
     networks:
       - backend
 
+  data-import:
+    image: bax-production-migrate:local
+    profiles: ["rehearsal"]
+    entrypoint: ["node", "/app/scripts/migrate-sqlite-to-postgres.mjs"]
+    environment:
+      <<: *app-environment
+      SQLITE_DATABASE_URL: file:/import/bax.db
+    volumes:
+      - ./bax.db:/import/bax.db:ro
+      - ./media:/app/media:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+
+  cache-revalidate:
+    image: bax-production-migrate:local
+    profiles: ["rehearsal"]
+    entrypoint: ["node", "/app/scripts/revalidate-production.mjs"]
+    environment:
+      REVALIDATION_SECRET: ${REVALIDATION_SECRET}
+      REVALIDATION_URL: http://app:3000/api/internal/revalidate
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+
   media-init:
     image: bax-production-app:local
     user: "0:0"

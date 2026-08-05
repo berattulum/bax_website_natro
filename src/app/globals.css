@@ -6017,6 +6017,50 @@ html[lang="tr"] .profile-kicker {
   }
 }
 
+/* Stack language controls above the contact action and keep the controls angular. */
+.lang-selector,
+.lang-selector button,
+.btn-primary-small,
+.btn-primary-small .cta-arrow,
+.corporate-lang-selector,
+.corporate-lang-selector button,
+.corporate-contact,
+.corporate-contact > span {
+  border-radius: 0 !important;
+  clip-path: none !important;
+}
+
+@media (min-width: 769px) {
+  .header-right,
+  .corporate-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .header-right .lang-selector,
+  .corporate-actions .corporate-lang-selector {
+    width: 100%;
+    min-height: 24px;
+    padding: 0;
+    border-radius: 0 !important;
+  }
+
+  .header-right .lang-selector button,
+  .corporate-actions .corporate-lang-selector button {
+    flex: 1 1 50%;
+    height: 24px;
+    min-width: 0;
+    padding-inline: 8px;
+  }
+
+  .header-right .btn-primary-small,
+  .corporate-actions .corporate-contact {
+    min-height: 38px;
+  }
+}
+
 .contact-command {
   min-height: 100svh;
   color: #eaf2f1;

@@ -1,0 +1,31 @@
+upstream bax_app {
+  server app:3000;
+  keepalive 32;
+}
+
+server {
+  listen 80;
+  listen [::]:80;
+  server_name ${SERVER_NAMES};
+
+  add_header X-Content-Type-Options "nosniff" always;
+  add_header X-Frame-Options "SAMEORIGIN" always;
+  add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+  location = /_nginx/health {
+    access_log off;
+    return 200 'ok';
+  }
+
+  location ^~ /.well-known/acme-challenge/ {
+    root /var/www/certbot;
+    default_type text/plain;
+    try_files $uri =404;
+  }
+
+  location / {
+    proxy_pass http://bax_app;
+    include /etc/nginx/bax_proxy_params;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+}

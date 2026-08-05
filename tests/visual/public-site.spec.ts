@@ -5,6 +5,7 @@ const publicRoutes = [
   '/sirket-profili',
   '/is-ortakliklari',
   '/aglar-ve-uyelikler',
+  '/surdurulebilirlik',
   '/iletisim',
 ] as const
 

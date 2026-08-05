@@ -12,14 +12,14 @@ export function CorporateHeader({
   onLangChange,
 }: {
   lang: CorporateLang
-  active: 'profile' | 'records' | 'partnerships' | 'networks' | 'contact'
+  active: 'profile' | 'records' | 'partnerships' | 'networks' | 'sustainability' | 'contact'
   onLangChange?: (lang: CorporateLang) => void
 }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [ecosystemOpen, setEcosystemOpen] = useState(false)
   const labels = lang === 'tr'
-    ? { about: 'Hakkımızda', profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', records: 'Kurumsal Bilgiler', recordsDesc: 'Ticari ve doğrulanabilir şirket kayıtları', expertise: 'Uzmanlık', ecosystem: 'Ekosistem', partnerships: 'İş Ortaklıkları', partnershipsDesc: 'Stratejik iş birlikleri ve referans kurumlar', networks: 'Ağlar ve Üyelikler', networksDesc: 'Sektörel ağlar, Ar-Ge ve inovasyon ekosistemi', contact: 'Bize Ulaşın', menu: 'Menüyü aç', ecosystemMenu: 'Ekosistem menüsünü aç' }
-    : { about: 'About', profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', records: 'Corporate Information', recordsDesc: 'Commercial and verifiable company records', expertise: 'Expertise', ecosystem: 'Ecosystem', partnerships: 'Partnerships', partnershipsDesc: 'Strategic collaborations and reference organizations', networks: 'Networks & Memberships', networksDesc: 'Industry networks, R&D and innovation ecosystem', contact: 'Contact Us', menu: 'Open menu', ecosystemMenu: 'Open ecosystem menu' }
+    ? { about: 'Hakkımızda', profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', records: 'Kurumsal Bilgiler', recordsDesc: 'Ticari ve doğrulanabilir şirket kayıtları', expertise: 'Uzmanlık', ecosystem: 'Ekosistem', partnerships: 'İş Ortaklıkları', partnershipsDesc: 'Stratejik iş birlikleri ve referans kurumlar', networks: 'Ağlar ve Üyelikler', networksDesc: 'Sektörel ağlar, Ar-Ge ve inovasyon ekosistemi', sustainability: 'Sürdürülebilirlik', contact: 'Bize Ulaşın', menu: 'Menüyü aç', ecosystemMenu: 'Ekosistem menüsünü aç' }
+    : { about: 'About', profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', records: 'Corporate Information', recordsDesc: 'Commercial and verifiable company records', expertise: 'Expertise', ecosystem: 'Ecosystem', partnerships: 'Partnerships', partnershipsDesc: 'Strategic collaborations and reference organizations', networks: 'Networks & Memberships', networksDesc: 'Industry networks, R&D and innovation ecosystem', sustainability: 'Sustainability', contact: 'Contact Us', menu: 'Open menu', ecosystemMenu: 'Open ecosystem menu' }
 
   return (
     <header className="corporate-header">
@@ -48,6 +48,7 @@ export function CorporateHeader({
               <Link className={active === 'networks' ? 'is-active' : ''} href="/aglar-ve-uyelikler"><strong>{labels.networks}</strong><small>{labels.networksDesc}</small><i aria-hidden="true">↗</i></Link>
             </div>
           </div>
+          <Link className={active === 'sustainability' ? 'is-active' : ''} href="/surdurulebilirlik">{labels.sustainability}</Link>
         </nav>
 
         <div className="corporate-actions">

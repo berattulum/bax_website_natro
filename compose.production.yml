@@ -18,6 +18,22 @@ x-app-environment: &app-environment
   UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}
   UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN:-}
 
+x-backup-environment: &backup-environment
+  PGHOST: postgres
+  PGPORT: 5432
+  PGDATABASE: ${POSTGRES_DB}
+  PGUSER: ${POSTGRES_USER}
+  PGPASSWORD: ${POSTGRES_PASSWORD}
+  RESTIC_REPOSITORY: /repository
+  RESTIC_PASSWORD: ${BACKUP_RESTIC_PASSWORD:-}
+  BACKUP_HOST: ${BACKUP_HOST:-bax-natro}
+  BACKUP_INTERVAL_SECONDS: ${BACKUP_INTERVAL_SECONDS:-86400}
+  BACKUP_QUIESCE_SECONDS: ${BACKUP_QUIESCE_SECONDS:-10}
+  BACKUP_KEEP_DAILY: ${BACKUP_KEEP_DAILY:-7}
+  BACKUP_KEEP_WEEKLY: ${BACKUP_KEEP_WEEKLY:-4}
+  BACKUP_KEEP_MONTHLY: ${BACKUP_KEEP_MONTHLY:-6}
+  TZ: ${TZ:-Europe/Istanbul}
+
 services:
   postgres:
     image: postgres:17-alpine
@@ -234,6 +250,102 @@ services:
       - certbot_webroot:/var/www/certbot
     networks:
       - frontend
+
+  backup:
+    image: bax-production-backup:local
+    build:
+      context: ./backup
+    profiles: ["backup"]
+    command: ["/usr/local/bin/schedule.sh"]
+    restart: unless-stopped
+    environment: *backup-environment
+    volumes:
+      - ${BACKUP_REPOSITORY_PATH:-./backups/restic}:/repository
+      - type: volume
+        source: media_data
+        target: /media
+        volume:
+          nocopy: true
+      - type: volume
+        source: letsencrypt
+        target: /letsencrypt
+        read_only: true
+        volume:
+          nocopy: true
+    tmpfs:
+      - /staging:size=2g,mode=0700
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+
+  backup-once:
+    image: bax-production-backup:local
+    build:
+      context: ./backup
+    profiles: ["backup-tools"]
+    command: ["/usr/local/bin/backup.sh"]
+    restart: "no"
+    environment: *backup-environment
+    volumes:
+      - ${BACKUP_REPOSITORY_PATH:-./backups/restic}:/repository
+      - type: volume
+        source: media_data
+        target: /media
+        volume:
+          nocopy: true
+      - type: volume
+        source: letsencrypt
+        target: /letsencrypt
+        read_only: true
+        volume:
+          nocopy: true
+    tmpfs:
+      - /staging:size=2g,mode=0700
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+
+  restore:
+    image: bax-production-backup:local
+    build:
+      context: ./backup
+    profiles: ["restore"]
+    command: ["/usr/local/bin/restore.sh"]
+    restart: "no"
+    environment:
+      <<: *backup-environment
+      RESTORE_SNAPSHOT: ${RESTORE_SNAPSHOT:-latest}
+      RESTORE_MODE: ${RESTORE_MODE:-verify}
+      RESTORE_CONFIRM: ${RESTORE_CONFIRM:-}
+    volumes:
+      - ${BACKUP_REPOSITORY_PATH:-./backups/restic}:/repository
+      - type: volume
+        source: media_data
+        target: /media
+        volume:
+          nocopy: true
+      - type: volume
+        source: letsencrypt
+        target: /letsencrypt
+        volume:
+          nocopy: true
+    tmpfs:
+      - /restore-work:size=2g,mode=0700
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
 
 volumes:
   postgres_data:

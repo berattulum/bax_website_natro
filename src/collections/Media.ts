@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import path from 'node:path'
 import type { CollectionConfig } from 'payload'
 import { CACHE_TAGS } from '@/lib/cache/tags'
@@ -9,10 +10,16 @@ const revalidation = createCollectionRevalidationHooks([
 ])
 
 const mediaDirectory = process.env.MEDIA_DIR || path.resolve(process.cwd(), 'media')
+const backupLock = path.join(mediaDirectory, '.backup.lock')
 
 export const Media: CollectionConfig = {
   slug: 'media',
   hooks: {
+    beforeOperation: [({ operation }) => {
+      if (operation !== 'read' && existsSync(backupLock)) {
+        throw new Error('Media changes are temporarily paused while a verified backup is being created.')
+      }
+    }],
     afterChange: [revalidation.afterChange],
     afterDelete: [revalidation.afterDelete],
   },

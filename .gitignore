@@ -11,6 +11,8 @@ media
 .pnpm-store
 tmp
 backups
+playwright-report
+test-results
 *.tsbuildinfo
 .agents
 /ucak-video.mp4

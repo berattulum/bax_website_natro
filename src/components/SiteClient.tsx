@@ -7,7 +7,7 @@ import { EcosystemPreview, ExpertiseSection, type ManagedLocale } from './Manage
 
 type Lang = 'tr' | 'en'
 type Locales = Record<Lang, ManagedLocale>
-const cleanEyebrow = (text: string) => text.replace(/^BAX(?:\s+COMPOSITES)?\s*(?:\/\/)?\s*/i, '').trim()
+const cleanEyebrow = (text?: string) => (text || '').replace(/^BAX(?:\s+COMPOSITES)?\s*(?:\/\/)?\s*/i, '').trim()
 type TurnstileApi = {
   render: (
     container: HTMLElement,
@@ -24,8 +24,8 @@ type TurnstileApi = {
   remove: (widgetId: string) => void
 }
 
-function Heading({ text, materialTailWords = 0 }: { text: string; materialTailWords?: number }) {
-  return <>{text.split(/<br\s*\/?>/gi).map((line, index) => {
+function Heading({ text, materialTailWords = 0 }: { text?: string; materialTailWords?: number }) {
+  return <>{(text || '').split(/<br\s*\/?>/gi).map((line, index) => {
     const materialAccent = /<span>/i.test(line)
     const cleanLine = line.replace(/<\/?span>/gi, '')
     if (!materialAccent && materialTailWords > 0) {

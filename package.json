@@ -25,6 +25,9 @@
     "backup:now": "docker compose --env-file .env.production -f compose.production.yml --profile backup-tools run --rm backup-once",
     "backup:list": "docker compose --env-file .env.production -f compose.production.yml --profile backup-tools run --rm --no-deps backup-once restic snapshots",
     "backup:verify": "docker compose --env-file .env.production -f compose.production.yml --profile restore run --rm restore",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:report": "playwright show-report",
     "ssl:init": "docker compose --env-file .env.production -f compose.production.yml --profile ssl run --rm certbot-init && docker compose --env-file .env.production -f compose.production.yml up -d --force-recreate nginx",
     "start": "payload migrate && next start",
     "start:production": "payload migrate && next start",
@@ -50,6 +53,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@types/node": "22.18.0",
     "@types/pg": "8.20.0",
     "@types/react": "19.2.2",

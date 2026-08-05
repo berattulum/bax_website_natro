@@ -7,8 +7,8 @@ export type Membership = { name: string; category: string; website: string; logo
 export type SectionKey = 'about' | 'designNarrative' | 'expertise' | 'manufacturingNarrative' | 'process' | 'principles' | 'solutions' | 'partners' | 'memberships' | 'contact'
 export type SectionLayoutItem = { section: SectionKey; enabled: boolean }
 
-function SafeHeading({ text }: { text: string }) {
-  const lines = text.replace(/<\/?span>/gi, '').split(/<br\s*\/?>/gi)
+function SafeHeading({ text }: { text?: string }) {
+  const lines = (text || '').replace(/<\/?span>/gi, '').split(/<br\s*\/?>/gi)
   return <>{lines.map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</>
 }
 

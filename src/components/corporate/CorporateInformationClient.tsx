@@ -1,8 +1,9 @@
 'use client'
 
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { CorporateHeader, type CorporateLang } from './CorporateHeader'
+import { PublicFooter } from '@/components/PublicFooter'
+import styles from '@/components/institutional/InstitutionalSimple.module.css'
 
 const records = [
   ['Ticari unvan', 'Legal name', 'BaX Kompozit A.Ş. / BaX Composites Inc.'],
@@ -53,42 +54,38 @@ export function CorporateInformationClient() {
   }
 
   return (
-    <main className="profile-page ci-page">
+    <main className={styles.page}>
       <CorporateHeader lang={lang} active="records" onLangChange={setLang} />
 
-      <section className="ci-hero">
+      <section className={styles.hero}>
         <div><h1>{t.title}</h1></div>
-        <p>{t.intro}</p>
+        <div className={styles.heroIntro}><p>{t.intro}</p></div>
       </section>
 
-      <section className="ci-content">
-        <header className="ci-section-title"><h2>{t.identity}</h2></header>
-        <div className="ci-records">
+      <section className={styles.content}>
+        <header className={styles.sectionTitle}><h2>{t.identity}</h2></header>
+        <div className={styles.records}>
           {records.map(([tr, en, value]) => (
-            <article key={tr}>
+            <article className={styles.record} key={tr}>
               <span>{lang === 'tr' ? tr : en}</span>
               <strong>{value}</strong>
             </article>
           ))}
         </div>
 
-        <header className="ci-section-title"><h2>{t.offices}</h2></header>
-        <div className="ci-offices">
-          <article><span>{t.head}</span><p>Yıldız Teknik Üniversitesi Teknopark, Çifte Havuzlar Mah., Eski Londra Asfaltı Cad., A1 Blok No: B35, 34220 Esenler / İstanbul</p></article>
-          <article><span>{t.branch}</span><p>İkitelli OSB Mah., Metal-İş Sanayi Sitesi, No: 17/10, 34490 Başakşehir / İstanbul</p></article>
+        <header className={styles.sectionTitle}><h2>{t.offices}</h2></header>
+        <div className={styles.offices}>
+          <article className={styles.office}><span>{t.head}</span><p>Yıldız Teknik Üniversitesi Teknopark, Çifte Havuzlar Mah., Eski Londra Asfaltı Cad., A1 Blok No: B35, 34220 Esenler / İstanbul</p></article>
+          <article className={styles.office}><span>{t.branch}</span><p>İkitelli OSB Mah., Metal-İş Sanayi Sitesi, No: 17/10, 34490 Başakşehir / İstanbul</p></article>
         </div>
 
-        <aside className="ci-verify">
+        <aside className={styles.verify}>
           <div><h2>{t.verify}</h2><p>{t.verifyText}</p></div>
           <a href="https://e-sirket.mkk.com.tr/" target="_blank" rel="noreferrer">{t.verifyLink}<span aria-hidden="true">↗</span></a>
         </aside>
       </section>
 
-      <footer className="profile-footer">
-        <span>© 2026 BaX Composites Inc.</span>
-        <Link href="/kvkk">{t.legal}</Link>
-        <Link href="/#home">baxcomposites.com</Link>
-      </footer>
+      <PublicFooter lang={lang} />
     </main>
   )
 }

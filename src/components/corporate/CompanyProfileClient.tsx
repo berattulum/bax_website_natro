@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import type { ManagedLocale } from '@/components/ManagedSections'
 import { CorporateHeader, type CorporateLang } from './CorporateHeader'
+import { PublicFooter } from '@/components/PublicFooter'
 
 export function CompanyProfileClient({ locales }: { locales: Record<CorporateLang, ManagedLocale> }) {
   const [lang, setLang] = useState<CorporateLang>('en')
@@ -24,7 +25,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
   const withoutStops = (value: string) => value.replace(/\.{1,}/g, '')
   const text = lang === 'tr' ? {
     heroTitle: 'Şirket Profili',
-    heroKicker: 'İLERİ KOMPOZİT MÜHENDİSLİĞİ',
+    heroIntro: 'Tasarım kararlarını üretim gerçekleriyle buluşturan uçtan uca mühendislik',
     statement: <>Malzeme potansiyelini<br /><em>üretilebilir değere</em><br />dönüştürüyoruz</>,
     founded: '2018’de İstanbul’da kuruldu',
     capability: 'Tasarımdan seri üretime',
@@ -38,12 +39,12 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
     legal: 'KVKK ve yasal belgeler',
     leadershipKicker: 'KURUCU / MÜHENDİSLİK LİDERLİĞİ',
     leadershipTitle: 'Teknik yön, işin merkezinde kalır.',
-    leadershipBody: 'BaX Composites kurucusu Hakkı Kızılok; ileri kompozitler, RTM uygulamaları ve üretim odaklı proje geliştirme deneyimiyle şirketin mühendislik yaklaşımına liderlik eder.',
+    leadershipBody: 'BaX Composites kurucusu Hakkı Kızılok, havacılık kompozitlerinde tasarım ve RTM uygulamalarına uzanan mühendislik deneyimini üretilebilir, hafif ve sürdürülebilir çözümlere taşıyor 2014 yılında havacılık ve uzay sanayiinde RTM uygulamaları üzerine Chief Design Engineer olarak teknik sunum gerçekleştiren Kızılok, bugün geri dönüştürülebilir kompozitler ve üretim süreçleri odağındaki uluslararası çalışmalara liderlik ediyor',
     leadershipProject: 'MachFlexComp Proje Koordinatörü',
     portraitPending: 'Portre alanı',
   } : {
     heroTitle: 'Company Profile',
-    heroKicker: 'ADVANCED COMPOSITE ENGINEERING',
+    heroIntro: 'End to end engineering that connects design decisions with production realities',
     statement: <>Transforming material potential<br />into <em>manufacturable value</em></>,
     founded: 'Founded in Istanbul in 2018',
     capability: 'From design to serial production',
@@ -57,7 +58,7 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
     legal: 'Privacy and legal documents',
     leadershipKicker: 'FOUNDER / ENGINEERING LEADERSHIP',
     leadershipTitle: 'Technical direction stays close to the work.',
-    leadershipBody: 'BaX Composites founder Hakkı Kızılok leads the company’s engineering approach through experience in advanced composites, RTM applications and manufacturing-led project development.',
+    leadershipBody: 'BaX Composites founder Hakkı Kızılok brings engineering experience spanning aerospace composite design and RTM applications into manufacturable, lightweight and sustainable solutions In 2014 he presented RTM applications in aerospace as a Chief Design Engineer and today leads international work focused on recyclable composites and manufacturing processes',
     leadershipProject: 'MachFlexComp Project Coordinator',
     portraitPending: 'Portrait reserved',
   }
@@ -77,15 +78,17 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
         />
         <div className="cp-hero-shade" />
         <div className="cp-hero-content">
-          <span>{text.heroKicker}</span>
           <h1>{text.heroTitle}</h1>
+          <p>{text.heroIntro}</p>
         </div>
-        <div className="cp-hero-facts" aria-label={lang === 'tr' ? 'Şirket özeti' : 'Company summary'}>
-          <p>{text.capability}</p>
-          <dl>
-            <div><dt>2018</dt><dd>{lang === 'tr' ? 'İstanbul' : 'Istanbul'}</dd></div>
-            <div><dt>03</dt><dd>{lang === 'tr' ? 'Odak sektör' : 'Focus sectors'}</dd></div>
-          </dl>
+        <div className="cp-hero-facts" aria-label={lang === 'tr' ? 'BaX mühendislik sistemi' : 'BaX engineering system'}>
+          <p>{lang === 'tr' ? 'Tek ve kesintisiz bir mühendislik sistemi' : 'One continuous engineering system'}</p>
+          <div className="cp-hero-system" aria-hidden="true">
+            <span>{lang === 'tr' ? 'Tasarım' : 'Design'}</span>
+            <span>{lang === 'tr' ? 'Doğrulama' : 'Verification'}</span>
+            <span>{lang === 'tr' ? 'Sanayileşme' : 'Industrialization'}</span>
+          </div>
+          <small>{lang === 'tr' ? 'Kararlar el değiştirmeden üretime taşınır' : 'Decisions move into production without handoff gaps'}</small>
         </div>
         <p className="cp-hero-caption">BaX Composites / Istanbul</p>
       </section>
@@ -144,7 +147,6 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
       <div className="cp-story-simple">
         <section className="cp-simple-overview" aria-labelledby="cp-simple-story-title">
           <header>
-            <span>{lang === 'tr' ? 'BİZİM HİKÂYEMİZ' : 'OUR STORY'}</span>
             <h2 id="cp-simple-story-title">{lang === 'tr' ? 'BaX Composites' : 'BaX Composites'}</h2>
             <p>{lang === 'tr' ? 'İleri kompozit mühendisliğini tasarımdan seri üretime taşıyoruz' : 'We carry advanced composite engineering from design into serial production'}</p>
           </header>
@@ -169,14 +171,18 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
         </section>
 
         <section className="cp-simple-founder" aria-labelledby="cp-simple-founder-title">
-          <div className="cp-simple-founder-portrait" aria-label={text.portraitPending}>
-            <span>HK</span>
-            <small>{text.portraitPending}</small>
+          <div className="cp-simple-founder-portrait">
+            <Image
+              src="/assets/hakki-kizilok.jpeg"
+              alt={lang === 'tr' ? 'BaX Composites kurucusu Hakkı Kızılok' : 'Hakkı Kızılok founder of BaX Composites'}
+              fill
+              sizes="(max-width: 760px) 220px, 260px"
+              quality={90}
+            />
           </div>
           <div className="cp-simple-founder-copy">
-            <span>{lang === 'tr' ? 'KURUCU' : 'FOUNDER'}</span>
             <h2 id="cp-simple-founder-title">Hakkı Kızılok</h2>
-            <strong>Founder &amp; Chairman</strong>
+            <strong>{lang === 'tr' ? 'Kurucu' : 'Founder'}</strong>
             <p>{withoutStops(text.leadershipBody)}</p>
             <div><span>{text.leadershipProject}</span><a href="https://tr.linkedin.com/in/hakk%C4%B1-k%C4%B1z%C4%B1lok-a98321a0" target="_blank" rel="noreferrer">LinkedIn ↗</a></div>
           </div>
@@ -184,7 +190,6 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
 
         <section className="cp-simple-process" aria-labelledby="cp-simple-process-title">
           <header>
-            <span>{lang === 'tr' ? 'ÇALIŞMA BİÇİMİMİZ' : 'HOW WE WORK'}</span>
             <h2 id="cp-simple-process-title">{lang === 'tr' ? 'Tek ekip ve açık bir süreç' : 'One team and a clear process'}</h2>
           </header>
           <ol>
@@ -193,16 +198,12 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
         </section>
 
         <section className="cp-simple-next">
-          <div><span>{lang === 'tr' ? 'KURUMSAL BİLGİLER' : 'CORPORATE INFORMATION'}</span><h2>{lang === 'tr' ? 'Doğrulanabilir ve açık bilgi' : 'Clear and verifiable information'}</h2></div>
+          <div><h2>{lang === 'tr' ? 'Doğrulanabilir ve açık bilgi' : 'Clear and verifiable information'}</h2></div>
           <Link href="/kurumsal-bilgiler">{text.records}<span aria-hidden="true">↗</span></Link>
         </section>
       </div>
 
-      <footer className="profile-footer">
-        <span>© 2026 BaX Composites Inc</span>
-        <Link href="/kvkk">{text.legal}</Link>
-        <Link href="/#home">baxcomposites.com</Link>
-      </footer>
+      <PublicFooter lang={lang} />
     </main>
   )
 }

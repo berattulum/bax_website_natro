@@ -36,9 +36,11 @@ export function ExpertiseSection({ items, label, locale = 'en' }: { items: Exper
       <div className="container">
         <div className="expertise-wrapper">
           {items.map((item, index) => (
-            <a className={`expertise-item${index < 2 ? ' expertise-item-featured' : ''}`} href={`/expertise#${expertiseAnchors[index] || expertiseAnchors[0]}`} style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
+            <a className={`expertise-item${index < 4 ? ' expertise-item-featured' : ''}`} href={`/expertise#${expertiseAnchors[index] || expertiseAnchors[0]}`} style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
               {index === 0 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true"><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video>}
               {index === 1 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/industrialization-robot-start-v1.png" aria-hidden="true"><source src="/assets/industrialization-automation-loop-v1.mp4" type="video/mp4" /></video>}
+              {index === 2 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true"><source src="/assets/material-process-innovation-loop-v1.mp4" type="video/mp4" /></video>}
+              {index === 3 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true"><source src="/assets/testing-qualification-loop-v1.mp4" type="video/mp4" /></video>}
               <span className="expertise-item-content">
                 <h3 data-i18n={`expertise${item.order}Title`}>{item.title}</h3>
                 <ul className="expertise-item-points" data-i18n={`expertise${item.order}Description`}>{expertiseBullets(item.description, locale).map((point) => <li key={point}>{point}</li>)}</ul>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import type { ManagedLocale } from '@/components/ManagedSections'
 import { CorporateHeader } from '@/components/corporate/CorporateHeader'
+import { PublicFooter } from '@/components/PublicFooter'
 
 type Lang = 'tr' | 'en'
 
@@ -48,5 +49,6 @@ export function ExpertisePageClient({ locales }: { locales: Record<Lang, Managed
         </div>
       </section>)}
     </div>
+    <PublicFooter lang={lang} />
   </main>
 }

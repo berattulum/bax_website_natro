@@ -33,27 +33,24 @@ ul { list-style: none; }
 .btn-primary-small:hover { filter: brightness(1.15); box-shadow: 0 8px 34px rgba(44,196,217,.3); }
 
 /* --- 3. HERO SLIDER (TAM FONKSİYONEL) --- */
-.hero-section { position: relative; height: 100vh; display: flex; align-items: center; overflow: hidden; }
-.hero-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-.slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; display: flex; align-items: center; }
-.slide.active { opacity: 1; z-index: 2; }
-.hero-video, .slide-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-section { position: relative; height: 100vh; min-height: 680px; display: block; overflow: hidden; color: #fff; background: #0b171e; }
+.hero-slider { position: relative; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+.slide { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 100%; display: flex; align-items: center; opacity: 0; z-index: 1; transform: translateX(3.5%); pointer-events: none; border-bottom: 0; transition: opacity 1s ease, transform 1.25s cubic-bezier(.22,.61,.36,1); }
+.slide.active { opacity: 1; z-index: 2; transform: translateX(0); pointer-events: auto; }
+.hero-video, .slide-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.58) contrast(.94) brightness(.86); transform: scale(1.025); transition: transform 6s ease; }
+.slide.active .hero-video, .slide.active .slide-bg { transform: scale(1); }
 .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(4,13,20,.92) 0%, rgba(4,17,26,.65) 47%, rgba(4,13,20,.25) 100%), linear-gradient(0deg, rgba(4,13,20,.8), transparent 48%); z-index: 2; }
 .hero-overlay::after { content: ""; position: absolute; inset: 0; opacity: .16; background-image: repeating-linear-gradient(135deg, transparent 0 8px, rgba(154,225,235,.18) 8px 9px, transparent 9px 17px); mask-image: linear-gradient(90deg, #000, transparent 67%); }
-.hero-content { position: relative; z-index: 3; max-width: 800px; margin-left: 5%; }
-.hero-subtitle { display: inline-flex; align-items: center; gap: 12px; color: #68dce9; font-size: .78rem; font-weight: 700; letter-spacing: 3.5px; margin-bottom: 20px; }
-.hero-subtitle::before { content: ""; width: 34px; height: 1px; background: var(--cyan); box-shadow: 0 0 9px var(--cyan); }
-.hero-title { font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; }
-.hero-title span { color: transparent; -webkit-text-stroke: 1px #fff; }
-.hero-description { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; }
+.hero-content { position: relative; z-index: 3; max-width: 800px; margin-left: 5%; opacity: 0; transform: translateY(22px); transition: opacity .6s ease .12s, transform .7s cubic-bezier(.22,.61,.36,1) .12s; }
+.slide.active .hero-content { opacity: 1; transform: translateY(0); }
+.hero-subtitle { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px; color: #b5c7cd; font-family: var(--font-body); font-size: .78rem; font-weight: 600; line-height: 1.4; letter-spacing: .16em; }
+.hero-subtitle::before { content: ""; width: 34px; height: 1px; background: #91aab3; box-shadow: none; }
+.hero-title { max-width: 760px; margin-bottom: 25px; font-family: var(--font-display); font-size: clamp(3.2rem,6vw,5.8rem); font-weight: 700; line-height: 1.04; letter-spacing: -.045em; }
+.hero-title span { color: rgba(255,255,255,.06); -webkit-text-stroke: 1px rgba(255,255,255,.72); }
+.hero-description { max-width: 58ch; color: #c0ccd1; font-family: var(--font-body); font-size: clamp(1rem,1.2vw,1.125rem); line-height: 1.75; letter-spacing: 0; }
 
 /* Slider Kontroller */
-.slider-controls { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; padding: 0 50px; z-index: 10; transform: translateY(-50%); pointer-events: none; }
-.slide-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; pointer-events: auto; transition: 0.3s; }
-.slide-btn:hover { background: #00a8ff; border-color: #00a8ff; }
-.slider-dots { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 10; }
-.dot { width: 12px; height: 12px; background: rgba(255,255,255,0.3); border-radius: 50%; cursor: pointer; }
-.dot.active { background: #00a8ff; }
+.slider-controls, .slider-dots { display: none; }
 
 /* --- 4. HAKKIMIZDA & UZMANLIK (Endüstriyel Stil) --- */
 .about-section { position: relative; padding: 120px 0; overflow: hidden; background: linear-gradient(135deg, #071019 0%, #0c1b26 100%); color: #fff; border-top: 1px solid var(--line); }
@@ -332,7 +329,6 @@ body::before { display: none; }
 .main-nav a { color: #536a77; }
 .main-nav a:hover, .main-nav a.active { color: #0a7899; }
 .lang-selector select { color: var(--navy); background: #fff; border-color: rgba(16,42,58,.18); color-scheme: light; }
-.hero-section { color: #fff; }
 .hero-overlay { background: linear-gradient(90deg, rgba(6,22,32,.83) 0%, rgba(8,28,39,.49) 48%, rgba(6,20,29,.12) 100%), linear-gradient(0deg, rgba(6,18,27,.62), transparent 52%); }
 .hero-overlay::after { opacity: .07; mask-image: linear-gradient(90deg, #000, transparent 42%); }
 .about-section { color: var(--navy); background: #fff; border-top-color: rgba(16,42,58,.09); }
@@ -376,53 +372,11 @@ body::before { display: none; }
     .btn-primary-small { display: none; }
 }
 
-/* --- 9. KAYDIRMAYA BAĞLI TEKNİK HERO --- */
 :root { --cyan: #6f929f; --blue: #315d73; }
-.hero-section { height: 300vh; display: block; overflow: visible; background: #0b171e; }
-.hero-slider { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-.slide { transition: opacity .7s cubic-bezier(.22,.61,.36,1); pointer-events: none; }
-.slide.active { pointer-events: auto; }
-.hero-video, .slide-bg { filter: saturate(.58) contrast(.94) brightness(.86); transform: scale(1.025); transition: transform 6s ease; }
-.slide.active .hero-video, .slide.active .slide-bg { transform: scale(1); }
 .hero-overlay { background: linear-gradient(90deg, rgba(7,18,24,.88) 0%, rgba(13,29,37,.6) 48%, rgba(12,25,32,.24) 100%), linear-gradient(0deg, rgba(6,16,22,.62), transparent 55%); }
 .hero-overlay::after { opacity: .035; }
-.hero-content { opacity: 0; transform: translateY(28px); transition: opacity .6s ease .12s, transform .7s cubic-bezier(.22,.61,.36,1) .12s; }
-.slide.active .hero-content { opacity: 1; transform: translateY(0); }
-.hero-subtitle { color: #b5c7cd; }
-.hero-subtitle::before { background: #91aab3; box-shadow: none; }
-.hero-title { max-width: 760px; font-size: clamp(3.2rem,6vw,5.8rem); letter-spacing: -.035em; }
-.hero-title span { color: rgba(255,255,255,.06); -webkit-text-stroke-color: rgba(255,255,255,.72); }
-.hero-description { color: #c0ccd1; font-size: 1.05rem; line-height: 1.8; }
-.slider-controls { top: auto; right: 38px; bottom: 34px; left: auto; width: auto; justify-content: flex-end; gap: 8px; padding: 0; transform: none; }
-.slide-btn { width: 42px; height: 42px; color: #d7e0e3; background: rgba(13,29,37,.55); border-color: rgba(207,222,227,.25); border-radius: 0; font-size: 1rem; backdrop-filter: blur(8px); }
-.slide-btn:hover { color: #fff; background: rgba(89,116,126,.72); border-color: rgba(255,255,255,.48); }
-.slider-dots { top: 50%; right: 43px; bottom: auto; left: auto; flex-direction: column; align-items: flex-end; gap: 13px; transform: translateY(-50%); }
-.dot { width: 24px; height: 2px; background: rgba(255,255,255,.3); border-radius: 0; transition: width .3s ease, background .3s ease; }
-.dot.active { width: 44px; background: #dce5e8; }
 .btn-primary-small, .form-submit { background: #315d73; box-shadow: 0 8px 24px rgba(31,64,80,.16); }
 .section-label, .text-block .label, .contact-mail, .contact-locations span { color: #557d8d; }
-
-@media (max-width: 768px) {
-    .hero-content { margin-left: auto; padding: 0 8%; }
-    .hero-title { font-size: clamp(2.7rem,13vw,4rem); }
-    .hero-description { max-width: calc(100% - 38px); font-size: .92rem; }
-    .slider-dots { right: 18px; }
-    .slider-controls { right: 16px; bottom: 24px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .hero-video, .slide-bg, .hero-content, .slide { transition: none; }
-    html { scroll-behavior: auto; }
-}
-
-/* --- 10. NORMAL AKIŞTA TAM EKRAN GÖRSEL SAHNELER --- */
-.hero-section { height: auto; overflow: hidden; background: #0b171e; }
-.hero-slider { position: relative; top: auto; height: auto; overflow: visible; }
-.slide, .slide.active { position: relative; inset: auto; width: 100%; min-height: 100vh; opacity: 1; z-index: auto; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,.09); }
-.slide .hero-content, .slide.active .hero-content { opacity: 0; transform: translateY(38px); }
-.slide.in-view .hero-content { opacity: 1; transform: translateY(0); }
-.slide .hero-video, .slide .slide-bg, .slide.active .hero-video, .slide.active .slide-bg { transform: scale(1.035); transition: transform 1.4s cubic-bezier(.22,.61,.36,1); }
-.slide.in-view .hero-video, .slide.in-view .slide-bg { transform: scale(1); }
 .futuristic-bg {
     background-image: url('assets/carbon-futuristic-hero.png');
     background-position: center center;
@@ -477,31 +431,7 @@ body::before { display: none; }
         linear-gradient(0deg, rgba(4,9,12,.34), transparent 55%);
 }
 .slide:has(.futuristic-bg) .hero-title span { color: rgba(255,255,255,.04); -webkit-text-stroke-color: rgba(255,255,255,.82); }
-.slider-controls, .slider-dots { display: none; }
 
-/* Açılıştaki uçak ve otomotiv anlatısı aynı ekranda zaman kontrollü çalışır. */
-.hero-section { height: 100vh; min-height: 680px; }
-.hero-slider { height: 100%; overflow: hidden; }
-.hero-slider > .opening-slide,
-.hero-slider > .opening-slide.active {
-    position: absolute;
-    inset: 0;
-    min-height: 100%;
-    opacity: 0;
-    z-index: 1;
-    transform: translateX(3.5%);
-    pointer-events: none;
-    border-bottom: 0;
-    transition: opacity 1s ease, transform 1.25s cubic-bezier(.22,.61,.36,1);
-}
-.hero-slider > .opening-slide.active {
-    opacity: 1;
-    z-index: 2;
-    transform: translateX(0);
-    pointer-events: auto;
-}
-.hero-slider > .opening-slide:not(.active) .hero-content { opacity: 0; transform: translateY(22px); }
-.hero-slider > .opening-slide.active .hero-content { opacity: 1; transform: translateY(0); }
 .opening-pagination {
     position: absolute;
     z-index: 5;
@@ -556,9 +486,11 @@ body::before { display: none; }
 }
 
 @media (max-width: 768px) {
-    .slide, .slide.active { min-height: 92vh; }
     .hero-section { height: 92vh; min-height: 620px; }
-    .hero-slider > .opening-slide, .hero-slider > .opening-slide.active { min-height: 100%; }
+    .slide { min-height: 100%; }
+    .hero-content { margin-left: auto; padding: 0 8%; }
+    .hero-title { font-size: clamp(2.7rem,13vw,4rem); }
+    .hero-description { max-width: calc(100% - 38px); font-size: .92rem; }
     .opening-pagination { bottom: 24px; }
     .contact-grid { grid-template-columns: 1fr; }
     .contact-directory { padding: 8px 20px; }
@@ -576,10 +508,12 @@ body::before { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .slide .hero-content, .slide.active .hero-content { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+    .hero-video, .slide-bg, .hero-content, .slide { transition: none; }
+    .hero-content { opacity: 1; transform: none; }
     .automotive-bg { animation: none; }
     .manufacturing-bg, .manufacturing-light { animation: none; }
-    .hero-slider > .opening-slide, .hero-slider > .opening-slide.active { transition: none; transform: none; }
+    .slide { transition: none; transform: none; }
 }
 
 /* --- 11. KURUMSAL TİPOGRAFİ SİSTEMİ --- */
@@ -596,13 +530,10 @@ body::before { display: none; }
 body { font-family: var(--font-body); font-size: var(--text-base); font-weight: 400; line-height: var(--leading-copy); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 700; line-height: 1.14; letter-spacing: -.025em; text-wrap: balance; }
 p { max-width: 68ch; text-wrap: pretty; }
-.logo-word, .hero-title { font-family: var(--font-display); }
+.logo-word { font-family: var(--font-display); }
 .main-nav a, .btn-primary-small, .form-submit, .section-label, .text-block .label, .references-note, .logo-card span, .contact-locations span { font-family: var(--font-body); font-weight: 600; }
 .main-nav a { font-size: .78rem; line-height: 1.2; letter-spacing: .08em; }
 .section-label, .text-block .label { font-size: var(--text-xs); line-height: 1.35; letter-spacing: var(--tracking-label); }
-.hero-subtitle { font-family: var(--font-body); font-size: .78rem; font-weight: 600; line-height: 1.4; letter-spacing: .16em; }
-.hero-title { line-height: 1.04; letter-spacing: -.045em; }
-.hero-description { font-family: var(--font-body); max-width: 58ch; font-size: clamp(1rem,1.2vw,1.125rem); line-height: 1.75; letter-spacing: 0; }
 .about-text h2, .principles-heading h2, .references-heading h2, .contact-intro h2, .text-block h2 { letter-spacing: -.035em; }
 .about-desc { font-family: var(--font-body); font-size: clamp(1.05rem,1.35vw,1.2rem); line-height: 1.8; }
 .expertise-item h3, .principle-card h3 { font-size: clamp(1.15rem,1.5vw,1.35rem); letter-spacing: -.015em; }

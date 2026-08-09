@@ -96,7 +96,6 @@ const partners = [
 ]
 
 const memberships = [
-  ['Composites United', 'SEKTÖREL AĞ', 'INDUSTRY NETWORK', 'https://composites-united.com/en/', 'logos/memberships/composites-united.png', true],
   ['M-ERA.NET', 'AR-GE AĞI', 'R&D NETWORK', 'https://www.m-era.net/', 'logos/memberships/m-era-net.png', false],
   ['TÜBİTAK', 'ARAŞTIRMA KURUMU', 'RESEARCH INSTITUTION', 'https://tubitak.gov.tr/', 'logos/memberships/tubitak.svg', false],
   ['TOBB', 'MESLEK ÜST KURULUŞU', 'BUSINESS ORGANIZATION', 'https://www.tobb.org.tr/', 'logos/memberships/tobb.jpg', false],

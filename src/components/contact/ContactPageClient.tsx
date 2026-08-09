@@ -5,6 +5,7 @@ import Script from 'next/script'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 
 import { CorporateHeader, type CorporateLang } from '@/components/corporate/CorporateHeader'
+import { PublicFooter } from '@/components/PublicFooter'
 import type { ManagedLocale } from '@/components/ManagedSections'
 
 type TurnstileApi = {
@@ -68,10 +69,6 @@ const copy = {
     back: 'Return to homepage',
   },
 } as const
-
-function Address({ value }: { value?: string }) {
-  return <>{(value || '').split('\n').map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</>
-}
 
 export function ContactPageClient({ locales }: { locales: Record<CorporateLang, ManagedLocale> }) {
   const [lang, setLang] = useState<CorporateLang>('en')
@@ -202,11 +199,7 @@ export function ContactPageClient({ locales }: { locales: Record<CorporateLang, 
         </div>
       </section>
 
-      <footer className="contact-command-base">
-        <div className="contact-command-location"><span>{t.headOffice}</span><p><Address value={dictionary.headOffice} /></p></div>
-        <div className="contact-command-location"><span>{t.branchOffice}</span><p><Address value={dictionary.branchOffice} /></p></div>
-        <nav><Link href="/#home">{t.back}</Link><Link href="/kvkk">KVKK</Link><span>© 2026 BAX COMPOSITES</span></nav>
-      </footer>
+      <PublicFooter lang={lang} />
     </section>
   </main>
 }

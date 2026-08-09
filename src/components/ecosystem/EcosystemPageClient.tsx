@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 
 import type { ManagedLocale, Membership, Partner } from '@/components/ManagedSections'
 import { CorporateHeader, type CorporateLang } from '@/components/corporate/CorporateHeader'
+import { PublicFooter } from '@/components/PublicFooter'
+import styles from '@/components/institutional/InstitutionalSimple.module.css'
 
 type PageKind = 'partnerships' | 'networks'
 
@@ -74,48 +76,42 @@ export default function EcosystemPageClient({
   const nextHref = isPartnerships ? '/aglar-ve-uyelikler' : '/is-ortakliklari'
 
   return (
-    <main className={`ecosystem-page ecosystem-page-${kind}`}>
+    <main className={styles.page}>
       <CorporateHeader lang={lang} active={kind} onLangChange={setLang} />
-      <section className="ecosystem-page-hero">
-        <div className="ecosystem-page-grid" aria-hidden="true" />
-        <div className="ecosystem-page-orbit" aria-hidden="true"><i /><i /></div>
-        <div className="ecosystem-page-hero-inner">
-          <p>{copy.lead}</p>
+      <section className={styles.hero}>
+        <div>
+          <p className={styles.heroLead}>{copy.lead}</p>
           <h1>{copy.title}</h1>
-          <div className="ecosystem-page-intro"><p>{copy.description}</p><i aria-hidden="true" /></div>
         </div>
+        <div className={styles.heroIntro}><p>{copy.description}</p></div>
       </section>
 
-      <section className="ecosystem-directory" aria-labelledby="ecosystem-directory-title">
-        <div className="ecosystem-directory-heading">
+      <section className={styles.content} aria-labelledby="ecosystem-directory-title">
+        <div className={styles.sectionTitle}>
           <h2 id="ecosystem-directory-title">{copy.index}</h2>
         </div>
-        <div className={`ecosystem-directory-grid${isPartnerships ? ' is-partnerships' : ' is-networks'}`}>
+        <div className={styles.directory}>
           {items.map((item) => (
             <a href={item.website} target="_blank" rel="noopener" key={item.name}>
-              <span className="ecosystem-card-logo">
+              <span className={styles.logo}>
                 {item.logo ? <img src={item.logo} alt="" loading="lazy" decoding="async" /> : <strong>{item.name}</strong>}
               </span>
-              <span className="ecosystem-card-meta">
+              <span className={styles.cardMeta}>
                 <strong>{item.name}</strong>
                 <small>{'category' in item ? item.category : item.caption}</small>
               </span>
-              <i aria-hidden="true">↗</i>
+              <i className={styles.cardArrow} aria-hidden="true">↗</i>
             </a>
           ))}
         </div>
       </section>
 
-      <section className="ecosystem-next">
+      <section className={styles.next}>
         <div><h2>{copy.next}</h2><p>{copy.nextText}</p></div>
         <Link href={nextHref}>{copy.explore}<span aria-hidden="true">↗</span></Link>
       </section>
 
-      <footer className="profile-footer">
-        <span>© 2026 BaX Composites Inc.</span>
-        <Link href="/#ecosystem">{lang === 'tr' ? 'Ana sayfaya dön' : 'Return to homepage'}</Link>
-        <Link href="/#home">baxcomposites.com</Link>
-      </footer>
+      <PublicFooter lang={lang} />
     </main>
   )
 }

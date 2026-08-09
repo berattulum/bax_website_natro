@@ -2,9 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CorporateHeader, type CorporateLang } from '@/components/corporate/CorporateHeader'
 import styles from './SustainabilityClient.module.css'
+import { PublicFooter } from '@/components/PublicFooter'
 
 const copy = {
   en: {
@@ -32,6 +33,15 @@ const copy = {
     ],
     systemKicker: 'RECYCLED CARBON FIBER',
     systemTitle: 'One material journey built in the right order',
+    journey: [
+      ['Virgin carbon fiber', 'Understand the original material value before deciding how it can remain productive'],
+      ['Material recovery', 'Recover carbon fiber from suitable material streams with traceability and controlled boundaries'],
+      ['Fiber treatment', 'Develop surface dispersion and interface behaviour for manufacturing compatibility'],
+      ['Recycled carbon fiber utilization', 'Design load paths geometry and product architecture around recovered material capability'],
+      ['Life cycle assessment', 'Measure material process energy scrap and end of life scenarios before making environmental claims'],
+    ],
+    journeyProgress: 'Material journey',
+    engineeringDetail: 'Engineering the next material life',
     steps: [
       ['01', 'Design for recycled carbon fiber utilization', 'Begin with geometry load paths fiber placement and product architecture so recovered material can create meaningful value'],
       ['02', 'Treatment of recycled carbon fiber for enhanced mechanical and manufacturing characteristics', 'Develop surface dispersion and interface behaviour to support mechanical performance and process compatibility'],
@@ -88,6 +98,15 @@ const copy = {
     ],
     systemKicker: 'GERİ DÖNÜŞTÜRÜLMÜŞ KARBON FİBER',
     systemTitle: 'Doğru sırayla kurulan tek bir malzeme yolculuğu',
+    journey: [
+      ['Birincil karbon fiber', 'Bir sonraki kullanım kararından önce malzemenin ilk değerini ve performansını anla'],
+      ['Malzeme geri kazanımı', 'Uygun malzeme akışlarından karbon fiberi izlenebilir ve kontrollü sınırlarla geri kazan'],
+      ['Fiber iyileştirme', 'Üretim uyumluluğu için yüzey dağılım ve ara yüz davranışını geliştir'],
+      ['Geri dönüştürülmüş karbon fiber kullanımı', 'Yük yollarını geometriyi ve ürün mimarisini geri kazanılmış malzeme yeteneğine göre tasarla'],
+      ['Yaşam döngüsü değerlendirmesi', 'Çevresel iddiadan önce malzeme proses enerji fire ve yaşam sonu senaryolarını ölç'],
+    ],
+    journeyProgress: 'Malzeme yolculuğu',
+    engineeringDetail: 'Bir sonraki malzeme yaşamını mühendislikle kurmak',
     steps: [
       ['01', 'Geri dönüştürülmüş karbon fiber kullanımı için tasarım', 'Geri kazanılmış malzemenin anlamlı değer üretmesi için geometri yük yolları fiber yerleşimi ve ürün mimarisiyle başla'],
       ['02', 'Mekanik ve üretim özelliklerini geliştirmek için geri dönüştürülmüş karbon fiberin iyileştirilmesi', 'Mekanik performansı ve proses uyumluluğunu desteklemek için yüzey dağılım ve ara yüz davranışını geliştir'],
@@ -123,6 +142,8 @@ const copy = {
 
 export function SustainabilityClient() {
   const [lang, setLang] = useState<CorporateLang>('en')
+  const [journeyStep, setJourneyStep] = useState(0)
+  const journeyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const saved = localStorage.getItem('bax-language')
@@ -130,6 +151,24 @@ export function SustainabilityClient() {
   }, [])
 
   useEffect(() => { document.documentElement.lang = lang }, [lang])
+
+  useEffect(() => {
+    const updateJourney = () => {
+      const section = journeyRef.current
+      if (!section) return
+      const rect = section.getBoundingClientRect()
+      const distance = Math.max(1, section.offsetHeight - window.innerHeight)
+      const progress = Math.min(1, Math.max(0, -rect.top / distance))
+      setJourneyStep(Math.min(4, Math.floor(progress * 5)))
+    }
+    updateJourney()
+    window.addEventListener('scroll', updateJourney, { passive: true })
+    window.addEventListener('resize', updateJourney)
+    return () => {
+      window.removeEventListener('scroll', updateJourney)
+      window.removeEventListener('resize', updateJourney)
+    }
+  }, [])
   const c = copy[lang]
 
   return <main className={styles.page}>
@@ -176,11 +215,33 @@ export function SustainabilityClient() {
         <p className={styles.kicker}>{c.systemKicker}</p>
         <h2>{c.systemTitle}</h2>
       </div>
-      <div className={styles.materialVisual}>
-        <Image src="/assets/sustainability/recovered-carbon-fiber-b.png" alt="Recovered carbon fiber weave" fill sizes="100vw" />
-        <span>RCF</span>
-        <a href="https://www.mdpi.com/2313-4321/7/2/22" target="_blank" rel="noreferrer">Grebeneva et al 2022 · CC BY 4 0</a>
+      <div className={styles.journeyStage} ref={journeyRef}>
+        <div className={styles.journeySticky}>
+          <Image src="/assets/sustainability/recovered-carbon-fiber-b.png" alt="Recovered carbon fiber weave" fill sizes="100vw" />
+          <div className={styles.journeyShade} />
+          <div className={styles.journeyInterface}>
+            <div className={styles.journeyCounter}>
+              <span>{c.journeyProgress}</span>
+              <strong>0{journeyStep + 1}</strong>
+              <i>05</i>
+            </div>
+            <div className={styles.journeyCopy} aria-live="polite">
+              {c.journey.map(([title, text], index) => <article key={title} className={index === journeyStep ? styles.activeJourney : ''} aria-hidden={index !== journeyStep}>
+                <span>0{index + 1}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>)}
+            </div>
+            <div className={styles.journeyRail} aria-hidden="true">
+              <span style={{ height: `${((journeyStep + 1) / 5) * 100}%` }} />
+              {c.journey.map(([,], index) => <i key={index} className={index <= journeyStep ? styles.passedJourney : ''} />)}
+            </div>
+          </div>
+          <div className={styles.journeyTone} style={{ opacity: journeyStep / 4 }} />
+          <a className={styles.journeySource} href="https://www.mdpi.com/2313-4321/7/2/22" target="_blank" rel="noreferrer">Grebeneva et al 2022 · CC BY 4 0</a>
+        </div>
       </div>
+      <p className={styles.detailLabel}>{c.engineeringDetail}</p>
       <div className={styles.steps}>
         {c.steps.map(([no, title, text]) => <article key={no}>
           <span>{no}</span><div><h3>{title}</h3><p>{text}</p></div>
@@ -232,6 +293,6 @@ export function SustainabilityClient() {
       <div><p>{c.closingText}</p><Link href="/iletisim">{c.closingCta}<span>↗</span></Link></div>
     </section>
 
-    <footer className={styles.footer}><span>© 2026 BaX Composites Inc</span><Link href="/#home">{c.back}</Link><span>İstanbul · Türkiye</span></footer>
+    <PublicFooter lang={lang} />
   </main>
 }

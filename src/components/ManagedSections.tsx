@@ -110,43 +110,66 @@ export function EcosystemPreview({
   const copy = lang === 'tr'
     ? {
         eyebrow: 'EKOSİSTEM',
-        title: 'Mühendisliğin güçlü bağlantıları',
-        text: 'İleri kompozit çözümlerimizi stratejik iş ortaklıkları, araştırma ağları ve uluslararası teknoloji ekosistemiyle güçlendiriyoruz.',
-        partners: 'İş Ortaklıklarını Keşfedin',
+        title: 'Mühendislikle bağlanan bir ekosistem',
+        text: 'Endüstriyel kuruluşları araştırma ağlarını ve uluslararası programları ileri kompozit mühendisliği etrafında buluşturuyoruz',
+        partners: 'Ekosistemi Keşfedin',
         networks: 'Ağlar ve Üyelikler',
         selected: 'Seçilmiş ekosistem bağlantıları',
+        partnerType: 'Endüstriyel ekosistem',
       }
     : {
         eyebrow: 'ECOSYSTEM',
-        title: 'Strong connections for advanced engineering',
-        text: 'We strengthen advanced-composite solutions through strategic partnerships, research networks and the international technology ecosystem.',
-        partners: 'Explore Partnerships',
+        title: 'Connected by engineering',
+        text: 'We bring industrial organizations research networks and international programmes together around advanced composite engineering',
+        partners: 'Explore the Ecosystem',
         networks: 'Networks & Memberships',
         selected: 'Selected ecosystem connections',
+        partnerType: 'Industrial ecosystem',
       }
   const selected = [
-    ...partners.slice(0, 4).map((item) => ({ ...item, type: 'partner' as const })),
-    ...memberships.slice(0, 2).map((item) => ({ ...item, caption: item.category, type: 'network' as const })),
+    ...partners.slice(0, 6).map((item) => ({ ...item, caption: copy.partnerType, type: 'partner' as const })),
+    ...memberships
+      .filter((item) => item.name.trim().toLocaleLowerCase('en-US') !== 'composites united')
+      .slice(0, 4)
+      .map((item) => ({ ...item, caption: item.category, type: 'network' as const })),
   ]
+
+  const ecosystemCards = (duplicate = false) => selected.map((item) => (
+    <a
+      className="ecosystem-preview-card"
+      href={item.website}
+      target="_blank"
+      rel="noopener"
+      tabIndex={duplicate ? -1 : undefined}
+      aria-hidden={duplicate || undefined}
+      key={`${duplicate ? 'duplicate' : 'primary'}-${item.type}-${item.name}`}
+    >
+      <span className="ecosystem-preview-card-logo">
+        {item.logo ? <img src={item.logo} alt="" loading="lazy" decoding="async" /> : <strong>{item.name}</strong>}
+      </span>
+      <span className="ecosystem-preview-card-meta"><small>{item.caption}</small><strong>{item.name}</strong></span>
+    </a>
+  ))
 
   return (
     <section id="ecosystem" className="ecosystem-preview scroll-reveal" aria-labelledby="ecosystem-preview-title">
       <div className="container ecosystem-preview-inner">
         <div className="ecosystem-preview-copy">
+          <span className="ecosystem-preview-eyebrow">{copy.eyebrow}</span>
           <h2 id="ecosystem-preview-title">{copy.title}</h2>
+        </div>
+        <div className="ecosystem-preview-intro">
           <p>{copy.text}</p>
           <div className="ecosystem-preview-actions">
             <a href="/is-ortakliklari">{copy.partners}<span aria-hidden="true">↗</span></a>
             <a href="/aglar-ve-uyelikler">{copy.networks}<span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div className="ecosystem-preview-logos" aria-label={copy.selected}>
-          {selected.map((item) => (
-            <a href={item.website} target="_blank" rel="noopener" key={`${item.type}-${item.name}`}>
-              {item.logo ? <img src={item.logo} alt="" loading="lazy" decoding="async" /> : <strong>{item.name}</strong>}
-              <span>{item.name}</span>
-            </a>
-          ))}
+      </div>
+      <div className="ecosystem-preview-rail" aria-label={copy.selected}>
+        <div className="ecosystem-preview-track">
+          <div className="ecosystem-preview-track-group">{ecosystemCards()}</div>
+          <div className="ecosystem-preview-track-group" aria-hidden="true">{ecosystemCards(true)}</div>
         </div>
       </div>
     </section>

@@ -103,7 +103,12 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       if (megaCloseTimer.current !== null) window.clearTimeout(megaCloseTimer.current)
     }
   }, [])
-  const d = content.dictionary
+  const d = Object.fromEntries(
+    Object.entries(content.dictionary).map(([key, value]) => [
+      key,
+      typeof value === 'string' ? value.replace(/\.+\s*$/, '') : value,
+    ]),
+  ) as typeof content.dictionary
   const settings = content.ui
   const copy = {
     ...settings.navigation,
@@ -382,31 +387,23 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     .filter(([, id]) => id === 'ecosystem'
       ? visibleSectionKeys.has('partners') || visibleSectionKeys.has('memberships')
       : id === 'sustainability' || visibleSectionKeys.has(id as typeof visibleSections[number]['section']))
-  const expertiseAnchors = ['composite-design', 'industrialization-automation', 'material-process-innovation', 'testing-qualification-certification', 'tooling-machinery-equipment', 'engineering-consulting']
-  const expertiseFallbackTitles = lang === 'tr'
-    ? ['Kompozit Tasarım ve Dijital Mühendislik', 'Endüstrileştirme ve Otomasyon', 'Malzeme ve Proses İnovasyonu', 'Test Kalifikasyon ve Sertifikasyon', 'Takım Makine ve Ekipman', 'Mühendislik Danışmanlığı ve Yetkinlik Geliştirme']
-    : ['Composite Design and Digital Engineering', 'Industrialization and Automation', 'Material and Process Innovation', 'Testing Qualification and Certification', 'Tooling Machinery and Equipment', 'Engineering Consulting and Capability Development']
-  const expertiseMenuItems = expertiseAnchors.map((anchor, index) => ({
-    anchor,
-    title: content.expertise[index]?.title || expertiseFallbackTitles[index],
-  }))
   const aboutNavigation = lang === 'tr'
     ? { profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', corporate: 'Kurumsal Bilgiler', corporateDesc: 'Ticari ve doğrulanabilir şirket kayıtları', toggle: 'Hakkımızda menüsünü aç', teaser: 'BaX’ı Tanıyın' }
     : { profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', corporate: 'Corporate Information', corporateDesc: 'Commercial and verifiable company records', toggle: 'Open About menu', teaser: 'Discover BaX' }
   const trustBand = lang === 'tr'
     ? {
         eyebrow: 'MÜHENDİSLİK YAKLAŞIMI',
-        title: 'İleri kompozit mühendisliği.',
-        description: 'Tasarımdan doğrulamaya, proses geliştirmeden seri üretime uzanan bütünleşik mühendislik ve üretim çözümleri.',
+      title: 'İleri kompozit mühendisliği',
+      description: 'Tasarımdan doğrulamaya, proses geliştirmeden seri üretime uzanan bütünleşik mühendislik ve üretim çözümleri',
         designTitle: 'Kompozit Tasarım ve Dijital Mühendislik',
-        designText: 'Malzeme, geometri ve yapısal performansı üretilebilir çözümlere dönüştürüyoruz.',
+      designText: 'Malzeme, geometri ve yapısal performansı üretilebilir çözümlere dönüştürüyoruz',
       }
     : {
         eyebrow: 'ENGINEERING APPROACH',
-        title: 'Advanced composite engineering.',
-        description: 'Integrated engineering and manufacturing solutions spanning design, validation, process development and serial production.',
+      title: 'Advanced composite engineering',
+      description: 'Integrated engineering and manufacturing solutions spanning design, validation, process development and serial production',
         designTitle: 'Composite Design and Digital Engineering',
-        designText: 'We transform material, geometry and structural performance into manufacturable solutions.',
+      designText: 'We transform material, geometry and structural performance into manufacturable solutions',
       }
   const principlesOrbit = <section className="principles-orbit scroll-reveal" aria-labelledby="principles-orbit-title">
     <div className="principles-orbit-grid" aria-hidden="true" />
@@ -459,7 +456,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
                     <span>{lang === 'tr' ? 'İleri kompozit' : 'Advanced composite'}</span>
                     <strong>{lang === 'tr' ? 'mühendisliği' : 'engineering'}</strong>
                   </h2>
-                  <div className="home-engineering-statement"><p>{trustBand.description}</p><a className="home-engineering-link" href="/sirket-profili"><span>{copy.about}</span><span aria-hidden="true">↗</span></a></div>
+                  <div className="home-engineering-statement"><p>{trustBand.description}</p><a className="home-engineering-link" href="/sirket-profili"><span>{aboutNavigation.teaser}</span><span aria-hidden="true">↗</span></a></div>
                 </div>
               </div>
             </div>
@@ -481,7 +478,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       case 'manufacturingNarrative':
         return null
       case 'process':
-        return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
+        return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li className={index === 3 ? 'is-lca' : undefined} style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':
         return null
       case 'solutions':
@@ -515,7 +512,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         </ul><div className={`nav-mega-panel${megaMenuOpen ? ' is-open' : ''}`} aria-hidden={!megaMenuOpen}>
           <div className="nav-mega-inner">
             <section className={openMegaMenu === 'about' ? 'is-current' : undefined}><span>01</span><h3>{copy.about}</h3><a href="/sirket-profili">{aboutNavigation.profile}<i aria-hidden="true">↗</i></a><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}<i aria-hidden="true">↗</i></a></section>
-            <section className={openMegaMenu === 'expertise' ? 'is-current' : undefined}><span>02</span><h3>{copy.expertise}</h3>{expertiseMenuItems.map((item) => <a href={`/expertise#${item.anchor}`} key={item.anchor}>{item.title}<i aria-hidden="true">↗</i></a>)}</section>
+            <section className={openMegaMenu === 'expertise' ? 'is-current' : undefined}><span>02</span><h3>{copy.expertise}</h3><a href="/expertise">{copy.expertise}<i aria-hidden="true">↗</i></a></section>
             <section className={openMegaMenu === 'ecosystem' ? 'is-current' : undefined}><span>03</span><h3>{ecosystemNavigation.label}</h3><a href="/is-ortakliklari">{ecosystemNavigation.partnerships}<i aria-hidden="true">↗</i></a><a href="/aglar-ve-uyelikler">{ecosystemNavigation.networks}<i aria-hidden="true">↗</i></a></section>
             <section><span>04</span><h3>{sustainabilityLabel}</h3><a href="/surdurulebilirlik">{lang === 'tr' ? 'Sürdürülebilirlik yaklaşımımız' : 'Our sustainability approach'}<i aria-hidden="true">↗</i></a></section>
           </div>
@@ -537,7 +534,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{cleanEyebrow(slideContent[0])}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p><div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a>{index === 0 && <button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button>}</div></div>
       </div>)}
       <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} style={{ '--slide-duration': `${HERO_SLIDE_DURATIONS[index]}ms` } as CSSProperties} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>
-    </div><div className="hero-cloud-transition" aria-hidden="true"><span /><span /><span /></div></section>
+    </div></section>
 
     {visibleSections.map(({ section }) => <Fragment key={section}>{renderSection(section)}</Fragment>)}
     <PublicFooter lang={lang} />

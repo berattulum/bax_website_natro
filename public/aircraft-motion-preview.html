@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BaX — Aircraft Motion Preview</title>
+    <style>
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #06181e;
+        color: #f4f8f8;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .hero {
+        position: relative;
+        height: 100svh;
+        min-height: 640px;
+        overflow: hidden;
+        isolation: isolate;
+        background: #5598cf;
+      }
+
+      .hero__image {
+        position: absolute;
+        inset: -4%;
+        background: url('/assets/aircraft-sky-clean-v1.png') center center / cover no-repeat;
+        animation: sky-drift 16s ease-in-out infinite alternate;
+        will-change: transform;
+      }
+
+      .hero__aircraft {
+        position: absolute;
+        z-index: 1;
+        inset: -4%;
+        background: url('/assets/aircraft-layer-v1.png') center center / cover no-repeat;
+        transform-origin: 50% 53%;
+        animation: aircraft-flyby 7s cubic-bezier(.42, 0, .2, 1) infinite;
+        will-change: transform;
+      }
+
+      .hero__grade {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(2, 18, 25, .63) 0%, rgba(2, 18, 25, .2) 42%, rgba(2, 18, 25, .04) 72%),
+          linear-gradient(0deg, rgba(2, 16, 22, .66) 0%, transparent 48%);
+      }
+
+      .cloud {
+        position: absolute;
+        left: -30vw;
+        width: 160vw;
+        border-radius: 50%;
+        opacity: .2;
+        filter: blur(38px);
+        mix-blend-mode: screen;
+        will-change: transform, opacity;
+      }
+
+      .cloud--far {
+        top: 10%;
+        height: 25%;
+        background:
+          radial-gradient(ellipse at 15% 55%, rgba(255,255,255,.72) 0 7%, transparent 19%),
+          radial-gradient(ellipse at 47% 35%, rgba(230,242,251,.58) 0 8%, transparent 22%),
+          radial-gradient(ellipse at 78% 60%, rgba(255,255,255,.66) 0 9%, transparent 24%);
+        animation: cloud-drift-far 7s linear infinite;
+      }
+
+      .cloud--near {
+        bottom: -7%;
+        height: 42%;
+        opacity: .26;
+        filter: blur(52px);
+        background:
+          radial-gradient(ellipse at 10% 65%, rgba(255,255,255,.85) 0 8%, transparent 23%),
+          radial-gradient(ellipse at 35% 48%, rgba(221,238,248,.78) 0 10%, transparent 25%),
+          radial-gradient(ellipse at 64% 67%, rgba(255,255,255,.78) 0 8%, transparent 24%),
+          radial-gradient(ellipse at 90% 42%, rgba(225,240,250,.72) 0 9%, transparent 25%);
+        animation: cloud-drift-near 7s linear infinite;
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+        width: min(1480px, calc(100% - 64px));
+        height: 100%;
+        margin: auto;
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: clamp(72px, 11vh, 128px);
+      }
+
+      .copy { max-width: 760px; }
+
+      .eyebrow {
+        margin: 0 0 16px;
+        color: #4bd0df;
+        font-size: 13px;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 720px;
+        margin: 0;
+        font-size: clamp(54px, 6.2vw, 108px);
+        font-weight: 400;
+        line-height: .88;
+        letter-spacing: -.055em;
+      }
+
+      p {
+        max-width: 590px;
+        margin: 28px 0 0;
+        color: rgba(244,248,248,.82);
+        font-size: clamp(16px, 1.25vw, 20px);
+        line-height: 1.55;
+      }
+
+      .badge {
+        position: absolute;
+        right: 28px;
+        bottom: 26px;
+        z-index: 3;
+        padding: 10px 13px;
+        border: 1px solid rgba(255,255,255,.25);
+        background: rgba(3,20,26,.42);
+        color: rgba(255,255,255,.75);
+        font-size: 10px;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        backdrop-filter: blur(8px);
+      }
+
+      @keyframes sky-drift {
+        from { transform: scale(1.01) translate3d(0, 0, 0); }
+        to { transform: scale(1.055) translate3d(-0.4%, -0.55%, 0); }
+      }
+
+      @keyframes aircraft-flyby {
+        0% {
+          opacity: 0;
+          transform: translate3d(-2%, -3%, 0) scale(.22) rotate(-1deg);
+        }
+        8% { opacity: 1; }
+        45% {
+          opacity: 1;
+          transform: translate3d(-.5%, -.5%, 0) scale(.72) rotate(0deg);
+        }
+        68% {
+          opacity: 1;
+          transform: translate3d(8%, -3%, 0) scale(1.08) rotate(7deg);
+        }
+        88% {
+          opacity: 1;
+          transform: translate3d(51%, -22%, 0) scale(1.5) rotate(18deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translate3d(92%, -42%, 0) scale(1.85) rotate(24deg);
+        }
+      }
+
+      @keyframes cloud-drift-far {
+        from { transform: translate3d(8%, 0, 0) scale(1); opacity: .16; }
+        50% { opacity: .24; }
+        to { transform: translate3d(-8%, 1.5%, 0) scale(1.08); opacity: .16; }
+      }
+
+      @keyframes cloud-drift-near {
+        from { transform: translate3d(14%, 0, 0) scale(1.02); }
+        to { transform: translate3d(-17%, -3%, 0) scale(1.16); }
+      }
+
+      @media (max-width: 700px) {
+        .content { width: calc(100% - 36px); }
+        .hero__image { background-position: 57% center; }
+        .hero__grade { background: linear-gradient(0deg, rgba(2,16,22,.8), rgba(2,16,22,.05) 85%); }
+        .badge { display: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero__image, .hero__aircraft, .cloud { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="hero">
+      <div class="hero__image" aria-hidden="true"></div>
+      <div class="hero__aircraft" aria-hidden="true"></div>
+      <div class="cloud cloud--far" aria-hidden="true"></div>
+      <div class="cloud cloud--near" aria-hidden="true"></div>
+      <div class="hero__grade" aria-hidden="true"></div>
+      <div class="content">
+        <div class="copy">
+          <div class="eyebrow">İleri kompozit mühendisliği</div>
+          <h1>Tasarımdan endüstrileştirmeye</h1>
+          <p>Havacılık ve otomotiv için konsept, analiz, test, kalifikasyon ve ölçeklenebilir kompozit üretim çözümleri geliştiriyoruz.</p>
+        </div>
+      </div>
+      <div class="badge">Uçuş sekansı · 7 sn</div>
+    </main>
+  </body>
+</html>

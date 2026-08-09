@@ -16,3 +16,5 @@ test-results
 *.tsbuildinfo
 .agents
 /ucak-video.mp4
+.codex-run/
+local-dev*.log

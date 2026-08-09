@@ -4,9 +4,12 @@ import { Fragment, useEffect, useRef, useState, type CSSProperties, type FormEve
 import Image from 'next/image'
 import Script from 'next/script'
 import { EcosystemPreview, ExpertiseSection, type ManagedLocale } from './ManagedSections'
+import { HeaderLanguageMenu } from './HeaderLanguageMenu'
 
 type Lang = 'tr' | 'en'
+type MegaMenu = 'about' | 'expertise' | 'ecosystem'
 type Locales = Record<Lang, ManagedLocale>
+const HERO_SLIDE_DURATIONS = [10000, 6500, 6500] as const
 const cleanEyebrow = (text?: string) => (text || '').replace(/^BAX(?:\s+COMPOSITES)?\s*(?:\/\/)?\s*/i, '').trim()
 type TurnstileApi = {
   render: (
@@ -44,11 +47,10 @@ function Address({ text }: { text?: string }) {
 }
 
 export default function SiteClient({ locales }: { locales: Locales }) {
-  const [lang, setLang] = useState<Lang>('tr')
+  const [lang, setLang] = useState<Lang>('en')
   const [activeSection, setActiveSection] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
-  const [aboutMenuOpen, setAboutMenuOpen] = useState(false)
-  const [ecosystemMenuOpen, setEcosystemMenuOpen] = useState(false)
+  const [openMegaMenu, setOpenMegaMenu] = useState<MegaMenu | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [slide, setSlide] = useState(0)
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
@@ -56,14 +58,50 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   const [turnstileToken, setTurnstileToken] = useState('')
   const [motionEnabled, setMotionEnabled] = useState(false)
   const navigationLock = useRef<number | null>(null)
+  const heroVideo = useRef<HTMLVideoElement | null>(null)
   const modalCloseButton = useRef<HTMLButtonElement | null>(null)
   const turnstileContainer = useRef<HTMLDivElement | null>(null)
   const turnstileWidgetId = useRef<string | null>(null)
+  const megaCloseTimer = useRef<number | null>(null)
   const content = locales[lang]
+  const megaMenuOpen = openMegaMenu !== null
+
+  const cancelMegaClose = () => {
+    if (megaCloseTimer.current !== null) window.clearTimeout(megaCloseTimer.current)
+    megaCloseTimer.current = null
+  }
+
+  const scheduleMegaClose = () => {
+    cancelMegaClose()
+    megaCloseTimer.current = window.setTimeout(() => {
+      setOpenMegaMenu(null)
+    }, 140)
+  }
+
+  const showMegaMenu = (menu: MegaMenu) => {
+    cancelMegaClose()
+    setOpenMegaMenu(menu)
+  }
+
+  const toggleMegaMenu = (menu: MegaMenu) => {
+    cancelMegaClose()
+    setOpenMegaMenu((current) => current === menu ? null : menu)
+  }
 
   useEffect(() => {
     document.documentElement.lang = lang
   }, [lang])
+
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpenMegaMenu(null)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => {
+      window.removeEventListener('keydown', closeOnEscape)
+      if (megaCloseTimer.current !== null) window.clearTimeout(megaCloseTimer.current)
+    }
+  }, [])
   const d = content.dictionary
   const settings = content.ui
   const copy = {
@@ -109,8 +147,12 @@ export default function SiteClient({ locales }: { locales: Locales }) {
 
   useEffect(() => {
     document.documentElement.lang = lang
-    localStorage.setItem('bax-language', lang)
   }, [lang])
+
+  const selectLanguage = (nextLang: Lang) => {
+    localStorage.setItem('bax-language', nextLang)
+    setLang(nextLang)
+  }
 
   useEffect(() => {
     document.body.classList.toggle('menu-open', menuOpen)
@@ -225,9 +267,15 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   }, [])
 
   useEffect(() => {
-    const timer = window.setInterval(() => setSlide((current) => (current + 1) % 3), 6000)
-    return () => window.clearInterval(timer)
-  }, [])
+    const timer = window.setTimeout(() => setSlide((current) => (current + 1) % HERO_SLIDE_DURATIONS.length), HERO_SLIDE_DURATIONS[slide])
+    return () => window.clearTimeout(timer)
+  }, [slide])
+
+  useEffect(() => {
+    if (slide !== 0 || !motionEnabled || !heroVideo.current) return
+    heroVideo.current.currentTime = 0
+    void heroVideo.current.play().catch(() => undefined)
+  }, [motionEnabled, slide])
 
   useEffect(() => {
     const sections = ['home', 'about', 'expertise', 'ecosystem', 'contact'].map((id) => document.getElementById(id)).filter((section): section is HTMLElement => Boolean(section))
@@ -272,8 +320,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     event.preventDefault()
     setActiveSection(id)
     setMenuOpen(false)
-    setAboutMenuOpen(false)
-    setEcosystemMenuOpen(false)
+    setOpenMegaMenu(null)
 
     if (navigationLock.current !== null) window.clearTimeout(navigationLock.current)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -330,9 +377,18 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       }
   const sustainabilityLabel = lang === 'tr' ? 'Sürdürülebilirlik' : 'Sustainability'
   const navigationItems = [[copy.about, 'about'], [copy.expertise, 'expertise'], [ecosystemNavigation.label, 'ecosystem'], [sustainabilityLabel, 'sustainability'], [copy.contact, 'contact']]
+  const headerNavigationItems = navigationItems.filter(([, id]) => id !== 'contact')
     .filter(([, id]) => id === 'ecosystem'
       ? visibleSectionKeys.has('partners') || visibleSectionKeys.has('memberships')
       : id === 'sustainability' || visibleSectionKeys.has(id as typeof visibleSections[number]['section']))
+  const expertiseAnchors = ['composite-design', 'industrialization-automation', 'material-process-innovation', 'testing-qualification-certification', 'tooling-machinery-equipment', 'engineering-consulting']
+  const expertiseFallbackTitles = lang === 'tr'
+    ? ['Kompozit Tasarım ve Dijital Mühendislik', 'Endüstrileştirme ve Otomasyon', 'Malzeme ve Proses İnovasyonu', 'Test Kalifikasyon ve Sertifikasyon', 'Takım Makine ve Ekipman', 'Mühendislik Danışmanlığı ve Yetkinlik Geliştirme']
+    : ['Composite Design and Digital Engineering', 'Industrialization and Automation', 'Material and Process Innovation', 'Testing Qualification and Certification', 'Tooling Machinery and Equipment', 'Engineering Consulting and Capability Development']
+  const expertiseMenuItems = expertiseAnchors.map((anchor, index) => ({
+    anchor,
+    title: content.expertise[index]?.title || expertiseFallbackTitles[index],
+  }))
   const aboutNavigation = lang === 'tr'
     ? { profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', corporate: 'Kurumsal Bilgiler', corporateDesc: 'Ticari ve doğrulanabilir şirket kayıtları', toggle: 'Hakkımızda menüsünü aç', teaser: 'BaX’ı Tanıyın' }
     : { profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', corporate: 'Corporate Information', corporateDesc: 'Commercial and verifiable company records', toggle: 'Open About menu', teaser: 'Discover BaX' }
@@ -362,7 +418,21 @@ export default function SiteClient({ locales }: { locales: Locales }) {
           : <>From material potential<br /><strong>to engineered futures</strong></>}</h2>
       </header>
       <div className="principles-orbit-path" aria-hidden="true"><i /><i /><i /></div>
-      <div className="principles-orbit-items">
+      <div className="principles-orbit-items principles-orbit-items-revised">
+        {(lang === 'tr' ? [
+          { index: '01', title: d.visionTitle, items: [<>Küresel ölçekte <strong>güvenilir teknoloji ortağı</strong> olmak</>, <>Yenilikçi teknolojileri <strong>ölçülebilir endüstriyel değere</strong> dönüştürmek</>, <><strong>Sürdürülebilir kompozit çözümlerle</strong> geleceğin üretimine yön vermek</>] },
+          { index: '02', title: d.missionTitle, items: [<><strong>Tasarım, analiz ve doğrulamayı</strong> tek sistemde birleştirmek</>, <>Hafif, dayanıklı ve <strong>ölçeklenebilir üretim</strong> çözümleri sunmak</>, <><strong>Sürdürülebilirliği</strong> malzeme seçiminden seri üretime taşımak</>] },
+          { index: '03', title: d.valuesTitle, items: [<><strong>Güven, adalet ve samimiyet</strong></>, <><strong>Tutku, sorumluluk ve bilgi</strong></>, <>Kaynak verimliliği ve <strong>sürdürülebilirlik</strong></>] },
+        ] : [
+          { index: '01', title: d.visionTitle, items: [<>Become a globally <strong>trusted technology partner</strong></>, <>Transform innovative technologies into <strong>measurable industrial value</strong></>, <>Shape future manufacturing through <strong>sustainable composite solutions</strong></>] },
+          { index: '02', title: d.missionTitle, items: [<>Unite <strong>design, analysis and verification</strong> in one system</>, <>Deliver lightweight, durable and <strong>scalable manufacturing</strong> solutions</>, <>Carry <strong>sustainability</strong> from material selection into serial production</>] },
+          { index: '03', title: d.valuesTitle, items: [<><strong>Trust, fairness and sincerity</strong></>, <><strong>Passion, responsibility and knowledge</strong></>, <>Resource efficiency and <strong>sustainability</strong></>] },
+        ]).map(({ index, title, items }) => <article key={index}>
+          <h3>{title}</h3>
+          <ul>{items.map((item, itemIndex) => <li key={itemIndex}>{item}</li>)}</ul>
+        </article>)}
+      </div>
+      <div className="principles-orbit-items principles-orbit-items-legacy" aria-hidden="true">
         {[
           ['01', lang === 'tr' ? 'YÖN' : 'DIRECTION', d.visionTitle, d.visionText],
           ['02', lang === 'tr' ? 'SİSTEM' : 'SYSTEM', d.missionTitle, d.missionText],
@@ -399,8 +469,8 @@ export default function SiteClient({ locales }: { locales: Locales }) {
             <ExpertiseSection
               items={content.expertise}
               label={lang === 'tr' ? 'MÜHENDİSLİK YETKİNLİKLERİ' : 'ENGINEERING CAPABILITIES'}
+              locale={lang}
             />
-            <div className="engineering-continuum-exit" aria-hidden="true"><i /></div>
           </div>
         </>
       case 'designNarrative':
@@ -413,21 +483,8 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         return <section className="process-section scroll-reveal" aria-labelledby="process-title"><div className="container"><div className="process-heading"><h2 id="process-title"><Heading text={d.processTitle || ''} /></h2></div><ol className="process-track">{copy.process.map(([title, text], index) => <li style={{ '--reveal-order': index + 1 } as CSSProperties} key={title}><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
       case 'principles':
         return null
-      case 'solutions': {
-        const manufacturingLabel = lang === 'tr' ? 'Kompozit Üretimi' : 'Composite Manufacturing'
-        const analysisLabel = lang === 'tr' ? 'Tasarım ve Yapısal Analiz' : 'Design & Structural Analysis'
-        return <section className="magazine-layout">
-          <div className="grid-item text-block"><span className="label">{copy.solutionsLabel}</span><h2>{copy.solutionsTitle}</h2><p>{copy.solutionsText}</p></div>
-          <div className="grid-item image-block solution-defense" role="group" aria-label={manufacturingLabel}>
-            <video className="solution-video" autoPlay={motionEnabled} muted loop playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/solution-defense-composites.webp" aria-hidden="true" tabIndex={-1}>{motionEnabled && <source src="/assets/solution-defense-loop.mp4" type="video/mp4" />}</video>
-            <div className="overlay"><h3>{manufacturingLabel}</h3></div>
-          </div>
-          <div className="grid-item image-block solution-civil" role="group" aria-label={analysisLabel}>
-            <video className="solution-video" autoPlay={motionEnabled} muted loop playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/solution-civil-aviation.webp" aria-hidden="true" tabIndex={-1}>{motionEnabled && <source src="/assets/solution-civil-loop.mp4" type="video/mp4" />}</video>
-            <div className="overlay"><h3>{analysisLabel}</h3></div>
-          </div>
-        </section>
-      }
+      case 'solutions':
+        return null
       case 'partners':
         return <EcosystemPreview lang={lang} partners={content.partners} memberships={content.memberships} />
       case 'memberships':
@@ -446,16 +503,24 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     <header className="main-header is-hero">
       <div className="container header-container">
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
-        <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel}><ul>
-          {navigationItems.map(([label, id]) => {
-            if (id === 'about') return <li className={`nav-with-submenu${aboutMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="/sirket-profili" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={aboutMenuOpen} aria-label={aboutNavigation.toggle} onClick={() => { setAboutMenuOpen((open) => !open); setEcosystemMenuOpen(false) }}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu"><a href="/sirket-profili"><strong>{aboutNavigation.profile}</strong><small>{aboutNavigation.profileDesc}</small><i aria-hidden="true">↗</i></a><a href="/kurumsal-bilgiler"><strong>{aboutNavigation.corporate}</strong><small>{aboutNavigation.corporateDesc}</small><i aria-hidden="true">↗</i></a></div></li>
-            if (id === 'ecosystem') return <li className={`nav-with-submenu nav-ecosystem${ecosystemMenuOpen ? ' is-submenu-open' : ''}`} key={id}><div className="nav-parent-row"><a href="#ecosystem" className={activeSection === id ? 'active' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a><button type="button" className="nav-submenu-toggle" aria-expanded={ecosystemMenuOpen} aria-label={ecosystemNavigation.toggle} onClick={() => { setEcosystemMenuOpen((open) => !open); setAboutMenuOpen(false) }}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu nav-submenu-ecosystem"><a href="/is-ortakliklari"><strong>{ecosystemNavigation.partnerships}</strong><small>{ecosystemNavigation.partnershipsDesc}</small><i aria-hidden="true">↗</i></a><a href="/aglar-ve-uyelikler"><strong>{ecosystemNavigation.networks}</strong><small>{ecosystemNavigation.networksDesc}</small><i aria-hidden="true">↗</i></a></div></li>
-            if (id === 'sustainability') return <li key={id}><a href="/surdurulebilirlik"><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a></li>
-            return <li key={id}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" /><span>{label}</span></a></li>
+        <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel} onMouseEnter={cancelMegaClose} onMouseLeave={scheduleMegaClose}><ul>
+          {headerNavigationItems.map(([label, id]) => {
+            if (id === 'about') return <li className={`nav-with-submenu${openMegaMenu === 'about' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('about')}><div className="nav-parent-row"><a href="/sirket-profili" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'about'} aria-label={aboutNavigation.toggle} onClick={() => toggleMegaMenu('about')}><span aria-hidden="true">⌄</span></button></div></li>
+            if (id === 'expertise') return <li className={`nav-with-submenu nav-expertise${openMegaMenu === 'expertise' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('expertise')}><div className="nav-parent-row"><a href="/expertise" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'expertise'} aria-label={lang === 'tr' ? 'Uzmanlık menüsünü aç' : 'Open expertise menu'} onClick={() => toggleMegaMenu('expertise')}><span aria-hidden="true">⌄</span></button></div></li>
+            if (id === 'ecosystem') return <li className={`nav-with-submenu nav-ecosystem${openMegaMenu === 'ecosystem' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('ecosystem')}><div className="nav-parent-row"><a href="#ecosystem" className={activeSection === id ? 'active' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'ecosystem'} aria-label={ecosystemNavigation.toggle} onClick={() => toggleMegaMenu('ecosystem')}><span aria-hidden="true">⌄</span></button></div></li>
+            if (id === 'sustainability') return <li key={id} onMouseEnter={() => setOpenMegaMenu(null)}><a href="/surdurulebilirlik"><span className="nav-dot" aria-hidden="true" />{label}</a></li>
+            return <li key={id} onMouseEnter={() => setOpenMegaMenu(null)}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" />{label}</a></li>
           })}
-        </ul></nav>
+        </ul><div className={`nav-mega-panel${megaMenuOpen ? ' is-open' : ''}`} aria-hidden={!megaMenuOpen}>
+          <div className="nav-mega-inner">
+            <section className={openMegaMenu === 'about' ? 'is-current' : undefined}><span>01</span><h3>{copy.about}</h3><a href="/sirket-profili">{aboutNavigation.profile}<i aria-hidden="true">↗</i></a><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}<i aria-hidden="true">↗</i></a></section>
+            <section className={openMegaMenu === 'expertise' ? 'is-current' : undefined}><span>02</span><h3>{copy.expertise}</h3>{expertiseMenuItems.map((item) => <a href={`/expertise#${item.anchor}`} key={item.anchor}>{item.title}<i aria-hidden="true">↗</i></a>)}</section>
+            <section className={openMegaMenu === 'ecosystem' ? 'is-current' : undefined}><span>03</span><h3>{ecosystemNavigation.label}</h3><a href="/is-ortakliklari">{ecosystemNavigation.partnerships}<i aria-hidden="true">↗</i></a><a href="/aglar-ve-uyelikler">{ecosystemNavigation.networks}<i aria-hidden="true">↗</i></a></section>
+            <section><span>04</span><h3>{sustainabilityLabel}</h3><a href="/surdurulebilirlik">{lang === 'tr' ? 'Sürdürülebilirlik yaklaşımımız' : 'Our sustainability approach'}<i aria-hidden="true">↗</i></a></section>
+          </div>
+        </div></nav>
         <button type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-label={copy.mobileMenuLabel} onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>
-        <div className="header-right"><div className="lang-selector" role="group" aria-label={copy.languageLabel}><button type="button" className={lang === 'tr' ? 'active' : ''} aria-pressed={lang === 'tr'} onClick={() => setLang('tr')}>TR</button><button type="button" className={lang === 'en' ? 'active' : ''} aria-pressed={lang === 'en'} onClick={() => setLang('en')}>EN</button></div><a className="btn-primary-small" href="/iletisim"><span>{copy.contactUs}</span><span className="cta-arrow" aria-hidden="true">↗</span></a></div>
+        <div className="header-right"><a className="header-contact-link" href="/iletisim">{copy.contactUs}</a><HeaderLanguageMenu value={lang} onChange={selectLanguage} label={copy.languageLabel} /></div>
       </div>
     </header>
 
@@ -467,10 +532,10 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         data-slide-index={index}
         aria-hidden={index !== slide}
       >
-        {index === 0 ? <video autoPlay={motionEnabled} loop muted playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/aircraft-hero-keyframe-v2.png" className="hero-video">{motionEnabled && <source src="/assets/aircraft-gemini-cinematic-v1.mp4" type="video/mp4" />}</video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
+        {index === 0 ? <video ref={heroVideo} autoPlay={motionEnabled} loop muted playsInline preload={motionEnabled ? 'metadata' : 'none'} poster="/assets/aircraft-hero-keyframe-v2.png" className="hero-video">{motionEnabled && <source src="/assets/aircraft-gemini-cinematic-v1.mp4" type="video/mp4" />}</video> : <div className={`slide-bg ${slideContent[3] || ''}`} />}
         <div className="hero-overlay" /><div className="container hero-content"><h2 className="hero-subtitle">{cleanEyebrow(slideContent[0])}</h2><h1 className="hero-title"><Heading text={slideContent[1] || ''} materialTailWords={index === 1 ? 1 : index === 2 ? 2 : 0} /></h1><p className="hero-description">{slideContent[2]}</p><div className="hero-actions"><a href="#expertise" className="hero-link hero-link-primary">{copy.capabilities}</a>{index === 0 && <button type="button" className="hero-link" onClick={() => setModalOpen(true)}>{copy.discuss}</button>}</div></div>
       </div>)}
-      <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>
+      <div className="opening-pagination" role="group" aria-label={settings.hero.slidesLabel}>{slides.map((_, index) => <button type="button" key={index} className={`opening-dot${index === slide ? ' active' : ''}`} style={{ '--slide-duration': `${HERO_SLIDE_DURATIONS[index]}ms` } as CSSProperties} aria-current={index === slide} aria-label={`${settings.hero.slideLabel} ${index + 1}`} onClick={() => setSlide(index)} />)}</div>
     </div><div className="hero-cloud-transition" aria-hidden="true"><span /><span /><span /></div></section>
 
     {visibleSections.map(({ section }) => <Fragment key={section}>{renderSection(section)}</Fragment>)}

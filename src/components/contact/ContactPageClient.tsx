@@ -74,7 +74,7 @@ function Address({ value }: { value?: string }) {
 }
 
 export function ContactPageClient({ locales }: { locales: Record<CorporateLang, ManagedLocale> }) {
-  const [lang, setLang] = useState<CorporateLang>('tr')
+  const [lang, setLang] = useState<CorporateLang>('en')
   const [status, setStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
   const [turnstileReady, setTurnstileReady] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
@@ -90,7 +90,6 @@ export function ContactPageClient({ locales }: { locales: Record<CorporateLang, 
 
   useEffect(() => {
     document.documentElement.lang = lang
-    localStorage.setItem('bax-language', lang)
   }, [lang])
 
   useEffect(() => {

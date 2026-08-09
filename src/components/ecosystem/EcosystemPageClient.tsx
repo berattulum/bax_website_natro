@@ -15,14 +15,13 @@ export default function EcosystemPageClient({
   locales: Record<CorporateLang, ManagedLocale>
   kind: PageKind
 }) {
-  const [lang, setLang] = useState<CorporateLang>('tr')
+  const [lang, setLang] = useState<CorporateLang>('en')
   useEffect(() => {
     const saved = localStorage.getItem('bax-language')
     if (saved === 'tr' || saved === 'en') setLang(saved)
   }, [])
   useEffect(() => {
     document.documentElement.lang = lang
-    localStorage.setItem('bax-language', lang)
   }, [lang])
 
   const locale = locales[lang]
@@ -76,7 +75,7 @@ export default function EcosystemPageClient({
 
   return (
     <main className={`ecosystem-page ecosystem-page-${kind}`}>
-      <CorporateHeader lang={lang} active={kind} />
+      <CorporateHeader lang={lang} active={kind} onLangChange={setLang} />
       <section className="ecosystem-page-hero">
         <div className="ecosystem-page-grid" aria-hidden="true" />
         <div className="ecosystem-page-orbit" aria-hidden="true"><i /><i /></div>

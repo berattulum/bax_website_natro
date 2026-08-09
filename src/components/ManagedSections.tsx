@@ -12,16 +12,39 @@ function SafeHeading({ text }: { text?: string }) {
   return <>{lines.map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</>
 }
 
-export function ExpertiseSection({ items, label }: { items: ExpertiseItem[]; label: string }) {
+function expertiseBullets(description: string, locale: 'tr' | 'en') {
+  return description
+    .replace(/[.。]+$/g, '')
+    .split(',')
+    .map((item) => item.trim().replace(/^(?:and|ve)\s+/i, ''))
+    .filter(Boolean)
+    .map((item) => `${item.charAt(0).toLocaleUpperCase(locale === 'tr' ? 'tr-TR' : 'en-US')}${item.slice(1)}`)
+}
+
+const expertiseAnchors = [
+  'composite-design',
+  'industrialization-automation',
+  'material-process-innovation',
+  'testing-qualification-certification',
+  'tooling-machinery-equipment',
+  'engineering-consulting',
+] as const
+
+export function ExpertiseSection({ items, label, locale = 'en' }: { items: ExpertiseItem[]; label: string; locale?: 'tr' | 'en' }) {
   return (
     <section id="expertise" className="expertise-section scroll-reveal" aria-label={label}>
       <div className="container">
         <div className="expertise-wrapper">
-          {items.map((item) => (
-            <div className="expertise-item" style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
-              <h3 data-i18n={`expertise${item.order}Title`}>{item.title}</h3>
-              <p data-i18n={`expertise${item.order}Description`}>{item.description}</p>
-            </div>
+          {items.map((item, index) => (
+            <a className={`expertise-item${index < 2 ? ' expertise-item-featured' : ''}`} href={`/expertise#${expertiseAnchors[index] || expertiseAnchors[0]}`} style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
+              {index === 0 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true"><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video>}
+              {index === 1 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/industrialization-robot-start-v1.png" aria-hidden="true"><source src="/assets/industrialization-automation-loop-v1.mp4" type="video/mp4" /></video>}
+              <span className="expertise-item-content">
+                <h3 data-i18n={`expertise${item.order}Title`}>{item.title}</h3>
+                <ul className="expertise-item-points" data-i18n={`expertise${item.order}Description`}>{expertiseBullets(item.description, locale).map((point) => <li key={point}>{point}</li>)}</ul>
+                <span className="expertise-item-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
           ))}
         </div>
       </div>

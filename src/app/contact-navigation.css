@@ -5,58 +5,6 @@
   background: #06191f;
 }
 
-.contact-page.contact-command .corporate-header {
-  position: absolute;
-  top: 18px;
-  left: 0;
-  z-index: 1000;
-  width: 100%;
-  padding: 0;
-  color: #fff;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  backdrop-filter: none;
-  pointer-events: none;
-}
-
-.contact-page.contact-command .corporate-header::before,
-.contact-page.contact-command .corporate-header::after { display: none; }
-
-.contact-page.contact-command .corporate-header-inner {
-  width: min(90%, 1380px);
-  min-height: 66px;
-  margin-inline: auto;
-  padding: 7px 8px 7px 20px;
-  color: #fff;
-  background: transparent;
-  border: 1px solid transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-  pointer-events: auto;
-}
-
-.contact-page.contact-command .corporate-brand img { filter: none !important; }
-.contact-page.contact-command .corporate-actions { gap: 10px; }
-.contact-page.contact-command .corporate-lang-selector { display: flex; background: rgba(255,255,255,.1); }
-.contact-page.contact-command .corporate-lang-selector button { color: rgba(255,255,255,.66); }
-.contact-page.contact-command .corporate-lang-selector button.active { color: #102b35; background: #fff; }
-
-.contact-page.contact-command .corporate-header nav > a,
-.contact-page.contact-command .corporate-about-menu > span,
-.contact-page.contact-command .corporate-ecosystem-menu > button {
-  color: rgba(255,255,255,.78);
-  text-shadow: none;
-}
-
-.contact-page.contact-command .corporate-contact,
-.contact-page.contact-command .corporate-contact.is-active {
-  color: #fff;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,.62);
-  text-shadow: none;
-}
-
 .contact-command-shell {
   width: 100%;
   margin: 0;
@@ -202,9 +150,6 @@
 }
 
 @media (max-width: 768px) {
-  .contact-page.contact-command .corporate-header { top: 9px; }
-  .contact-page.contact-command .corporate-header-inner { width: calc(100% - 18px); min-height: 60px; padding: 6px 7px 6px 14px; }
-  .contact-page.contact-command .corporate-actions { display: none; }
   .contact-command-shell { padding-top: 82px; }
   .contact-command-intro { padding: 62px 0 72px; }
   .contact-command-intake { padding: 68px 0 76px; }

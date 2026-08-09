@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { HeaderLanguageMenu } from '@/components/HeaderLanguageMenu'
 
 export type CorporateLang = 'tr' | 'en'
 
@@ -12,14 +13,18 @@ export function CorporateHeader({
   onLangChange,
 }: {
   lang: CorporateLang
-  active: 'profile' | 'records' | 'partnerships' | 'networks' | 'sustainability' | 'contact'
+  active: 'profile' | 'records' | 'expertise' | 'partnerships' | 'networks' | 'sustainability' | 'contact'
   onLangChange?: (lang: CorporateLang) => void
 }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [ecosystemOpen, setEcosystemOpen] = useState(false)
+  const selectLanguage = (nextLang: CorporateLang) => {
+    localStorage.setItem('bax-language', nextLang)
+    onLangChange?.(nextLang)
+  }
   const labels = lang === 'tr'
     ? { about: 'Hakkımızda', profile: 'Şirket Profili', profileDesc: 'Kim olduğumuz ve mühendislik yaklaşımımız', records: 'Kurumsal Bilgiler', recordsDesc: 'Ticari ve doğrulanabilir şirket kayıtları', expertise: 'Uzmanlık', ecosystem: 'Ekosistem', partnerships: 'İş Ortaklıkları', partnershipsDesc: 'Stratejik iş birlikleri ve referans kurumlar', networks: 'Ağlar ve Üyelikler', networksDesc: 'Sektörel ağlar, Ar-Ge ve inovasyon ekosistemi', sustainability: 'Sürdürülebilirlik', contact: 'Bize Ulaşın', menu: 'Menüyü aç', ecosystemMenu: 'Ekosistem menüsünü aç' }
-    : { about: 'About', profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', records: 'Corporate Information', recordsDesc: 'Commercial and verifiable company records', expertise: 'Expertise', ecosystem: 'Ecosystem', partnerships: 'Partnerships', partnershipsDesc: 'Strategic collaborations and reference organizations', networks: 'Networks & Memberships', networksDesc: 'Industry networks, R&D and innovation ecosystem', sustainability: 'Sustainability', contact: 'Contact Us', menu: 'Open menu', ecosystemMenu: 'Open ecosystem menu' }
+    : { about: 'About Us', profile: 'Company Profile', profileDesc: 'Who we are and our engineering approach', records: 'Corporate Information', recordsDesc: 'Commercial and verifiable company records', expertise: 'Expertise', ecosystem: 'Ecosystem', partnerships: 'Partnerships', partnershipsDesc: 'Strategic collaborations and reference organizations', networks: 'Networks & Memberships', networksDesc: 'Industry networks, R&D and innovation ecosystem', sustainability: 'Sustainability', contact: 'Contact Us', menu: 'Open menu', ecosystemMenu: 'Open ecosystem menu' }
 
   return (
     <header className="corporate-header">
@@ -40,7 +45,7 @@ export function CorporateHeader({
               <Link className={active === 'records' ? 'is-active' : ''} href="/kurumsal-bilgiler"><strong>{labels.records}</strong><small>{labels.recordsDesc}</small><i aria-hidden="true">↗</i></Link>
             </div>
           </div>
-          <Link href="/#expertise">{labels.expertise}</Link>
+          <Link className={active === 'expertise' ? 'is-active' : ''} href="/expertise">{labels.expertise}<span className="corporate-inline-caret" aria-hidden="true">⌄</span></Link>
           <div className={`corporate-ecosystem-menu${ecosystemOpen ? ' is-open' : ''}`}>
             <button type="button" aria-expanded={ecosystemOpen} aria-label={labels.ecosystemMenu} onClick={() => setEcosystemOpen((open) => !open)}>{labels.ecosystem}<span aria-hidden="true">⌄</span></button>
             <div>
@@ -52,11 +57,8 @@ export function CorporateHeader({
         </nav>
 
         <div className="corporate-actions">
-          {onLangChange && <div className="lang-selector corporate-lang-selector" role="group" aria-label={lang === 'tr' ? 'Dil seçimi' : 'Language selection'}>
-            <button type="button" className={lang === 'tr' ? 'active' : ''} aria-pressed={lang === 'tr'} onClick={() => onLangChange('tr')}>TR</button>
-            <button type="button" className={lang === 'en' ? 'active' : ''} aria-pressed={lang === 'en'} onClick={() => onLangChange('en')}>EN</button>
-          </div>}
-          <Link className={`corporate-contact${active === 'contact' ? ' is-active' : ''}`} href="/iletisim">{labels.contact}<span aria-hidden="true">↗</span></Link>
+          <Link className={`header-contact-link${active === 'contact' ? ' is-active' : ''}`} href="/iletisim">{labels.contact}</Link>
+          {onLangChange && <HeaderLanguageMenu value={lang} onChange={selectLanguage} label={lang === 'tr' ? 'Dil seçimi' : 'Language selection'} />}
         </div>
       </div>
     </header>

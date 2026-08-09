@@ -3,7 +3,7 @@ import { SustainabilityClient } from '@/components/sustainability/Sustainability
 
 export const metadata: Metadata = {
   title: 'Sürdürülebilirlik | BaX Composites',
-  description: 'BaX Composites’in malzeme verimliliği, yaşam döngüsü yaklaşımı ve sorumlu ileri kompozit mühendisliği ilkeleri.',
+  description: 'BaX Composites döngüsel kompozit mühendisliği, geri dönüştürülmüş karbon fiber tasarımı, malzeme iyileştirme ve üretim yaklaşımı.',
 }
 
 export default function SustainabilityPage() {

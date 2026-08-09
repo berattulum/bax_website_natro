@@ -15,7 +15,7 @@ const records = [
 ] as const
 
 export function CorporateInformationClient() {
-  const [lang, setLang] = useState<CorporateLang>('tr')
+  const [lang, setLang] = useState<CorporateLang>('en')
 
   useEffect(() => {
     const saved = localStorage.getItem('bax-language')
@@ -54,7 +54,7 @@ export function CorporateInformationClient() {
 
   return (
     <main className="profile-page ci-page">
-      <CorporateHeader lang={lang} active="records" />
+      <CorporateHeader lang={lang} active="records" onLangChange={setLang} />
 
       <section className="ci-hero">
         <div><h1>{t.title}</h1></div>

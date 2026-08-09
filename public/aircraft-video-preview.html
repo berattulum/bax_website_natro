@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BaX — Cinematic Aircraft Video Preview</title>
+    <style>
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #06181e;
+        color: #f4f8f8;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .hero {
+        position: relative;
+        height: 100svh;
+        min-height: 640px;
+        overflow: hidden;
+        isolation: isolate;
+        background: #2f79ae;
+      }
+
+      .hero__media {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background: #2f79ae;
+      }
+
+      .hero__video {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        object-position: center center;
+        transform: scale(1.14);
+        transform-origin: center center;
+      }
+
+      .hero__grade {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background:
+          linear-gradient(90deg, rgba(2, 18, 25, .76) 0%, rgba(2, 18, 25, .35) 37%, rgba(2, 18, 25, .05) 72%),
+          linear-gradient(0deg, rgba(2, 16, 22, 1) 0%, rgba(2, 16, 22, .94) 10%, rgba(2, 16, 22, .58) 21%, rgba(2, 16, 22, .08) 38%, transparent 52%);
+        pointer-events: none;
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+        width: min(1480px, calc(100% - 64px));
+        height: 100%;
+        margin: auto;
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: clamp(72px, 11vh, 128px);
+        pointer-events: none;
+      }
+
+      .copy { max-width: 760px; }
+
+      .eyebrow {
+        margin: 0 0 16px;
+        color: #4bd0df;
+        font-size: 13px;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 740px;
+        margin: 0;
+        font-size: clamp(54px, 6.2vw, 108px);
+        font-weight: 400;
+        line-height: .88;
+        letter-spacing: -.055em;
+      }
+
+      p {
+        max-width: 600px;
+        margin: 28px 0 0;
+        color: rgba(244, 248, 248, .84);
+        font-size: clamp(16px, 1.25vw, 20px);
+        line-height: 1.55;
+      }
+
+      .badge {
+        position: absolute;
+        right: 28px;
+        bottom: 26px;
+        z-index: 3;
+        padding: 10px 13px;
+        border: 1px solid rgba(255, 255, 255, .25);
+        background: rgba(3, 20, 26, .5);
+        color: rgba(255, 255, 255, .78);
+        font-size: 10px;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        backdrop-filter: blur(8px);
+      }
+
+      @media (max-width: 700px) {
+        .content { width: calc(100% - 36px); }
+        .hero__video {
+          object-position: 56% center;
+          transform: scale(1.22);
+        }
+        .hero__grade {
+          background: linear-gradient(0deg, rgba(2, 16, 22, .84), rgba(2, 16, 22, .08) 82%);
+        }
+        .badge { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="hero">
+      <div class="hero__media">
+        <video
+          class="hero__video"
+          src="/assets/aircraft-gemini-cinematic-v1.mp4"
+          poster="/assets/aircraft-hero-keyframe-v2.png"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
+      </div>
+      <div class="hero__grade" aria-hidden="true"></div>
+      <div class="content">
+        <div class="copy">
+          <div class="eyebrow">İleri kompozit mühendisliği</div>
+          <h1>Tasarımdan endüstrileştirmeye</h1>
+          <p>Havacılık ve otomotiv için konsept, analiz, test, kalifikasyon ve ölçeklenebilir kompozit üretim çözümleri geliştiriyoruz.</p>
+        </div>
+      </div>
+      <div class="badge">Sinematik video taslağı · 10 sn</div>
+    </main>
+  </body>
+</html>

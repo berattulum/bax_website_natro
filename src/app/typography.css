@@ -1,0 +1,75 @@
+/* Shared type system: one readable family across every public surface. */
+:root {
+  --font-display: var(--font-montserrat), Montserrat, Arial, sans-serif;
+  --font-body: var(--font-montserrat), Montserrat, Arial, sans-serif;
+  --font-technical: var(--font-montserrat), Montserrat, Arial, sans-serif;
+}
+
+body,
+body :where(button, input, textarea, select),
+body :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, small, label, a, span, strong) {
+  font-family: var(--font-body) !important;
+  font-synthesis: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display) !important;
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.035em;
+}
+
+p, li, dd, .legalSectionBody {
+  font-weight: 500;
+  line-height: 1.72;
+  letter-spacing: .002em;
+}
+
+/* Homepage copy has deliberately higher contrast over image/video surfaces. */
+.opening-slide .hero-subtitle { color: #d5edf0; }
+.opening-slide .hero-title { color: #ffffff; font-weight: 700; }
+.opening-slide .hero-description { color: rgba(247, 252, 252, .94); font-weight: 550; }
+.home-engineering-intro .home-engineering-statement p,
+.ecosystem-preview-intro > p,
+.contact-intro > p { color: #385863; font-weight: 550; }
+
+/* Small labels remain compact but no longer fade into their backgrounds. */
+.section-label,
+.ecosystem-preview-eyebrow,
+.contact-directory span,
+.footer-grid h3 { font-weight: 750 !important; }
+
+/* Company profile: long-form company information should read like editorial copy. */
+.cp-page {
+  --cp-muted: #4d646b;
+}
+
+.cp-simple-overview header > p,
+.cp-simple-columns p,
+.cp-simple-columns li,
+.cp-simple-founder-copy > p,
+.cp-simple-process p {
+  color: #415a62 !important;
+  font-size: clamp(1rem, 1.08vw, 1.12rem) !important;
+  font-weight: 550;
+  line-height: 1.78 !important;
+}
+
+.cp-simple-overview h2 { font-size: clamp(3rem, 5vw, 5rem); }
+.cp-simple-columns h3 { font-size: clamp(1.18rem, 1.25vw, 1.38rem); }
+.cp-simple-founder-copy > strong,
+.cp-simple-founder-copy > div,
+.cp-simple-process li::before { color: #48646b; font-size: .72rem; }
+.cp-simple-process h3 { font-size: clamp(1.1rem, 1.2vw, 1.3rem); }
+
+.cp-hero-content > p,
+.cp-hero-facts > p,
+.cp-hero-facts > small { font-weight: 600; }
+
+@media (max-width: 768px) {
+  .cp-simple-overview header > p,
+  .cp-simple-columns p,
+  .cp-simple-columns li,
+  .cp-simple-founder-copy > p,
+  .cp-simple-process p { font-size: 1rem !important; line-height: 1.75 !important; }
+}

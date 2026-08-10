@@ -2,148 +2,150 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CorporateHeader, type CorporateLang } from '@/components/corporate/CorporateHeader'
-import styles from './SustainabilityClient.module.css'
 import { PublicFooter } from '@/components/PublicFooter'
+import styles from './SustainabilityClient.module.css'
 
 const copy = {
   en: {
     heroKicker: 'SUSTAINABILITY BY ENGINEERING',
-    heroTitle: <>Keep performance<br /><em>Keep value in motion</em></>,
-    heroText: 'We engineer composite systems to use material with greater intent across design manufacturing and the next material life',
-    heroCta: 'Explore our commitment',
-    heroTags: ['RTM', 'Thermoplastics', 'Recycled carbon fiber', 'Life cycle thinking'],
-    introKicker: 'OUR POSITION',
-    introTitle: <>Sustainability begins<br />before production</>,
-    introText: 'For BaX Composites sustainability is a design and manufacturing discipline We focus on the decisions we can influence directly and build evidence before making environmental claims',
-    commitments: [
-      ['Measure before we claim', 'Define boundaries collect process data and compare alternatives on a consistent basis'],
-      ['Use material with intent', 'Reduce avoidable scrap and keep high value material in productive use for longer'],
-      ['Design the next life', 'Consider recovery reuse and renewed applications from the first design decision'],
-      ['Protect performance', 'Advance circularity together with mechanical quality process stability and safety'],
+    heroTitle: <>Keep performance.<br /><em>Keep value in motion.</em></>,
+    heroText: 'We use engineering decisions, process knowledge and lifecycle thinking to make composite performance more resource-conscious.',
+    heroCta: 'Our approach',
+    nav: ['Approach', 'Impact', 'Circularity', 'Evidence'],
+    approachKicker: 'OUR APPROACH',
+    approachTitle: 'Lifecycle thinking, not quick fixes',
+    approachLead: 'Sustainability begins before a part reaches production. It starts with how material is selected, how a process is designed, how long a product performs and what can happen after its first use.',
+    approachText: 'At BaX Composites, we focus on the decisions we can influence directly. We build environmental reasoning alongside mechanical performance, production stability and safety — and we prefer evidence to broad claims.',
+    principles: [
+      ['01', 'Measure first', 'Define boundaries and compare alternatives on a consistent basis.'],
+      ['02', 'Use with intent', 'Reduce avoidable scrap and keep valuable material productive for longer.'],
+      ['03', 'Design the next life', 'Consider recovery, reuse and renewed applications from the first decision.'],
+      ['04', 'Protect performance', 'Advance circularity without separating it from quality and safety.'],
     ],
-    positionKicker: 'WHERE WE ARE',
-    positionTitle: 'A practical path built around the processes we know',
+    focusKicker: 'THREE FOCUS AREAS',
+    focusTitle: 'A practical sustainability programme',
+    focusText: 'Our work is organised around the value composites can enable, the footprint of our own processes and the next productive life of material.',
+    focus: [
+      ['01', 'Enabling products', 'Lightweight, durable composite structures can support longer service life and more efficient systems.'],
+      ['02', 'Operational footprint', 'Process energy, material yield, scrap and repeatability are addressed as manufacturing variables.'],
+      ['03', 'Circular materials', 'We develop routes for recovered carbon fiber through treatment, design and verified production.'],
+    ],
+    enableKicker: 'WHAT COMPOSITES ENABLE',
+    enableTitle: 'Performance that can reduce demand elsewhere',
+    enableText: 'The most meaningful impact of a composite is often created during the life of the system it becomes part of. Lightweight structures can reduce moving mass, durable parts can extend service intervals and corrosion resistance can reduce maintenance.',
+    enableNote: 'The benefit depends on the application. It should be evaluated across the full system and lifecycle, not assumed from material choice alone.',
+    operationsKicker: 'OUR OPERATIONS',
+    operationsTitle: 'Improve the processes we know best',
+    operationsText: 'We connect sustainability work to specific engineering platforms instead of treating it as a separate layer.',
     platforms: [
-      ['01', 'RTM', 'Controlled resin flow repeatable closed mould processing and opportunities to improve material use through process design'],
-      ['02', 'TP', 'Thermoplastic composite routes with the potential for reshaping joining repair and material recovery depending on the selected system'],
-      ['03', 'RCF', 'A focused engineering programme for design treatment and manufacturing with recycled carbon fiber'],
-      ['04', 'LCA', 'A measurement framework under development to compare material process energy scrap and end of life scenarios'],
+      ['RTM', 'Controlled resin flow, repeatable closed-mould production and improved material yield through process design.'],
+      ['TP', 'Thermoplastic routes with potential for reshaping, joining, repair and material recovery.'],
+      ['RCF', 'Engineering development for treatment, design and manufacturing with recycled carbon fiber.'],
+      ['LCA', 'A measurement framework for material, process energy, scrap and end-of-life scenarios.'],
     ],
-    systemKicker: 'RECYCLED CARBON FIBER',
-    systemTitle: 'One material journey built in the right order',
+    circularKicker: 'CIRCULARITY IN PRACTICE',
+    circularTitle: 'Build the next material life in the right order',
+    circularText: 'Circularity is not a single recycling claim. It is a sequence of traceable material decisions that must still lead to a stable, useful and verifiable product.',
     journey: [
-      ['Virgin carbon fiber', 'Understand the original material value before deciding how it can remain productive'],
-      ['Material recovery', 'Recover carbon fiber from suitable material streams with traceability and controlled boundaries'],
-      ['Fiber treatment', 'Develop surface dispersion and interface behaviour for manufacturing compatibility'],
-      ['Recycled carbon fiber utilization', 'Design load paths geometry and product architecture around recovered material capability'],
-      ['Life cycle assessment', 'Measure material process energy scrap and end of life scenarios before making environmental claims'],
+      ['Material value', 'Understand the original material and performance before deciding where it can remain productive.'],
+      ['Recovery', 'Select suitable material streams and establish traceable, controlled boundaries.'],
+      ['Fiber treatment', 'Develop surface, dispersion and interface behaviour for manufacturing compatibility.'],
+      ['Product design', 'Design geometry, load paths and architecture around recovered-material capability.'],
+      ['Industrialization', 'Translate the material route into repeatable processing, quality control and a verified CFRP product.'],
     ],
-    journeyProgress: 'Material journey',
-    engineeringDetail: 'Engineering the next material life',
-    steps: [
-      ['01', 'Design for recycled carbon fiber utilization', 'Begin with geometry load paths fiber placement and product architecture so recovered material can create meaningful value'],
-      ['02', 'Treatment of recycled carbon fiber for enhanced mechanical and manufacturing characteristics', 'Develop surface dispersion and interface behaviour to support mechanical performance and process compatibility'],
-      ['03', 'Manufacturing products with recycled carbon fiber', 'Translate material knowledge into repeatable processing quality control and product verification'],
-    ],
-    lcaKicker: 'LIFE CYCLE ASSESSMENT',
-    lcaTitle: <>A claim is only as strong<br />as its boundary</>,
-    lcaText: 'Our LCA approach is being structured to turn process knowledge into comparable evidence The first priority is a transparent cradle to gate view that can grow with reliable data',
-    lcaStages: ['Raw material', 'Inbound transport', 'Process energy', 'Manufacturing scrap', 'Product use assumptions', 'End of life scenario'],
-    lcaNote: 'No decorative numbers No selective boundaries No result before the data',
-    sdgKicker: 'UNITED NATIONS 2030 AGENDA',
-    sdgTitle: '17 shared goals with four clear connections to our work',
-    sdgText: 'The 17 Sustainable Development Goals are integrated and indivisible Our work is most directly connected to industrial innovation responsible production climate informed decisions and partnerships',
+    evidenceKicker: 'LIFE CYCLE EVIDENCE',
+    evidenceTitle: 'A claim is only as strong as its boundary',
+    evidenceText: 'Our LCA approach is being structured to convert process knowledge into comparable evidence. The first priority is a transparent cradle-to-gate view that can grow as reliable data becomes available.',
+    evidenceStages: ['Raw material', 'Inbound transport', 'Process energy', 'Manufacturing scrap', 'Use assumptions', 'End of life'],
+    evidenceNote: 'No decorative numbers. No selective boundaries. No result before the data.',
+    goalsKicker: 'COLLABORATION AND SHARED GOALS',
+    goalsTitle: 'Progress requires a wider value chain',
+    goalsText: 'Material suppliers, research networks, customers and manufacturing partners all influence what can be measured, recovered and scaled. Our work connects most directly with four UN Sustainable Development Goals.',
     goals: [
-      ['09', 'Industry innovation and infrastructure', 'Process innovation resource efficiency and more sustainable industrial capability'],
-      ['12', 'Responsible consumption and production', 'Efficient material use waste reduction traceability and circular product thinking'],
-      ['13', 'Climate action', 'Life cycle evidence that supports lower impact material and process decisions'],
-      ['17', 'Partnerships for the goals', 'Collaboration across material suppliers research networks customers and manufacturing partners'],
+      ['09', 'Industry, innovation and infrastructure'],
+      ['12', 'Responsible consumption and production'],
+      ['13', 'Climate action'],
+      ['17', 'Partnerships for the goals'],
     ],
-    sdgDisclaimer: 'Alignment framework only and not a statement of United Nations endorsement',
-    whyKicker: 'WHY IT MATTERS',
-    whyTitle: <>Because material value<br /><em>should not disappear</em></>,
-    whyText: 'Pollution resource loss and climate pressure are engineering constraints as much as environmental ones Better systems begin with honest boundaries careful material choices and processes that can be verified',
-    penguin: 'And yes the penguins are part of the equation too',
-    principles: [['Measurable', 'Comparable process and material data'], ['Traceable', 'Information continuity from source to part'], ['Verifiable', 'Quality and environmental reasoning together'], ['Scalable', 'A route from development to serial production']],
+    disclaimer: 'Alignment framework only; this is not a statement of United Nations endorsement.',
     closingKicker: 'OUR COMMITMENT',
-    closingTitle: <>Less assumption<br /><em>More evidence</em><br />Better material decisions</>,
-    closingText: 'We commit to learning measuring and improving with every programme while keeping engineering performance at the centre',
+    closingTitle: <>Less assumption.<br /><em>More evidence.</em></>,
+    closingText: 'We commit to learning, measuring and improving with every programme while keeping engineering performance at the centre.',
     closingCta: 'Start a responsible programme',
-    back: 'Return home',
   },
   tr: {
     heroKicker: 'MÜHENDİSLİKLE SÜRDÜRÜLEBİLİRLİK',
-    heroTitle: <>Performansı koru<br /><em>Değeri döngüde tut</em></>,
-    heroText: 'Kompozit sistemleri malzemeyi tasarımdan üretime ve bir sonraki malzeme yaşamına kadar daha bilinçli kullanmak için geliştiriyoruz',
-    heroCta: 'Taahhüdümüzü keşfet',
-    heroTags: ['RTM', 'Termoplastikler', 'Geri dönüştürülmüş karbon fiber', 'Yaşam döngüsü yaklaşımı'],
-    introKicker: 'KONUMUMUZ',
-    introTitle: <>Sürdürülebilirlik<br />üretimden önce başlar</>,
-    introText: 'BaX Kompozit için sürdürülebilirlik bir tasarım ve üretim disiplinidir Doğrudan etkileyebildiğimiz kararlara odaklanır ve çevresel iddialardan önce kanıt oluştururuz',
-    commitments: [
-      ['İddia etmeden önce ölç', 'Sınırları belirle proses verisini topla ve alternatifleri tutarlı bir temelde karşılaştır'],
-      ['Malzemeyi bilinçli kullan', 'Önlenebilir firesi azalt ve yüksek değerli malzemeyi daha uzun süre üretken kullanımda tut'],
-      ['Sonraki yaşamı tasarla', 'Geri kazanımı yeniden kullanımı ve yeni uygulamaları ilk tasarım kararından itibaren düşün'],
-      ['Performansı koru', 'Döngüselliği mekanik kalite proses kararlılığı ve güvenlikle birlikte geliştir'],
+    heroTitle: <>Performansı koru.<br /><em>Değeri döngüde tut.</em></>,
+    heroText: 'Kompozit performansını daha bilinçli kaynak kullanımıyla buluşturmak için mühendislik kararlarından, proses bilgisinden ve yaşam döngüsü yaklaşımından yararlanıyoruz.',
+    heroCta: 'Yaklaşımımız',
+    nav: ['Yaklaşım', 'Etki', 'Döngüsellik', 'Kanıt'],
+    approachKicker: 'YAKLAŞIMIMIZ',
+    approachTitle: 'Hızlı çözümler değil, yaşam döngüsü yaklaşımı',
+    approachLead: 'Sürdürülebilirlik bir parça üretime ulaşmadan önce başlar. Malzemenin nasıl seçildiği, prosesin nasıl tasarlandığı, ürünün ne kadar süre performans gösterdiği ve ilk kullanımından sonra ne olabileceğiyle şekillenir.',
+    approachText: 'BaX Kompozit olarak doğrudan etkileyebildiğimiz kararlara odaklanıyoruz. Çevresel yaklaşımı mekanik performans, üretim kararlılığı ve güvenlikle birlikte kuruyor; geniş iddialar yerine kanıtı tercih ediyoruz.',
+    principles: [
+      ['01', 'Önce ölç', 'Sınırları tanımla ve alternatifleri tutarlı bir temelde karşılaştır.'],
+      ['02', 'Bilinçli kullan', 'Önlenebilir fireyi azalt ve değerli malzemeyi daha uzun süre üretken tut.'],
+      ['03', 'Sonraki yaşamı tasarla', 'Geri kazanım ve yeniden kullanımı ilk karardan itibaren değerlendir.'],
+      ['04', 'Performansı koru', 'Döngüselliği kalite ve güvenlikten ayırmadan geliştir.'],
     ],
-    positionKicker: 'BUGÜN NEREDEYİZ',
-    positionTitle: 'Bildiğimiz proseslerin üzerine kurulan gerçekçi bir yol',
+    focusKicker: 'ÜÇ ODAK ALANI',
+    focusTitle: 'Uygulanabilir bir sürdürülebilirlik programı',
+    focusText: 'Çalışmalarımızı kompozitlerin sağlayabileceği değer, kendi proseslerimizin ayak izi ve malzemenin bir sonraki üretken yaşamı etrafında düzenliyoruz.',
+    focus: [
+      ['01', 'Değer sağlayan ürünler', 'Hafif ve dayanıklı kompozit yapılar daha uzun kullanım ömrünü ve daha verimli sistemleri destekleyebilir.'],
+      ['02', 'Operasyonel ayak izi', 'Proses enerjisini, malzeme verimini, fireyi ve tekrarlanabilirliği üretim değişkenleri olarak ele alıyoruz.'],
+      ['03', 'Döngüsel malzemeler', 'Geri kazanılmış karbon fiber için iyileştirme, tasarım ve doğrulanmış üretim rotaları geliştiriyoruz.'],
+    ],
+    enableKicker: 'KOMPOZİTLERİN SAĞLADIĞI DEĞER',
+    enableTitle: 'Başka noktalardaki kaynak ihtiyacını azaltabilen performans',
+    enableText: 'Bir kompozitin en anlamlı etkisi çoğu zaman parçası olduğu sistemin kullanım ömründe ortaya çıkar. Hafif yapılar hareketli kütleyi azaltabilir, dayanıklı parçalar servis aralıklarını uzatabilir ve korozyon direnci bakım ihtiyacını düşürebilir.',
+    enableNote: 'Fayda uygulamaya bağlıdır. Yalnızca malzeme seçiminden varsayılmamalı; bütün sistem ve yaşam döngüsü boyunca değerlendirilmelidir.',
+    operationsKicker: 'OPERASYONLARIMIZ',
+    operationsTitle: 'En iyi bildiğimiz prosesleri iyileştirmek',
+    operationsText: 'Sürdürülebilirlik çalışmalarını ayrı bir katman olarak değil, belirli mühendislik platformlarıyla ilişkilendiriyoruz.',
     platforms: [
-      ['01', 'RTM', 'Kontrollü reçine akışı tekrarlanabilir kapalı kalıp üretimi ve proses tasarımıyla malzeme kullanımını iyileştirme fırsatları'],
-      ['02', 'TP', 'Seçilen sisteme bağlı olarak yeniden şekillendirme birleştirme onarım ve malzeme geri kazanımı potansiyeli taşıyan termoplastik kompozit rotaları'],
-      ['03', 'RCF', 'Geri dönüştürülmüş karbon fiberle tasarım iyileştirme ve üretime odaklanan mühendislik programı'],
-      ['04', 'LCA', 'Malzeme proses enerji fire ve yaşam sonu senaryolarını karşılaştırmak için geliştirilmekte olan ölçüm çerçevesi'],
+      ['RTM', 'Kontrollü reçine akışı, tekrarlanabilir kapalı kalıp üretimi ve proses tasarımıyla daha iyi malzeme verimi.'],
+      ['TP', 'Yeniden şekillendirme, birleştirme, onarım ve malzeme geri kazanımı potansiyeli taşıyan termoplastik rotalar.'],
+      ['RCF', 'Geri dönüştürülmüş karbon fiberle iyileştirme, tasarım ve üretim için mühendislik geliştirmesi.'],
+      ['LCA', 'Malzeme, proses enerjisi, fire ve yaşam sonu senaryoları için ölçüm çerçevesi.'],
     ],
-    systemKicker: 'GERİ DÖNÜŞTÜRÜLMÜŞ KARBON FİBER',
-    systemTitle: 'Doğru sırayla kurulan tek bir malzeme yolculuğu',
+    circularKicker: 'UYGULAMADA DÖNGÜSELLİK',
+    circularTitle: 'Bir sonraki malzeme yaşamını doğru sırayla kurmak',
+    circularText: 'Döngüsellik tek bir geri dönüşüm iddiası değildir. Hâlâ kararlı, faydalı ve doğrulanabilir bir ürüne ulaşması gereken izlenebilir malzeme kararları dizisidir.',
     journey: [
-      ['Birincil karbon fiber', 'Bir sonraki kullanım kararından önce malzemenin ilk değerini ve performansını anla'],
-      ['Malzeme geri kazanımı', 'Uygun malzeme akışlarından karbon fiberi izlenebilir ve kontrollü sınırlarla geri kazan'],
-      ['Fiber iyileştirme', 'Üretim uyumluluğu için yüzey dağılım ve ara yüz davranışını geliştir'],
-      ['Geri dönüştürülmüş karbon fiber kullanımı', 'Yük yollarını geometriyi ve ürün mimarisini geri kazanılmış malzeme yeteneğine göre tasarla'],
-      ['Yaşam döngüsü değerlendirmesi', 'Çevresel iddiadan önce malzeme proses enerji fire ve yaşam sonu senaryolarını ölç'],
+      ['Malzeme değeri', 'Nerede üretken kalabileceğine karar vermeden önce ilk malzemeyi ve performansı anla.'],
+      ['Geri kazanım', 'Uygun malzeme akışlarını seç ve izlenebilir, kontrollü sınırlar oluştur.'],
+      ['Fiber iyileştirme', 'Üretim uyumluluğu için yüzey, dağılım ve ara yüz davranışını geliştir.'],
+      ['Ürün tasarımı', 'Geometriyi, yük yollarını ve ürün mimarisini geri kazanılmış malzeme yeteneğine göre tasarla.'],
+      ['Endüstriyelleştirme', 'Malzeme rotasını tekrarlanabilir proses, kalite kontrolü ve doğrulanmış bir CFRP ürününe dönüştür.'],
     ],
-    journeyProgress: 'Malzeme yolculuğu',
-    engineeringDetail: 'Bir sonraki malzeme yaşamını mühendislikle kurmak',
-    steps: [
-      ['01', 'Geri dönüştürülmüş karbon fiber kullanımı için tasarım', 'Geri kazanılmış malzemenin anlamlı değer üretmesi için geometri yük yolları fiber yerleşimi ve ürün mimarisiyle başla'],
-      ['02', 'Mekanik ve üretim özelliklerini geliştirmek için geri dönüştürülmüş karbon fiberin iyileştirilmesi', 'Mekanik performansı ve proses uyumluluğunu desteklemek için yüzey dağılım ve ara yüz davranışını geliştir'],
-      ['03', 'Geri dönüştürülmüş karbon fiberle ürün üretimi', 'Malzeme bilgisini tekrarlanabilir proses kalite kontrolü ve ürün doğrulamasına dönüştür'],
-    ],
-    lcaKicker: 'YAŞAM DÖNGÜSÜ DEĞERLENDİRMESİ',
-    lcaTitle: <>Bir iddia ancak<br />sınırları kadar güçlüdür</>,
-    lcaText: 'LCA yaklaşımımız proses bilgisini karşılaştırılabilir kanıta dönüştürmek üzere yapılandırılıyor İlk öncelik güvenilir veriyle büyüyebilen şeffaf bir beşikten kapıya görünüm oluşturmak',
-    lcaStages: ['Hammadde', 'Gelen lojistik', 'Proses enerjisi', 'Üretim firesi', 'Ürün kullanım varsayımları', 'Yaşam sonu senaryosu'],
-    lcaNote: 'Dekoratif sayı yok Seçici sınır yok Veriden önce sonuç yok',
-    sdgKicker: 'BİRLEŞMİŞ MİLLETLER 2030 GÜNDEMİ',
-    sdgTitle: '17 ortak hedef ve çalışmalarımızla dört açık bağlantı',
-    sdgText: '17 Sürdürülebilir Kalkınma Amacı bütünleşik ve bölünmezdir Çalışmalarımız sanayi inovasyonu sorumlu üretim iklim odaklı kararlar ve ortaklıklarla doğrudan ilişkilidir',
+    evidenceKicker: 'YAŞAM DÖNGÜSÜ KANITI',
+    evidenceTitle: 'Bir iddia ancak sınırları kadar güçlüdür',
+    evidenceText: 'LCA yaklaşımımız proses bilgisini karşılaştırılabilir kanıta dönüştürmek üzere yapılandırılıyor. İlk öncelik, güvenilir veri arttıkça gelişebilecek şeffaf bir beşikten kapıya görünüm oluşturmak.',
+    evidenceStages: ['Hammadde', 'Gelen lojistik', 'Proses enerjisi', 'Üretim firesi', 'Kullanım varsayımları', 'Yaşam sonu'],
+    evidenceNote: 'Dekoratif sayı yok. Seçici sınır yok. Veriden önce sonuç yok.',
+    goalsKicker: 'İŞ BİRLİĞİ VE ORTAK HEDEFLER',
+    goalsTitle: 'İlerleme daha geniş bir değer zinciri gerektirir',
+    goalsText: 'Malzeme tedarikçileri, araştırma ağları, müşteriler ve üretim ortakları neyin ölçülebileceğini, geri kazanılabileceğini ve ölçeklenebileceğini birlikte belirler. Çalışmalarımız dört BM Sürdürülebilir Kalkınma Amacıyla doğrudan ilişkilidir.',
     goals: [
-      ['09', 'Sanayi yenilikçilik ve altyapı', 'Proses inovasyonu kaynak verimliliği ve daha sürdürülebilir sanayi yetkinliği'],
-      ['12', 'Sorumlu üretim ve tüketim', 'Verimli malzeme kullanımı fire azaltımı izlenebilirlik ve döngüsel ürün düşüncesi'],
-      ['13', 'İklim eylemi', 'Daha düşük etkili malzeme ve proses kararlarını destekleyen yaşam döngüsü kanıtı'],
-      ['17', 'Amaçlar için ortaklıklar', 'Malzeme tedarikçileri araştırma ağları müşteriler ve üretim ortakları arasında iş birliği'],
+      ['09', 'Sanayi, yenilikçilik ve altyapı'],
+      ['12', 'Sorumlu üretim ve tüketim'],
+      ['13', 'İklim eylemi'],
+      ['17', 'Amaçlar için ortaklıklar'],
     ],
-    sdgDisclaimer: 'Yalnızca uyum çerçevesidir ve Birleşmiş Milletler onayı anlamına gelmez',
-    whyKicker: 'NEDEN ÖNEMLİ',
-    whyTitle: <>Çünkü malzeme değeri<br /><em>kaybolmamalı</em></>,
-    whyText: 'Kirlilik kaynak kaybı ve iklim baskısı çevresel olduğu kadar mühendislik kısıtlarıdır Daha iyi sistemler dürüst sınırlar dikkatli malzeme kararları ve doğrulanabilir proseslerle başlar',
-    penguin: 'Ve evet penguenler de bu denklemin içinde',
-    principles: [['Ölçülebilir', 'Karşılaştırılabilir proses ve malzeme verisi'], ['İzlenebilir', 'Kaynaktan parçaya bilgi sürekliliği'], ['Doğrulanabilir', 'Kalite ve çevresel yaklaşım birlikte'], ['Ölçeklenebilir', 'Geliştirmeden seri üretime uzanan rota']],
+    disclaimer: 'Yalnızca uyum çerçevesidir; Birleşmiş Milletler onayı anlamına gelmez.',
     closingKicker: 'TAAHHÜDÜMÜZ',
-    closingTitle: <>Daha az varsayım<br /><em>Daha çok kanıt</em><br />Daha iyi malzeme kararları</>,
-    closingText: 'Mühendislik performansını merkezde tutarken her programda öğrenmeyi ölçmeyi ve gelişmeyi taahhüt ediyoruz',
+    closingTitle: <>Daha az varsayım.<br /><em>Daha çok kanıt.</em></>,
+    closingText: 'Mühendislik performansını merkezde tutarken her programda öğrenmeyi, ölçmeyi ve gelişmeyi taahhüt ediyoruz.',
     closingCta: 'Sorumlu bir program başlat',
-    back: 'Ana sayfaya dön',
   },
 } as const
 
 export function SustainabilityClient() {
   const [lang, setLang] = useState<CorporateLang>('en')
-  const [journeyStep, setJourneyStep] = useState(0)
-  const journeyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const saved = localStorage.getItem('bax-language')
@@ -151,141 +153,69 @@ export function SustainabilityClient() {
   }, [])
 
   useEffect(() => { document.documentElement.lang = lang }, [lang])
-
-  useEffect(() => {
-    const updateJourney = () => {
-      const section = journeyRef.current
-      if (!section) return
-      const rect = section.getBoundingClientRect()
-      const distance = Math.max(1, section.offsetHeight - window.innerHeight)
-      const progress = Math.min(1, Math.max(0, -rect.top / distance))
-      setJourneyStep(Math.min(4, Math.floor(progress * 5)))
-    }
-    updateJourney()
-    window.addEventListener('scroll', updateJourney, { passive: true })
-    window.addEventListener('resize', updateJourney)
-    return () => {
-      window.removeEventListener('scroll', updateJourney)
-      window.removeEventListener('resize', updateJourney)
-    }
-  }, [])
   const c = copy[lang]
 
   return <main className={styles.page}>
     <CorporateHeader lang={lang} active="sustainability" onLangChange={setLang} />
 
     <section className={styles.hero}>
-      <Image src="/assets/carbon-futuristic-hero.webp" alt="" fill priority sizes="100vw" />
+      <Image src="/assets/sustainability/wind-power-landscape-zac-wolff.jpg" alt={lang === 'tr' ? 'Yeşil arazi üzerinde çalışan rüzgâr türbinleri' : 'Operating wind turbines across a green landscape'} fill priority sizes="100vw" />
       <div className={styles.heroShade} />
       <div className={styles.heroInner}>
         <p className={styles.kicker}>{c.heroKicker}</p>
         <h1>{c.heroTitle}</h1>
-        <div className={styles.heroBottom}>
-          <p>{c.heroText}</p>
-          <a href="#commitment">{c.heroCta}<span>↓</span></a>
-        </div>
-        <ul>{c.heroTags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+        <div className={styles.heroFoot}><p>{c.heroText}</p><a href="#approach">{c.heroCta}<span>↓</span></a></div>
       </div>
     </section>
 
-    <section className={styles.intro} id="commitment">
-      <div className={styles.introLead}>
-        <p className={styles.kicker}>{c.introKicker}</p>
-        <h2>{c.introTitle}</h2>
-        <p>{c.introText}</p>
+    <nav className={styles.sectionNav} aria-label={lang === 'tr' ? 'Sayfa bölümleri' : 'Page sections'}>
+      {c.nav.map((item, index) => <a key={item} href={['#approach', '#impact', '#circularity', '#evidence'][index]}><span>0{index + 1}</span>{item}</a>)}
+    </nav>
+
+    <section className={styles.approach} id="approach">
+      <div className={styles.sectionIntro}>
+        <p className={styles.kicker}>{c.approachKicker}</p>
+        <h2>{c.approachTitle}</h2>
+        <div><strong>{c.approachLead}</strong><p>{c.approachText}</p></div>
       </div>
-      <div className={styles.commitGrid}>
-        {c.commitments.map(([title, text], index) => <article key={title}>
-          <span>0{index + 1}</span><h3>{title}</h3><p>{text}</p>
-        </article>)}
-      </div>
+      <div className={styles.principleList}>{c.principles.map(([no, title, text]) => <article key={no}><span>{no}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
     </section>
 
-    <section className={styles.position}>
-      <header><p className={styles.kicker}>{c.positionKicker}</p><h2>{c.positionTitle}</h2></header>
-      <div className={styles.platformGrid}>
-        {c.platforms.map(([no, title, text], index) => <article key={title} className={index === 2 ? styles.highlightPlatform : ''}>
-          <span>{no}</span><strong>{title}</strong><p>{text}</p>
-        </article>)}
-      </div>
+    <section className={styles.focus} id="impact">
+      <header><p className={styles.kicker}>{c.focusKicker}</p><h2>{c.focusTitle}</h2><p>{c.focusText}</p></header>
+      <div className={styles.focusList}>{c.focus.map(([no, title, text]) => <article key={no}><span>{no}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
     </section>
 
-    <section className={styles.material}>
-      <div className={styles.materialHead}>
-        <p className={styles.kicker}>{c.systemKicker}</p>
-        <h2>{c.systemTitle}</h2>
+    <section className={styles.enable}>
+      <div className={styles.enableImage}>
+        <Image src="/assets/sustainability/cfrp-workshop-hero-v3.png" alt={lang === 'tr' ? 'Kompozit üretim atölyesinde CFRP kalıbı ve karbon fiber parça' : 'CFRP mold and carbon-fiber component in a composites workshop'} fill sizes="(max-width: 900px) 100vw, 55vw" />
       </div>
-      <div className={styles.journeyStage} ref={journeyRef}>
-        <div className={styles.journeySticky}>
-          <Image src="/assets/sustainability/recovered-carbon-fiber-b.png" alt="Recovered carbon fiber weave" fill sizes="100vw" />
-          <div className={styles.journeyShade} />
-          <div className={styles.journeyInterface}>
-            <div className={styles.journeyCounter}>
-              <span>{c.journeyProgress}</span>
-              <strong>0{journeyStep + 1}</strong>
-              <i>05</i>
-            </div>
-            <div className={styles.journeyCopy} aria-live="polite">
-              {c.journey.map(([title, text], index) => <article key={title} className={index === journeyStep ? styles.activeJourney : ''} aria-hidden={index !== journeyStep}>
-                <span>0{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>)}
-            </div>
-            <div className={styles.journeyRail} aria-hidden="true">
-              <span style={{ height: `${((journeyStep + 1) / 5) * 100}%` }} />
-              {c.journey.map(([,], index) => <i key={index} className={index <= journeyStep ? styles.passedJourney : ''} />)}
-            </div>
-          </div>
-          <div className={styles.journeyTone} style={{ opacity: journeyStep / 4 }} />
-          <a className={styles.journeySource} href="https://www.mdpi.com/2313-4321/7/2/22" target="_blank" rel="noreferrer">Grebeneva et al 2022 · CC BY 4 0</a>
-        </div>
-      </div>
-      <p className={styles.detailLabel}>{c.engineeringDetail}</p>
-      <div className={styles.steps}>
-        {c.steps.map(([no, title, text]) => <article key={no}>
-          <span>{no}</span><div><h3>{title}</h3><p>{text}</p></div>
-        </article>)}
-      </div>
+      <div className={styles.enableCopy}><p className={styles.kicker}>{c.enableKicker}</p><h2>{c.enableTitle}</h2><p>{c.enableText}</p><strong>{c.enableNote}</strong></div>
     </section>
 
-    <section className={styles.lca}>
-      <div className={styles.lcaVisual}>
-        <video autoPlay muted loop playsInline preload="metadata" poster="/assets/sustainability/precision-manufacturing-poster.jpg"><source src="/assets/sustainability/precision-manufacturing.mp4" type="video/mp4" /></video>
-        <div className={styles.lcaRing}><b>LCA</b><span>Measure → Compare → Improve</span></div>
-      </div>
-      <div className={styles.lcaCopy}>
-        <p className={styles.kicker}>{c.lcaKicker}</p>
-        <h2>{c.lcaTitle}</h2>
-        <p>{c.lcaText}</p>
-        <ol>{c.lcaStages.map((stage, index) => <li key={stage}><span>0{index + 1}</span>{stage}</li>)}</ol>
-        <strong>{c.lcaNote}</strong>
-      </div>
+    <section className={styles.operations}>
+      <div className={styles.operationsHead}><p className={styles.kicker}>{c.operationsKicker}</p><h2>{c.operationsTitle}</h2><p>{c.operationsText}</p></div>
+      <div className={styles.platformList}>{c.platforms.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
     </section>
 
-    <section className={styles.sdg}>
-      <header>
-        <div><p className={styles.kicker}>{c.sdgKicker}</p><h2>{c.sdgTitle}</h2></div>
-        <p>{c.sdgText}</p>
-      </header>
-      <div className={styles.goalGrid}>
-        {c.goals.map(([no, title, text]) => <a key={no} href={`https://sdgs.un.org/goals/goal${Number(no)}`} target="_blank" rel="noreferrer">
-          <span>{no}</span><h3>{title}</h3><p>{text}</p><i>↗</i>
-        </a>)}
-      </div>
-      <div className={styles.allGoals} aria-label="The 17 Sustainable Development Goals">
-        {Array.from({ length: 17 }, (_, i) => <span key={i} className={[9, 12, 13, 17].includes(i + 1) ? styles.activeGoal : ''}>{String(i + 1).padStart(2, '0')}</span>)}
-      </div>
-      <p className={styles.disclaimer}>{c.sdgDisclaimer}</p>
+    <section className={styles.circular} id="circularity">
+      <div className={styles.circularHead}><p className={styles.kicker}>{c.circularKicker}</p><h2>{c.circularTitle}</h2><p>{c.circularText}</p></div>
+      <div className={styles.circularVisual}><Image src="/assets/sustainability/reclaimed-carbon-material-stages-v3.png" alt={lang === 'tr' ? 'Karbon fiber fire, kırpıntı ve geri kazanılmış elyaf aşamaları' : 'Carbon-fiber offcuts, shredded material and reclaimed fiber stages'} fill sizes="100vw" /></div>
+      <div className={styles.journeyList}>{c.journey.map(([title, text], index) => <article key={title} className={index === 4 ? styles.industrialization : ''}>
+        <span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div>
+        {index === 4 && <div className={styles.journeyProduct}><Image src="/assets/sustainability/cfrp-structural-panel-v3.png" alt={lang === 'tr' ? 'Endüstriyelleştirme aşamasında üretilmiş CFRP yapısal parça' : 'CFRP structural component produced at the industrialization stage'} fill sizes="(max-width: 900px) 100vw, 40vw" /></div>}
+      </article>)}</div>
     </section>
 
-    <section className={styles.why}>
-      <Image src="/assets/sustainability/robotic-validation-poster.jpg" alt="" fill sizes="100vw" />
-      <div className={styles.whyShade} />
-      <div className={styles.whyCopy}>
-        <p className={styles.kicker}>{c.whyKicker}</p><h2>{c.whyTitle}</h2><p>{c.whyText}</p><span>{c.penguin}</span>
-      </div>
-      <div className={styles.principles}>{c.principles.map(([title, text]) => <article key={title}><strong>{title}</strong><p>{text}</p></article>)}</div>
+    <section className={styles.evidence} id="evidence">
+      <div className={styles.evidenceVisual}><video autoPlay muted loop playsInline preload="metadata" poster="/assets/sustainability/precision-manufacturing-poster.jpg"><source src="/assets/sustainability/precision-manufacturing.mp4" type="video/mp4" /></video><span>LCA</span></div>
+      <div className={styles.evidenceCopy}><p className={styles.kicker}>{c.evidenceKicker}</p><h2>{c.evidenceTitle}</h2><p>{c.evidenceText}</p><ol>{c.evidenceStages.map((stage, index) => <li key={stage}><span>0{index + 1}</span>{stage}</li>)}</ol><strong>{c.evidenceNote}</strong></div>
+    </section>
+
+    <section className={styles.goals}>
+      <div className={styles.goalsIntro}><p className={styles.kicker}>{c.goalsKicker}</p><h2>{c.goalsTitle}</h2><p>{c.goalsText}</p></div>
+      <div className={styles.goalList}>{c.goals.map(([no, title]) => <a key={no} href={`https://sdgs.un.org/goals/goal${Number(no)}`} target="_blank" rel="noreferrer"><span>{no}</span><strong>{title}</strong><i>↗</i></a>)}</div>
+      <p className={styles.disclaimer}>{c.disclaimer}</p>
     </section>
 
     <section className={styles.closing}>

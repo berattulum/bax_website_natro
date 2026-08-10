@@ -150,6 +150,42 @@ export function ExpertisePageClient({ locales }: { locales: Record<Lang, Managed
     setLang(next)
   }
 
+  useEffect(() => {
+    const scenes = Array.from(document.querySelectorAll<HTMLElement>('[data-expertise-parallax]'))
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion || scenes.length === 0) return
+
+    let frame = 0
+    const updateScenes = () => {
+      frame = 0
+      const viewport = window.innerHeight
+      scenes.forEach((scene) => {
+        const bounds = scene.getBoundingClientRect()
+        const progress = Math.min(1, Math.max(0, (viewport - bounds.top) / (viewport + bounds.height)))
+        const focus = 1 - Math.min(1, Math.abs(progress - .5) * 2)
+        scene.style.setProperty('--scene-progress', progress.toFixed(4))
+        scene.style.setProperty('--scene-focus', focus.toFixed(4))
+        scene.style.setProperty('--scene-media-shift', `${((progress - .5) * -11).toFixed(2)}%`)
+        scene.style.setProperty('--scene-copy-shift', `${((progress - .5) * -32).toFixed(2)}px`)
+        scene.style.setProperty('--scene-media-lift', `${((1 - focus) * 28).toFixed(2)}px`)
+        scene.style.setProperty('--scene-media-scale', (0.96 + focus * 0.04).toFixed(4))
+        scene.classList.toggle('is-scroll-active', focus > .42)
+      })
+    }
+    const requestUpdate = () => {
+      if (frame === 0) frame = window.requestAnimationFrame(updateScenes)
+    }
+
+    updateScenes()
+    window.addEventListener('scroll', requestUpdate, { passive: true })
+    window.addEventListener('resize', requestUpdate)
+    return () => {
+      window.removeEventListener('scroll', requestUpdate)
+      window.removeEventListener('resize', requestUpdate)
+      if (frame !== 0) window.cancelAnimationFrame(frame)
+    }
+  }, [])
+
   const items = expertiseFallback[lang].map((fallback, index) => ({
     ...fallback,
     ...locales[lang].expertise[index],
@@ -165,7 +201,7 @@ export function ExpertisePageClient({ locales }: { locales: Record<Lang, Managed
     </section>
 
     <div className="expertise-page-sections">
-      {items.map((item, index) => <section id={anchors[index]} className={`expertise-page-section${expertiseVideos[index] ? ' has-video' : ''}`} key={item.order}>
+      {items.map((item, index) => <section id={anchors[index]} className={`expertise-page-section${expertiseVideos[index] ? ' has-video' : ''}`} data-expertise-parallax key={item.order}>
         <span className="expertise-page-index">{String(index + 1).padStart(2, '0')}</span>
         {expertiseVideos[index] && <div className="expertise-page-media">
           <video autoPlay muted loop playsInline preload="metadata" poster={expertiseVideos[index].poster} aria-hidden="true">

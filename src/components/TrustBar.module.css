@@ -1,0 +1,76 @@
+.bar {
+  position: relative;
+  z-index: 1;
+  color: #050505;
+  background: #eef2f7;
+  border-top: 1px solid rgba(0, 32, 91, .1);
+  border-bottom: 1px solid rgba(0, 32, 91, .1);
+}
+
+.inner { padding-top: 23px; padding-bottom: 25px; }
+
+.title {
+  margin: 0 0 19px;
+  color: #244c74;
+  font: 400 .82rem/1.2 Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+.organisations {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(16px, 2.2vw, 36px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.organisations li { min-width: 0; }
+
+.logo {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  color: #00205b;
+  transition: color .2s ease;
+}
+
+.logo img {
+  display: block;
+  width: min(100%, 168px);
+  max-height: 42px;
+  object-fit: contain;
+  object-position: left center;
+  filter: grayscale(1);
+  opacity: .64;
+  transition: opacity .2s ease;
+}
+.organisations li:hover .logo img { opacity: 1; }
+
+/* The official M-ERA.NET download is supplied with a white raster canvas.
+   Inverting it then using screen blending makes that canvas disappear on this dark bar. */
+.organisations li:nth-child(3) .logo img {
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+}
+
+.organisations span {
+  display: block;
+  min-height: 28px;
+  margin-top: 9px;
+  color: #050505;
+  font: 400 .78rem/1.42 Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+}
+
+@media (max-width: 900px) {
+  .organisations { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 24px; }
+}
+
+@media (max-width: 560px) {
+  .inner { padding-top: 20px; padding-bottom: 22px; }
+  .organisations { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; }
+  .organisations li:last-child { grid-column: 1 / -1; }
+  .organisations span { min-height: 0; font-size: .54rem; }
+}

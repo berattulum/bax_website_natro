@@ -5,8 +5,9 @@ import EcosystemPageClient from '@/components/ecosystem/EcosystemPageClient'
 import { getHomeData } from '@/lib/cms/get-home-data'
 
 export const metadata: Metadata = {
-  title: 'İş Ortaklıkları | BaX Composites',
-  description: 'BaX Composites’in tasarım, malzeme teknolojileri ve ileri üretim alanlarındaki stratejik iş ortaklarını keşfedin.',
+  title: 'Business Partnerships | BaX Composites',
+  description: 'Strategic BaX Composites partnerships across engineering material technologies research and advanced manufacturing',
+  alternates: { canonical: '/is-ortakliklari' },
 }
 
 export default async function PartnershipsPage() {

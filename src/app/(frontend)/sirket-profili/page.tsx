@@ -4,8 +4,9 @@ import { CompanyProfileClient } from '@/components/corporate/CompanyProfileClien
 import { getHomeData } from '@/lib/cms/get-home-data'
 
 export const metadata: Metadata = {
-  title: 'Şirket Profili | BaX Composites',
-  description: 'BaX Composites’in ileri kompozit mühendisliği, üretim yaklaşımı ve kurumsal profili.',
+  title: 'Company Profile | BaX Composites',
+  description: 'BaX Composites company profile advanced composite engineering manufacturing approach and aerospace heritage',
+  alternates: { canonical: '/sirket-profili' },
 }
 
 export default async function CompanyProfilePage() {

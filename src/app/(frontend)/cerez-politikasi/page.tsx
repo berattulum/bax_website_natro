@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
-  title: 'Çerez Politikası | BaX Composites',
-  description: 'BaX Composites web sitesi çerez politikası.',
+  title: 'Cookie Policy | BaX Composites',
+  description: 'Information about cookies used on the BaX Composites website and how visitors can manage their preferences.',
+  alternates: { canonical: '/cerez-politikasi' },
 }
 
 export default function CookiePolicyPage() {

@@ -6,12 +6,12 @@ type FooterLang = 'tr' | 'en'
 export function PublicFooter({ lang = 'en' }: { lang?: FooterLang }) {
   const t = lang === 'tr' ? {
     navigation: 'Navigasyon', contact: 'İletişim', head: 'Genel Merkez', branch: 'Şube',
-    about: 'Hakkımızda', expertise: 'Uzmanlık', ecosystem: 'Ekosistem', sustainability: 'Sürdürülebilirlik', contactLink: 'İletişim',
+    about: 'Hakkımızda', capabilities: 'Yetkinlikler', ecosystem: 'Ekosistem', sustainability: 'Sürdürülebilirlik', contactLink: 'İletişim',
     description: <>İleri kompozit mühendisliği<br />Tasarımdan endüstrileşmeye</>,
     corporate: 'Kurumsal Bilgiler', privacy: 'Aydınlatma Metni', cookies: 'Çerez Politikası', application: 'Başvuru Formu', rights: 'Tüm hakları saklıdır',
   } : {
     navigation: 'Navigation', contact: 'Contact', head: 'Head Office', branch: 'Branch Office',
-    about: 'About Us', expertise: 'Expertise', ecosystem: 'Ecosystem', sustainability: 'Sustainability', contactLink: 'Contact',
+    about: 'About Us', capabilities: 'Capabilities', ecosystem: 'Ecosystem', sustainability: 'Sustainability', contactLink: 'Contact',
     description: <>Advanced composite engineering<br />From design to industrialization</>,
     corporate: 'Corporate Information', privacy: 'Privacy Notice', cookies: 'Cookie Policy', application: 'Application Form', rights: 'All rights reserved',
   }
@@ -27,7 +27,7 @@ export function PublicFooter({ lang = 'en' }: { lang?: FooterLang }) {
       <div role="navigation" aria-label={t.navigation}>
         <h3>{t.navigation}</h3>
         <Link href="/sirket-profili">{t.about}</Link>
-        <Link href="/expertise">{t.expertise}</Link>
+        <Link href="/capabilities">{t.capabilities}</Link>
         <Link href="/is-ortakliklari">{t.ecosystem}</Link>
         <Link href="/surdurulebilirlik">{t.sustainability}</Link>
         <Link href="/iletisim">{t.contactLink}</Link>

@@ -1,15 +1,16 @@
 import type { Metadata } from 'next'
 import { connection } from 'next/server'
-import { ExpertisePageClient } from '@/components/expertise/ExpertisePageClient'
+import { CapabilitiesPageClient } from '@/components/capabilities/CapabilitiesPageClient'
 import { getHomeData } from '@/lib/cms/get-home-data'
 
 export const metadata: Metadata = {
-  title: 'Expertise | BaX Composites',
+  title: 'Capabilities | BaX Composites',
   description: 'BaX Composites engineering capabilities from design and analysis to serial production',
+  alternates: { canonical: '/capabilities' },
 }
 
-export default async function ExpertisePage() {
+export default async function CapabilitiesPage() {
   await connection()
   const { tr, en } = await getHomeData()
-  return <ExpertisePageClient locales={{ tr, en }} />
+  return <CapabilitiesPageClient locales={{ tr, en }} />
 }

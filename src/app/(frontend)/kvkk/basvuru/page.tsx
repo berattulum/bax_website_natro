@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
-  title: 'KVKK Başvuru Formu | BaX Composites',
-  description: 'BaX Composites KVKK ilgili kişi başvuru yöntemleri ve başvuru formu.',
+  title: 'Data Subject Application Form | BaX Composites',
+  description: 'Application methods and form for exercising personal data rights in relation to BaX Composites.',
+  alternates: { canonical: '/kvkk/basvuru' },
 }
 
 export default function KvkkApplicationPage() {

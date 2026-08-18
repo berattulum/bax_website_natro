@@ -1,0 +1,96 @@
+.hero {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  overflow: hidden;
+  color: #fff;
+  isolation: isolate;
+  background: #071014;
+}
+
+.background,
+.shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.background {
+  z-index: -2;
+  object-fit: cover;
+  object-position: center 48%;
+  filter: brightness(.68) saturate(.82);
+}
+
+.shade {
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(3, 15, 24, .88) 0%, rgba(4, 21, 31, .63) 44%, rgba(4, 15, 22, .16) 78%), linear-gradient(0deg, rgba(3, 12, 18, .68), transparent 58%);
+}
+
+.content {
+  align-self: center;
+  padding-top: clamp(160px, 19vh, 250px);
+  padding-bottom: clamp(88px, 13vh, 168px);
+}
+
+.brand {
+  margin: 0 0 22px;
+  color: #d3e5e2;
+  font: 700 clamp(.67rem, .8vw, .78rem)/1.2 var(--font-body);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.content h1 {
+  max-width: 18ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5.8vw, 6.2rem);
+  font-weight: 620;
+  line-height: .94;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+
+.description {
+  max-width: 61ch;
+  margin: 30px 0 0;
+  color: rgba(237, 246, 244, .9);
+  font-size: clamp(1rem, 1.22vw, 1.18rem);
+  line-height: 1.7;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 14px 20px;
+  border: 1px solid rgba(255, 255, 255, .54);
+  font: 700 .72rem/1 var(--font-body);
+  letter-spacing: .08em;
+  text-decoration: none;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.primary { color: #102a34; background: #f2f6f4; border-color: #f2f6f4; }
+.secondary { color: #fff; background: rgba(8, 24, 29, .24); cursor: pointer; }
+.primary:hover, .primary:focus-visible { background: #c9dfda; border-color: #c9dfda; }
+.secondary:hover, .secondary:focus-visible { color: #102a34; background: #fff; border-color: #fff; }
+.primary:focus-visible, .secondary:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+
+@media (max-width: 768px) {
+  .content { padding-top: 148px; padding-bottom: 76px; }
+  .content h1 { max-width: 12ch; font-size: clamp(2.65rem, 12vw, 4.15rem); }
+  .description { max-width: 40ch; margin-top: 24px; font-size: .96rem; line-height: 1.62; }
+  .actions { align-items: stretch; flex-direction: column; max-width: 265px; margin-top: 30px; }
+}

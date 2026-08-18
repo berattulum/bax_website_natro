@@ -18,3 +18,4 @@ test-results
 /ucak-video.mp4
 .codex-run/
 local-dev*.log
+*.log

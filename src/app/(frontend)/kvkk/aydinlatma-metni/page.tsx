@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
-  title: 'Kişisel Verilerin Korunması | BaX Composites',
-  description: 'BaX Composites müşteri kişisel verilerinin işlenmesine ilişkin aydınlatma metni.',
+  title: 'Personal Data Protection Notice | BaX Composites',
+  description: 'BaX Composites customer personal data processing retention transfer and data subject rights notice.',
+  alternates: { canonical: '/kvkk/aydinlatma-metni' },
 }
 
 const dataCategories = [

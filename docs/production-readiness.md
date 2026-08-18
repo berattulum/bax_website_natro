@@ -1,5 +1,7 @@
 # Production readiness kapısı
 
+Sunucu alınmadan önce hazırlanabilen paketin teslim kontrolü için önce `pnpm release:check` çalıştırılır. Natro sunucusuna özgü son adımlar `natro-handoff.md` belgesinde listelenmiştir.
+
 Gerçek Natro sunucusunda Docker build veya veri aktarımı başlatılmadan önce `.env.production` otomatik olarak denetlenmelidir. Araç secret değerlerini ekrana yazmaz.
 
 ## Dağıtım öncesi

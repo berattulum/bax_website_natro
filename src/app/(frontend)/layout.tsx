@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import '../globals.css'
 import '../typography.css'
-import '../contact-navigation.css'
 
 const siteURL = process.env.NEXT_PUBLIC_SITE_URL || 'https://baxcomposites.com'
 
@@ -15,9 +14,10 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteURL),
-  title: 'BaX Composites | Geleceği Şekillendiriyoruz',
+  title: 'BaX Composites | Advanced Composite Engineering',
   description:
-    'Havacılık ve otomotiv için ileri kompozit mühendisliği, analiz, kalifikasyon ve endüstrileştirme çözümleri.',
+    'Advanced composite engineering design verification and industrialization solutions for aerospace mobility and sustainable manufacturing',
+  alternates: { canonical: '/' },
   icons: {
     icon: '/images/bax-composites-logo-original.png',
     apple: '/images/bax-composites-logo-original.png',
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   }
 
   return (
-    <html lang="tr" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preload" href="/assets/aircraft-hero-keyframe-v2.png" as="image" type="image/png" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData).replace(/</g, '\\u003c') }} />

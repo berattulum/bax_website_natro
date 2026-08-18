@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { CorporateHeader, type CorporateLang } from '@/components/corporate/CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
 import type { ManagedLocale } from '@/components/ManagedSections'
+import styles from './ContactPageClient.module.css'
 
 type TurnstileApi = {
   render: (container: HTMLElement, options: {
@@ -143,63 +144,66 @@ export function ContactPageClient({ locales }: { locales: Record<CorporateLang, 
     }
   }
 
-  return <main className="contact-page contact-command">
+  return <div className={styles.page}>
     {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onLoad={() => setTurnstileReady(true)} />}
     <CorporateHeader lang={lang} active="contact" onLangChange={setLang} />
 
-    <section className="contact-command-shell">
-      <section className="contact-command-intro">
-        <div className="contact-command-intro-inner">
-          <div className="contact-command-heading">
+    <main>
+      <section className={styles.hero}>
+        <div className={styles.heroInner}>
+          <div>
             <span>{t.eyebrow}</span>
-            <h1>{lang === 'tr' ? 'Yeni bir proje başlatalım.' : 'Start a new project.'}</h1>
-            <p>{t.intro}</p>
+            <h1>{t.title}</h1>
           </div>
-
-          <div className="contact-command-channels">
-            <span>{t.direct}</span>
-            <a href={`mailto:${dictionary.email}`}><small>E-MAIL</small><strong>{dictionary.email}</strong><b aria-hidden="true">↗</b></a>
-            <a href={`tel:${(dictionary.phone || '').replace(/[^+\d]/g, '')}`}><small>{lang === 'tr' ? 'TELEFON' : 'PHONE'}</small><strong>{dictionary.phone}</strong><b aria-hidden="true">↗</b></a>
-          </div>
+          <p>{t.intro}</p>
         </div>
       </section>
 
-      <section className="contact-command-intake">
-        <div className="contact-command-intake-inner">
-          <aside className="contact-command-form-intro">
-            <span>BAX / ENGINEERING DESK</span>
+      <section className={styles.contactBody}>
+        <div className={styles.contactInner}>
+          <header className={styles.sectionHeading}>
+            <span>{lang === 'tr' ? 'PROJE İLETİŞİMİ' : 'PROJECT CONTACT'}</span>
             <h2>{t.formTitle}</h2>
             <p>{t.formIntro}</p>
-          <div className="contact-command-flow">
-            <span>{t.process}</span>
-            <div>{t.steps.map(([, title]) => <strong key={title}>{title}</strong>)}</div>
-          </div>
-          </aside>
+          </header>
 
-        <section className="contact-command-form-panel">
-          <form onSubmit={submit}>
-            <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="form-honeypot" />
-            <fieldset className="contact-command-types">
-              <legend>{t.requestType}</legend>
-              <div>{t.requestTypes.map((item) => <label key={item}><input type="radio" name="subject" value={item} required /><span>{item}</span></label>)}</div>
-            </fieldset>
-            <label className="contact-command-field"><span>{t.name}</span><input name="name" autoComplete="name" required /></label>
-            <label className="contact-command-field"><span>{t.company}</span><input name="company" autoComplete="organization" /></label>
-            <label className="contact-command-field"><span>{t.email}</span><input type="email" name="email" autoComplete="email" required /></label>
-            <label className="contact-command-field"><span>{t.phone}</span><input type="tel" name="phone" autoComplete="tel" /></label>
-            <label className="contact-command-field contact-command-wide"><span>{t.message}</span><textarea name="message" rows={3} minLength={10} required placeholder={t.messagePlaceholder} /></label>
-            <label className="contact-command-consent contact-command-wide"><input type="checkbox" name="consent" required /><span>{t.consent} <Link href="/kvkk/aydinlatma-metni">{t.privacy}</Link>.</span></label>
-            {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <div ref={turnstileContainer} className="contact-command-turnstile contact-command-wide" />}
-            <div className="contact-command-submit contact-command-wide">
-              <p role="status" aria-live="polite" className={`is-${status}`}>{status === 'received' ? t.received : status === 'failed' ? t.failed : ''}</p>
-              <button type="submit" disabled={status === 'sending' || Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken)}><span>{status === 'sending' ? t.sending : t.send}</span><b aria-hidden="true">→</b></button>
-            </div>
-          </form>
-        </section>
+          <div className={styles.contactGrid}>
+            <form className={styles.form} onSubmit={submit}>
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className={styles.honeypot} />
+              <fieldset className={styles.types}>
+                <legend>{t.requestType}</legend>
+                <div>{t.requestTypes.map((item) => <label key={item}><input type="radio" name="subject" value={item} required /><span>{item}</span></label>)}</div>
+              </fieldset>
+              <label className={styles.field}><span>{t.name}</span><input name="name" autoComplete="name" required /></label>
+              <label className={styles.field}><span>{t.company}</span><input name="company" autoComplete="organization" /></label>
+              <label className={styles.field}><span>{t.email}</span><input type="email" name="email" autoComplete="email" required /></label>
+              <label className={styles.field}><span>{t.phone}</span><input type="tel" name="phone" autoComplete="tel" /></label>
+              <label className={`${styles.field} ${styles.wide}`}><span>{t.message}</span><textarea name="message" rows={5} minLength={10} required placeholder={t.messagePlaceholder} /></label>
+              <label className={`${styles.consent} ${styles.wide}`}><input type="checkbox" name="consent" required /><span>{t.consent} <Link href="/kvkk/aydinlatma-metni">{t.privacy}</Link>.</span></label>
+              {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <div ref={turnstileContainer} className={styles.wide} />}
+              <div className={`${styles.submit} ${styles.wide}`}>
+                <p role="status" aria-live="polite" data-status={status}>{status === 'received' ? t.received : status === 'failed' ? t.failed : ''}</p>
+                <button type="submit" disabled={status === 'sending' || Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken)}><span>{status === 'sending' ? t.sending : t.send}</span><b aria-hidden="true">↗</b></button>
+              </div>
+            </form>
+
+            <aside className={styles.directory}>
+              <section>
+                <span>{t.direct}</span>
+                <a href={`mailto:${dictionary.email}`}><small>E-MAIL</small><strong>{dictionary.email}</strong><b aria-hidden="true">↗</b></a>
+                <a href={`tel:${(dictionary.phone || '').replace(/[^+\d]/g, '')}`}><small>{lang === 'tr' ? 'TELEFON' : 'PHONE'}</small><strong>{dictionary.phone}</strong><b aria-hidden="true">↗</b></a>
+              </section>
+              <section>
+                <span>{t.offices}</span>
+                <article><small>{t.headOffice}</small><p>{dictionary.headOffice}</p></article>
+                <article><small>{t.branchOffice}</small><p>{dictionary.branchOffice}</p></article>
+              </section>
+            </aside>
+          </div>
         </div>
       </section>
+    </main>
 
-      <PublicFooter lang={lang} />
-    </section>
-  </main>
+    <PublicFooter lang={lang} />
+  </div>
 }

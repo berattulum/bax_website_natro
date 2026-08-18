@@ -5,11 +5,13 @@ const siteURL = process.env.NEXT_PUBLIC_SITE_URL || 'https://baxcomposites.com'
 const routes = [
   '',
   '/sirket-profili',
+  '/kurucu',
   '/kurumsal-bilgiler',
   '/is-ortakliklari',
   '/aglar-ve-uyelikler',
   '/surdurulebilirlik',
   '/iletisim',
+  '/capabilities',
   '/kvkk',
   '/kvkk/aydinlatma-metni',
   '/kvkk/basvuru',

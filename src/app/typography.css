@@ -1,4 +1,4 @@
-/* Shared type system: one readable family across every public surface. */
+/* Shared type system. Company profile keeps its established Airbus editorial face. */
 :root {
   --font-display: var(--font-montserrat), Montserrat, Arial, sans-serif;
   --font-body: var(--font-montserrat), Montserrat, Arial, sans-serif;
@@ -7,44 +7,91 @@
 
 body,
 body :where(button, input, textarea, select),
-body :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, small, label, a, span, strong) {
-  font-family: var(--font-body) !important;
+body :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, small, label, a, span, strong):not(.cp-airbus-type):not(.founder-airbus-type) {
+  font-family: var(--font-body);
   font-synthesis: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display) !important;
+:where(h1:not(.founder-airbus-type), h2:not(.cp-airbus-type):not(.founder-airbus-type), h3:not(.founder-airbus-type), h4:not(.founder-airbus-type), h5:not(.founder-airbus-type), h6:not(.founder-airbus-type)) {
+  font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -.035em;
 }
 
-p, li, dd, .legalSectionBody {
+:where(p, li, dd, .legalSectionBody) {
   font-weight: 500;
   line-height: 1.72;
   letter-spacing: .002em;
 }
 
-/* Homepage copy has deliberately higher contrast over image/video surfaces. */
-.opening-slide .hero-subtitle { color: #d5edf0; }
-.opening-slide .hero-title { color: #ffffff; font-weight: 700; }
-.opening-slide .hero-description { color: rgba(247, 252, 252, .94); font-weight: 550; }
-.home-engineering-intro .home-engineering-statement p,
-.ecosystem-preview-intro > p,
-.contact-intro > p { color: #385863; font-weight: 550; }
+/* Homepage editorial standard, measured from the About Us heritage section.
+   Scoped to main content so navigation typography remains untouched. */
+.home-page {
+  --home-heading: #00205b;
+  --home-body: #050505;
+  --home-label: #244c74;
+  --font-display: Arial, Helvetica, sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-technical: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--home-body);
+}
+
+.home-page :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, small, label, a, span, strong, button) {
+  font-family: Arial, Helvetica, sans-serif;
+  font-synthesis: none;
+}
+
+.home-page :where(section h2),
+.home-page :where(.hero-section .hero-title) {
+  color: var(--home-heading);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.home-page :where(section h2) {
+  font-size: clamp(2.5rem, 3.5vw, 3.5rem);
+}
+
+.home-page :where(section h3, section h4) {
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -.02em;
+}
+
+.home-page :where(section p, section li, section dd) {
+  font-size: clamp(.94rem, 1.225vw, .98rem);
+  font-weight: 400;
+  line-height: 1.42;
+  letter-spacing: normal;
+}
+
+.home-page :where(.hero-subtitle, .home-engineering-kicker, .section-label, .ecosystem-preview-eyebrow, [class*="eyebrow"]) {
+  color: var(--home-label);
+  font-size: clamp(.72rem, 1.025vw, .82rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+.home-page :where(.hero-description, .home-engineering-statement p, .ecosystem-preview-intro > p, .contact-intro > p) {
+  font-weight: 400;
+}
 
 /* Small labels remain compact but no longer fade into their backgrounds. */
 .section-label,
 .ecosystem-preview-eyebrow,
 .contact-directory span,
-.footer-grid h3 { font-weight: 750 !important; }
+.footer-grid h3 { font-weight: 700; }
 
 /* Company profile: long-form company information should read like editorial copy. */
 .cp-page {
   --cp-muted: #4d646b;
 }
 
-.cp-simple-overview header > p,
 .cp-simple-columns p,
 .cp-simple-columns li,
 .cp-simple-founder-copy > p,
@@ -55,7 +102,6 @@ p, li, dd, .legalSectionBody {
   line-height: 1.78 !important;
 }
 
-.cp-simple-overview h2 { font-size: clamp(3rem, 5vw, 5rem); }
 .cp-simple-columns h3 { font-size: clamp(1.18rem, 1.25vw, 1.38rem); }
 .cp-simple-founder-copy > strong,
 .cp-simple-founder-copy > div,
@@ -67,7 +113,6 @@ p, li, dd, .legalSectionBody {
 .cp-hero-facts > small { font-weight: 600; }
 
 @media (max-width: 768px) {
-  .cp-simple-overview header > p,
   .cp-simple-columns p,
   .cp-simple-columns li,
   .cp-simple-founder-copy > p,

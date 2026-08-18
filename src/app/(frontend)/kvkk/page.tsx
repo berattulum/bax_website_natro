@@ -5,8 +5,9 @@ import { PublicFooter } from '@/components/PublicFooter'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
 
 export const metadata: Metadata = {
-  title: 'KVKK ve Yasal Belgeler | BaX Composites',
-  description: 'BaX Composites kişisel verilerin korunması, çerez politikası ve başvuru belgeleri.',
+  title: 'Privacy and Legal Documents | BaX Composites',
+  description: 'BaX Composites personal data protection notices cookie policy and data subject application documents.',
+  alternates: { canonical: '/kvkk' },
 }
 
 const documents = [
@@ -43,7 +44,6 @@ export default function KvkkHubPage() {
         <span>Kurumsal bilgi merkezi</span>
         <Link href="/#home" className={styles.homeLink}>Ana siteye dön <span aria-hidden="true">↗</span></Link>
       </header>
-
       <section className={styles.legalHero}>
         <div><p className={styles.heroLead}>ŞEFFAFLIK · GÜVEN · ERİŞİLEBİLİRLİK</p><h1>KVKK ve<br />yasal belgeler</h1></div>
         <div className={styles.heroIntro}><p>Kişisel verilerin korunmasına ilişkin metinlere, çerez politikamıza ve başvuru kanallarına tek noktadan erişin</p></div>

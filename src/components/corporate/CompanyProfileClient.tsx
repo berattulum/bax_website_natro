@@ -4,8 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import type { ManagedLocale } from '@/components/ManagedSections'
-import { CorporateHeader, type CorporateLang } from './CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
+import { CorporateHeader, type CorporateLang } from './CorporateHeader'
 
 export function CompanyProfileClient({ locales }: { locales: Record<CorporateLang, ManagedLocale> }) {
   const [lang, setLang] = useState<CorporateLang>('en')
@@ -15,195 +15,160 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
     if (saved === 'tr' || saved === 'en') setLang(saved)
   }, [])
 
-  useEffect(() => {
-    document.documentElement.lang = lang
-  }, [lang])
+  useEffect(() => { document.documentElement.lang = lang }, [lang])
 
-  const locale = locales[lang]
-  const d = locale.dictionary
-  const process = locale.ui.process.steps
-  const withoutStops = (value: string) => value.replace(/\.{1,}/g, '')
-  const text = lang === 'tr' ? {
-    heroTitle: 'Şirket Profili',
-    heroIntro: 'Tasarım kararlarını üretim gerçekleriyle buluşturan uçtan uca mühendislik',
-    statement: <>Malzeme potansiyelini<br /><em>üretilebilir değere</em><br />dönüştürüyoruz</>,
-    founded: '2018’de İstanbul’da kuruldu',
-    capability: 'Tasarımdan seri üretime',
-    sectors: 'Havacılık · Savunma · Mobilite',
-    flow: 'Mühendislik akışı',
-    flowTitle: <>Tek ekip<br /><em>Kesintisiz süreç</em></>,
-    flowIntro: 'Tasarım kararlarını üretim gerçekleriyle aynı akışta buluşturuyor, her aşamayı doğrulanabilir çıktılarla ilerletiyoruz.',
-    closingKicker: 'KURUMSAL ŞEFFAFLIK',
-    closing: <>Güvenilir mühendislik,<br /><em>açık bilgiyle başlar.</em></>,
-    records: 'Kurumsal bilgileri inceleyin',
-    legal: 'KVKK ve yasal belgeler',
-    leadershipKicker: 'KURUCU / MÜHENDİSLİK LİDERLİĞİ',
-    leadershipTitle: 'Teknik yön, işin merkezinde kalır.',
-    leadershipBody: 'BaX Composites kurucusu Hakkı Kızılok, havacılık kompozitlerinde tasarım ve RTM uygulamalarına uzanan mühendislik deneyimini üretilebilir, hafif ve sürdürülebilir çözümlere taşıyor 2014 yılında havacılık ve uzay sanayiinde RTM uygulamaları üzerine Chief Design Engineer olarak teknik sunum gerçekleştiren Kızılok, bugün geri dönüştürülebilir kompozitler ve üretim süreçleri odağındaki uluslararası çalışmalara liderlik ediyor',
-    leadershipProject: 'MachFlexComp Proje Koordinatörü',
-    portraitPending: 'Portre alanı',
-  } : {
-    heroTitle: 'Company Profile',
-    heroIntro: 'End to end engineering that connects design decisions with production realities',
-    statement: <>Transforming material potential<br />into <em>manufacturable value</em></>,
-    founded: 'Founded in Istanbul in 2018',
-    capability: 'From design to serial production',
-    sectors: 'Aviation · Defense · Mobility',
-    flow: 'Engineering flow',
-    flowTitle: <>One team<br /><em>One continuous process</em></>,
-    flowIntro: 'We bring design decisions and production realities into one workflow, advancing every stage through verifiable outputs.',
-    closingKicker: 'CORPORATE TRANSPARENCY',
-    closing: <>Reliable engineering begins<br /><em>with clear information.</em></>,
-    records: 'View corporate information',
-    legal: 'Privacy and legal documents',
-    leadershipKicker: 'FOUNDER / ENGINEERING LEADERSHIP',
-    leadershipTitle: 'Technical direction stays close to the work.',
-    leadershipBody: 'BaX Composites founder Hakkı Kızılok brings engineering experience spanning aerospace composite design and RTM applications into manufacturable, lightweight and sustainable solutions In 2014 he presented RTM applications in aerospace as a Chief Design Engineer and today leads international work focused on recyclable composites and manufacturing processes',
-    leadershipProject: 'MachFlexComp Project Coordinator',
-    portraitPending: 'Portrait reserved',
-  }
+  const connectedStages = lang === 'tr' ? [
+    ['01', 'GERİ KAZAN', 'Döngüsel karbon elyaf ve üretim atıkları sisteme girer'],
+    ['02', 'KARAKTERİZE ET', 'Malzeme verisi yapı ve davranışı ölçülebilir hale getirir'],
+    ['03', 'MÜHENDİSLİĞİNİ YAP', 'Yapılar performans hedeflerine göre tasarlanır ve optimize edilir'],
+    ['04', 'PROSESİ GELİŞTİR', 'Prosesler tekrarlanabilirlik ve kalite için geliştirilir'],
+    ['05', 'DOĞRULA', 'Performans izlenebilir mühendislik kanıtlarıyla doğrulanır'],
+    ['06', 'LCA', 'Yaşam döngüsü kanıtları daha doğru teknik kararlara yön verir'],
+    ['07', 'SANAYİLEŞTİR', 'Kontrollü ölçekleme tutarlı ve üretime hazır sonuçlar sağlar'],
+  ] : [
+    ['01', 'RECOVER', 'Circular carbon fibre and production waste enter the system'],
+    ['02', 'CHARACTERIZE', 'Material intelligence quantifies structure and behaviour'],
+    ['03', 'ENGINEER', 'Structures are designed and optimized for performance'],
+    ['04', 'DEVELOP PROCESS', 'Processes are engineered for repeatability and quality'],
+    ['05', 'VERIFY', 'Performance is proven with traceable engineering evidence'],
+    ['06', 'LCA', 'Lifecycle evidence informs better technical decisions'],
+    ['07', 'INDUSTRIALIZE', 'Controlled scale-up delivers consistent production-ready outcomes'],
+  ]
 
-  return (
-    <main className="profile-page cp-page">
-      <CorporateHeader lang={lang} active="profile" onLangChange={setLang} />
+  /*
+  const delivery = lang === 'tr' ? [
+    { index: '01', title: 'Tanımla', text: 'Uygulama gereksinimleri, yük durumları, malzeme hedefleri ve üretim sınırları', output: 'Tasarım temeli' },
+    { index: '02', title: 'Mühendisliğini yap', text: 'Malzeme, yapı, takım ve proses kararlarının birlikte geliştirilmesi', output: 'Doğrulanmış proses penceresi' },
+    { index: '03', title: 'Doğrula', text: 'Analiz, test, ölçüm ve kalifikasyon sonuçlarının izlenebilir hale getirilmesi', output: 'Test kanıtı' },
+    { index: '04', title: 'Sanayileştir', text: 'Otomasyon, proses kontrolü ve kalite gereksinimlerinin üretime aktarılması', output: 'Üretim onayı' },
+  ] : [
+    { index: '01', title: 'Define', text: 'Application requirements, load cases, material targets and manufacturing constraints', output: 'Design basis' },
+    { index: '02', title: 'Engineer', text: 'Material, structure, tooling and process decisions developed as one system', output: 'Verified process window' },
+    { index: '03', title: 'Verify', text: 'Analysis, testing, measurement and qualification made traceable', output: 'Test evidence' },
+    { index: '04', title: 'Industrialize', text: 'Automation, process control and quality requirements transferred into production', output: 'Production release' },
+  ]
+  const lifecycle = lang === 'tr' ? [
+    ['01', 'GERİ KAZAN', 'Üretim atığını yüksek değerli bir malzeme girdisi olarak tanımla'],
+    ['02', 'YENİDEN İŞLE', 'Lif değerini koruyan kontrollü proses rotası geliştir'],
+    ['03', 'DOĞRULA', 'Malzeme ve bileşen performansını ölçülebilir kanıtlarla doğrula'],
+    ['04', 'YAŞAM DÖNGÜSÜNÜ ÖLÇ', 'Enerji, kaynak kullanımı ve kullanım sonu senaryolarını karşılaştır'],
+    ['05', 'SANAYİLEŞTİR', 'Sonuçları tekrarlanabilir ve ölçeklenebilir üretime aktar'],
+  ] : [
+    ['01', 'RECOVER', 'Recognize production waste as a high-value material input'],
+    ['02', 'REPROCESS', 'Develop a controlled route that preserves fibre value'],
+    ['03', 'VERIFY', 'Validate material and component performance with measurable evidence'],
+    ['04', 'MEASURE LIFECYCLE IMPACT', 'Compare energy, resource use and end-of-life scenarios'],
+    ['05', 'INDUSTRIALIZE', 'Transfer the evidence into repeatable and scalable production'],
+  ]
+  */
+  return <main className="profile-page cp-page cp-page-v2">
+    <CorporateHeader lang={lang} active="profile" onLangChange={setLang} />
 
-      <section className="cp-hero">
-        <Image
-          src="/assets/bax-facility-front-elevation-v3.png"
-          alt={lang === 'tr' ? 'BaX Composites üretim tesisi' : 'BaX Composites production facility'}
-          fill
-          priority
-          sizes="100vw"
-          quality={75}
-        />
-        <div className="cp-hero-shade" />
-        <div className="cp-hero-content">
-          <h1>{text.heroTitle}</h1>
-          <p>{text.heroIntro}</p>
-        </div>
-        <div className="cp-hero-facts" aria-label={lang === 'tr' ? 'BaX mühendislik sistemi' : 'BaX engineering system'}>
-          <p>{lang === 'tr' ? 'Tek ve kesintisiz bir mühendislik sistemi' : 'One continuous engineering system'}</p>
-          <div className="cp-hero-system" aria-hidden="true">
-            <span>{lang === 'tr' ? 'Tasarım' : 'Design'}</span>
-            <span>{lang === 'tr' ? 'Doğrulama' : 'Verification'}</span>
-            <span>{lang === 'tr' ? 'Sanayileşme' : 'Industrialization'}</span>
-          </div>
-          <small>{lang === 'tr' ? 'Kararlar el değiştirmeden üretime taşınır' : 'Decisions move into production without handoff gaps'}</small>
-        </div>
-        <p className="cp-hero-caption">BaX Composites / Istanbul</p>
-      </section>
+    <section className="cpv2-hero" aria-labelledby="cpv2-title">
+      <div className="cpv2-hero-copy">
+        <p>{lang === 'tr' ? 'BAX COMPOSITES / İSTANBUL' : 'BAX COMPOSITES / ISTANBUL'}</p>
+        <h1 id="cpv2-title">{lang === 'tr' ? 'Şirket profili' : 'Company profile'}</h1>
+        <span>{lang === 'tr' ? 'İleri ve geri dönüştürülmüş kompozit mühendisliği' : 'Advanced and recycled composite engineering'}</span>
+      </div>
+    </section>
 
-      <div className="cp-story cp-story-legacy">
-      <section className="cp-intro">
-        <div className="cp-intro-title">
-          <h2>{text.statement}</h2>
-        </div>
-        <div className="cp-intro-copy">
-          <p className="cp-lead">{withoutStops(d.aboutDescription)}</p>
-          <p>{withoutStops(d.aboutGoal)}</p>
-          <dl>
-            <div><dt>01</dt><dd>{text.founded}</dd></div>
-            <div><dt>02</dt><dd>{text.capability}</dd></div>
-            <div><dt>03</dt><dd>{text.sectors}</dd></div>
-          </dl>
-        </div>
-      </section>
-
-      <section className="cp-leadership" aria-labelledby="cp-leadership-title">
-        <div className="cp-leadership-portrait" aria-label={text.portraitPending}>
-          <span>HK</span>
-          <small>{text.portraitPending}</small>
-        </div>
-        <div className="cp-leadership-copy">
-          <p>{text.leadershipKicker}</p>
-          <h2 id="cp-leadership-title">{text.leadershipTitle}</h2>
-          <div className="cp-leadership-name"><strong>Hakkı Kızılok</strong><span>Founder &amp; Chairman</span></div>
-          <p className="cp-leadership-body">{withoutStops(text.leadershipBody)}</p>
-          <div className="cp-leadership-meta"><span>{text.leadershipProject}</span><a href="https://tr.linkedin.com/in/hakk%C4%B1-k%C4%B1z%C4%B1lok-a98321a0" target="_blank" rel="noreferrer">LinkedIn ↗</a></div>
-        </div>
-      </section>
-
-      <section className="cp-flow">
+    <section className="cpv2-aerospace" aria-labelledby="cp-aerospace-title">
+      <figure>
+        <Image src="/assets/bax-facility-front-elevation-v3.png" alt={lang === 'tr' ? 'BaX Composites İstanbul üretim tesisi' : 'BaX Composites production facility in Istanbul'} fill sizes="(max-width: 900px) 100vw, 42vw" />
+        <figcaption>BaX Composites / Istanbul</figcaption>
+      </figure>
+      <div className="cpv2-aerospace-copy">
         <header>
-          <h2>{text.flowTitle}</h2>
-          <p>{withoutStops(text.flowIntro)}</p>
+          <p className="cp-airbus-type">{lang === 'tr' ? 'HAVACILIK KÖKENLİ MÜHENDİSLİK' : 'AEROSPACE ENGINEERING HERITAGE'}</p>
+          <h2 className="cp-airbus-type" id="cp-aerospace-title">{lang === 'tr' ? 'Havacılık disiplini endüstriyel ölçekte' : 'Aerospace discipline at industrial scale'}</h2>
         </header>
-        <ol>
-          {process.map(([title, description]) => (
-            <li key={title}>
-              <div><h3>{title}</h3><p>{withoutStops(description)}</p></div>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="cp-next">
-        <div><h2>{text.closing}</h2></div>
-        <Link href="/kurumsal-bilgiler">{text.records}<span aria-hidden="true">↗</span></Link>
-      </section>
-
+        <p className="cp-airbus-type">{lang === 'tr' ? 'BaX Composites, 2018 yılında İstanbul’da havacılık ve savunma kökenli mühendislik birikimi üzerine kurulmuş bir ileri kompozit mühendisliği ve üretim şirketidir  Çok disiplinli mühendislik ekibi, tasarım ve analiz kararlarını malzeme, proses, test ve sanayileştirme yetkinlikleriyle tek bir teknik sorumluluk altında birleştirir' : 'BaX Composites is an Istanbul-based advanced composites engineering and manufacturing company founded in 2018 on an aerospace and defense engineering background  Its multidisciplinary engineering team connects design and analysis decisions with material, process, testing and industrialization capabilities under one technical responsibility'}</p>
+        <p className="cp-airbus-type">{lang === 'tr' ? 'Yapısal performansın analiz edildiği, üretim proseslerinin doğrulandığı ve teknik kararların izlenebilir çıktılara dönüştürüldüğü bu yaklaşımı havacılık, savunma, otomotiv ve ileri mobilite programlarına taşıyoruz  Kesintisiz mühendislik zincirimiz kavramsal tasarımdan kalifikasyon ve seri üretim sistemlerine kadar uzanır' : 'We carry this discipline—where structural performance is analyzed, manufacturing processes are verified and technical decisions become traceable outputs—into aerospace, defense, automotive and advanced mobility programmes  Our continuous engineering chain extends from conceptual design to qualification and serial production systems'}</p>
       </div>
+    </section>
 
-      <div className="cp-story-simple">
-        <section className="cp-simple-overview" aria-labelledby="cp-simple-story-title">
-          <header>
-            <h2 id="cp-simple-story-title">{lang === 'tr' ? 'BaX Composites' : 'BaX Composites'}</h2>
-            <p>{lang === 'tr' ? 'İleri kompozit mühendisliğini tasarımdan seri üretime taşıyoruz' : 'We carry advanced composite engineering from design into serial production'}</p>
-          </header>
-          <div className="cp-simple-columns">
-            <article>
-              <h3>{lang === 'tr' ? 'Şirket hikâyesi' : 'Company story'}</h3>
-              <p>{withoutStops(d.aboutDescription)}</p>
-            </article>
-            <article>
-              <h3>{lang === 'tr' ? 'Mühendislik yaklaşımı' : 'Engineering approach'}</h3>
-              <p>{withoutStops(d.aboutGoal)}</p>
-            </article>
-            <article>
-              <h3>{lang === 'tr' ? 'Odak alanları' : 'Focus areas'}</h3>
-              <ul>
-                <li>{text.capability}</li>
-                <li>{text.sectors}</li>
-                <li>{lang === 'tr' ? 'Sürdürülebilir malzeme ve üretim' : 'Sustainable material and manufacturing'}</li>
-              </ul>
-            </article>
-          </div>
-        </section>
+    <section className="cpv2-sector-panels" aria-label={lang === 'tr' ? 'BaX uygulama alanları' : 'BaX application fields'}>
+      <article>
+        <Image src="/assets/about-us/panel-aerospace-composites-v2.png" alt={lang === 'tr' ? 'Havacılık için karbon fiber kompozit gövde yapısı' : 'Carbon-fibre composite fuselage structure for aerospace'} fill sizes="(max-width: 760px) 100vw, 100vw" quality={95} />
+        <h2>{lang === 'tr' ? 'Havacılık' : 'Aerospace'}</h2>
+      </article>
+      <article>
+        <Image src="/assets/about-us/panel-electric-mobility-v2.png" alt={lang === 'tr' ? 'Kompozit batarya muhafazalı elektrikli araç platformu' : 'Electric vehicle platform with a composite battery enclosure'} fill sizes="(max-width: 760px) 100vw, 100vw" quality={95} />
+        <h2>{lang === 'tr' ? 'Elektrikli mobilite' : 'Electric mobility'}</h2>
+      </article>
+      <article>
+        <Image src="/assets/about-us/panel-battery-structures-v2.png" alt={lang === 'tr' ? 'Kompozit batarya kapağı ölçüm ve doğrulama işlemi' : 'Composite battery cover inspection and verification'} fill sizes="(max-width: 760px) 100vw, 100vw" quality={95} />
+        <h2>{lang === 'tr' ? 'Batarya yapıları' : 'Battery structures'}</h2>
+      </article>
+    </section>
 
-        <section className="cp-simple-founder" aria-labelledby="cp-simple-founder-title">
-          <div className="cp-simple-founder-portrait">
-            <Image
-              src="/assets/hakki-kizilok.jpeg"
-              alt={lang === 'tr' ? 'BaX Composites kurucusu Hakkı Kızılok' : 'Hakkı Kızılok founder of BaX Composites'}
-              fill
-              sizes="(max-width: 760px) 220px, 260px"
-              quality={90}
-            />
-          </div>
-          <div className="cp-simple-founder-copy">
-            <h2 id="cp-simple-founder-title">Hakkı Kızılok</h2>
-            <strong>{lang === 'tr' ? 'Kurucu' : 'Founder'}</strong>
-            <p>{withoutStops(text.leadershipBody)}</p>
-            <div><span>{text.leadershipProject}</span><a href="https://tr.linkedin.com/in/hakk%C4%B1-k%C4%B1z%C4%B1lok-a98321a0" target="_blank" rel="noreferrer">LinkedIn ↗</a></div>
-          </div>
-        </section>
-
-        <section className="cp-simple-process" aria-labelledby="cp-simple-process-title">
-          <header>
-            <h2 id="cp-simple-process-title">{lang === 'tr' ? 'Tek ekip ve açık bir süreç' : 'One team and a clear process'}</h2>
-          </header>
-          <ol>
-            {process.map(([title, description]) => <li key={title}><h3>{title}</h3><p>{withoutStops(description)}</p></li>)}
-          </ol>
-        </section>
-
-        <section className="cp-simple-next">
-          <div><h2>{lang === 'tr' ? 'Doğrulanabilir ve açık bilgi' : 'Clear and verifiable information'}</h2></div>
-          <Link href="/kurumsal-bilgiler">{text.records}<span aria-hidden="true">↗</span></Link>
-        </section>
+    <section className="cpv2-principles" aria-labelledby="cp-principles-title">
+      <header>
+        <p className="cp-airbus-type">{lang === 'tr' ? 'KURUMSAL YAKLAŞIM' : 'CORPORATE DIRECTION'}</p>
+        <h2 className="cp-airbus-type" id="cp-principles-title">{lang === 'tr' ? 'Mühendisliğimizin temelindeki ilkeler' : 'The principles behind our engineering'}</h2>
+      </header>
+      <div className="cpv2-principles-copy">
+        <p className="cp-airbus-type">{lang === 'tr' ? 'BaX Composites, ileri ve geri dönüştürülmüş kompozitlerde teknik kararları ölçülebilir endüstriyel değere dönüştüren güvenilir bir mühendislik ortağı olmayı amaçlar  Üretilebilir ve ölçeklenebilir çözümler geliştirmek için tasarım, analiz, malzeme ve proses geliştirme, doğrulama ve sanayileştirmeyi tek bir teknik sorumluluk altında birleştiririz  Çalışmalarımıza güven, teknik açıklık, sorumluluk, adalet ve bilgiye dayalı karar alma yön verir; bu ilkeler ortaklıklarımızda, izlenebilir program kayıtlarımızda ve kaynakları daha verimli kullanan üretim rotalarımızda karşılık bulur' : 'BaX Composites aims to be a trusted engineering partner in advanced and recycled composites, transforming technical decisions into measurable industrial value  We bring design, analysis, material and process development, verification and industrialization under one technical responsibility to deliver manufacturable and scalable solutions  Our work is guided by trust, technical clarity, responsibility, fairness and decisions grounded in knowledge—principles reflected in our partnerships, traceable programme records and more resource-efficient production routes'}</p>
       </div>
+    </section>
 
-      <PublicFooter lang={lang} />
-    </main>
-  )
+    <section className="cpv2-capabilities" aria-labelledby="cp-capabilities-title">
+      <header className="cpv2-capabilities-heading">
+        <p className="cp-airbus-type">{lang === 'tr' ? 'UYGULAMADA YETKİNLİK' : 'CAPABILITIES IN PRACTICE'}</p>
+        <h2 className="cp-airbus-type" id="cp-capabilities-title">{lang === 'tr' ? 'Doğrulanmış çalışmalarla ortaya konan mühendislik yetkinliği' : 'Engineering capability demonstrated through verified work'}</h2>
+      </header>
+      <div className="cpv2-capabilities-copy">
+        <p className="cp-airbus-type">{lang === 'tr' ? 'BaX Composites, kompozit ürün geliştirmeyi birbirinden kopuk hizmetler dizisi olarak değil, tek bir mühendislik sorumluluğu olarak ele alır  Tasarım ve analiz kararları malzeme seçimi, proses geliştirme, takım tasarımı, ölçüm, test ve kalifikasyon sonuçlarıyla birlikte değerlendirilir  Her aşamada elde edilen teknik veriler bir sonraki üretim kararının temelini oluşturur; böylece geliştirilen çözüm yalnızca teorik olarak doğru değil, üretilebilir, doğrulanabilir ve program gereksinimlerine göre ölçeklenebilir hale gelir' : 'BaX Composites approaches composite product development as one engineering responsibility rather than a sequence of disconnected services  Design and analysis decisions are evaluated together with material selection, process development, tooling, measurement, testing and qualification results  Technical evidence generated at each stage informs the next production decision, enabling solutions that are not only technically sound but also manufacturable, verifiable and scalable to programme requirements'}</p>
+      </div>
+    </section>
+
+    <section className="cpv2-delivery" aria-labelledby="cp-delivery-title">
+      <div className="cpv2-delivery-head">
+        <header className="cpv2-section-head">
+          <p>{lang === 'tr' ? 'BÜTÜNLEŞİK MÜHENDİSLİK SİSTEMİ' : 'CONNECTED ENGINEERING SYSTEM'}</p>
+          <h2 id="cp-delivery-title">{lang === 'tr' ? 'Malzeme potansiyelinden doğrulanmış üretime' : 'From material potential to verified production'}</h2>
+        </header>
+        <p className="cpv2-delivery-copy">{lang === 'tr' ? 'Tasarım, proses, doğrulama ve yaşam döngüsü kanıtları tek bir teknik sorumluluk altında ilerler' : 'Design, process, verification and lifecycle evidence advance within one technical responsibility'}</p>
+      </div>
+      <div className="cpv2-engineering-map">
+        <div className="cpv2-engineering-map-inner">
+          <ol className="cpv2-engineering-stages">{connectedStages.map(([index, title, body]) => <li key={index}><span>{index}</span><div><h3>{title}</h3><p>{body}</p></div></li>)}</ol>
+          <figure className="cpv2-delivery-visual"><Image src="/assets/about-us/connected-engineering-landscape.png" alt={lang === 'tr' ? 'Geri kazanımdan sanayileştirmeye uzanan BaX bütünleşik mühendislik akışı' : 'BaX connected engineering flow from recovery to industrialization'} fill sizes="100vw" quality={95} /></figure>
+          <ul className="cpv2-engineering-foundations">
+            <li>{lang === 'tr' ? 'Tek teknik sorumluluk' : 'One technical responsibility'}</li>
+            <li>{lang === 'tr' ? 'İzlenebilir mühendislik kanıtı' : 'Traceable engineering evidence'}</li>
+            <li>{lang === 'tr' ? 'Üretilebilir ve ölçeklenebilir sonuçlar' : 'Manufacturable and scalable outcomes'}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {/* Previous delivery and lifecycle layouts intentionally removed: the connected visual now carries both narratives. */}
+    {false && <section className="cpv2-delivery-legacy" aria-hidden="true">
+      <div className="cpv2-section-head">
+        <p>{lang === 'tr' ? 'PROJE TESLİMAT SİSTEMİ' : 'PROJECT DELIVERY SYSTEM'}</p>
+        <h2 id="cp-delivery-title">{lang === 'tr' ? <>Gereksinimlerden<br />üretim onayına</> : <>From requirements<br />to production release</>}</h2>
+        <span>{lang === 'tr' ? 'Her aşama tanımlı bir teknik karar ve incelenebilir bir çıktı üretir' : 'Every stage produces a defined technical decision and an inspectable output'}</span>
+      </div>
+      <figure><Image src="/assets/about-us/about-project-delivery-v2-no-people.png" alt={lang === 'tr' ? 'Tasarım, doğrulama ve üretim sistemi' : 'Design, verification and production system'} fill sizes="100vw" /></figure>
+      <ol />
+    </section>}
+
+    {false && <section className="cpv2-lifecycle" aria-labelledby="cp-lifecycle-title">
+      <div className="cpv2-lifecycle-copy">
+        <p>{lang === 'tr' ? 'DÖNGÜSEL MÜHENDİSLİK / LCA' : 'CIRCULAR ENGINEERING / LCA'}</p>
+        <h2 id="cp-lifecycle-title">{lang === 'tr' ? <>Sürdürülebilirlik<br />ölçülebilir bir<br />mühendislik kararıdır</> : <>Sustainability is<br />a measurable<br />engineering decision</>}</h2>
+        <p>{lang === 'tr' ? 'BaX için sürdürülebilirlik yalnız geri dönüştürülmüş malzeme kullanmak değildir  Üretim atığının geri kazanılması, lif değerinin korunması, proses enerjisinin ve kaynak kullanımının ölçülmesi, performansın doğrulanması ve sonucun endüstriyel ölçekte tekrarlanabilmesi aynı karar zincirinin parçalarıdır' : 'For BaX, sustainability is more than using recycled material  Recovering production waste, preserving fibre value, measuring process energy and resource use, verifying performance and repeating the result at industrial scale are parts of one decision chain'}</p>
+      </div>
+      <figure><Image src="/assets/about-us/about-life-cycle-assessment-v2-no-people.png" alt={lang === 'tr' ? 'Kompozit malzemenin yaşam döngüsü değerlendirme sırası' : 'Composite material sequence for life cycle assessment'} fill sizes="(max-width: 900px) 100vw, 56vw" unoptimized /></figure>
+      <ol />
+    </section>}
+
+    <section className="cpv2-next">
+      <div><p>{lang === 'tr' ? 'KURUMSAL ŞEFFAFLIK' : 'CORPORATE TRANSPARENCY'}</p><h2>{lang === 'tr' ? <>Güvenilir mühendislik<br />açık bilgiyle başlar</> : <>Reliable engineering begins<br />with clear information</>}</h2></div>
+      <nav><Link href="/kurucu">{lang === 'tr' ? 'Kurucuyu tanıyın' : 'Meet the founder'}<span>↗</span></Link><Link href="/kurumsal-bilgiler">{lang === 'tr' ? 'Kurumsal bilgileri inceleyin' : 'View corporate information'}<span>↗</span></Link></nav>
+    </section>
+
+    <PublicFooter lang={lang} />
+  </main>
 }

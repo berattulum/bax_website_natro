@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react'
 type ExpertiseItem = { order: number; title: string; description: string }
 export type Partner = { name: string; caption: string; website: string; logo: string }
 export type Membership = { name: string; category: string; website: string; logo: string; darkCard?: boolean }
+type EcosystemItem = (Partner | Membership) & { caption: string; type: 'partner' | 'network'; alt?: string }
 export type SectionKey = 'about' | 'designNarrative' | 'expertise' | 'manufacturingNarrative' | 'process' | 'principles' | 'solutions' | 'partners' | 'memberships' | 'contact'
 export type SectionLayoutItem = { section: SectionKey; enabled: boolean }
 
@@ -31,19 +32,22 @@ const expertiseAnchors = [
 ] as const
 
 export function ExpertiseSection({ items, label, locale = 'en' }: { items: ExpertiseItem[]; label: string; locale?: 'tr' | 'en' }) {
+  const recycling = locale === 'tr'
+    ? { eyebrow: 'DÖNGÜSEL KOMPOZİT MÜHENDİSLİĞİ', text: 'Geri dönüştürülmüş kompozitleri malzeme seçiminden doğrulanmış üretime taşıyoruz', point: 'Geri dönüştürülmüş kompozit prosesleri' }
+    : { eyebrow: 'CIRCULAR COMPOSITE ENGINEERING', text: 'Moving recycled composites from material selection into verified production', point: 'Recycled composite process routes' }
   return (
     <section id="expertise" className="expertise-section scroll-reveal" aria-label={label}>
       <div className="container">
         <div className="expertise-wrapper">
           {items.map((item, index) => (
-            <a className={`expertise-item${index < 4 ? ' expertise-item-featured' : ''}`} href={`/expertise#${expertiseAnchors[index] || expertiseAnchors[0]}`} style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
+            <a className={`expertise-item${index < 4 ? ' expertise-item-featured' : ''}`} href={`/capabilities#${expertiseAnchors[index] || expertiseAnchors[0]}`} style={{ '--reveal-order': item.order } as CSSProperties} key={item.order}>
               {index === 0 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/solution-civil-aviation.webp" aria-hidden="true"><source src="/assets/solution-civil-loop.mp4" type="video/mp4" /></video>}
               {index === 1 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" poster="/assets/industrialization-robot-start-v1.png" aria-hidden="true"><source src="/assets/industrialization-automation-loop-v1.mp4" type="video/mp4" /></video>}
-              {index === 2 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true"><source src="/assets/material-process-innovation-loop-v1.mp4" type="video/mp4" /></video>}
+              {index === 2 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true"><source src="/assets/material-process-dynamic-close.mp4" type="video/mp4" /></video>}
               {index === 3 && <video className="expertise-item-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true"><source src="/assets/testing-qualification-loop-v1.mp4" type="video/mp4" /></video>}
               <span className="expertise-item-content">
                 <h3 data-i18n={`expertise${item.order}Title`}>{item.title}</h3>
-                <ul className="expertise-item-points" data-i18n={`expertise${item.order}Description`}>{expertiseBullets(item.description, locale).map((point) => <li key={point}>{point}</li>)}</ul>
+                <ul className="expertise-item-points" data-i18n={`expertise${item.order}Description`}>{[...expertiseBullets(item.description, locale), ...(index === 2 ? [recycling.point] : [])].map((point) => <li key={point}>{point}</li>)}</ul>
                 <span className="expertise-item-arrow" aria-hidden="true">↗</span>
               </span>
             </a>
@@ -126,12 +130,39 @@ export function EcosystemPreview({
         selected: 'Selected ecosystem connections',
         partnerType: 'Industrial ecosystem',
       }
-  const selected = [
-    ...partners.slice(0, 6).map((item) => ({ ...item, caption: copy.partnerType, type: 'partner' as const })),
-    ...memberships
-      .filter((item) => item.name.trim().toLocaleLowerCase('en-US') !== 'composites united')
-      .slice(0, 4)
-      .map((item) => ({ ...item, caption: item.category, type: 'network' as const })),
+  const sampe: EcosystemItem = {
+    name: 'SAMPE Europe / Türkiye',
+    caption: 'ADVANCED MATERIALS SOCIETY',
+    website: 'https://sampe.org/',
+    logo: '/logos/memberships/sampe.svg',
+    type: 'network',
+    alt: 'Society for the Advancement of Material and Process Engineering — Türkiye Chapter Presidency by Hakkı Kızılok',
+  }
+  const membershipHighlights = memberships
+    .filter((item) => item.name.trim().toLocaleLowerCase('en-US') !== 'composites united')
+    .map((item) => ({ ...item, caption: item.category, type: 'network' as const }))
+  const normaliseName = (name: string) => name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('en-US')
+  const membership = (name: string) => membershipHighlights.find((item) => normaliseName(item.name) === normaliseName(name))
+  const partner = (name: string, caption: string) => {
+    const item = partners.find((candidate) => normaliseName(candidate.name) === normaliseName(name))
+    return item ? { ...item, caption, type: 'partner' as const } : undefined
+  }
+  const isDefined = <T,>(item: T | undefined): item is T => item !== undefined
+  const orderedMemberships = [membership('TOBB'), membership('İstanbul Ticaret Odası'), membership('TÜBİTAK'), membership('M-ERA.NET')].filter(isDefined)
+  const orderedPartners = [
+    partner('CTC', 'INDUSTRIAL ECOSYSTEM · COMPOSITE TECHNOLOGY CENTER, AN AIRBUS COMPANY'),
+    partner('Toray', 'ADVANCED MATERIALS NETWORK'),
+    partner('Kale', 'INDUSTRIAL TECHNOLOGY PARTNER'),
+  ].filter(isDefined)
+  const pinnedNames = new Set([...orderedMemberships, sampe, ...orderedPartners].map((item) => normaliseName(item.name)))
+  const selected: EcosystemItem[] = [
+    ...orderedMemberships,
+    sampe,
+    ...orderedPartners,
+    ...membershipHighlights.filter((item) => !pinnedNames.has(normaliseName(item.name))),
+    ...partners
+      .filter((item) => !pinnedNames.has(normaliseName(item.name)))
+      .map((item) => ({ ...item, caption: copy.partnerType, type: 'partner' as const })),
   ]
 
   const ecosystemCards = (duplicate = false) => selected.map((item) => (
@@ -145,7 +176,7 @@ export function EcosystemPreview({
       key={`${duplicate ? 'duplicate' : 'primary'}-${item.type}-${item.name}`}
     >
       <span className="ecosystem-preview-card-logo">
-        {item.logo ? <img src={item.logo} alt="" loading="lazy" decoding="async" /> : <strong>{item.name}</strong>}
+        {item.logo ? <img src={item.logo} alt={item.alt || `${item.name} — ${item.caption}`} loading="lazy" decoding="async" /> : <strong aria-label={item.alt || `${item.name} — ${item.caption}`}>{item.name}</strong>}
       </span>
       <span className="ecosystem-preview-card-meta"><small>{item.caption}</small><strong>{item.name}</strong></span>
     </a>

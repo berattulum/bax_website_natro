@@ -58,7 +58,7 @@ export function CorporateInformationClient() {
       <CorporateHeader lang={lang} active="records" onLangChange={setLang} />
 
       <section className={styles.hero}>
-        <div><h1>{t.title}</h1></div>
+        <div><p className={styles.heroLead}>{t.eyebrow}</p><h1>{t.title}</h1></div>
         <div className={styles.heroIntro}><p>{t.intro}</p></div>
       </section>
 

@@ -15,4 +15,5 @@ tmp
 *.db-shm
 *.db-wal
 *.tsbuildinfo
+*.log
 public/aircraft-*-preview.html

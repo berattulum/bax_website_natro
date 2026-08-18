@@ -145,6 +145,18 @@ async function auditMedia() {
   }
 }
 
+async function inventoryMedia() {
+  const files = await listFiles(sourceDirectory)
+  const hash = verifyExpectedInventory(files, 'Source')
+  const bytes = files.reduce((total, file) => total + file.size, 0)
+  console.log(`Media source: ${sourceDirectory}`)
+  console.log(`Media files: ${files.length}`)
+  console.log(`Media bytes: ${bytes}`)
+  console.log(`Media inventory SHA-256: ${hash}`)
+  console.log('Media inventory passed.')
+}
+
 if (command === 'import') await importMedia()
 else if (command === 'audit') await auditMedia()
-else throw new Error('Usage: media-volume.mjs <import|audit> [--apply]')
+else if (command === 'inventory') await inventoryMedia()
+else throw new Error('Usage: media-volume.mjs <import|audit|inventory> [--apply]')

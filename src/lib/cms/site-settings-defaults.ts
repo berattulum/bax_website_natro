@@ -18,7 +18,7 @@ export type SiteUISettings = {
 export const DEFAULT_SITE_SETTINGS: Record<'tr' | 'en', SiteUISettings> = {
   tr: {
     navigation: {
-      home: 'Ana Sayfa', about: 'Hakkımızda', expertise: 'Uzmanlık', references: 'Referanslar', memberships: 'Üyelikler', contact: 'İletişim', contactUs: 'BİZE ULAŞIN',
+      home: 'Ana Sayfa', about: 'Hakkımızda', expertise: 'Yetkinlikler', references: 'Referanslar', memberships: 'Üyelikler', contact: 'İletişim', contactUs: 'BİZE ULAŞIN',
       mainNavigationLabel: 'Ana gezinme', mobileMenuLabel: 'Menü', languageLabel: 'Dil seçimi',
     },
     hero: {
@@ -64,7 +64,7 @@ export const DEFAULT_SITE_SETTINGS: Record<'tr' | 'en', SiteUISettings> = {
   },
   en: {
     navigation: {
-      home: 'Home', about: 'About Us', expertise: 'Expertise', references: 'References', memberships: 'Memberships', contact: 'Contact', contactUs: 'CONTACT US',
+      home: 'Home', about: 'Corporate', expertise: 'Capabilities', references: 'References', memberships: 'Memberships', contact: 'Contact', contactUs: 'CONTACT US',
       mainNavigationLabel: 'Main navigation', mobileMenuLabel: 'Menu', languageLabel: 'Language',
     },
     hero: {
@@ -84,8 +84,8 @@ export const DEFAULT_SITE_SETTINGS: Record<'tr' | 'en', SiteUISettings> = {
         ['Concept', 'Definition of requirements and performance targets'],
         ['Design & Analysis', 'Development of material, geometry and structural performance'],
         ['Test & Verification', 'Measurement and verification of product and process performance'],
-        ['Life Cycle Assessment', 'Assessment of environmental impacts across material process use and end of life'],
-        ['Industrialization', 'A repeatable, efficient and scalable production system'],
+        ['Life Cycle Assessment & Sustainability', 'Quantifying carbon footprint reductions, evaluating circular material process flows, and ensuring compliance with global environmental regulations.'],
+        ['Circular Industrialization', 'Deploying high-rate, repeatable production systems optimized for advanced thermoplastic recycling and zero-waste manufacturing pathways.'],
       ],
     },
     sections: {

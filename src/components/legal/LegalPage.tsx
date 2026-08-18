@@ -1,7 +1,7 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { PublicFooter } from '@/components/PublicFooter'
+import { CorporateHeader } from '@/components/corporate/CorporateHeader'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
 
 type LegalPageProps = {
@@ -18,30 +18,13 @@ type LegalPageProps = {
   children: ReactNode
 }
 
-export function LegalPage({ title, description, pdfHref, asideTitle = 'Belge erişimi', asideDescription = 'İçeriği bu sayfadan okuyabilir veya kaynak PDF belgesini indirebilirsiniz.', externalHref, externalLabel, metaTitle = 'Mevcut şirket belgesi', metaDescription = 'Nihai yayından önce hukuk onayı planlanmaktadır.', children }: LegalPageProps) {
+export function LegalPage({ eyebrow, title, description, pdfHref, asideTitle = 'Belge erişimi', asideDescription = 'İçeriği bu sayfadan okuyabilir veya kaynak PDF belgesini indirebilirsiniz.', externalHref, externalLabel, metaTitle = 'Mevcut şirket belgesi', metaDescription = 'Nihai yayından önce hukuk onayı planlanmaktadır.', children }: LegalPageProps) {
   return (
     <main className={styles.page}>
-      <header className={styles.legalHeader}>
-        <Link href="/#home" className={styles.legalBrand} aria-label="BaX Composites ana sayfa">
-          <Image
-            src="/images/bax-composites-logo-original.png"
-            alt="BaX Composites"
-            width={1526}
-            height={781}
-            priority
-          />
-        </Link>
-        <nav className={styles.legalNav} aria-label="Yasal belgeler">
-          <Link href="/kurumsal-bilgiler">Kurumsal Bilgiler</Link>
-          <Link href="/kvkk">KVKK Merkezi</Link>
-          <Link href="/cerez-politikasi">Çerez Politikası</Link>
-          <Link href="/kvkk/basvuru">Başvuru</Link>
-        </nav>
-        <Link href="/#contact" className={styles.homeLink}>Ana siteye dön <span aria-hidden="true">↗</span></Link>
-      </header>
-
+      <CorporateHeader lang="en" active="records" />
       <section className={styles.legalHero}>
         <div>
+          <span className={styles.legalEyebrow}>{eyebrow}</span>
           <h1>{title}</h1>
           <p>{description}</p>
         </div>

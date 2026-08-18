@@ -4,6 +4,7 @@ import path from 'node:path'
 const envArgument = process.argv.find((argument) => argument.startsWith('--env='))
 const envPath = path.resolve(envArgument?.slice('--env='.length) || '.env.production')
 const launch = process.argv.includes('--launch')
+const template = process.argv.includes('--template')
 
 if (!existsSync(envPath)) throw new Error(`Environment file does not exist: ${envPath}`)
 
@@ -28,6 +29,38 @@ const secret = (name, minimum = 32) => {
   if (value && value.length < minimum) errors.push(`${name} must contain at least ${minimum} characters.`)
   if (/replace-with|example|changeme|password/i.test(value)) errors.push(`${name} still contains a placeholder value.`)
   return value
+}
+
+if (template) {
+  const expectedKeys = [
+    'COMPOSE_PROJECT_NAME', 'APP_PORT', 'SITE_URL', 'ALLOW_INDEXING', 'DOMAIN', 'WWW_DOMAIN',
+    'SERVER_NAMES', 'CERTBOT_EMAIL', 'HTTP_PORT', 'HTTPS_PORT', 'MEDIA_EXPECTED_FILES',
+    'MEDIA_EXPECTED_SHA256', 'BACKUP_RESTIC_PASSWORD', 'BACKUP_REPOSITORY_PATH', 'BACKUP_HOST',
+    'POSTGRES_DB', 'POSTGRES_USER', 'POSTGRES_PASSWORD', 'PAYLOAD_SECRET', 'REVALIDATION_SECRET',
+    'PREVIEW_SECRET', 'NEXT_PUBLIC_TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY',
+    'TURNSTILE_ALLOWED_HOSTS', 'UPSTASH_REDIS_REST_URL', 'UPSTASH_REDIS_REST_TOKEN',
+  ]
+  for (const key of expectedKeys) {
+    if (!values.has(key)) errors.push(`${key} is missing from the production template.`)
+  }
+  if (values.get('COMPOSE_PROJECT_NAME') !== 'bax-production') errors.push('COMPOSE_PROJECT_NAME must be bax-production.')
+  if (values.get('HTTP_PORT') !== '80') errors.push('HTTP_PORT must default to 80.')
+  if (values.get('HTTPS_PORT') !== '443') errors.push('HTTPS_PORT must default to 443.')
+  if (values.get('ALLOW_INDEXING') !== 'false') errors.push('The template must keep indexing disabled.')
+  if (values.get('MEDIA_EXPECTED_FILES') !== '52') errors.push('The template media count must be 52.')
+  if (values.get('MEDIA_EXPECTED_SHA256') !== 'fc0a97a11be773d5affbe835665a4af85b39cbb93288423c0394480111a76e7d') {
+    errors.push('The template media inventory hash is out of date.')
+  }
+  console.log('Production preflight mode: template')
+  console.log(`Environment keys inspected: ${values.size}`)
+  if (errors.length) {
+    for (const error of errors) console.error(`ERROR: ${error}`)
+    console.error(`Production template preflight failed: ${errors.length} error(s).`)
+    process.exitCode = 1
+  } else {
+    console.log('Production template preflight passed: 0 errors.')
+  }
+  process.exit()
 }
 
 const siteURLValue = required('SITE_URL')

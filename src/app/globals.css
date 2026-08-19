@@ -1171,6 +1171,9 @@ body.modal-open { overflow: hidden; }
 .footer-logo {
     display: inline-flex;
     align-items: center;
+    margin: -14px -18px;
+    padding: 14px 18px;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, .13) 0%, rgba(185, 215, 228, .055) 48%, transparent 74%);
 }
 .footer-logo span { display: block; margin-top: 8px; font-size: .54rem; font-weight: 400; letter-spacing: .32em; }
 .footer-brand p, .footer-grid > div > p { margin-top: 22px; color: var(--public-footer-ink); font-size: .85rem; line-height: 1.7; }
@@ -13915,42 +13918,6 @@ html[lang="en"] .ci-hero h1 {
 .brand-logo-header {
   width: 104px;
   max-height: none;
-}
-
-.footer-logo {
-  min-width: 194px;
-  min-height: 104px;
-  justify-content: center;
-  padding: 13px 16px;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 14% 0%, rgba(92, 205, 222, .18), transparent 52%),
-    linear-gradient(145deg, rgba(255, 255, 255, .76), rgba(222, 234, 234, .5));
-  border: 1px solid rgba(216, 240, 243, .26);
-  border-radius: 12px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .62),
-    0 16px 38px rgba(1, 12, 17, .24);
-  backdrop-filter: blur(18px) saturate(1.08);
-  -webkit-backdrop-filter: blur(18px) saturate(1.08);
-}
-
-.brand-logo-footer {
-  width: 160px;
-}
-
-/* Footer keeps the supplied BaX artwork unframed. */
-.footer-logo {
-  min-width: 0;
-  min-height: 0;
-  padding: 0;
-  overflow: visible;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
 }
 
 .corporate-brand {

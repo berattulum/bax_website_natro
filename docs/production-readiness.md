@@ -1,5 +1,7 @@
 # Production readiness kapısı
 
+> **Legacy Natro gate.** For Vercel + Neon + R2 see [`vercel-deploy.md`](./vercel-deploy.md).
+
 Sunucu alınmadan önce hazırlanabilen paketin teslim kontrolü için önce `pnpm release:check` çalıştırılır. Natro sunucusuna özgü son adımlar `natro-handoff.md` belgesinde listelenmiştir.
 
 Gerçek Natro sunucusunda Docker build veya veri aktarımı başlatılmadan önce `.env.production` otomatik olarak denetlenmelidir. Araç secret değerlerini ekrana yazmaz.

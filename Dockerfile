@@ -19,6 +19,8 @@ ENV NODE_ENV=production
 ENV PAYLOAD_SECRET=build-time-placeholder-not-used-at-runtime
 ENV DATABASE_PROVIDER=sqlite
 ENV DATABASE_URL=file:/tmp/bax-build.db
+ENV OUTPUT_STANDALONE=1
+ENV DOCKER_BUILD=1
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 RUN pnpm build

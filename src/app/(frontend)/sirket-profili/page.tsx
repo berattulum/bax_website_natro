@@ -1,9 +1,17 @@
 import { connection } from 'next/server'
 import { CompanyProfileClient } from '@/components/corporate/CompanyProfileClient'
-import { getHomeData } from '@/lib/cms/get-home-data'
+import { companyProfileCopy } from '@/lib/cms/company-profile-defaults'
+import { getManagedGlobal } from '@/lib/cms/get-managed-pages'
 
 export default async function CompanyProfilePage() {
   await connection()
-  const { tr, en } = await getHomeData()
-  return <CompanyProfileClient locales={{ tr, en }} />
+  const page = await getManagedGlobal('company-profile-page').catch(() => null)
+  return (
+    <CompanyProfileClient
+      content={{
+        tr: (page?.contentTr || companyProfileCopy.tr) as typeof companyProfileCopy.tr,
+        en: (page?.contentEn || companyProfileCopy.en) as typeof companyProfileCopy.en,
+      }}
+    />
+  )
 }

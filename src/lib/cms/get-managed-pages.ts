@@ -1,11 +1,25 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { CorporateInformationPage, FounderPage, SustainabilityPage } from '@/payload-types'
 
-export function getManagedGlobal(slug: 'founder-page'): Promise<FounderPage>
-export function getManagedGlobal(slug: 'corporate-information-page'): Promise<CorporateInformationPage>
-export function getManagedGlobal(slug: 'sustainability-page'): Promise<SustainabilityPage>
-export async function getManagedGlobal(slug: 'founder-page' | 'corporate-information-page' | 'sustainability-page') {
+export type ManagedPageDocument = {
+  contentTr?: unknown
+  contentEn?: unknown
+  records?: unknown
+  offices?: unknown
+  _status?: 'draft' | 'published' | null
+}
+
+export type ManagedSlug =
+  | 'founder-page'
+  | 'corporate-information-page'
+  | 'sustainability-page'
+  | 'company-profile-page'
+  | 'home-page'
+  | 'capabilities-page'
+  | 'ecosystem-page'
+  | 'contact-page'
+
+export async function getManagedGlobal(slug: ManagedSlug): Promise<ManagedPageDocument> {
   const payload = await getPayload({ config })
-  return payload.findGlobal({ slug, depth: 1, draft: false })
+  return payload.findGlobal({ slug, depth: 1, draft: false }) as Promise<ManagedPageDocument>
 }

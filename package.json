@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:docker": "OUTPUT_STANDALONE=1 next build",
+    "vercel-build": "payload migrate && next build",
     "db:up": "docker compose --env-file .env.postgres -f compose.local.yml up -d --wait postgres",
     "db:down": "docker compose --env-file .env.postgres -f compose.local.yml down",
     "db:logs": "docker compose --env-file .env.postgres -f compose.local.yml logs -f postgres",
@@ -16,7 +18,9 @@
     "prod:config": "docker compose --env-file .env.production -f compose.production.yml config",
     "prod:template:check": "node scripts/production-preflight.mjs --env=.env.production.example --template",
     "media:inventory": "node --env-file=.env.production.example scripts/media-volume.mjs inventory",
+    "media:r2:inventory": "node scripts/media-r2-inventory.mjs",
     "release:check": "pnpm prod:template:check && pnpm media:inventory && pnpm db:import:check",
+    "vercel:check": "pnpm media:r2:inventory && pnpm check:managed-pages",
     "prod:preflight": "node scripts/production-preflight.mjs --env=.env.production",
     "prod:preflight:launch": "node scripts/production-preflight.mjs --env=.env.production --launch",
     "prod:build": "docker compose --env-file .env.production -f compose.production.yml build",

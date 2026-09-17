@@ -4,6 +4,7 @@ import * as migration_20260727_105016_content_versioning_drafts from './20260727
 import * as migration_20260727_111015_publish_site_settings from './20260727_111015_publish_site_settings';
 import * as migration_20260727_234500_add_autosave_to_version_tables from './20260727_234500_add_autosave_to_version_tables';
 import * as migration_20260824_064045 from './20260824_064045';
+import * as migration_20260917_150000_vercel_managed_pages from './20260917_150000_vercel_managed_pages';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20260824_064045.up,
     down: migration_20260824_064045.down,
-    name: '20260824_064045'
+    name: '20260824_064045',
   },
-];
+  {
+    up: migration_20260917_150000_vercel_managed_pages.up,
+    down: migration_20260917_150000_vercel_managed_pages.down,
+    name: '20260917_150000_vercel_managed_pages',
+  },
+]

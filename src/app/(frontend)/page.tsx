@@ -4,19 +4,27 @@ import { draftMode } from 'next/headers'
 import DraftModeControls from '@/components/DraftModeControls'
 import SiteClient from '@/components/SiteClient'
 import { getHomeData } from '@/lib/cms/get-home-data'
+import { getManagedGlobal } from '@/lib/cms/get-managed-pages'
+import { homeNarrativesCopy } from '@/lib/cms/home-narratives-defaults'
 
 export default async function HomePage() {
-  // Railway's private Postgres hostname only resolves inside a running service,
-  // not in the isolated build environment. Defer the first CMS read to request
-  // time; getHomeData still persists the result in Next's tagged data cache.
   await connection()
 
   const { isEnabled: isDraftMode } = await draftMode()
-  const { tr, en } = await getHomeData({ includeDrafts: isDraftMode })
+  const [{ tr, en }, narrativesPage] = await Promise.all([
+    getHomeData({ includeDrafts: isDraftMode }),
+    getManagedGlobal('home-page').catch(() => null),
+  ])
 
   return (
     <>
-      <SiteClient locales={{ tr, en }} />
+      <SiteClient
+        locales={{ tr, en }}
+        narratives={{
+          tr: (narrativesPage?.contentTr || homeNarrativesCopy.tr) as typeof homeNarrativesCopy.tr,
+          en: (narrativesPage?.contentEn || homeNarrativesCopy.en) as typeof homeNarrativesCopy.en,
+        }}
+      />
       {isDraftMode && <DraftModeControls />}
     </>
   )

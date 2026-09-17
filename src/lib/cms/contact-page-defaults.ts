@@ -1,0 +1,81 @@
+export type ContactPageCopy = {
+  eyebrow: string
+  title: string
+  intro: string
+  formTitle: string
+  formIntro: string
+  requestType: string
+  requestTypes: string[]
+  name: string
+  company: string
+  email: string
+  phone: string
+  message: string
+  messagePlaceholder: string
+  consent: string
+  privacy: string
+  send: string
+  sending: string
+  received: string
+  failed: string
+  direct: string
+  offices: string
+  headOffice: string
+  branchOffice: string
+  back: string
+}
+
+export const contactPageCopy: Record<'tr' | 'en', ContactPageCopy> = {
+  tr: {
+    eyebrow: 'İLETİŞİM / PROJE TALEBİ',
+    title: 'Bir sonraki yapısal çözümü birlikte geliştirelim.',
+    intro: 'Tasarım, analiz, doğrulama veya seri üretim ihtiyacınızı paylaşın. Talebinizi doğru mühendislik ekibine yönlendirelim.',
+    formTitle: 'Projenizi bize anlatın',
+    formIntro: 'Kısa bilgiler ilk teknik değerlendirme için yeterlidir.',
+    requestType: 'Talep türü',
+    requestTypes: ['Proje geliştirme', 'İş ortaklığı', 'Tedarik ve üretim', 'Genel iletişim'],
+    name: 'Ad soyad',
+    company: 'Şirket / kurum',
+    email: 'Kurumsal e-posta',
+    phone: 'Telefon',
+    message: 'İhtiyacınız veya proje kapsamı',
+    messagePlaceholder: 'Sektör, parça veya sistem, proje aşaması, hedeflenen performans ve zaman planını kısaca paylaşabilirsiniz.',
+    consent: 'İletişim amacıyla bilgilerimin işlenmesini kabul ediyorum.',
+    privacy: 'KVKK aydınlatma metni',
+    send: 'TALEBİ GÖNDER',
+    sending: 'GÖNDERİLİYOR…',
+    received: 'Talebiniz alındı. Ekibimiz sizinle iletişime geçecek.',
+    failed: 'Mesaj gönderilemedi. Lütfen tekrar deneyin.',
+    direct: 'Doğrudan iletişim',
+    offices: 'Ofislerimiz',
+    headOffice: 'Genel merkez',
+    branchOffice: 'Şube',
+    back: 'Ana sayfaya dön',
+  },
+  en: {
+    eyebrow: 'CONTACT / PROJECT ENQUIRY',
+    title: 'Let’s develop the next structural solution together.',
+    intro: 'Share your design, analysis, validation or serial manufacturing needs. We will route your enquiry to the right engineering team.',
+    formTitle: 'Tell us about your project',
+    formIntro: 'A short brief is enough for the initial technical review.',
+    requestType: 'Enquiry type',
+    requestTypes: ['Project development', 'Partnership', 'Supply and manufacturing', 'General enquiry'],
+    name: 'Full name',
+    company: 'Company / organization',
+    email: 'Business email',
+    phone: 'Phone',
+    message: 'Your need or project scope',
+    messagePlaceholder: 'You can briefly share the sector, part or system, project stage, performance targets and expected timeline.',
+    consent: 'I consent to the processing of my information for communication purposes.',
+    privacy: 'Privacy notice',
+    send: 'SEND ENQUIRY',
+    sending: 'SENDING…',
+    received: 'Your enquiry has been received. Our team will contact you.',
+    failed: 'Your message could not be sent. Please try again.',
+    direct: 'Direct contact',
+    offices: 'Our offices',
+    headOffice: 'Head office',
+    branchOffice: 'Branch office',
+    back: 'Return to homepage',
+  },
+}

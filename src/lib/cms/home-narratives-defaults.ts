@@ -1,0 +1,115 @@
+export type HomeNarratives = {
+  loco3Process: Array<{ stage: string; label: string; image: string }>
+  capabilityTransition: Array<{ index: string; stage: string; title: string; text: string; image: string }>
+  sectorApplications: Array<{ index: string; sector: string; title: string; text: string; meta: string; image: string }>
+  verificationEvidence: Array<{ code: string; type: string; title: string; body: string; facts: string[]; source: string; href: string }>
+  engineeringCards: Array<{ index: string; title: string; text: string; meta: string; href: string; image: string }>
+  sliderControl: { pause: string; resume: string; region: string }
+}
+
+export const homeNarrativesCopy: Record<'tr' | 'en', HomeNarratives> = {
+  tr: {
+    loco3Process: [
+    { stage: 'GERİ KAZAN', label: 'Karbon naylon üretim atığının yüksek değerli yeniden kullanım için hazırlanması', image: '/assets/loco3-process/01-carbon-nylon-scrap-preparation-v1.png' },
+    { stage: 'YENİDEN İŞLE', label: 'Uzun lif değerinin düşük kesmeli prosesle korunması', image: '/assets/loco3-process/02-low-shear-extrusion-sheet-v1.png' },
+    { stage: 'SANAYİLEŞTİR', label: 'Geri dönüştürülmüş plakalardan doğrulanmış otomotiv parçaları üretilmesi', image: '/assets/loco3-process/03-automated-compression-moulding-v1.png' },
+  ],
+    capabilityTransition: [
+    { index: '01', stage: 'TASARIM VE ANALİZ', title: 'Yapısal performanstan üretilebilir geometriye', text: 'Malzeme davranışını, yük durumlarını ve parça mimarisini fiziksel üretim kararlarına dönüştürüyoruz', image: '/assets/capability-transition/01-structural-design-analysis.png' },
+    { index: '02', stage: 'PROSES GELİŞTİRME', title: 'Kontrollü RTM proseslerinden tekrarlanabilir kaliteye', text: 'Karmaşık kompozit yapılar için kalıp, preform ve enjeksiyon parametrelerini birlikte geliştiriyoruz', image: '/assets/capability-transition/02-industrial-rtm-process.png' },
+    { index: '03', stage: 'SANAYİLEŞTİRME', title: 'Esnek parçalardan kararlı robotik üretime', text: 'Fikstürleme, takım ve otomasyon kararlarını ölçeklenebilir üretim hücrelerine bağlıyoruz', image: '/assets/capability-transition/03-robotic-flexible-composite-machining.png' },
+    { index: '04', stage: 'TEST VE DOĞRULAMA', title: 'Ölçülebilir performanstan üretim onayına', text: 'Yapısal test, optik ölçüm ve tahribatsız muayeneyi izlenebilir doğrulama çıktılarında birleştiriyoruz', image: '/assets/capability-transition/04-structural-test-validation.png' },
+  ],
+    sectorApplications: [
+    { index: '01', sector: 'HAVACILIK', title: 'Karmaşık yapılar için hafif ve doğrulanabilir kompozit çözümler', text: 'Yapısal tasarım, RTM proses geliştirme, hassas fikstürleme ve doğrulama yaklaşımını havacılık yapılarının üretim gereksinimleriyle birleştiriyoruz', meta: 'AEROSTRUCTURES · RTM · VERIFICATION', image: '/assets/sector-applications/01-aerospace-composite-structures.png' },
+    { index: '02', sector: 'ELEKTRİKLİ MOBİLİTE', title: 'Batarya sistemleri çevresinde hafiflik ve yapısal koruma', text: 'Kompozit malzeme ve proses bilgisini elektrikli araçların batarya muhafazaları, alt gövde bileşenleri ve hafif yapı ihtiyaçlarına taşıyoruz', meta: 'BATTERY ENCLOSURES · LIGHTWEIGHTING · SAFETY', image: '/assets/sector-applications/02-electric-mobility-battery-enclosure.png' },
+    { index: '03', sector: 'OTOMOTİV', title: 'Geri dönüştürülmüş malzemeden yüksek hacimli üretime', text: 'Uzun lif değerini koruyan termoplastik yarı mamulleri otomasyon ve kontrollü kalıplama ile ölçeklenebilir otomotiv bileşenlerine dönüştürüyoruz', meta: 'RECYCLED TPC · AUTOMATION · SERIAL PRODUCTION', image: '/assets/sector-applications/03-high-volume-automotive-production.png' },
+    { index: '04', sector: 'TİCARİ ARAÇLAR', title: 'Büyük modüllerde malzeme seçimi ve araç entegrasyonu', text: 'Hafif kompozit modülleri üretilebilirlik, bağlantı arayüzleri ve ölçüsel doğrulama kararlarıyla ticari mobilite mimarilerine bağlıyoruz', meta: 'LARGE STRUCTURES · INTEGRATION · METROLOGY', image: '/assets/sector-applications/04-commercial-vehicle-lightweighting.png' },
+  ],
+    verificationEvidence: [
+    { code: '01', type: 'RESMÎ PROGRAM KAYDI', title: 'MachFlexComp', body: 'BaX koordinatörlüğünde Türkiye, İspanya ve Belçika’dan altı kuruluşu bir araya getiren M-ERA.NET yüksek performanslı kompozitler projesi', facts: ['M-ERA.NET Call 2022', 'TRL 3–6', '€693.146 fonlama'], source: 'M-ERA.NET resmî kaydı', href: 'https://www.m-era.net/materipedia/2022/machflexcomp' },
+    { code: '02', type: 'FONLANAN ULUSLARARASI AR-GE', title: 'LOCO3', body: 'BaX Kompozit, SPIRAL RTC ve Hollanda uygulamalı araştırma ekosistemini düşük CO₂’li kompozit bileşenler için buluşturan Eurostars programı', facts: ['Eurostars 3 · Call 6', 'Project 5826', 'TÜBİTAK 9249509'], source: 'Eureka katılımcı kaydı', href: 'https://www.eurekanetwork.org/wp-content/uploads/2026/01/participants-in-eurostars-3-projects.pdf' },
+    { code: '03', type: 'AKADEMİK DOĞRULAMA', title: 'Malzemeden ölçülebilir veriye', body: 'Geri dönüştürülmüş kısa karbon elyaf matların geçirgenlik ve lif yönelimi çalışmaları Koç Üniversitesi Kompozit Malzemeler Üretim Laboratuvarı ve Sabancı Üniversitesi SUNUM altyapısıyla yürütüldü', facts: ['Koç University', 'Sabancı University SUNUM', 'AeroMat 2026'], source: 'Hakkı Kızılok araştırma paylaşımı', href: 'https://www.linkedin.com/in/hakk%C4%B1-k%C4%B1z%C4%B1lok-a98321a0/' },
+    { code: '04', type: 'BAĞIMSIZ PROJE DOĞRULAMASI', title: 'Endüstriyel ölçeğe geçiş', body: 'TPAC, LOCO3 kapsamında BaX Composites ve SPIRAL RTC ile karbon-nylon atıkların geri dönüştürülebilirliğini ve ölçeklenebilir üretim zincirini birlikte araştırdığını yayımladı', facts: ['TPAC', 'SPIRAL RTC', 'Otomotiv uygulaması'], source: 'TPAC araştırma duyurusu', href: 'https://www.linkedin.com/posts/thermoplasticcomposites_%F0%9D%90%91%F0%9D%90%9E%F0%9D%90%AC%F0%9D%90%9E%F0%9D%90%9A%F0%9D%90%AB%F0%9D%90%9C%F0%9D%90%A1-%F0%9D%90%AC%F0%9D%90%A9%F0%9D%90%A8%F0%9D%90%AD%F0%9D%90%A5%F0%9D%90%A2%F0%9D%90%A0%F0%9D%90%A1%F0%9D%90%AD-%F0%9D%90%8B%F0%9D%90%8E%F0%9D%90%82%F0%9D%90%8E3-activity-7450816170095611905-QEGN' },
+  ],
+    engineeringCards: [
+    {
+      index: '01',
+      title: 'Mühendislik ve sanal doğrulama',
+      text: 'Kompozit yapıları üretim kararı alınmadan önce malzeme, geometri ve yük durumları üzerinden doğruluyoruz',
+      meta: 'LAMİNE TASARIMI · FEA · OPTİMİZASYON',
+      href: '/capabilities#composite-design',
+      image: '/assets/home-capabilities/01-engineering-virtual-verification.png',
+    },
+    {
+      index: '02',
+      title: 'İleri üretim prosesleri',
+      text: 'RTM ve termoplastik proseslerini tekrarlanabilir kalite, düşük fire ve ölçeklenebilir üretim için geliştiriyoruz',
+      meta: 'RTM · TERMOPLASTİK · PROTOTİPLEME',
+      href: '/capabilities#material-process-innovation',
+      image: '/assets/home-capabilities/02-advanced-manufacturing-process.png',
+    },
+    {
+      index: '03',
+      title: 'Sanayileşme ve doğrulama',
+      text: 'Proses penceresini test, otomasyon ve kalite gereksinimleriyle birleştirerek seri üretime hazır hale getiriyoruz',
+      meta: 'OTOMASYON · NDT · SERTİFİKASYON',
+      href: '/capabilities#industrialization-automation',
+      image: '/assets/home-capabilities/03-industrialization-validation.png',
+    },
+  ],
+    sliderControl: { pause: 'Sliderı duraklat', resume: 'Sliderı devam ettir', region: 'BaX Composites öne çıkan mühendislik alanları' },
+  },
+  en: {
+    loco3Process: [
+    { stage: 'RECOVER', label: 'Carbon nylon production waste prepared for high value reuse', image: '/assets/loco3-process/01-carbon-nylon-scrap-preparation-v1.png' },
+    { stage: 'REPROCESS', label: 'Long fiber value preserved through low shear processing', image: '/assets/loco3-process/02-low-shear-extrusion-sheet-v1.png' },
+    { stage: 'INDUSTRIALIZE', label: 'Recycled composite sheets converted into verified automotive components', image: '/assets/loco3-process/03-automated-compression-moulding-v1.png' },
+  ],
+    capabilityTransition: [
+    { index: '01', stage: 'DESIGN & ANALYSIS', title: 'From structural performance to manufacturable geometry', text: 'We translate material behaviour, load cases and part architecture into physical production decisions', image: '/assets/capability-transition/01-structural-design-analysis.png' },
+    { index: '02', stage: 'PROCESS DEVELOPMENT', title: 'From controlled RTM processes to repeatable quality', text: 'We develop tooling, preforms and injection parameters together for complex composite structures', image: '/assets/capability-transition/02-industrial-rtm-process.png' },
+    { index: '03', stage: 'INDUSTRIALIZATION', title: 'From flexible components to stable robotic production', text: 'We connect fixturing, tooling and automation decisions in scalable manufacturing cells', image: '/assets/capability-transition/03-robotic-flexible-composite-machining.png' },
+    { index: '04', stage: 'TEST & VALIDATION', title: 'From measurable performance to production approval', text: 'We combine structural testing, optical metrology and non-destructive inspection in traceable verification outputs', image: '/assets/capability-transition/04-structural-test-validation.png' },
+  ],
+    sectorApplications: [
+    { index: '01', sector: 'AEROSPACE', title: 'Lightweight and verifiable composite solutions for complex structures', text: 'We connect structural design, RTM process development, precision fixturing and verification with the production requirements of aerospace structures', meta: 'AEROSTRUCTURES · RTM · VERIFICATION', image: '/assets/sector-applications/01-aerospace-composite-structures.png' },
+    { index: '02', sector: 'ELECTRIC MOBILITY', title: 'Lightweight structures and protection around battery systems', text: 'We apply composite material and process knowledge to battery enclosures, underbody components and lightweight architectures for electric vehicles', meta: 'BATTERY ENCLOSURES · LIGHTWEIGHTING · SAFETY', image: '/assets/sector-applications/02-electric-mobility-battery-enclosure.png' },
+    { index: '03', sector: 'AUTOMOTIVE', title: 'From recycled material to high-volume manufacturing', text: 'We convert thermoplastic semi-fabricates that preserve long-fibre value into scalable automotive components through automation and controlled moulding', meta: 'RECYCLED TPC · AUTOMATION · SERIAL PRODUCTION', image: '/assets/sector-applications/03-high-volume-automotive-production.png' },
+    { index: '04', sector: 'COMMERCIAL VEHICLES', title: 'Material selection and vehicle integration for large modules', text: 'We connect lightweight composite modules with manufacturability, interface design and dimensional verification decisions for commercial mobility architectures', meta: 'LARGE STRUCTURES · INTEGRATION · METROLOGY', image: '/assets/sector-applications/04-commercial-vehicle-lightweighting.png' },
+  ],
+    verificationEvidence: [
+    { code: '01', type: 'OFFICIAL PROGRAMME RECORD', title: 'MachFlexComp', body: 'An M-ERA.NET high-performance composites project coordinated by BaX across six organizations in Türkiye, Spain and Belgium', facts: ['M-ERA.NET Call 2022', 'TRL 3–6', '€693,146 funding'], source: 'Official M-ERA.NET record', href: 'https://www.m-era.net/materipedia/2022/machflexcomp' },
+    { code: '02', type: 'FUNDED INTERNATIONAL R&D', title: 'LOCO3', body: 'A Eurostars programme connecting BaX Kompozit, SPIRAL RTC and the Dutch applied-research ecosystem around low-CO₂ composite components', facts: ['Eurostars 3 · Call 6', 'Project 5826', 'TÜBİTAK 9249509'], source: 'Eureka participant record', href: 'https://www.eurekanetwork.org/wp-content/uploads/2026/01/participants-in-eurostars-3-projects.pdf' },
+    { code: '03', type: 'ACADEMIC VERIFICATION', title: 'From material to measurable evidence', body: 'Permeability and fibre-orientation research on recycled short-carbon-fibre mats was conducted with Koç University Composite Materials Manufacturing Laboratory and Sabancı University SUNUM infrastructure', facts: ['Koç University', 'Sabancı University SUNUM', 'AeroMat 2026'], source: 'Hakkı Kızılok research post', href: 'https://www.linkedin.com/in/hakk%C4%B1-k%C4%B1z%C4%B1lok-a98321a0/' },
+    { code: '04', type: 'INDEPENDENT PROJECT CONFIRMATION', title: 'Moving research toward industrial scale', body: 'TPAC publicly confirms joint work with BaX Composites and SPIRAL RTC on carbon-nylon waste recyclability and a scalable manufacturing chain within LOCO3', facts: ['TPAC', 'SPIRAL RTC', 'Automotive application'], source: 'TPAC research announcement', href: 'https://www.linkedin.com/posts/thermoplasticcomposites_%F0%9D%90%91%F0%9D%90%9E%F0%9D%90%AC%F0%9D%90%9E%F0%9D%90%9A%F0%9D%90%AB%F0%9D%90%9C%F0%9D%90%A1-%F0%9D%90%AC%F0%9D%90%A9%F0%9D%90%A8%F0%9D%90%AD%F0%9D%90%A5%F0%9D%90%A2%F0%9D%90%A0%F0%9D%90%A1%F0%9D%90%AD-%F0%9D%90%8B%F0%9D%90%8E%F0%9D%90%82%F0%9D%90%8E3-activity-7450816170095611905-QEGN' },
+  ],
+    engineeringCards: [
+    {
+      index: '01',
+      title: 'Engineering and virtual verification',
+      text: 'We verify composite structures across material, geometry and load cases before production decisions are released',
+      meta: 'LAMINATE DESIGN · FEA · OPTIMIZATION',
+      href: '/capabilities#composite-design',
+      image: '/assets/home-capabilities/01-engineering-virtual-verification.png',
+    },
+    {
+      index: '02',
+      title: 'Advanced manufacturing processes',
+      text: 'We develop RTM and thermoplastic processes for repeatable quality, lower waste and scalable manufacturing',
+      meta: 'RTM · THERMOPLASTICS · PROTOTYPING',
+      href: '/capabilities#material-process-innovation',
+      image: '/assets/home-capabilities/02-advanced-manufacturing-process.png',
+    },
+    {
+      index: '03',
+      title: 'Industrialization and validation',
+      text: 'We connect process windows with testing, automation and quality requirements to prepare programs for serial production',
+      meta: 'AUTOMATION · NDT · CERTIFICATION',
+      href: '/capabilities#industrialization-automation',
+      image: '/assets/home-capabilities/03-industrialization-validation.png',
+    },
+  ],
+    sliderControl: { pause: 'Pause slider', resume: 'Resume slider', region: 'BaX Composites featured engineering capabilities' },
+  },
+}

@@ -1,5 +1,8 @@
 # Natro production teslimi
 
+> **Legacy path.** Primary production is now **Vercel + Neon + R2** — see [`vercel-deploy.md`](./vercel-deploy.md).  
+> Keep this document only if you still operate a Natro Docker VPS.
+
 Bu repo Natro sunucusu alınmadan önce tamamlanabilen uygulama, veri ve medya hazırlığını içerir.
 
 ## Yerel teslim kapısı

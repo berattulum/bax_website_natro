@@ -14,6 +14,11 @@ import { SiteSettings } from './globals/SiteSettings.ts'
 import { FounderPage } from './globals/FounderPage.ts'
 import { CorporateInformationPage } from './globals/CorporateInformationPage.ts'
 import { SustainabilityPage } from './globals/SustainabilityPage.ts'
+import { CompanyProfilePage } from './globals/CompanyProfilePage.ts'
+import { HomePage } from './globals/HomePage.ts'
+import { CapabilitiesPage } from './globals/CapabilitiesPage.ts'
+import { EcosystemPage } from './globals/EcosystemPage.ts'
+import { ContactPage } from './globals/ContactPage.ts'
 import { ExpertiseItems } from './collections/ExpertiseItems.ts'
 import { Memberships } from './collections/Memberships.ts'
 import { Partners } from './collections/Partners.ts'
@@ -24,12 +29,21 @@ const dirname = path.dirname(filename)
 const databaseURL = process.env.DATABASE_URL || 'file:./bax.db'
 const usePostgres = process.env.DATABASE_PROVIDER === 'postgres' || databaseURL.startsWith('postgres://') || databaseURL.startsWith('postgresql://')
 const useCloudStorage = Boolean(process.env.S3_BUCKET && process.env.S3_ENDPOINT && process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY)
+const isVercel = Boolean(process.env.VERCEL)
 const previewSecret = process.env.PREVIEW_SECRET || ''
 const previewURL = `/api/draft?secret=${encodeURIComponent(previewSecret)}&redirect=/`
 const payloadSecret = process.env.PAYLOAD_SECRET
 
 if (!payloadSecret && process.env.NODE_ENV === 'production') {
   throw new Error('PAYLOAD_SECRET must be configured in production.')
+}
+
+if (isVercel && process.env.NODE_ENV === 'production' && !useCloudStorage) {
+  throw new Error('S3/R2 media storage (S3_BUCKET, S3_ENDPOINT, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY) is required on Vercel.')
+}
+
+if (isVercel && process.env.NODE_ENV === 'production' && !usePostgres) {
+  throw new Error('DATABASE_URL must point to Neon/Postgres on Vercel. SQLite is not supported in serverless production.')
 }
 
 export default buildConfig({
@@ -81,7 +95,18 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, ExpertiseItems, Partners, Memberships, Messages],
-  globals: [SiteContent, SiteSettings, FounderPage, CorporateInformationPage, SustainabilityPage],
+  globals: [
+    SiteContent,
+    SiteSettings,
+    HomePage,
+    CompanyProfilePage,
+    FounderPage,
+    CorporateInformationPage,
+    SustainabilityPage,
+    CapabilitiesPage,
+    EcosystemPage,
+    ContactPage,
+  ],
   localization: {
     locales: [
       { code: 'tr', label: 'Türkçe' },

@@ -6,6 +6,7 @@ import type { ManagedLocale, Membership, Partner } from '@/components/ManagedSec
 import { CorporateHeader, type CorporateLang } from '@/components/corporate/CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
+import { ecosystemPageCopy, type EcosystemChrome } from '@/lib/cms/ecosystem-page-defaults'
 import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
 type PageKind = 'partnerships' | 'networks'
@@ -13,57 +14,18 @@ type PageKind = 'partnerships' | 'networks'
 export default function EcosystemPageClient({
   locales,
   kind,
+  content,
 }: {
   locales: Record<CorporateLang, ManagedLocale>
   kind: PageKind
+  content?: Record<CorporateLang, EcosystemChrome>
 }) {
   const [lang, setLang] = useSiteLanguage()
 
   const locale = locales[lang]
   const isPartnerships = kind === 'partnerships'
-  const copy = lang === 'tr'
-    ? isPartnerships
-      ? {
-          eyebrow: 'İŞ ORTAKLIKLARI',
-          lead: 'Birlikte geliştiriyoruz',
-          title: 'Güçlü iş birlikleriyle mühendisliği ileri taşıyoruz',
-          description: 'Tasarım, malzeme teknolojileri ve ileri üretim alanlarında dünyanın farklı noktalarındaki uzman kuruluşlarla aynı mühendislik hedefi doğrultusunda çalışıyoruz.',
-          index: 'Seçilmiş iş ortakları ve referans kurumlar',
-          next: 'Ağlar ve Üyelikleri İnceleyin',
-          nextText: 'Araştırma, ihracat ve inovasyon ekosistemindeki bağlantılarımızı keşfedin.',
-          explore: 'Keşfedin',
-        }
-      : {
-          eyebrow: 'AĞLAR VE ÜYELİKLER',
-          lead: 'Bağlantılı bilgi',
-          title: 'Bilginin, iş birliğinin ve inovasyonun içindeyiz',
-          description: 'Sektörel ağlar, meslek kuruluşları, ihracat birlikleri ve uluslararası Ar-Ge programlarıyla kurduğumuz bağlar; bilgiye, iş birliğine ve yeni pazarlara erişimimizi güçlendiriyor.',
-          index: 'Kurumsal ağlar ve inovasyon ekosistemi',
-          next: 'İş Ortaklıklarını İnceleyin',
-          nextText: 'Mühendislik ve üretim yolculuğumuzu güçlendiren stratejik iş birliklerini görün.',
-          explore: 'Keşfedin',
-        }
-    : isPartnerships
-      ? {
-          eyebrow: 'PARTNERSHIPS',
-          lead: 'Engineered together',
-          title: 'Advancing engineering through strong partnerships',
-          description: 'We work toward shared engineering goals with expert organizations across design, material technologies and advanced manufacturing.',
-          index: 'Selected partners and reference organizations',
-          next: 'Explore Networks & Memberships',
-          nextText: 'Discover our connections across research, export and innovation ecosystems.',
-          explore: 'Explore',
-        }
-      : {
-          eyebrow: 'NETWORKS & MEMBERSHIPS',
-          lead: 'Connected knowledge',
-          title: 'Part of a global ecosystem of knowledge and innovation',
-          description: 'Our connections with industry networks, professional organizations, exporters associations and international R&D programmes strengthen access to knowledge, collaboration and new markets.',
-          index: 'Institutional networks and innovation ecosystem',
-          next: 'Explore Partnerships',
-          nextText: 'See the strategic collaborations supporting our engineering and manufacturing journey.',
-          explore: 'Explore',
-        }
+  const chrome = content?.[lang] || ecosystemPageCopy[lang]
+  const copy = isPartnerships ? chrome.partnerships : chrome.networks
 
   const items: Array<Partner | Membership> = isPartnerships ? locale.partners : locale.memberships
   const nextHref = isPartnerships ? '/aglar-ve-uyelikler' : '/is-ortakliklari'

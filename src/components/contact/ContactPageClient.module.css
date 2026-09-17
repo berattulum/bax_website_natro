@@ -288,14 +288,14 @@
   .heroInner h1 { font-size: clamp(2.35rem, 11vw, 3.25rem); }
   .contactBody { padding: 72px 0 88px; }
   .sectionHeading { padding-bottom: 54px; }
-  .sectionHeading h2 { font-size: clamp(2.8rem, 13vw, 4rem); }
+  .sectionHeading h2 { font-size: clamp(2.8rem, 13vw, 4rem); max-width: none; }
   .contactGrid { gap: 70px; padding-top: 44px; }
   .form { grid-template-columns: 1fr; }
   .wide,
   .types { grid-column: auto; }
-  .types > div { grid-template-columns: repeat(2, 1fr); }
-  .types label:nth-child(3) { border-top: 1px solid var(--line); border-left: 0; }
-  .types label:nth-child(4) { border-top: 1px solid var(--line); }
+  .types > div { grid-template-columns: 1fr; }
+  .types label { border-left: 0 !important; border-top: 1px solid var(--line); }
+  .types label:first-child { border-top: 0; }
   .submit { grid-template-columns: 1fr; gap: 18px; padding-top: 18px; }
   .submit button { width: 100%; min-width: 0; }
   .directory { grid-template-columns: 1fr; }

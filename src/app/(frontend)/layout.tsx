@@ -2,23 +2,19 @@ import '../globals.css'
 import '../typography.css'
 import { headers } from 'next/headers'
 
-import { PublicRootLayout, publicMetadata } from '@/components/PublicRootLayout'
-import { routeFromPath } from '@/lib/i18n/site-routes'
+import { PublicRootLayout } from '@/components/PublicRootLayout'
+import { localeFromPath } from '@/lib/i18n/site-routes'
+import { buildRouteMetadata } from '@/lib/seo'
 
 export async function generateMetadata() {
   const requestHeaders = await headers()
   const publicPath = requestHeaders.get('x-bax-public-path') || '/en'
-  const route = routeFromPath(publicPath)?.[1]
-  if (!route) return publicMetadata
-  return {
-    ...publicMetadata,
-    alternates: {
-      canonical: publicPath,
-      languages: { en: route.paths.en, tr: route.paths.tr, 'x-default': route.paths.en },
-    },
-  }
+  return buildRouteMetadata(publicPath)
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <PublicRootLayout>{children}</PublicRootLayout>
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const requestHeaders = await headers()
+  const publicPath = requestHeaders.get('x-bax-public-path') || '/en'
+  const locale = localeFromPath(publicPath) || 'en'
+  return <PublicRootLayout locale={locale}>{children}</PublicRootLayout>
 }

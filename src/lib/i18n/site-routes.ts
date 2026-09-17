@@ -21,8 +21,11 @@ export const siteRoutes = {
   },
   founder: {
     legacy: '/kurucu', paths: { en: '/en/founder', tr: '/tr/kurucu' },
-    title: { en: 'Founder | BaX Composites', tr: 'Kurucu | BaX Composites' },
-    description: { en: 'Meet BaX Composites founder Hakkı Kızılok.', tr: 'BaX Composites kurucusu Hakkı Kızılok’u tanıyın.' },
+    title: { en: 'Hakkı Kızılok | Founder and Chairman | BaX Composites', tr: 'Hakkı Kızılok | Kurucu ve Yönetim Kurulu Başkanı | BaX Composites' },
+    description: {
+      en: 'Founder and Chairman of BaX Composites with aerospace composites experience and international leadership across MachFlexComp, LOCO3 and SAMPE Türkiye.',
+      tr: 'BaX Composites kurucusu ve yönetim kurulu başkanı Hakkı Kızılok; havacılık kompozitleri deneyimi ile MachFlexComp, LOCO3 ve SAMPE Türkiye liderliği.',
+    },
   },
   corporate: {
     legacy: '/kurumsal-bilgiler', paths: { en: '/en/corporate-information', tr: '/tr/kurumsal-bilgiler' },

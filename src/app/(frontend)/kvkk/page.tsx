@@ -1,13 +1,7 @@
-import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PublicFooter } from '@/components/PublicFooter'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
-
-export const metadata: Metadata = {
-  title: 'Privacy and Legal Documents | BaX Composites',
-  description: 'BaX Composites personal data protection notices cookie policy and data subject application documents.',
-}
 
 const documents = [
   {

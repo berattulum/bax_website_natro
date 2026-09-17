@@ -1,13 +1,7 @@
-import type { Metadata } from 'next'
 import { CorporateInformationClient, corporateInformationCopy, corporateInformationOffices, corporateInformationRecords } from '@/components/corporate/CorporateInformationClient'
 import { getManagedGlobal } from '@/lib/cms/get-managed-pages'
 
 export const dynamic = 'force-dynamic'
-
-export const metadata: Metadata = {
-  title: 'Corporate Information | BaX Composites',
-  description: 'BaX Composites legal entity registration tax D U N S and corporate identification information',
-}
 
 export default async function CorporateInformationPage() {
   const page = await getManagedGlobal('corporate-information-page')

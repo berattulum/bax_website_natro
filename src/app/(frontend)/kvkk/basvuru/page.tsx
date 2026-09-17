@@ -1,10 +1,4 @@
-import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal/LegalPage'
-
-export const metadata: Metadata = {
-  title: 'Data Subject Application Form | BaX Composites',
-  description: 'Application methods and form for exercising personal data rights in relation to BaX Composites.',
-}
 
 export default function KvkkApplicationPage() {
   return (

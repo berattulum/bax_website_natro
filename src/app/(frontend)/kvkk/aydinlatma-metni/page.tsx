@@ -1,10 +1,4 @@
-import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal/LegalPage'
-
-export const metadata: Metadata = {
-  title: 'Personal Data Protection Notice | BaX Composites',
-  description: 'BaX Composites customer personal data processing retention transfer and data subject rights notice.',
-}
 
 const dataCategories = [
   ['Kimlik', 'Ad, soyad, kimlik/pasaport bilgileri, doğum bilgileri, uyruk ve plaka bilgileri'],

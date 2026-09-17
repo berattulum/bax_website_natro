@@ -15942,6 +15942,24 @@ html[lang="en"] .ci-hero h1 {
   text-shadow: none !important;
 }
 
+/* Mobile hamburger: keep the current page label white on the dark pill */
+@media (max-width: 1099px) {
+  .main-header .main-nav a.active,
+  .main-header .main-nav .nav-parent-row > a.active,
+  .main-header.is-hero .main-nav a.active,
+  .main-header.is-hero .main-nav .nav-parent-row > a.active,
+  .corporate-header .main-nav a.active,
+  .corporate-header .main-nav .nav-parent-row > a.active {
+    color: #fff !important;
+    background: #123846 !important;
+  }
+
+  .main-header .main-nav a.active .nav-dot,
+  .main-header.is-hero .main-nav a.active .nav-dot {
+    background: #5ed8e7 !important;
+  }
+}
+
 .main-header .nav-submenu-toggle,
 .corporate-inline-caret,
 .corporate-ecosystem-menu > button > span {
@@ -16127,5 +16145,73 @@ html[lang="en"] .ci-hero h1 {
   .footer-address p {
     max-width: 38ch;
     gap: 4px;
+  }
+}
+
+/* Shared mobile polish across public pages */
+@media (max-width: 900px) {
+  .home-capability-systems,
+  .home-capability-systems-grid,
+  .home-capability-card {
+    min-width: 0;
+  }
+
+  .home-engineering-showcase,
+  .capability-transition,
+  .sector-applications,
+  .verification-ledger {
+    overflow-x: clip;
+  }
+
+  .sector-applications-header,
+  .verification-ledger-header {
+    grid-template-columns: 1fr;
+  }
+
+  .sector-applications-header p {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  html, body {
+    overflow-x: clip;
+  }
+
+  .opening-slide .hero-title {
+    font-size: clamp(2.35rem, 11vw, 3.1rem);
+  }
+
+  .opening-slide .hero-description {
+    font-size: .95rem;
+  }
+
+  .opening-slide .hero-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .opening-slide .hero-link,
+  .opening-slide .hero-link-primary {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .capability-transition-copy {
+    height: auto;
+    min-height: 0;
+  }
+
+  .membership-grid,
+  .logo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .main-header .main-nav.is-open,
+  .main-nav.is-open {
+    max-height: calc(100svh - 88px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }

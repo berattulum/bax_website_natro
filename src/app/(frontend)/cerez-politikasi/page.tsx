@@ -1,10 +1,4 @@
-import type { Metadata } from 'next'
 import { LegalPage, LegalSection } from '@/components/legal/LegalPage'
-
-export const metadata: Metadata = {
-  title: 'Cookie Policy | BaX Composites',
-  description: 'Information about cookies used on the BaX Composites website and how visitors can manage their preferences.',
-}
 
 export default function CookiePolicyPage() {
   return (

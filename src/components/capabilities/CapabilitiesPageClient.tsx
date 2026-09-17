@@ -5,6 +5,7 @@ import Image from 'next/image'
 import type { ManagedLocale } from '@/components/ManagedSections'
 import { CorporateHeader } from '@/components/corporate/CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
+import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 import styles from './CapabilitiesPageClient.module.css'
 
 type Lang = 'tr' | 'en'
@@ -180,18 +181,8 @@ function withoutPeriods(value: string) {
 }
 
 export function CapabilitiesPageClient({ locales }: { locales: Record<Lang, ManagedLocale> }) {
-  const [lang, setLang] = useState<Lang>('en')
+  const [lang, setLanguage] = useSiteLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
-
-  useEffect(() => {
-    const saved = localStorage.getItem('bax-language')
-    if (saved === 'tr' || saved === 'en') setLang(saved)
-  }, [])
-
-  const setLanguage = (next: Lang) => {
-    localStorage.setItem('bax-language', next)
-    setLang(next)
-  }
 
   useEffect(() => {
     const index = anchors.indexOf(window.location.hash.slice(1) as typeof anchors[number])
@@ -242,7 +233,6 @@ export function CapabilitiesPageClient({ locales }: { locales: Record<Lang, Mana
           onClick={() => selectCapability(index)}
           key={item.order}
         >
-          <span>{String(index + 1).padStart(2, '0')}</span>
           <strong>{item.title}</strong>
         </button>)}
       </div>
@@ -250,17 +240,16 @@ export function CapabilitiesPageClient({ locales }: { locales: Record<Lang, Mana
       <article id="capability-panel" className={styles.panel} role="tabpanel" aria-labelledby={`capability-tab-${activeIndex}`}>
         <div className={styles.media} key={`media-${activeIndex}`}>
           {activeVideo.src ? <video autoPlay muted loop playsInline preload="metadata" poster={activeVideo.poster} aria-hidden="true"><source src={activeVideo.src} type="video/mp4" /></video> : <Image src={activeVideo.poster} alt="" fill sizes="(max-width: 900px) 100vw, 42vw" />}
-          <span>{String(activeIndex + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
         </div>
         <div className={styles.copy} key={`copy-${activeIndex}`}>
-          <span>{lang === 'tr' ? 'YETKİNLİK ALANI' : 'CAPABILITY AREA'} · {String(activeIndex + 1).padStart(2, '0')}</span>
+          <span>{lang === 'tr' ? 'YETKİNLİK ALANI' : 'CAPABILITY AREA'}</span>
           <h3>{activeItem.title}</h3><p className={styles.summary}>{withoutPeriods(activeItem.description)}</p>
-          <div className={styles.details}><div><h4>{labels.scope}</h4><ul>{expertiseDetails[lang][activeIndex]?.map((detail) => <li key={detail}>{detail}</li>)}</ul></div><div><h4>{labels.outputs}</h4><ol>{capabilityOutputs[lang][activeIndex]?.map((output, index) => <li key={output}><span>{String(index + 1).padStart(2, '0')}</span>{output}</li>)}</ol></div></div>
+          <div className={styles.details}><div><h4>{labels.scope}</h4><ul>{expertiseDetails[lang][activeIndex]?.map((detail) => <li key={detail}>{detail}</li>)}</ul></div><div><h4>{labels.outputs}</h4><ol>{capabilityOutputs[lang][activeIndex]?.map((output) => <li key={output}>{output}</li>)}</ol></div></div>
           <div className={styles.connection}><span>{labels.connections}</span><p>{capabilityConnections[lang][activeIndex]}</p></div>
         </div>
       </article>
     </section>
-    <section className={styles.system}><header><span>{labels.systemEyebrow}</span><h2>{labels.systemTitle}</h2><p>{labels.systemBody}</p></header><div className={styles.stages}>{stages.map(([number, title, description]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p></article>)}</div></section>
+    <section className={styles.system}><header><span>{labels.systemEyebrow}</span><h2>{labels.systemTitle}</h2><p>{labels.systemBody}</p></header><div className={styles.stages}>{stages.map(([number, title, description]) => <article key={number}><h3>{title}</h3><p>{description}</p></article>)}</div></section>
     <section className={styles.evidence}><header><span>{labels.evidenceEyebrow}</span><h2>{labels.evidenceTitle}</h2><p>{labels.evidenceBody}</p></header><div className={styles.evidenceLinks}>
       <a href="https://www.m-era.net/materipedia/2022/machflexcomp" target="_blank" rel="noreferrer"><span>M-ERA.NET · MACHFLEXCOMP</span><strong>{lang === 'tr' ? 'Geri dönüştürülmüş kompozitlerin esnek ve robotik işlenmesi' : 'Flexible and robotic machining of recycled composites'}</strong><em>{labels.source} ↗</em></a>
       <a href="https://www.eurekanetwork.org/wp-content/uploads/2026/01/participants-in-eurostars-3-projects.pdf" target="_blank" rel="noreferrer"><span>EUROSTARS · LOCO3</span><strong>{lang === 'tr' ? 'Düşük CO₂ kompozit bileşen geliştirme programı' : 'Low CO₂ composite component development programme'}</strong><em>{labels.source} ↗</em></a>

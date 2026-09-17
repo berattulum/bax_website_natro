@@ -14,7 +14,6 @@ const content = {
     projects: [
       {
         code: 'LOCO3',
-        index: '01',
         framework: 'EUROSTARS 3 · CALL 6',
         status: 'Funded',
         title: 'Low CO₂ Composite Components',
@@ -30,7 +29,6 @@ const content = {
       },
       {
         code: 'MachFlexComp',
-        index: '02',
         framework: 'M-ERA.NET · CALL 2022',
         status: '2023–2025 · TRL 3–6',
         title: 'Machining of Flexible Recycled Composite Components',
@@ -54,7 +52,6 @@ const content = {
     projects: [
       {
         code: 'LOCO3',
-        index: '01',
         framework: 'EUROSTARS 3 · ÇAĞRI 6',
         status: 'Fonlandı',
         title: 'Düşük CO₂ Kompozit Bileşenler',
@@ -70,7 +67,6 @@ const content = {
       },
       {
         code: 'MachFlexComp',
-        index: '02',
         framework: 'M-ERA.NET · ÇAĞRI 2022',
         status: '2023–2025 · TRL 3–6',
         title: 'Esnek Geri Dönüştürülmüş Kompozit Bileşenlerin İşlenmesi',
@@ -114,10 +110,7 @@ export function ResearchProjects({ lang }: { lang: Lang }) {
     </header>
     <div className={styles.grid}>
       {copy.projects.map((project, projectIndex) => <article className={`${styles.card} ${projectIndex === 0 ? styles.fromLeft : styles.fromRight}`} key={project.code}>
-        <div className={styles.cardTop}>
-          <span className={styles.index}>{project.index}</span>
-          <span className={styles.framework}>{project.framework}</span>
-        </div>
+        <div className={styles.cardTop}><span className={styles.framework}>{project.framework}</span></div>
         <div className={styles.cardBody}>
           <header><h3>{project.code}</h3><span>{project.status}</span></header>
           <h4>{project.title}</h4>

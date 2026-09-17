@@ -8,9 +8,7 @@ server {
   listen [::]:80;
   server_name ${SERVER_NAMES};
 
-  add_header X-Content-Type-Options "nosniff" always;
-  add_header X-Frame-Options "SAMEORIGIN" always;
-  add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+  include /etc/nginx/bax_security_headers;
 
   location = /_nginx/health {
     access_log off;

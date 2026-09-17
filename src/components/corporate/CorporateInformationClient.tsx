@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { CorporateHeader, type CorporateLang } from './CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
+import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
 
-const records = [
+export const corporateInformationRecords = [
   ['Ticari unvan', 'Legal name', 'BaX Kompozit A.Ş. / BaX Composites Inc.'],
   ['MERSİS numarası', 'MERSIS number', '0491051386400001'],
   ['Vergi dairesi', 'Tax office', 'Esenler Vergi Dairesi / İstanbul'],
@@ -15,50 +15,31 @@ const records = [
   ['Ödenmiş sermaye', 'Paid-in capital', '1.800.000,00 TL'],
 ] as const
 
-export function CorporateInformationClient() {
-  const [lang, setLang] = useState<CorporateLang>('en')
+export const corporateInformationCopy = {
+  tr: {
+    eyebrow: 'KURUMSAL BİLGİLER', title: 'Açık, düzenli', titleAccent: 'doğrulanabilir', intro: 'BaX Kompozit A.Ş.’nin güncel ticari kimliği, operasyon adresleri ve resmî kayıt bağlantısı.', identity: 'Şirket kayıtları', offices: 'Operasyon noktaları', head: 'Genel merkez', branch: 'Üretim şubesi', verify: 'Resmî kaydı doğrulayın', verifyText: 'Güncel şirket kaydına Merkezi Kayıt Kuruluşu e-Şirket Bilgi Portalı üzerinden ulaşabilirsiniz.', verifyLink: 'MKK kaydını görüntüle', legal: 'KVKK ve yasal belgeler',
+  },
+  en: {
+    eyebrow: 'CORPORATE INFORMATION', title: 'Clear, structured', titleAccent: 'verifiable', intro: 'The current commercial identity, operating addresses and official registry link of BaX Composites Inc.', identity: 'Company records', offices: 'Operating locations', head: 'Head office', branch: 'Production branch', verify: 'Verify the official record', verifyText: 'Access the current company record through the Central Securities Depository e-Company Information Portal.', verifyLink: 'View MKK record', legal: 'Privacy and legal documents',
+  },
+} as const
 
-  useEffect(() => {
-    const saved = localStorage.getItem('bax-language')
-    if (saved === 'tr' || saved === 'en') setLang(saved)
-  }, [])
+export const corporateInformationOffices = {
+  head: 'Yıldız Teknik Üniversitesi Teknopark, Çifte Havuzlar Mah., Eski Londra Asfaltı Cad., A1 Blok No: B35, 34220 Esenler / İstanbul',
+  branch: 'İkitelli OSB Mah., Metal-İş Sanayi Sitesi, No: 17/10, 34490 Başakşehir / İstanbul',
+}
 
-  useEffect(() => {
-    document.documentElement.lang = lang
-  }, [lang])
+export function CorporateInformationClient({ content = corporateInformationCopy, records = corporateInformationRecords, offices = corporateInformationOffices }: { content?: typeof corporateInformationCopy; records?: ReadonlyArray<readonly [string, string, string]>; offices?: typeof corporateInformationOffices }) {
+  const [lang, setLang] = useSiteLanguage()
 
-  const t = lang === 'tr' ? {
-    eyebrow: 'KURUMSAL BİLGİLER',
-    title: <>Açık, düzenli,<br /><em>doğrulanabilir.</em></>,
-    intro: 'BaX Kompozit A.Ş.’nin güncel ticari kimliği, operasyon adresleri ve resmî kayıt bağlantısı.',
-    identity: 'Şirket kayıtları',
-    offices: 'Operasyon noktaları',
-    head: 'Genel merkez',
-    branch: 'Üretim şubesi',
-    verify: 'Resmî kaydı doğrulayın',
-    verifyText: 'Güncel şirket kaydına Merkezi Kayıt Kuruluşu e-Şirket Bilgi Portalı üzerinden ulaşabilirsiniz.',
-    verifyLink: 'MKK kaydını görüntüle',
-    legal: 'KVKK ve yasal belgeler',
-  } : {
-    eyebrow: 'CORPORATE INFORMATION',
-    title: <>Clear, structured,<br /><em>verifiable.</em></>,
-    intro: 'The current commercial identity, operating addresses and official registry link of BaX Composites Inc.',
-    identity: 'Company records',
-    offices: 'Operating locations',
-    head: 'Head office',
-    branch: 'Production branch',
-    verify: 'Verify the official record',
-    verifyText: 'Access the current company record through the Central Securities Depository e-Company Information Portal.',
-    verifyLink: 'View MKK record',
-    legal: 'Privacy and legal documents',
-  }
+  const t = content[lang]
 
   return (
     <main className={styles.page}>
       <CorporateHeader lang={lang} active="records" onLangChange={setLang} />
 
       <section className={styles.hero}>
-        <div><p className={styles.heroLead}>{t.eyebrow}</p><h1>{t.title}</h1></div>
+        <div><p className={styles.heroLead}>{t.eyebrow}</p><h1>{t.title}<br /><em>{t.titleAccent}.</em></h1></div>
         <div className={styles.heroIntro}><p>{t.intro}</p></div>
       </section>
 
@@ -75,8 +56,8 @@ export function CorporateInformationClient() {
 
         <header className={styles.sectionTitle}><h2>{t.offices}</h2></header>
         <div className={styles.offices}>
-          <article className={styles.office}><span>{t.head}</span><p>Yıldız Teknik Üniversitesi Teknopark, Çifte Havuzlar Mah., Eski Londra Asfaltı Cad., A1 Blok No: B35, 34220 Esenler / İstanbul</p></article>
-          <article className={styles.office}><span>{t.branch}</span><p>İkitelli OSB Mah., Metal-İş Sanayi Sitesi, No: 17/10, 34490 Başakşehir / İstanbul</p></article>
+          <article className={styles.office}><span>{t.head}</span><p>{offices.head}</p></article>
+          <article className={styles.office}><span>{t.branch}</span><p>{offices.branch}</p></article>
         </div>
 
         <aside className={styles.verify}>

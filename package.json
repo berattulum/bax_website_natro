@@ -46,7 +46,9 @@
     "migrate:create": "payload migrate:create",
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap",
-    "seed": "payload run scripts/seed.ts"
+    "seed": "payload run scripts/seed.ts",
+    "seed:managed-pages": "payload run scripts/seed-managed-pages.ts",
+    "check:managed-pages": "payload run scripts/check-managed-pages.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.86.0",
@@ -64,6 +66,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.62.1",
     "@types/node": "22.18.0",
     "@types/pg": "8.20.0",

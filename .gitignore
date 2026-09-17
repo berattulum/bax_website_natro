@@ -19,3 +19,5 @@ test-results
 .codex-run/
 local-dev*.log
 *.log
+*.docx
+scripts/create_staj_defteri.py

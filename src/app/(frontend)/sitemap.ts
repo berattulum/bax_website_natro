@@ -1,30 +1,16 @@
 import type { MetadataRoute } from 'next'
+import { siteLocales, siteRoutes } from '@/lib/i18n/site-routes'
 
 const siteURL = process.env.NEXT_PUBLIC_SITE_URL || 'https://baxcomposites.com'
-
-const routes = [
-  '',
-  '/sirket-profili',
-  '/kurucu',
-  '/kurumsal-bilgiler',
-  '/is-ortakliklari',
-  '/aglar-ve-uyelikler',
-  '/surdurulebilirlik',
-  '/iletisim',
-  '/capabilities',
-  '/kvkk',
-  '/kvkk/aydinlatma-metni',
-  '/kvkk/basvuru',
-  '/cerez-politikasi',
-]
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()
 
-  return routes.map((route, index) => ({
-    url: `${siteURL}${route}`,
+  return Object.entries(siteRoutes).flatMap(([key, route]) => siteLocales.map((locale) => ({
+    url: `${siteURL}${route.paths[locale]}`,
     lastModified,
-    changeFrequency: index === 0 ? 'weekly' : 'monthly',
-    priority: index === 0 ? 1 : route.startsWith('/kvkk') || route === '/cerez-politikasi' ? 0.3 : 0.7,
-  }))
+    changeFrequency: key === 'home' ? 'weekly' as const : 'monthly' as const,
+    priority: key === 'home' ? 1 : ['privacy', 'cookies', 'application', 'privacyHub'].includes(key) ? 0.3 : 0.7,
+    alternates: { languages: { en: `${siteURL}${route.paths.en}`, tr: `${siteURL}${route.paths.tr}` } },
+  })))
 }

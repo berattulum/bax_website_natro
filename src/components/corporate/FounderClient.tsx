@@ -1,12 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import { CorporateHeader, type CorporateLang } from './CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
+import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 import styles from './FounderClient.module.css'
 
-const copy = {
+export const founderCopy = {
   en: {
     eyebrow: 'FOUNDER AND CHAIRMAN',
     role: 'Engineering leadership in advanced composites',
@@ -53,14 +53,9 @@ const copy = {
   },
 }
 
-export function FounderClient() {
-  const [lang, setLang] = useState<CorporateLang>('en')
-  useEffect(() => {
-    const saved = localStorage.getItem('bax-language')
-    if (saved === 'tr' || saved === 'en') setLang(saved)
-  }, [])
-  useEffect(() => { document.documentElement.lang = lang }, [lang])
-  const text = copy[lang]
+export function FounderClient({ content = founderCopy }: { content?: typeof founderCopy }) {
+  const [lang, setLang] = useSiteLanguage()
+  const text = content[lang]
 
   return <main className={styles.page}>
     <CorporateHeader lang={lang} active="founder" onLangChange={setLang} />

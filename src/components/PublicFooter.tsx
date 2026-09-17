@@ -33,8 +33,8 @@ export function PublicFooter({ lang = 'en' }: { lang?: FooterLang }) {
         <Link href="/iletisim">{t.contactLink}</Link>
       </div>
       <div><h3>{t.contact}</h3><a href="mailto:info@baxcomposites.com">info@baxcomposites.com</a><a href="tel:+902125650008">+90 (212) 565 00 08</a></div>
-      <div className="footer-address"><h3>{t.head}</h3><p>Yıldız Technical University Technopark<br />Çifte Havuzlar District, Eski Londra Asfaltı Avenue<br />A1 Block No: B35, 34220 Esenler / İstanbul</p></div>
-      <div className="footer-address"><h3>{t.branch}</h3><p>İkitelli Organized Industrial Zone, Metal-İş Industrial Site<br />No: 17/10, 34490 Başakşehir / İstanbul</p></div>
+      <div className="footer-address"><h3>{t.head}</h3><p><span>Yıldız Technical University Technopark</span><span>Çifte Havuzlar District, Eski Londra Asfaltı Avenue</span><span>A1 Block No: B35, 34220 Esenler / İstanbul</span></p></div>
+      <div className="footer-address"><h3>{t.branch}</h3><p><span>İkitelli Organized Industrial Zone, Metal-İş Industrial Site</span><span>No: 17/10, 34490 Başakşehir / İstanbul</span></p></div>
     </div>
     <div className="container footer-bottom">
       <span>© 2026 BaX Composites Inc</span>

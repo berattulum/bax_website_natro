@@ -2,10 +2,11 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { cloneElement, isValidElement, useEffect, useState, type ReactElement, type ReactNode } from 'react'
+import { cloneElement, isValidElement, type ReactElement, type ReactNode } from 'react'
 import { CorporateHeader, type CorporateLang } from '@/components/corporate/CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
 import styles from './SustainabilityClient.module.css'
+import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
 function removePeriods<T>(value: T): T {
   if (typeof value === 'string') return value.replace(/\./g, '') as T
@@ -20,10 +21,10 @@ function removePeriods<T>(value: T): T {
   return value
 }
 
-const copy = {
+export const sustainabilityCopy = {
   en: {
     heroKicker: 'SUSTAINABILITY BY ENGINEERING',
-    heroTitle: <>Keep performance.<br /><em>Keep value in motion.</em></>,
+    heroTitle: ['Keep performance', 'Keep value in motion'],
     heroText: 'We use engineering decisions, process knowledge and lifecycle thinking to make composite performance more resource-conscious.',
     heroCta: 'Our approach',
     nav: ['Approach', 'Impact', 'Circularity', 'Evidence'],
@@ -84,13 +85,13 @@ const copy = {
     ],
     disclaimer: 'Alignment framework only; this is not a statement of United Nations endorsement.',
     closingKicker: 'OUR COMMITMENT',
-    closingTitle: <>Less assumption.<br /><em>More evidence.</em></>,
+    closingTitle: ['Less assumption', 'More evidence'],
     closingText: 'We commit to learning, measuring and improving with every programme while keeping engineering performance at the centre.',
     closingCta: 'Start a responsible programme',
   },
   tr: {
     heroKicker: 'MÜHENDİSLİKLE SÜRDÜRÜLEBİLİRLİK',
-    heroTitle: <>Performansı koru.<br /><em>Değeri döngüde tut.</em></>,
+    heroTitle: ['Performansı koru', 'Değeri döngüde tut'],
     heroText: 'Kompozit performansını daha bilinçli kaynak kullanımıyla buluşturmak için mühendislik kararlarından, proses bilgisinden ve yaşam döngüsü yaklaşımından yararlanıyoruz.',
     heroCta: 'Yaklaşımımız',
     nav: ['Yaklaşım', 'Etki', 'Döngüsellik', 'Kanıt'],
@@ -151,22 +152,15 @@ const copy = {
     ],
     disclaimer: 'Yalnızca uyum çerçevesidir; Birleşmiş Milletler onayı anlamına gelmez.',
     closingKicker: 'TAAHHÜDÜMÜZ',
-    closingTitle: <>Daha az varsayım.<br /><em>Daha çok kanıt.</em></>,
+    closingTitle: ['Daha az varsayım', 'Daha çok kanıt'],
     closingText: 'Mühendislik performansını merkezde tutarken her programda öğrenmeyi, ölçmeyi ve gelişmeyi taahhüt ediyoruz.',
     closingCta: 'Sorumlu bir program başlat',
   },
 } as const
 
-export function SustainabilityClient() {
-  const [lang, setLang] = useState<CorporateLang>('en')
-
-  useEffect(() => {
-    const saved = localStorage.getItem('bax-language')
-    if (saved === 'tr' || saved === 'en') setLang(saved)
-  }, [])
-
-  useEffect(() => { document.documentElement.lang = lang }, [lang])
-  const c = removePeriods(copy[lang])
+export function SustainabilityClient({ content = sustainabilityCopy }: { content?: typeof sustainabilityCopy }) {
+  const [lang, setLang] = useSiteLanguage()
+  const c = removePeriods(content[lang])
 
   return <main className={styles.page}>
     <CorporateHeader lang={lang} active="sustainability" onLangChange={setLang} />
@@ -178,7 +172,7 @@ export function SustainabilityClient() {
       <div className={styles.heroShade} />
       <div className={styles.heroInner}>
         <p className={styles.kicker}>{c.heroKicker}</p>
-        <h1>{c.heroTitle}</h1>
+        <h1>{c.heroTitle[0]}<br /><em>{c.heroTitle[1]}</em></h1>
         <div className={styles.heroFoot}><p>{c.heroText}</p><a href="#approach">{c.heroCta}<span>↓</span></a></div>
       </div>
     </section>
@@ -229,7 +223,7 @@ export function SustainabilityClient() {
     </section>
 
     <section className={styles.closing}>
-      <p className={styles.kicker}>{c.closingKicker}</p><h2>{c.closingTitle}</h2>
+      <p className={styles.kicker}>{c.closingKicker}</p><h2>{c.closingTitle[0]}<br /><em>{c.closingTitle[1]}</em></h2>
       <div><p>{c.closingText}</p><Link href="/iletisim">{c.closingCta}<span>↗</span></Link></div>
     </section>
 

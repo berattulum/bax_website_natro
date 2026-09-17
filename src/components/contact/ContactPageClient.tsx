@@ -8,6 +8,7 @@ import { CorporateHeader, type CorporateLang } from '@/components/corporate/Corp
 import { PublicFooter } from '@/components/PublicFooter'
 import type { ManagedLocale } from '@/components/ManagedSections'
 import styles from './ContactPageClient.module.css'
+import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
 type TurnstileApi = {
   render: (container: HTMLElement, options: {
@@ -38,12 +39,6 @@ const copy = {
     privacy: 'KVKK aydınlatma metni',
     send: 'TALEBİ GÖNDER', sending: 'GÖNDERİLİYOR…', received: 'Talebiniz alındı. Ekibimiz sizinle iletişime geçecek.', failed: 'Mesaj gönderilemedi. Lütfen tekrar deneyin.',
     direct: 'Doğrudan iletişim', offices: 'Ofislerimiz', headOffice: 'Genel merkez', branchOffice: 'Şube',
-    process: 'Talebiniz nasıl ilerler?',
-    steps: [
-      ['01', 'Talep alınır', 'Mesajınız güvenli biçimde kayıt altına alınır.'],
-      ['02', 'Teknik inceleme', 'İhtiyaç ilgili mühendislik ve üretim ekibine yönlendirilir.'],
-      ['03', 'İlk görüşme', 'Kapsamı netleştirmek için sizinle iletişime geçilir.'],
-    ],
     back: 'Ana sayfaya dön',
   },
   en: {
@@ -61,18 +56,12 @@ const copy = {
     privacy: 'Privacy notice',
     send: 'SEND ENQUIRY', sending: 'SENDING…', received: 'Your enquiry has been received. Our team will contact you.', failed: 'Your message could not be sent. Please try again.',
     direct: 'Direct contact', offices: 'Our offices', headOffice: 'Head office', branchOffice: 'Branch office',
-    process: 'What happens next?',
-    steps: [
-      ['01', 'Enquiry received', 'Your message is securely recorded.'],
-      ['02', 'Technical review', 'Your needs are routed to the relevant engineering and production team.'],
-      ['03', 'Initial discussion', 'We contact you to clarify the scope.'],
-    ],
     back: 'Return to homepage',
   },
 } as const
 
 export function ContactPageClient({ locales }: { locales: Record<CorporateLang, ManagedLocale> }) {
-  const [lang, setLang] = useState<CorporateLang>('en')
+  const [lang, setLang] = useSiteLanguage()
   const [status, setStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
   const [turnstileReady, setTurnstileReady] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
@@ -80,15 +69,6 @@ export function ContactPageClient({ locales }: { locales: Record<CorporateLang, 
   const turnstileWidgetId = useRef<string | null>(null)
   const t = copy[lang]
   const dictionary = locales[lang].dictionary
-
-  useEffect(() => {
-    const saved = localStorage.getItem('bax-language')
-    if (saved === 'tr' || saved === 'en') setLang(saved)
-  }, [])
-
-  useEffect(() => {
-    document.documentElement.lang = lang
-  }, [lang])
 
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY

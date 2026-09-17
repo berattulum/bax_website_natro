@@ -73,7 +73,7 @@
   min-height: 112px;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1rem;
   padding: clamp(1.7rem, 3vw, 2.5rem);
   border-bottom: 1px solid rgba(25, 91, 103, .13);
@@ -83,7 +83,6 @@
     #edf5f3;
   background-size: 30px 30px;
 }
-.index { color: #00205b; font: 400 clamp(2.5rem, 4vw, 4.25rem)/.8 Arial, Helvetica, sans-serif; letter-spacing: -.035em }
 .framework { padding: .58rem .72rem; color: #244c74; background: rgba(255, 255, 255, .76); border: 1px solid rgba(42, 126, 139, .28); font: 400 .7rem/1.2 Arial, Helvetica, sans-serif; letter-spacing: normal; white-space: nowrap }
 
 .cardBody { min-height: 520px; display: flex; flex-direction: column; padding: clamp(1.7rem, 3vw, 2.6rem) }

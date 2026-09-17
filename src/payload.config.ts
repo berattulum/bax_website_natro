@@ -11,6 +11,9 @@ import { Messages } from './collections/Messages.ts'
 import { Users } from './collections/Users.ts'
 import { SiteContent } from './globals/SiteContent.ts'
 import { SiteSettings } from './globals/SiteSettings.ts'
+import { FounderPage } from './globals/FounderPage.ts'
+import { CorporateInformationPage } from './globals/CorporateInformationPage.ts'
+import { SustainabilityPage } from './globals/SustainabilityPage.ts'
 import { ExpertiseItems } from './collections/ExpertiseItems.ts'
 import { Memberships } from './collections/Memberships.ts'
 import { Partners } from './collections/Partners.ts'
@@ -57,19 +60,28 @@ export default buildConfig({
     },
     components: {
       actions: ['/admin/components/ViewSiteAction', '/admin/components/LogoutAction'],
-      Nav: '/admin/components/BaxNav',
       graphics: {
         Logo: '/admin/components/BaxLogo',
       },
       views: {
         dashboard: {
-          Component: '/admin/components/BaxDashboard',
+          Component: '/admin/product/OverviewView',
         },
+        pages: {
+          Component: '/admin/product/PagesView',
+          path: '/pages',
+        },
+        library: { Component: '/admin/product/LibraryView', path: '/library' },
+        inbox: { Component: '/admin/product/InboxView', path: '/inbox' },
+        assets: { Component: '/admin/product/AssetsView', path: '/assets' },
+        settings: { Component: '/admin/product/SettingsView', path: '/settings' },
+        team: { Component: '/admin/product/TeamView', path: '/team' },
+        editor: { Component: '/admin/product/EditorView', path: '/editor/:page' },
       },
     },
   },
   collections: [Users, Media, ExpertiseItems, Partners, Memberships, Messages],
-  globals: [SiteContent, SiteSettings],
+  globals: [SiteContent, SiteSettings, FounderPage, CorporateInformationPage, SustainabilityPage],
   localization: {
     locales: [
       { code: 'tr', label: 'Türkçe' },

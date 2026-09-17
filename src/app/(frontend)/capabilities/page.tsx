@@ -6,7 +6,6 @@ import { getHomeData } from '@/lib/cms/get-home-data'
 export const metadata: Metadata = {
   title: 'Capabilities | BaX Composites',
   description: 'BaX Composites engineering capabilities from design and analysis to serial production',
-  alternates: { canonical: '/capabilities' },
 }
 
 export default async function CapabilitiesPage() {

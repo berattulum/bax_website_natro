@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { EcosystemPreview, type ManagedLocale } from './ManagedSections'
 import { HeaderLanguageMenu } from './HeaderLanguageMenu'
 import { PublicFooter } from './PublicFooter'
+import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
 type Lang = 'tr' | 'en'
 type MegaMenu = 'about' | 'expertise' | 'ecosystem' | 'sustainability'
@@ -31,7 +32,7 @@ function Address({ text }: { text?: string }) {
 }
 
 export default function SiteClient({ locales }: { locales: Locales }) {
-  const [lang, setLang] = useState<Lang>('en')
+  const [lang, setLang] = useSiteLanguage()
   const [activeSection, setActiveSection] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
   const [openMegaMenu, setOpenMegaMenu] = useState<MegaMenu | null>(null)
@@ -87,10 +88,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   }
 
   useEffect(() => {
-    document.documentElement.lang = lang
-  }, [lang])
-
-  useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setOpenMegaMenu(null)
     }
@@ -124,11 +121,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
   }
 
   useEffect(() => {
-    const saved = localStorage.getItem('bax-language')
-    if (saved === 'tr' || saved === 'en') setLang(saved)
-  }, [])
-
-  useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const desktopViewport = window.matchMedia('(min-width: 769px)').matches
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
@@ -150,12 +142,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
     }
   }, [])
 
-  useEffect(() => {
-    document.documentElement.lang = lang
-  }, [lang])
-
   const selectLanguage = (nextLang: Lang) => {
-    localStorage.setItem('bax-language', nextLang)
     setLang(nextLang)
   }
 
@@ -400,6 +387,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       text: 'Kompozit yapıları üretim kararı alınmadan önce malzeme, geometri ve yük durumları üzerinden doğruluyoruz',
       meta: 'LAMİNE TASARIMI · FEA · OPTİMİZASYON',
       href: '/capabilities#composite-design',
+      image: '/assets/home-capabilities/01-engineering-virtual-verification.png',
     },
     {
       index: '02',
@@ -407,6 +395,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       text: 'RTM ve termoplastik proseslerini tekrarlanabilir kalite, düşük fire ve ölçeklenebilir üretim için geliştiriyoruz',
       meta: 'RTM · TERMOPLASTİK · PROTOTİPLEME',
       href: '/capabilities#material-process-innovation',
+      image: '/assets/home-capabilities/02-advanced-manufacturing-process.png',
     },
     {
       index: '03',
@@ -414,6 +403,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       text: 'Proses penceresini test, otomasyon ve kalite gereksinimleriyle birleştirerek seri üretime hazır hale getiriyoruz',
       meta: 'OTOMASYON · NDT · SERTİFİKASYON',
       href: '/capabilities#industrialization-automation',
+      image: '/assets/home-capabilities/03-industrialization-validation.png',
     },
   ] : [
     {
@@ -422,6 +412,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       text: 'We verify composite structures across material, geometry and load cases before production decisions are released',
       meta: 'LAMINATE DESIGN · FEA · OPTIMIZATION',
       href: '/capabilities#composite-design',
+      image: '/assets/home-capabilities/01-engineering-virtual-verification.png',
     },
     {
       index: '02',
@@ -429,6 +420,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       text: 'We develop RTM and thermoplastic processes for repeatable quality, lower waste and scalable manufacturing',
       meta: 'RTM · THERMOPLASTICS · PROTOTYPING',
       href: '/capabilities#material-process-innovation',
+      image: '/assets/home-capabilities/02-advanced-manufacturing-process.png',
     },
     {
       index: '03',
@@ -436,6 +428,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
       text: 'We connect process windows with testing, automation and quality requirements to prepare programs for serial production',
       meta: 'AUTOMATION · NDT · CERTIFICATION',
       href: '/capabilities#industrialization-automation',
+      image: '/assets/home-capabilities/03-industrialization-validation.png',
     },
   ]
   const operationalProcess = lang === 'tr' ? [
@@ -484,7 +477,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
                     </div>)}
                   </div>
                   <div className="home-engineering-media-controls" role="group" aria-label={settings.hero.slidesLabel}>
-                    <span>{String(slide + 1).padStart(2, '0')} / {String(loco3Process.length).padStart(2, '0')}</span>
                     {loco3Process.map((item, index) => <button type="button" key={`engineering-control-${index}-${index === slide ? rotationCycle : 'idle'}`} className={index === slide ? 'is-active' : undefined} aria-current={index === slide ? 'true' : undefined} aria-label={`${item.stage} · ${item.label}`} onClick={() => { setSlide(index); setRotationCycle((cycle) => cycle + 1) }} />)}
                     <button type="button" className="home-engineering-media-pause" aria-pressed={sliderPaused} aria-label={sliderPaused ? sliderControl.resume : sliderControl.pause} onClick={() => { setSliderPaused((paused) => !paused); setRotationCycle((cycle) => cycle + 1) }}>{sliderPaused ? '▶' : 'Ⅱ'}</button>
                   </div>
@@ -502,7 +494,6 @@ export default function SiteClient({ locales }: { locales: Locales }) {
               <div className="capability-transition-stage" role="region" aria-roledescription="carousel" aria-label={lang === 'tr' ? 'BaX yetkinlik geçişleri' : 'BaX capability transitions'}>
                 <div className="capability-transition-visual">
                   {capabilityTransition.map((item, index) => <Image key={item.image} className={index === capabilitySlide ? 'is-active' : ''} src={item.image} alt={`${item.stage} — ${item.title}`} fill sizes="(max-width: 900px) 100vw, 64vw" />)}
-                  <span className="capability-transition-number" aria-hidden="true">{capabilityTransition[capabilitySlide].index}</span>
                 </div>
                 <div className="capability-transition-copy" aria-live="polite">
                   <span>{capabilityTransition[capabilitySlide].stage}</span>
@@ -511,7 +502,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
                 </div>
               </div>
               <div className="capability-transition-controls" role="group" aria-label={lang === 'tr' ? 'Yetkinlik aşaması seçimi' : 'Select capability stage'}>
-                {capabilityTransition.map((item, index) => <button type="button" key={item.index} className={index === capabilitySlide ? 'is-active' : undefined} aria-current={index === capabilitySlide ? 'true' : undefined} onClick={() => setCapabilitySlide(index)}><span>{item.index}</span><strong>{item.stage}</strong></button>)}
+                {capabilityTransition.map((item, index) => <button type="button" key={item.index} className={index === capabilitySlide ? 'is-active' : undefined} aria-current={index === capabilitySlide ? 'true' : undefined} aria-label={item.stage} onClick={() => setCapabilitySlide(index)}><strong>{item.stage}</strong></button>)}
                 <button type="button" className="capability-transition-pause" aria-pressed={capabilityPaused} aria-label={capabilityPaused ? sliderControl.resume : sliderControl.pause} onClick={() => setCapabilityPaused((current) => !current)}>{capabilityPaused ? '▶' : 'Ⅱ'}</button>
               </div>
             </div>
@@ -519,7 +510,7 @@ export default function SiteClient({ locales }: { locales: Locales }) {
           <section id="expertise" className="home-capability-index scroll-reveal" aria-labelledby="home-capability-title">
             <div className="container home-capability-shell">
               <header><span>{lang === 'tr' ? 'YETKİNLİKLER' : 'CAPABILITIES'}</span><h2 id="home-capability-title">{lang === 'tr' ? 'Bir proje için gereken üç mühendislik sistemi' : 'Three engineering systems for one production programme'}</h2><p>{lang === 'tr' ? 'Tasarım kararlarını malzeme ve proses geliştirme ile birleştiriyor, doğrulanmış üretim sistemlerine taşıyoruz' : 'We connect design decisions with material and process development, then carry them into verified production systems'}</p></header>
-              <div className="home-capability-grid">{engineeringCards.map((card) => <a href={card.href} key={card.index}><span>{card.index}</span><h3>{card.title}</h3><p>{card.text}</p><small>{card.meta}</small><i aria-hidden="true">↗</i></a>)}</div>
+              <div className="home-capability-grid">{engineeringCards.map((card) => <a href={card.href} key={card.index}><figure><Image src={card.image} alt="" fill sizes="(max-width: 900px) 100vw, 33vw" /></figure><h3>{card.title}</h3><p>{card.text}</p><small>{card.meta}</small><i aria-hidden="true">↗</i></a>)}</div>
               <a className="home-capability-all" href="/capabilities">{lang === 'tr' ? 'TÜM YETKİNLİKLERİ İNCELE' : 'EXPLORE ALL CAPABILITIES'}<span aria-hidden="true">↗</span></a>
             </div>
           </section>
@@ -534,13 +525,12 @@ export default function SiteClient({ locales }: { locales: Locales }) {
               <div className="sector-applications-index-layout">
                 <nav className="sector-applications-index" aria-label={lang === 'tr' ? 'Sektör seçimi' : 'Select sector'}>
                   {sectorApplications.map((item, index) => <button type="button" key={item.index} className={index === sectorSlide ? 'is-active' : undefined} aria-current={index === sectorSlide ? 'true' : undefined} onClick={() => setSectorSlide(index)}>
-                    <span>{item.index}</span><strong>{item.sector}</strong><i aria-hidden="true">↗</i>
+                    <strong>{item.sector}</strong><i aria-hidden="true">↗</i>
                   </button>)}
                 </nav>
                 <div className="sector-applications-feature" role="region" aria-live="polite" aria-label={`${sectorApplications[sectorSlide].sector} — ${sectorApplications[sectorSlide].title}`}>
                   <div className="sector-applications-visual">
                     {sectorApplications.map((item, index) => <Image key={item.image} className={index === sectorSlide ? 'is-active' : ''} src={item.image} alt={`${item.sector} — ${item.title}`} fill sizes="(max-width: 900px) 100vw, 72vw" />)}
-                    <span className="sector-applications-image-index">{sectorApplications[sectorSlide].index} / 04</span>
                   </div>
                   <article className="sector-applications-copy">
                     <div><span>{sectorApplications[sectorSlide].sector}</span><small>{sectorApplications[sectorSlide].meta}</small></div>
@@ -559,13 +549,13 @@ export default function SiteClient({ locales }: { locales: Locales }) {
                 <div><p>{lang === 'tr' ? 'İzlenebilir proje kayıtları, ölçülebilir çıktılar ve bağımsız kurum doğrulamaları.' : 'Traceable programme records, measurable outputs and independent institutional validation.'}</p><small>{lang === 'tr' ? 'Her kayıt doğrudan kaynağına bağlıdır' : 'Every record links directly to its source'}</small></div>
               </header>
               <article className="verification-strip-record" key={`active-${verificationEvidence[verificationActive].code}`}>
-                <div className="verification-feature-identity"><span>{verificationEvidence[verificationActive].code}</span><small>{verificationEvidence[verificationActive].type}</small><h3>{verificationEvidence[verificationActive].title}</h3></div>
+                <div className="verification-feature-identity"><small>{verificationEvidence[verificationActive].type}</small><h3>{verificationEvidence[verificationActive].title}</h3></div>
                 <p>{verificationEvidence[verificationActive].body}</p>
                 <ul>{verificationEvidence[verificationActive].facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>
                 <a href={verificationEvidence[verificationActive].href} target="_blank" rel="noreferrer"><span>{lang === 'tr' ? 'KAYNAĞI AÇ' : 'OPEN SOURCE'}</span><i aria-hidden="true">↗</i></a>
               </article>
               <nav className="verification-strip-nav" aria-label={lang === 'tr' ? 'Doğrulama kaydı seçimi' : 'Verification record selection'}>
-                {verificationEvidence.map((item, index) => <button key={`verification-step-${item.code}`} type="button" className={verificationActive === index ? 'is-active' : ''} onClick={() => setVerificationActive(index)} aria-label={`${index + 1}: ${item.title}`}><span>{item.code}</span><strong>{item.title}</strong></button>)}
+                {verificationEvidence.map((item, index) => <button key={`verification-step-${item.code}`} type="button" className={verificationActive === index ? 'is-active' : ''} onClick={() => setVerificationActive(index)} aria-label={item.title}><strong>{item.title}</strong></button>)}
               </nav>
             </div>
           </section>
@@ -606,10 +596,10 @@ export default function SiteClient({ locales }: { locales: Locales }) {
         </ul><div className={`nav-mega-panel${megaMenuOpen ? ` is-open menu-${openMegaMenu}` : ''}`} aria-hidden={!megaMenuOpen}>
           <div className="nav-mega-inner">
             <div className="nav-mega-content">
-              {openMegaMenu === 'about' && <section><span>{lang === 'tr' ? 'KURUMSAL' : 'CORPORATE'}</span><h3>{lang === 'tr' ? 'BaX’ı tanıyın' : 'Discover BaX'}</h3><a href="/sirket-profili">{aboutNavigation.profile}</a><a href="/kurucu">{aboutNavigation.founder}</a><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}</a></section>}
-              {openMegaMenu === 'expertise' && <section><span>{lang === 'tr' ? 'YETKİNLİKLER' : 'CAPABILITIES'}</span><h3>{lang === 'tr' ? 'Kompozit mühendisliği' : 'Composite engineering'}</h3><a href="/capabilities">{lang === 'tr' ? 'Mühendislik yetkinlikleri' : 'Engineering capabilities'}</a></section>}
-              {openMegaMenu === 'ecosystem' && <section><span>{lang === 'tr' ? 'EKOSİSTEM' : 'ECOSYSTEM'}</span><h3>{ecosystemNavigation.label}</h3><a href="/is-ortakliklari">{ecosystemNavigation.partnerships}</a><a href="/aglar-ve-uyelikler">{ecosystemNavigation.networks}</a></section>}
-              {openMegaMenu === 'sustainability' && <section><span>{lang === 'tr' ? 'SÜRDÜRÜLEBİLİRLİK' : 'SUSTAINABILITY'}</span><h3>{lang === 'tr' ? 'Döngüsel mühendislik' : 'Circular engineering'}</h3><a href="/surdurulebilirlik">{lang === 'tr' ? 'Yaklaşımımız' : 'Our approach'}</a></section>}
+              <section className={openMegaMenu === 'about' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'KURUMSAL' : 'CORPORATE'}</span><h3>{lang === 'tr' ? 'BaX’ı tanıyın' : 'Discover BaX'}</h3><a href="/sirket-profili">{aboutNavigation.profile}</a><a href="/kurucu">{aboutNavigation.founder}</a><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}</a></section>
+              <section className={openMegaMenu === 'expertise' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'YETKİNLİKLER' : 'CAPABILITIES'}</span><h3>{lang === 'tr' ? 'Mühendislik' : 'Engineering'}</h3><a href="/capabilities">{lang === 'tr' ? 'Tüm yetkinlikler' : 'Explore capabilities'}</a></section>
+              <section className={openMegaMenu === 'ecosystem' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'EKOSİSTEM' : 'ECOSYSTEM'}</span><h3>{ecosystemNavigation.label}</h3><a href="/is-ortakliklari">{ecosystemNavigation.partnerships}</a><a href="/aglar-ve-uyelikler">{ecosystemNavigation.networks}</a></section>
+              <section className={openMegaMenu === 'sustainability' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'SÜRDÜRÜLEBİLİRLİK' : 'SUSTAINABILITY'}</span><h3>{lang === 'tr' ? 'Döngüsel mühendislik' : 'Circular engineering'}</h3><a href="/surdurulebilirlik">{lang === 'tr' ? 'Yaklaşımımız' : 'Our approach'}</a></section>
             </div>
           </div>
         </div></nav>

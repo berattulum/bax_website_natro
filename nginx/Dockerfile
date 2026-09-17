@@ -2,6 +2,7 @@ FROM nginx:1.28-alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY proxy_params /etc/nginx/bax_proxy_params
+COPY security_headers.conf /etc/nginx/bax_security_headers
 COPY templates /etc/nginx/templates-bax
 COPY docker-entrypoint.sh /usr/local/bin/bax-nginx-entrypoint
 

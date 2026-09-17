@@ -56,18 +56,15 @@ export function LegalPage({ eyebrow, title, description, pdfHref, asideTitle = '
 }
 
 export function LegalSection({
-  number,
   title,
   children,
 }: {
-  number: string
   title: string
   children: ReactNode
 }) {
   return (
     <section className={styles.legalSection}>
       <div className={styles.legalSectionHeading}>
-        <span>{number}</span>
         <h2>{title}</h2>
       </div>
       <div className={styles.legalSectionBody}>{children}</div>

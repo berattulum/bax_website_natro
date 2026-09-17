@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
+import { localizedPath } from '@/lib/i18n/site-routes'
 
 export type HeaderLanguage = 'tr' | 'en'
 
@@ -13,42 +14,23 @@ export function HeaderLanguageMenu({
   onChange: (language: HeaderLanguage) => void
   label: string
 }) {
-  const [open, setOpen] = useState(false)
-  const root = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const closeOnOutsideClick = (event: PointerEvent) => {
-      if (!root.current?.contains(event.target as Node)) setOpen(false)
-    }
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false)
-    }
-
-    document.addEventListener('pointerdown', closeOnOutsideClick)
-    window.addEventListener('keydown', closeOnEscape)
-    return () => {
-      document.removeEventListener('pointerdown', closeOnOutsideClick)
-      window.removeEventListener('keydown', closeOnEscape)
-    }
-  }, [])
+  const root = useRef<HTMLDetailsElement>(null)
 
   const select = (language: HeaderLanguage) => {
     onChange(language)
-    setOpen(false)
+    if (root.current) root.current.open = false
+    window.location.assign(localizedPath(window.location.pathname, language))
   }
 
-  return <div className={`header-language${open ? ' is-open' : ''}`} ref={root}>
-    <button
-      type="button"
+  return <details className="header-language" ref={root}>
+    <summary
       className="header-language-trigger"
       aria-label={label}
       aria-haspopup="listbox"
-      aria-expanded={open}
-      onClick={() => setOpen((current) => !current)}
     >
       <span>{value.toUpperCase()}</span>
       <i aria-hidden="true">⌄</i>
-    </button>
+    </summary>
     <div className="header-language-options" role="listbox" aria-label={label}>
       {(['en', 'tr'] as const).map((language) => <button
         type="button"
@@ -62,5 +44,5 @@ export function HeaderLanguageMenu({
         <small>{language === 'en' ? 'English' : 'Türkçe'}</small>
       </button>)}
     </div>
-  </div>
+  </details>
 }

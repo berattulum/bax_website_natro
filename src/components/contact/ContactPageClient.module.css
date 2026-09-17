@@ -4,7 +4,7 @@
   --muted: #526d74;
   --line: #b9c8cb;
   --paper: #f2f5f9;
-  --cyan: #27818d;
+  --cyan: #1d6f79;
   --lime: #d7f36b;
   min-height: 100svh;
   display: flow-root;
@@ -50,6 +50,8 @@
   letter-spacing: .16em;
   text-transform: uppercase;
 }
+
+.heroInner span { color: #71d0d8; }
 
 .heroInner h1 {
   max-width: 17ch;
@@ -193,13 +195,13 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  color: #60777d;
+  color: #596c72;
   font-size: .78rem;
   line-height: 1.55;
 }
 
 .consent input { margin-top: 3px; accent-color: var(--cyan); }
-.consent a { color: var(--navy); text-underline-offset: 3px; }
+.consent a { color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
 
 .submit {
   display: grid;
@@ -257,7 +259,7 @@
   text-decoration: none;
 }
 
-.directory small { color: #70898f; font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.directory small { color: #566970; font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .directory strong { min-width: 0; overflow-wrap: anywhere; font-size: .9rem; font-weight: 500; }
 .directory b { color: var(--cyan); font-size: 1rem; font-weight: 400; transition: transform .2s ease; }
 .directory a:hover b { transform: translate(3px, -3px); }

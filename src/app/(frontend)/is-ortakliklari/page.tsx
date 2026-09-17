@@ -7,7 +7,6 @@ import { getHomeData } from '@/lib/cms/get-home-data'
 export const metadata: Metadata = {
   title: 'Business Partnerships | BaX Composites',
   description: 'Strategic BaX Composites partnerships across engineering material technologies research and advanced manufacturing',
-  alternates: { canonical: '/is-ortakliklari' },
 }
 
 export default async function PartnershipsPage() {

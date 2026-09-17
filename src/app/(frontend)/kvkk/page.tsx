@@ -7,26 +7,22 @@ import styles from '@/components/institutional/InstitutionalSimple.module.css'
 export const metadata: Metadata = {
   title: 'Privacy and Legal Documents | BaX Composites',
   description: 'BaX Composites personal data protection notices cookie policy and data subject application documents.',
-  alternates: { canonical: '/kvkk' },
 }
 
 const documents = [
   {
-    index: '01',
     title: 'Kişisel Verilerin Korunması',
     description: 'Müşteri kişisel verilerinin işlenmesi, aktarılması ve ilgili kişi hakları hakkında aydınlatma.',
     href: '/kvkk/aydinlatma-metni',
     label: 'Aydınlatma metnini incele',
   },
   {
-    index: '02',
     title: 'Çerez Politikası',
     description: 'Web sitesi ziyaretleri sırasında kullanılan çerezler ve kullanıcı tercihleri hakkında bilgi.',
     href: '/cerez-politikasi',
     label: 'Çerez politikasını incele',
   },
   {
-    index: '03',
     title: 'KVKK Başvuru Formu',
     description: '6698 sayılı Kanun kapsamındaki hakların kullanılması için başvuru yöntemleri ve form.',
     href: '/kvkk/basvuru',
@@ -52,7 +48,6 @@ export default function KvkkHubPage() {
       <section className={styles.documentGrid} aria-label="Yasal belgeler">
         {documents.map((document) => (
           <Link href={document.href} className={styles.documentCard} key={document.href}>
-            <span>{document.index}</span>
             <div>
               <h2>{document.title}</h2>
               <p>{document.description}</p>

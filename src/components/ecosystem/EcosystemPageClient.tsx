@@ -1,12 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 import type { ManagedLocale, Membership, Partner } from '@/components/ManagedSections'
 import { CorporateHeader, type CorporateLang } from '@/components/corporate/CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
+import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
 type PageKind = 'partnerships' | 'networks'
 
@@ -17,14 +17,7 @@ export default function EcosystemPageClient({
   locales: Record<CorporateLang, ManagedLocale>
   kind: PageKind
 }) {
-  const [lang, setLang] = useState<CorporateLang>('en')
-  useEffect(() => {
-    const saved = localStorage.getItem('bax-language')
-    if (saved === 'tr' || saved === 'en') setLang(saved)
-  }, [])
-  useEffect(() => {
-    document.documentElement.lang = lang
-  }, [lang])
+  const [lang, setLang] = useSiteLanguage()
 
   const locale = locales[lang]
   const isPartnerships = kind === 'partnerships'

@@ -2,65 +2,32 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import type { ManagedLocale } from '@/components/ManagedSections'
 import { PublicFooter } from '@/components/PublicFooter'
+import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 import { CorporateHeader, type CorporateLang } from './CorporateHeader'
 
 export function CompanyProfileClient({ locales }: { locales: Record<CorporateLang, ManagedLocale> }) {
-  const [lang, setLang] = useState<CorporateLang>('en')
-
-  useEffect(() => {
-    const saved = localStorage.getItem('bax-language')
-    if (saved === 'tr' || saved === 'en') setLang(saved)
-  }, [])
-
-  useEffect(() => { document.documentElement.lang = lang }, [lang])
+  const [lang, setLang] = useSiteLanguage()
 
   const connectedStages = lang === 'tr' ? [
-    ['01', 'GERİ KAZAN', 'Döngüsel karbon elyaf ve üretim atıkları sisteme girer'],
-    ['02', 'KARAKTERİZE ET', 'Malzeme verisi yapı ve davranışı ölçülebilir hale getirir'],
-    ['03', 'MÜHENDİSLİĞİNİ YAP', 'Yapılar performans hedeflerine göre tasarlanır ve optimize edilir'],
-    ['04', 'PROSESİ GELİŞTİR', 'Prosesler tekrarlanabilirlik ve kalite için geliştirilir'],
-    ['05', 'DOĞRULA', 'Performans izlenebilir mühendislik kanıtlarıyla doğrulanır'],
-    ['06', 'LCA', 'Yaşam döngüsü kanıtları daha doğru teknik kararlara yön verir'],
-    ['07', 'SANAYİLEŞTİR', 'Kontrollü ölçekleme tutarlı ve üretime hazır sonuçlar sağlar'],
+    ['GERİ KAZAN', 'Döngüsel karbon elyaf ve üretim atıkları sisteme girer'],
+    ['KARAKTERİZE ET', 'Malzeme verisi yapı ve davranışı ölçülebilir hale getirir'],
+    ['MÜHENDİSLİĞİNİ YAP', 'Yapılar performans hedeflerine göre tasarlanır ve optimize edilir'],
+    ['PROSESİ GELİŞTİR', 'Prosesler tekrarlanabilirlik ve kalite için geliştirilir'],
+    ['DOĞRULA', 'Performans izlenebilir mühendislik kanıtlarıyla doğrulanır'],
+    ['LCA', 'Yaşam döngüsü kanıtları daha doğru teknik kararlara yön verir'],
+    ['SANAYİLEŞTİR', 'Kontrollü ölçekleme tutarlı ve üretime hazır sonuçlar sağlar'],
   ] : [
-    ['01', 'RECOVER', 'Circular carbon fibre and production waste enter the system'],
-    ['02', 'CHARACTERIZE', 'Material intelligence quantifies structure and behaviour'],
-    ['03', 'ENGINEER', 'Structures are designed and optimized for performance'],
-    ['04', 'DEVELOP PROCESS', 'Processes are engineered for repeatability and quality'],
-    ['05', 'VERIFY', 'Performance is proven with traceable engineering evidence'],
-    ['06', 'LCA', 'Lifecycle evidence informs better technical decisions'],
-    ['07', 'INDUSTRIALIZE', 'Controlled scale-up delivers consistent production-ready outcomes'],
+    ['RECOVER', 'Circular carbon fibre and production waste enter the system'],
+    ['CHARACTERIZE', 'Material intelligence quantifies structure and behaviour'],
+    ['ENGINEER', 'Structures are designed and optimized for performance'],
+    ['DEVELOP PROCESS', 'Processes are engineered for repeatability and quality'],
+    ['VERIFY', 'Performance is proven with traceable engineering evidence'],
+    ['LCA', 'Lifecycle evidence informs better technical decisions'],
+    ['INDUSTRIALIZE', 'Controlled scale-up delivers consistent production-ready outcomes'],
   ]
 
-  /*
-  const delivery = lang === 'tr' ? [
-    { index: '01', title: 'Tanımla', text: 'Uygulama gereksinimleri, yük durumları, malzeme hedefleri ve üretim sınırları', output: 'Tasarım temeli' },
-    { index: '02', title: 'Mühendisliğini yap', text: 'Malzeme, yapı, takım ve proses kararlarının birlikte geliştirilmesi', output: 'Doğrulanmış proses penceresi' },
-    { index: '03', title: 'Doğrula', text: 'Analiz, test, ölçüm ve kalifikasyon sonuçlarının izlenebilir hale getirilmesi', output: 'Test kanıtı' },
-    { index: '04', title: 'Sanayileştir', text: 'Otomasyon, proses kontrolü ve kalite gereksinimlerinin üretime aktarılması', output: 'Üretim onayı' },
-  ] : [
-    { index: '01', title: 'Define', text: 'Application requirements, load cases, material targets and manufacturing constraints', output: 'Design basis' },
-    { index: '02', title: 'Engineer', text: 'Material, structure, tooling and process decisions developed as one system', output: 'Verified process window' },
-    { index: '03', title: 'Verify', text: 'Analysis, testing, measurement and qualification made traceable', output: 'Test evidence' },
-    { index: '04', title: 'Industrialize', text: 'Automation, process control and quality requirements transferred into production', output: 'Production release' },
-  ]
-  const lifecycle = lang === 'tr' ? [
-    ['01', 'GERİ KAZAN', 'Üretim atığını yüksek değerli bir malzeme girdisi olarak tanımla'],
-    ['02', 'YENİDEN İŞLE', 'Lif değerini koruyan kontrollü proses rotası geliştir'],
-    ['03', 'DOĞRULA', 'Malzeme ve bileşen performansını ölçülebilir kanıtlarla doğrula'],
-    ['04', 'YAŞAM DÖNGÜSÜNÜ ÖLÇ', 'Enerji, kaynak kullanımı ve kullanım sonu senaryolarını karşılaştır'],
-    ['05', 'SANAYİLEŞTİR', 'Sonuçları tekrarlanabilir ve ölçeklenebilir üretime aktar'],
-  ] : [
-    ['01', 'RECOVER', 'Recognize production waste as a high-value material input'],
-    ['02', 'REPROCESS', 'Develop a controlled route that preserves fibre value'],
-    ['03', 'VERIFY', 'Validate material and component performance with measurable evidence'],
-    ['04', 'MEASURE LIFECYCLE IMPACT', 'Compare energy, resource use and end-of-life scenarios'],
-    ['05', 'INDUSTRIALIZE', 'Transfer the evidence into repeatable and scalable production'],
-  ]
-  */
   return <main className="profile-page cp-page cp-page-v2">
     <CorporateHeader lang={lang} active="profile" onLangChange={setLang} />
 
@@ -130,9 +97,9 @@ export function CompanyProfileClient({ locales }: { locales: Record<CorporateLan
         </header>
         <p className="cpv2-delivery-copy">{lang === 'tr' ? 'Tasarım, proses, doğrulama ve yaşam döngüsü kanıtları tek bir teknik sorumluluk altında ilerler' : 'Design, process, verification and lifecycle evidence advance within one technical responsibility'}</p>
       </div>
-      <div className="cpv2-engineering-map">
+      <div className="cpv2-engineering-map" role="region" aria-label={lang === 'tr' ? 'Bağlantılı mühendislik aşamaları' : 'Connected engineering stages'} tabIndex={0}>
         <div className="cpv2-engineering-map-inner">
-          <ol className="cpv2-engineering-stages">{connectedStages.map(([index, title, body]) => <li key={index}><span>{index}</span><div><h3>{title}</h3><p>{body}</p></div></li>)}</ol>
+          <ol className="cpv2-engineering-stages">{connectedStages.map(([title, body]) => <li key={title}><div><h3>{title}</h3><p>{body}</p></div></li>)}</ol>
           <figure className="cpv2-delivery-visual"><Image src="/assets/about-us/connected-engineering-landscape.png" alt={lang === 'tr' ? 'Geri kazanımdan sanayileştirmeye uzanan BaX bütünleşik mühendislik akışı' : 'BaX connected engineering flow from recovery to industrialization'} fill sizes="100vw" quality={95} /></figure>
           <ul className="cpv2-engineering-foundations">
             <li>{lang === 'tr' ? 'Tek teknik sorumluluk' : 'One technical responsibility'}</li>

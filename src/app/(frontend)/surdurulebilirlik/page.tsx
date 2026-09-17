@@ -1,10 +1,12 @@
 import { SustainabilityClient, sustainabilityCopy } from '@/components/sustainability/SustainabilityClient'
-import { coalesceManagedContent, getManagedGlobal } from '@/lib/cms/get-managed-pages'
+import { coalesceManagedContent, getManagedGlobal, type ManagedPageDocument } from '@/lib/cms/get-managed-pages'
 
 export const dynamic = 'force-dynamic'
 
 export default async function SustainabilityPage() {
-  const page = await getManagedGlobal('sustainability-page').catch(() => ({}))
+  const page: ManagedPageDocument = await getManagedGlobal('sustainability-page').catch(
+    (): ManagedPageDocument => ({}),
+  )
   return (
     <SustainabilityClient
       content={{

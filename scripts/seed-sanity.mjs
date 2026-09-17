@@ -1,5 +1,7 @@
 /**
- * Seed Sanity with code defaults so the CMS is not empty on first open.
+ * Seed Sanity with list documents only (expertise, partners, memberships).
+ * Page copy lives in `src/content/i18n/*.json` — not seeded to Sanity.
+ *
  * Requires: NEXT_PUBLIC_SANITY_PROJECT_ID, SANITY_API_WRITE_TOKEN
  * Run: pnpm seed:sanity
  */
@@ -21,24 +23,6 @@ const client = createClient({
   token,
   useCdn: false,
 })
-
-async function loadDefaults() {
-  // Prefer running through tsx so we can import TypeScript default modules.
-  const { homeNarrativesCopy } = await import('../src/lib/cms/home-narratives-defaults.ts')
-  const { companyProfileCopy } = await import('../src/lib/cms/company-profile-defaults.ts')
-  const { capabilitiesPageCopy } = await import('../src/lib/cms/capabilities-page-defaults.ts')
-  const { ecosystemPageCopy } = await import('../src/lib/cms/ecosystem-page-defaults.ts')
-  const { contactPageCopy } = await import('../src/lib/cms/contact-page-defaults.ts')
-  const { DEFAULT_SITE_SETTINGS } = await import('../src/lib/cms/site-settings-defaults.ts')
-  return {
-    homeNarrativesCopy,
-    companyProfileCopy,
-    capabilitiesPageCopy,
-    ecosystemPageCopy,
-    contactPageCopy,
-    DEFAULT_SITE_SETTINGS,
-  }
-}
 
 const defaultPartners = [
   ['CTC', 'CTC · an Airbus company', 'https://ctc-composites.com/', '/logos/ctc.png'],
@@ -104,87 +88,6 @@ async function upsert(doc) {
 }
 
 async function main() {
-  const defaults = await loadDefaults()
-
-  await upsert({
-    _id: 'siteSettings',
-    _type: 'siteSettings',
-    payload: {
-      tr: JSON.stringify(defaults.DEFAULT_SITE_SETTINGS.tr),
-      en: JSON.stringify(defaults.DEFAULT_SITE_SETTINGS.en),
-    },
-  })
-
-  await upsert({
-    _id: 'siteContent',
-    _type: 'siteContent',
-    heroEyebrow: { tr: 'İLERİ KOMPOZİT', en: 'ADVANCED COMPOSITES' },
-    heroTitle: { tr: 'BaX Composites', en: 'BaX Composites' },
-    heroDescription: {
-      tr: 'Havacılık ve otomotiv için doğrulanabilir kompozit mühendislik',
-      en: 'Verifiable composite engineering for aerospace and automotive',
-    },
-    sectionLayout: [
-      'about',
-      'designNarrative',
-      'expertise',
-      'manufacturingNarrative',
-      'process',
-      'principles',
-      'solutions',
-      'partners',
-      'memberships',
-      'contact',
-    ].map((section) => ({ section, enabled: true })),
-  })
-
-  const managed = [
-    ['homePage', defaults.homeNarrativesCopy],
-    ['companyProfilePage', defaults.companyProfileCopy],
-    ['capabilitiesPage', defaults.capabilitiesPageCopy],
-    ['ecosystemPage', defaults.ecosystemPageCopy],
-    ['contactPage', defaults.contactPageCopy],
-  ]
-
-  for (const [id, copy] of managed) {
-    await upsert({
-      _id: id,
-      _type: id,
-      contentTr: JSON.stringify(copy.tr),
-      contentEn: JSON.stringify(copy.en),
-    })
-  }
-
-  // Founder / corporate / sustainability — seed from component defaults
-  const { founderCopy } = await import('../src/components/corporate/FounderClient.tsx')
-  const {
-    corporateInformationCopy,
-    corporateInformationRecords,
-    corporateInformationOffices,
-  } = await import('../src/components/corporate/CorporateInformationClient.tsx')
-  const { sustainabilityCopy } = await import('../src/components/sustainability/SustainabilityClient.tsx')
-
-  await upsert({
-    _id: 'founderPage',
-    _type: 'founderPage',
-    contentTr: JSON.stringify(founderCopy.tr),
-    contentEn: JSON.stringify(founderCopy.en),
-  })
-  await upsert({
-    _id: 'corporateInformationPage',
-    _type: 'corporateInformationPage',
-    contentTr: JSON.stringify(corporateInformationCopy.tr),
-    contentEn: JSON.stringify(corporateInformationCopy.en),
-    records: JSON.stringify(corporateInformationRecords),
-    offices: JSON.stringify(corporateInformationOffices),
-  })
-  await upsert({
-    _id: 'sustainabilityPage',
-    _type: 'sustainabilityPage',
-    contentTr: JSON.stringify(sustainabilityCopy.tr),
-    contentEn: JSON.stringify(sustainabilityCopy.en),
-  })
-
   for (const item of defaultExpertise) {
     await upsert({
       _id: `expertise-${item.order}`,
@@ -222,7 +125,7 @@ async function main() {
     })
   }
 
-  console.log('Sanity seed complete.')
+  console.log('Sanity seed complete (expertise, partners, memberships).')
 }
 
 main().catch((error) => {

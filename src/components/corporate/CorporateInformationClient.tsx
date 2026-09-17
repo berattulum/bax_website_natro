@@ -1,35 +1,31 @@
 'use client'
 
-import { CorporateHeader, type CorporateLang } from './CorporateHeader'
+import { CorporateHeader } from './CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
+import {
+  corporateInformationCopy,
+  corporateInformationOffices,
+  corporateInformationRecords,
+  type CorporateInformationCopy,
+} from '@/lib/cms/corporate-information-defaults'
 import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
 
-export const corporateInformationRecords = [
-  ['Ticari unvan', 'Legal name', 'BaX Kompozit A.Ş. / BaX Composites Inc.'],
-  ['MERSİS numarası', 'MERSIS number', '0491051386400001'],
-  ['Vergi dairesi', 'Tax office', 'Esenler Vergi Dairesi / İstanbul'],
-  ['Vergi numarası', 'Tax number', '4910513864'],
-  ['D-U-N-S numarası', 'D-U-N-S number', '595606606'],
-  ['Ticaret sicil numarası', 'Trade registry number', '156004-5'],
-  ['Ödenmiş sermaye', 'Paid-in capital', '1.800.000,00 TL'],
-] as const
-
-export const corporateInformationCopy = {
-  tr: {
-    eyebrow: 'KURUMSAL BİLGİLER', title: 'Açık, düzenli', titleAccent: 'doğrulanabilir', intro: 'BaX Kompozit A.Ş.’nin güncel ticari kimliği, operasyon adresleri ve resmî kayıt bağlantısı.', identity: 'Şirket kayıtları', offices: 'Operasyon noktaları', head: 'Genel merkez', branch: 'Üretim şubesi', verify: 'Resmî kaydı doğrulayın', verifyText: 'Güncel şirket kaydına Merkezi Kayıt Kuruluşu e-Şirket Bilgi Portalı üzerinden ulaşabilirsiniz.', verifyLink: 'MKK kaydını görüntüle', legal: 'KVKK ve yasal belgeler',
-  },
-  en: {
-    eyebrow: 'CORPORATE INFORMATION', title: 'Clear, structured', titleAccent: 'verifiable', intro: 'The current commercial identity, operating addresses and official registry link of BaX Composites Inc.', identity: 'Company records', offices: 'Operating locations', head: 'Head office', branch: 'Production branch', verify: 'Verify the official record', verifyText: 'Access the current company record through the Central Securities Depository e-Company Information Portal.', verifyLink: 'View MKK record', legal: 'Privacy and legal documents',
-  },
-} as const
-
-export const corporateInformationOffices = {
-  head: 'Yıldız Teknik Üniversitesi Teknopark, Çifte Havuzlar Mah., Eski Londra Asfaltı Cad., A1 Blok No: B35, 34220 Esenler / İstanbul',
-  branch: 'İkitelli OSB Mah., Metal-İş Sanayi Sitesi, No: 17/10, 34490 Başakşehir / İstanbul',
+export {
+  corporateInformationCopy,
+  corporateInformationOffices,
+  corporateInformationRecords,
 }
 
-export function CorporateInformationClient({ content = corporateInformationCopy, records = corporateInformationRecords, offices = corporateInformationOffices }: { content?: typeof corporateInformationCopy; records?: ReadonlyArray<readonly [string, string, string]>; offices?: typeof corporateInformationOffices }) {
+export function CorporateInformationClient({
+  content = corporateInformationCopy,
+  records = corporateInformationRecords,
+  offices = corporateInformationOffices,
+}: {
+  content?: Record<'tr' | 'en', CorporateInformationCopy>
+  records?: ReadonlyArray<readonly [string, string, string]>
+  offices?: typeof corporateInformationOffices
+}) {
   const [lang, setLang] = useSiteLanguage()
 
   const t = content?.[lang] && 'eyebrow' in content[lang] ? content[lang] : corporateInformationCopy[lang]
@@ -39,12 +35,23 @@ export function CorporateInformationClient({ content = corporateInformationCopy,
       <CorporateHeader lang={lang} active="records" onLangChange={setLang} />
 
       <section className={styles.hero}>
-        <div><p className={styles.heroLead}>{t.eyebrow}</p><h1>{t.title}<br /><em>{t.titleAccent}.</em></h1></div>
-        <div className={styles.heroIntro}><p>{t.intro}</p></div>
+        <div>
+          <p className={styles.heroLead}>{t.eyebrow}</p>
+          <h1>
+            {t.title}
+            <br />
+            <em>{t.titleAccent}.</em>
+          </h1>
+        </div>
+        <div className={styles.heroIntro}>
+          <p>{t.intro}</p>
+        </div>
       </section>
 
       <section className={styles.content}>
-        <header className={styles.sectionTitle}><h2>{t.identity}</h2></header>
+        <header className={styles.sectionTitle}>
+          <h2>{t.identity}</h2>
+        </header>
         <div className={styles.records}>
           {records.map(([tr, en, value]) => (
             <article className={styles.record} key={tr}>
@@ -54,15 +61,29 @@ export function CorporateInformationClient({ content = corporateInformationCopy,
           ))}
         </div>
 
-        <header className={styles.sectionTitle}><h2>{t.offices}</h2></header>
+        <header className={styles.sectionTitle}>
+          <h2>{t.offices}</h2>
+        </header>
         <div className={styles.offices}>
-          <article className={styles.office}><span>{t.head}</span><p>{offices.head}</p></article>
-          <article className={styles.office}><span>{t.branch}</span><p>{offices.branch}</p></article>
+          <article className={styles.office}>
+            <span>{t.head}</span>
+            <p>{offices.head}</p>
+          </article>
+          <article className={styles.office}>
+            <span>{t.branch}</span>
+            <p>{offices.branch}</p>
+          </article>
         </div>
 
         <aside className={styles.verify}>
-          <div><h2>{t.verify}</h2><p>{t.verifyText}</p></div>
-          <a href="https://e-sirket.mkk.com.tr/" target="_blank" rel="noreferrer">{t.verifyLink}<span aria-hidden="true">↗</span></a>
+          <div>
+            <h2>{t.verify}</h2>
+            <p>{t.verifyText}</p>
+          </div>
+          <a href="https://e-sirket.mkk.com.tr/" target="_blank" rel="noreferrer">
+            {t.verifyLink}
+            <span aria-hidden="true">↗</span>
+          </a>
         </aside>
       </section>
 

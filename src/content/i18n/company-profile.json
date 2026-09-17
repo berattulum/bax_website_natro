@@ -1,0 +1,160 @@
+{
+  "tr": {
+    "badge": "BAX COMPOSITES / İSTANBUL",
+    "title": "Şirket profili",
+    "subtitle": "İleri ve geri dönüştürülmüş kompozit mühendisliği",
+    "facilityAlt": "BaX Composites İstanbul üretim tesisi",
+    "aerospaceKicker": "HAVACILIK KÖKENLİ MÜHENDİSLİK",
+    "aerospaceTitle": "Havacılık disiplini endüstriyel ölçekte",
+    "aerospaceP1": "BaX Composites, 2018 yılında İstanbul’da havacılık ve savunma kökenli mühendislik birikimi üzerine kurulmuş bir ileri kompozit mühendisliği ve üretim şirketidir  Çok disiplinli mühendislik ekibi, tasarım ve analiz kararlarını malzeme, proses, test ve sanayileştirme yetkinlikleriyle tek bir teknik sorumluluk altında birleştirir",
+    "aerospaceP2": "Yapısal performansın analiz edildiği, üretim proseslerinin doğrulandığı ve teknik kararların izlenebilir çıktılara dönüştürüldüğü bu yaklaşımı havacılık, savunma, otomotiv ve ileri mobilite programlarına taşıyoruz  Kesintisiz mühendislik zincirimiz kavramsal tasarımdan kalifikasyon ve seri üretim sistemlerine kadar uzanır",
+    "sectorsLabel": "BaX uygulama alanları",
+    "sectors": [
+      {
+        "title": "Havacılık",
+        "image": "/assets/about-us/panel-aerospace-composites-v2.png",
+        "alt": "Havacılık için karbon fiber kompozit gövde yapısı"
+      },
+      {
+        "title": "Elektrikli mobilite",
+        "image": "/assets/about-us/panel-electric-mobility-v2.png",
+        "alt": "Kompozit batarya muhafazalı elektrikli araç platformu"
+      },
+      {
+        "title": "Batarya yapıları",
+        "image": "/assets/about-us/panel-battery-structures-v2.png",
+        "alt": "Kompozit batarya kapağı ölçüm ve doğrulama işlemi"
+      }
+    ],
+    "principlesKicker": "KURUMSAL YAKLAŞIM",
+    "principlesTitle": "Mühendisliğimizin temelindeki ilkeler",
+    "principlesText": "BaX Composites, ileri ve geri dönüştürülmüş kompozitlerde teknik kararları ölçülebilir endüstriyel değere dönüştüren güvenilir bir mühendislik ortağı olmayı amaçlar  Üretilebilir ve ölçeklenebilir çözümler geliştirmek için tasarım, analiz, malzeme ve proses geliştirme, doğrulama ve sanayileştirmeyi tek bir teknik sorumluluk altında birleştiririz  Çalışmalarımıza güven, teknik açıklık, sorumluluk, adalet ve bilgiye dayalı karar alma yön verir; bu ilkeler ortaklıklarımızda, izlenebilir program kayıtlarımızda ve kaynakları daha verimli kullanan üretim rotalarımızda karşılık bulur",
+    "capabilitiesKicker": "UYGULAMADA YETKİNLİK",
+    "capabilitiesTitle": "Doğrulanmış çalışmalarla ortaya konan mühendislik yetkinliği",
+    "capabilitiesText": "BaX Composites, kompozit ürün geliştirmeyi birbirinden kopuk hizmetler dizisi olarak değil, tek bir mühendislik sorumluluğu olarak ele alır  Tasarım ve analiz kararları malzeme seçimi, proses geliştirme, takım tasarımı, ölçüm, test ve kalifikasyon sonuçlarıyla birlikte değerlendirilir  Her aşamada elde edilen teknik veriler bir sonraki üretim kararının temelini oluşturur; böylece geliştirilen çözüm yalnızca teorik olarak doğru değil, üretilebilir, doğrulanabilir ve program gereksinimlerine göre ölçeklenebilir hale gelir",
+    "deliveryKicker": "BÜTÜNLEŞİK MÜHENDİSLİK SİSTEMİ",
+    "deliveryTitle": "Malzeme potansiyelinden doğrulanmış üretime",
+    "deliveryText": "Tasarım, proses, doğrulama ve yaşam döngüsü kanıtları tek bir teknik sorumluluk altında ilerler",
+    "stagesLabel": "Bağlantılı mühendislik aşamaları",
+    "stages": [
+      [
+        "GERİ KAZAN",
+        "Döngüsel karbon elyaf ve üretim atıkları sisteme girer"
+      ],
+      [
+        "KARAKTERİZE ET",
+        "Malzeme verisi yapı ve davranışı ölçülebilir hale getirir"
+      ],
+      [
+        "MÜHENDİSLİĞİNİ YAP",
+        "Yapılar performans hedeflerine göre tasarlanır ve optimize edilir"
+      ],
+      [
+        "PROSESİ GELİŞTİR",
+        "Prosesler tekrarlanabilirlik ve kalite için geliştirilir"
+      ],
+      [
+        "DOĞRULA",
+        "Performans izlenebilir mühendislik kanıtlarıyla doğrulanır"
+      ],
+      [
+        "LCA",
+        "Yaşam döngüsü kanıtları daha doğru teknik kararlara yön verir"
+      ],
+      [
+        "SANAYİLEŞTİR",
+        "Kontrollü ölçekleme tutarlı ve üretime hazır sonuçlar sağlar"
+      ]
+    ],
+    "foundations": [
+      "Tek teknik sorumluluk",
+      "İzlenebilir mühendislik kanıtı",
+      "Üretilebilir ve ölçeklenebilir sonuçlar"
+    ],
+    "landscapeAlt": "Geri kazanımdan sanayileştirmeye uzanan BaX bütünleşik mühendislik akışı",
+    "nextKicker": "KURUMSAL ŞEFFAFLIK",
+    "nextTitle": "Güvenilir mühendislik",
+    "nextTitleAccent": "açık bilgiyle başlar",
+    "nextFounder": "Kurucuyu tanıyın",
+    "nextCorporate": "Kurumsal bilgileri inceleyin"
+  },
+  "en": {
+    "badge": "BAX COMPOSITES / ISTANBUL",
+    "title": "Company profile",
+    "subtitle": "Advanced and recycled composite engineering",
+    "facilityAlt": "BaX Composites production facility in Istanbul",
+    "aerospaceKicker": "AEROSPACE ENGINEERING HERITAGE",
+    "aerospaceTitle": "Aerospace discipline at industrial scale",
+    "aerospaceP1": "BaX Composites is an Istanbul-based advanced composites engineering and manufacturing company founded in 2018 on an aerospace and defense engineering background  Its multidisciplinary engineering team connects design and analysis decisions with material, process, testing and industrialization capabilities under one technical responsibility",
+    "aerospaceP2": "We carry this discipline—where structural performance is analyzed, manufacturing processes are verified and technical decisions become traceable outputs—into aerospace, defense, automotive and advanced mobility programmes  Our continuous engineering chain extends from conceptual design to qualification and serial production systems",
+    "sectorsLabel": "BaX application fields",
+    "sectors": [
+      {
+        "title": "Aerospace",
+        "image": "/assets/about-us/panel-aerospace-composites-v2.png",
+        "alt": "Carbon-fibre composite fuselage structure for aerospace"
+      },
+      {
+        "title": "Electric mobility",
+        "image": "/assets/about-us/panel-electric-mobility-v2.png",
+        "alt": "Electric vehicle platform with a composite battery enclosure"
+      },
+      {
+        "title": "Battery structures",
+        "image": "/assets/about-us/panel-battery-structures-v2.png",
+        "alt": "Composite battery cover inspection and verification"
+      }
+    ],
+    "principlesKicker": "CORPORATE DIRECTION",
+    "principlesTitle": "The principles behind our engineering",
+    "principlesText": "BaX Composites aims to be a trusted engineering partner in advanced and recycled composites, transforming technical decisions into measurable industrial value  We bring design, analysis, material and process development, verification and industrialization under one technical responsibility to deliver manufacturable and scalable solutions  Our work is guided by trust, technical clarity, responsibility, fairness and decisions grounded in knowledge—principles reflected in our partnerships, traceable programme records and more resource-efficient production routes",
+    "capabilitiesKicker": "CAPABILITIES IN PRACTICE",
+    "capabilitiesTitle": "Engineering capability demonstrated through verified work",
+    "capabilitiesText": "BaX Composites approaches composite product development as one engineering responsibility rather than a sequence of disconnected services  Design and analysis decisions are evaluated together with material selection, process development, tooling, measurement, testing and qualification results  Technical evidence generated at each stage informs the next production decision, enabling solutions that are not only technically sound but also manufacturable, verifiable and scalable to programme requirements",
+    "deliveryKicker": "CONNECTED ENGINEERING SYSTEM",
+    "deliveryTitle": "From material potential to verified production",
+    "deliveryText": "Design, process, verification and lifecycle evidence advance within one technical responsibility",
+    "stagesLabel": "Connected engineering stages",
+    "stages": [
+      [
+        "RECOVER",
+        "Circular carbon fibre and production waste enter the system"
+      ],
+      [
+        "CHARACTERIZE",
+        "Material intelligence quantifies structure and behaviour"
+      ],
+      [
+        "ENGINEER",
+        "Structures are designed and optimized for performance"
+      ],
+      [
+        "DEVELOP PROCESS",
+        "Processes are engineered for repeatability and quality"
+      ],
+      [
+        "VERIFY",
+        "Performance is proven with traceable engineering evidence"
+      ],
+      [
+        "LCA",
+        "Lifecycle evidence informs better technical decisions"
+      ],
+      [
+        "INDUSTRIALIZE",
+        "Controlled scale-up delivers consistent production-ready outcomes"
+      ]
+    ],
+    "foundations": [
+      "One technical responsibility",
+      "Traceable engineering evidence",
+      "Manufacturable and scalable outcomes"
+    ],
+    "landscapeAlt": "BaX connected engineering flow from recovery to industrialization",
+    "nextKicker": "CORPORATE TRANSPARENCY",
+    "nextTitle": "Reliable engineering begins",
+    "nextTitleAccent": "with clear information",
+    "nextFounder": "Meet the founder",
+    "nextCorporate": "View corporate information"
+  }
+}

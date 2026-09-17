@@ -69,7 +69,6 @@ export function ReferencesSection({ title, description, note, items }: { title: 
         <div className="logo-grid" aria-label="Referans kurumlar">
           {items.map((item) => (
             <a className="logo-card" href={item.website} target="_blank" rel="noopener" key={item.name}>
-              {/* Payload validates and owns these uploaded image URLs. */}
               {item.logo ? <img src={item.logo} alt="" loading="lazy" decoding="async" /> : <strong className="logo-fallback">{item.name}</strong>}
               <span>{item.caption || item.name}</span>
             </a>

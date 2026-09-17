@@ -2,10 +2,11 @@ import { unstable_cache } from 'next/cache'
 
 import type { ManagedLocale, SectionKey } from '@/components/ManagedSections'
 import { CACHE_TAGS } from '@/lib/cache/tags'
-import { DEFAULT_SITE_SETTINGS, normalizeSiteSettings } from '@/lib/cms/site-settings-defaults'
+import { i18n } from '@/lib/cms/i18n'
+import { DEFAULT_SITE_SETTINGS, type SiteUISettings } from '@/lib/cms/site-settings-defaults'
 import { getSanityClient, isSanityConfigured } from '@/lib/sanity/client'
 import { resolveLogo } from '@/lib/sanity/image'
-import { homeBundleQuery } from '@/lib/sanity/queries'
+import { listsQuery } from '@/lib/sanity/queries'
 
 const defaultSectionLayout: ManagedLocale['sectionLayout'] = [
   'about',
@@ -58,6 +59,33 @@ const defaultMemberships = [
   darkCard: darkCard as boolean,
 }))
 
+const defaultExpertise = [
+  {
+    order: 1,
+    title: { tr: 'Kompozit Mühendislik', en: 'Composite Engineering' },
+    description: {
+      tr: 'Yapısal tasarım, malzeme seçimi ve proses mühendisliği',
+      en: 'Structural design, material selection and process engineering',
+    },
+  },
+  {
+    order: 2,
+    title: { tr: 'RTM & Proses', en: 'RTM & Process' },
+    description: {
+      tr: 'Kontrollü enjeksiyon ve tekrarlanabilir üretim',
+      en: 'Controlled injection and repeatable manufacturing',
+    },
+  },
+  {
+    order: 3,
+    title: { tr: 'Test & Doğrulama', en: 'Test & Verification' },
+    description: {
+      tr: 'Yapısal test ve ölçülebilir kalite kanıtı',
+      en: 'Structural testing and measurable quality evidence',
+    },
+  },
+]
+
 type LocaleString = string | { tr?: string; en?: string } | null | undefined
 
 function pickLocale(value: LocaleString, locale: 'tr' | 'en'): string {
@@ -69,122 +97,28 @@ function pickLocale(value: LocaleString, locale: 'tr' | 'en'): string {
   return ''
 }
 
-function parseJson<T>(value: unknown): T | null {
-  if (value == null) return null
-  if (typeof value === 'object') return value as T
-  if (typeof value !== 'string' || !value.trim()) return null
-  try {
-    return JSON.parse(value) as T
-  } catch {
-    return null
-  }
+function uiFromJson(locale: 'tr' | 'en'): SiteUISettings {
+  // JSON already matches SiteUISettings (arrays for hero/narratives/process).
+  return (i18n.siteSettings as Record<'tr' | 'en', SiteUISettings>)[locale] || DEFAULT_SITE_SETTINGS[locale]
 }
 
 function buildLocale(
   locale: 'tr' | 'en',
-  content: Record<string, unknown> | null,
-  settingsDoc: Record<string, unknown> | null,
   expertise: Array<Record<string, unknown>>,
   partners: Array<Record<string, unknown>>,
   memberships: Array<Record<string, unknown>>,
 ): ManagedLocale {
-  const contentSafe = content || {}
-  const payloadSettings = parseJson<Record<string, unknown>>(
-    (settingsDoc?.payload as { tr?: string; en?: string } | undefined)?.[locale],
-  )
-  const ui =
-    payloadSettings && payloadSettings.navigation && payloadSettings.hero
-      ? normalizeSiteSettings(
-          {
-            navigation: payloadSettings.navigation,
-            hero: {
-              ...((payloadSettings.hero as Record<string, unknown>) || {}),
-              capabilities: (payloadSettings.hero as { capabilities?: string })?.capabilities,
-              discuss: (payloadSettings.hero as { discuss?: string })?.discuss,
-              slidesLabel: (payloadSettings.hero as { slidesLabel?: string })?.slidesLabel,
-              slideLabel: (payloadSettings.hero as { slideLabel?: string })?.slideLabel,
-              slide2Eyebrow: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[0]?.[0],
-              slide2Title: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[0]?.[1],
-              slide2Description: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[0]?.[2],
-              slide3Eyebrow: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[1]?.[0],
-              slide3Title: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[1]?.[1],
-              slide3Description: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[1]?.[2],
-            },
-            narratives: {
-              designEyebrow: (payloadSettings.narratives as string[][])?.[0]?.[0],
-              designTitle: (payloadSettings.narratives as string[][])?.[0]?.[1],
-              designDescription: (payloadSettings.narratives as string[][])?.[0]?.[2],
-              manufacturingEyebrow: (payloadSettings.narratives as string[][])?.[1]?.[0],
-              manufacturingTitle: (payloadSettings.narratives as string[][])?.[1]?.[1],
-              manufacturingDescription: (payloadSettings.narratives as string[][])?.[1]?.[2],
-            },
-            process: {
-              label: (payloadSettings.process as { label?: string })?.label,
-              step1Title: (payloadSettings.process as { steps?: string[][] })?.steps?.[0]?.[0],
-              step1Text: (payloadSettings.process as { steps?: string[][] })?.steps?.[0]?.[1],
-              step2Title: (payloadSettings.process as { steps?: string[][] })?.steps?.[1]?.[0],
-              step2Text: (payloadSettings.process as { steps?: string[][] })?.steps?.[1]?.[1],
-              step3Title: (payloadSettings.process as { steps?: string[][] })?.steps?.[2]?.[0],
-              step3Text: (payloadSettings.process as { steps?: string[][] })?.steps?.[2]?.[1],
-              step4Title: (payloadSettings.process as { steps?: string[][] })?.steps?.[4]?.[0],
-              step4Text: (payloadSettings.process as { steps?: string[][] })?.steps?.[4]?.[1],
-            },
-            sections: payloadSettings.sections,
-            directory: payloadSettings.directory,
-            form: payloadSettings.form,
-            footer: payloadSettings.footer,
-          },
-          locale,
-        )
-      : DEFAULT_SITE_SETTINGS[locale]
-
-  const dictionary = Object.fromEntries(
-    (
-      [
-        ['hero1Subtitle', pickLocale(contentSafe.heroEyebrow as LocaleString, locale)],
-        ['hero1Title', pickLocale(contentSafe.heroTitle as LocaleString, locale)],
-        ['hero1Description', pickLocale(contentSafe.heroDescription as LocaleString, locale)],
-        ['aboutTitle', pickLocale(contentSafe.aboutTitle as LocaleString, locale)],
-        ['aboutDescription', pickLocale(contentSafe.aboutDescription as LocaleString, locale)],
-        ['aboutGoal', pickLocale(contentSafe.aboutGoal as LocaleString, locale)],
-        ['visionTitle', pickLocale(contentSafe.visionTitle as LocaleString, locale)],
-        ['visionText', pickLocale(contentSafe.visionText as LocaleString, locale)],
-        ['missionTitle', pickLocale(contentSafe.missionTitle as LocaleString, locale)],
-        ['missionText', pickLocale(contentSafe.missionText as LocaleString, locale)],
-        ['valuesTitle', pickLocale(contentSafe.valuesTitle as LocaleString, locale)],
-        ['valuesText', pickLocale(contentSafe.valuesText as LocaleString, locale)],
-        ['referencesTitle', pickLocale(contentSafe.referencesTitle as LocaleString, locale)],
-        ['referencesText', pickLocale(contentSafe.referencesText as LocaleString, locale)],
-        ['membershipsTitle', pickLocale(contentSafe.membershipsTitle as LocaleString, locale)],
-        ['membershipsText', pickLocale(contentSafe.membershipsText as LocaleString, locale)],
-        ['processTitle', pickLocale(contentSafe.processTitle as LocaleString, locale)],
-        ['contactTitle', pickLocale(contentSafe.contactTitle as LocaleString, locale)],
-        ['contactText', pickLocale(contentSafe.contactText as LocaleString, locale)],
-        ['email', pickLocale(contentSafe.email as LocaleString, locale)],
-        ['phone', pickLocale(contentSafe.phone as LocaleString, locale)],
-        ['headOffice', pickLocale(contentSafe.headOffice as LocaleString, locale)],
-        ['branchOffice', pickLocale(contentSafe.branchOffice as LocaleString, locale)],
-        ['footerText', pickLocale(contentSafe.footerText as LocaleString, locale)],
-      ] as Array<[string, string]>
-    ).filter((entry) => entry[1].length > 0),
-  )
-
-  const sectionLayout =
-    Array.isArray(contentSafe.sectionLayout) && contentSafe.sectionLayout.length > 0
-      ? (contentSafe.sectionLayout as Array<{ section?: string; enabled?: boolean }>).map((item) => ({
-          section: item.section as SectionKey,
-          enabled: item.enabled !== false,
-        }))
-      : defaultSectionLayout
+  const dictionary = (i18n.siteContent as Record<'tr' | 'en', Record<string, string>>)[locale] || {}
+  const ui = uiFromJson(locale) || DEFAULT_SITE_SETTINGS[locale]
 
   return {
     dictionary,
     seo: {
-      title: pickLocale(contentSafe.seoTitle as LocaleString, locale),
-      description: pickLocale(contentSafe.seoDescription as LocaleString, locale),
+      title: dictionary.seoTitle || '',
+      description: dictionary.seoDescription || '',
     },
     ui,
-    sectionLayout,
+    sectionLayout: defaultSectionLayout,
     expertise: expertise.map((item) => ({
       order: Number(item.order) || 0,
       title: pickLocale(item.title as LocaleString, locale),
@@ -219,37 +153,46 @@ function buildLocale(
   }
 }
 
-async function queryHomeData(includeDrafts: boolean) {
+async function fetchLists(includeDrafts: boolean) {
   if (!isSanityConfigured()) {
     return {
-      tr: buildLocale('tr', null, null, [], [], []),
-      en: buildLocale('en', null, null, [], [], []),
+      expertise: defaultExpertise as unknown as Array<Record<string, unknown>>,
+      partners: [] as Array<Record<string, unknown>>,
+      memberships: [] as Array<Record<string, unknown>>,
     }
   }
 
   const client = getSanityClient({ preview: includeDrafts })
   if (!client) {
     return {
-      tr: buildLocale('tr', null, null, [], [], []),
-      en: buildLocale('en', null, null, [], [], []),
+      expertise: defaultExpertise as unknown as Array<Record<string, unknown>>,
+      partners: [] as Array<Record<string, unknown>>,
+      memberships: [] as Array<Record<string, unknown>>,
     }
   }
 
   const data = await client.fetch<{
-    siteContent: Record<string, unknown> | null
-    siteSettings: Record<string, unknown> | null
     expertise: Array<Record<string, unknown>>
     partners: Array<Record<string, unknown>>
     memberships: Array<Record<string, unknown>>
-  }>(homeBundleQuery)
+  }>(listsQuery)
 
   return {
-    tr: buildLocale('tr', data.siteContent, data.siteSettings, data.expertise || [], data.partners || [], data.memberships || []),
-    en: buildLocale('en', data.siteContent, data.siteSettings, data.expertise || [], data.partners || [], data.memberships || []),
+    expertise: data.expertise?.length ? data.expertise : (defaultExpertise as unknown as Array<Record<string, unknown>>),
+    partners: data.partners || [],
+    memberships: data.memberships || [],
   }
 }
 
-const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v5'], {
+async function queryHomeData(includeDrafts: boolean) {
+  const lists = await fetchLists(includeDrafts)
+  return {
+    tr: buildLocale('tr', lists.expertise, lists.partners, lists.memberships),
+    en: buildLocale('en', lists.expertise, lists.partners, lists.memberships),
+  }
+}
+
+const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v6'], {
   tags: Object.values(CACHE_TAGS),
   revalidate: 86_400,
 })

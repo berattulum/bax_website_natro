@@ -32,7 +32,7 @@ export const corporateInformationOffices = {
 export function CorporateInformationClient({ content = corporateInformationCopy, records = corporateInformationRecords, offices = corporateInformationOffices }: { content?: typeof corporateInformationCopy; records?: ReadonlyArray<readonly [string, string, string]>; offices?: typeof corporateInformationOffices }) {
   const [lang, setLang] = useSiteLanguage()
 
-  const t = content[lang]
+  const t = content?.[lang] && 'eyebrow' in content[lang] ? content[lang] : corporateInformationCopy[lang]
 
   return (
     <main className={styles.page}>

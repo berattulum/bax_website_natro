@@ -1,0 +1,31 @@
+import {
+  capabilitiesPage,
+  companyProfilePage,
+  contactPage,
+  corporateInformationPage,
+  ecosystemPage,
+  expertiseItem,
+  founderPage,
+  homePage,
+  membership,
+  partner,
+  siteContent,
+  siteSettings,
+  sustainabilityPage,
+} from './documents'
+
+export const schemaTypes = [
+  siteContent,
+  siteSettings,
+  homePage,
+  companyProfilePage,
+  founderPage,
+  corporateInformationPage,
+  sustainabilityPage,
+  capabilitiesPage,
+  ecosystemPage,
+  contactPage,
+  expertiseItem,
+  partner,
+  membership,
+]

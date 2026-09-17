@@ -1,13 +1,16 @@
 # Görsel regresyon testleri
 
-Testler, production Docker yapısını masaüstü ve mobil Chromium görünümlerinde kontrol eder. Ana sayfanın ilk ekranı piksel karşılaştırmasına, ana public rotalar da HTTP ve tarayıcı çalışma zamanı hata kontrolüne tabi tutulur. Hareketli videolar karşılaştırma sırasında poster karesine sabitlenir. Yerel self-signed sertifika yalnızca test tarayıcısında kabul edilir.
+Testler, çalışan siteyi masaüstü ve mobil Chromium görünümlerinde kontrol eder. Ana sayfanın ilk ekranı piksel karşılaştırmasına, ana public rotalar da HTTP ve tarayıcı çalışma zamanı hata kontrolüne tabi tutulur. Hareketli videolar karşılaştırma sırasında poster karesine sabitlenir.
 
 ## Ön koşul
 
 ```powershell
-pnpm prod:up
+pnpm dev
+# veya VISUAL_TEST_BASE_URL ile preview / production URL
 pnpm exec playwright install chromium
 ```
+
+Varsayılan base URL `http://127.0.0.1:3000`. Başka bir ortam için `VISUAL_TEST_BASE_URL` tanımlayın.
 
 ## Çalıştırma
 
@@ -21,4 +24,4 @@ Fark raporu `playwright-report` altında oluşur. Değişiklik bilinçli olarak 
 pnpm test:visual:update
 ```
 
-Başka bir ortamı sınamak için `VISUAL_TEST_BASE_URL` tanımlanabilir. Referans görüntüler yalnızca tasarım değişikliği incelendikten sonra güncellenmelidir.
+Referans görüntüler yalnızca tasarım değişikliği incelendikten sonra güncellenmelidir.

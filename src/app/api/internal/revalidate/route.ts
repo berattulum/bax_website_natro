@@ -2,7 +2,7 @@ import { timingSafeEqual } from 'node:crypto'
 import { revalidateTag } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { ALLOWED_CACHE_TAGS, type CacheTag } from '@/lib/cache/tags'
+import { ALLOWED_CACHE_TAGS, CACHE_TAGS, type CacheTag } from '@/lib/cache/tags'
 
 export const runtime = 'nodejs'
 
@@ -17,23 +17,25 @@ function secretsMatch(received: string, expected: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const expectedSecret = process.env.REVALIDATION_SECRET
-  const receivedSecret = request.headers.get('x-revalidation-secret') ?? ''
+  const expectedSecret = process.env.REVALIDATION_SECRET || process.env.SANITY_REVALIDATE_SECRET
+  const receivedSecret =
+    request.headers.get('x-revalidation-secret') ??
+    request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ??
+    ''
 
   if (!expectedSecret || !secretsMatch(receivedSecret, expectedSecret)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const body = (await request.json().catch(() => null)) as { tags?: unknown } | null
-  if (!body || !Array.isArray(body.tags)) {
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
-  }
+
+  // Sanity webhook may omit tags — revalidate the full public bundle.
+  const requestedTags = Array.isArray(body?.tags) ? body.tags : Object.values(CACHE_TAGS)
 
   const tags = [
     ...new Set(
-      body.tags.filter(
-        (tag): tag is CacheTag =>
-          typeof tag === 'string' && ALLOWED_CACHE_TAGS.has(tag),
+      requestedTags.filter(
+        (tag): tag is CacheTag => typeof tag === 'string' && ALLOWED_CACHE_TAGS.has(tag),
       ),
     ),
   ]

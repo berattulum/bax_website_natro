@@ -1,7 +1,7 @@
 import { connection } from 'next/server'
 import { CompanyProfileClient } from '@/components/corporate/CompanyProfileClient'
 import { companyProfileCopy } from '@/lib/cms/company-profile-defaults'
-import { getManagedGlobal } from '@/lib/cms/get-managed-pages'
+import { coalesceManagedContent, getManagedGlobal } from '@/lib/cms/get-managed-pages'
 
 export default async function CompanyProfilePage() {
   await connection()
@@ -9,8 +9,8 @@ export default async function CompanyProfilePage() {
   return (
     <CompanyProfileClient
       content={{
-        tr: (page?.contentTr || companyProfileCopy.tr) as typeof companyProfileCopy.tr,
-        en: (page?.contentEn || companyProfileCopy.en) as typeof companyProfileCopy.en,
+        tr: coalesceManagedContent(page?.contentTr, companyProfileCopy.tr),
+        en: coalesceManagedContent(page?.contentEn, companyProfileCopy.en),
       }}
     />
   )

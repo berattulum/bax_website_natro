@@ -1,10 +1,11 @@
 import { unstable_cache } from 'next/cache'
-import { getPayload } from 'payload'
 
-import config from '@payload-config'
 import type { ManagedLocale, SectionKey } from '@/components/ManagedSections'
 import { CACHE_TAGS } from '@/lib/cache/tags'
-import { normalizeSiteSettings } from '@/lib/cms/site-settings-defaults'
+import { DEFAULT_SITE_SETTINGS, normalizeSiteSettings } from '@/lib/cms/site-settings-defaults'
+import { getSanityClient, isSanityConfigured } from '@/lib/sanity/client'
+import { resolveLogo } from '@/lib/sanity/image'
+import { homeBundleQuery } from '@/lib/sanity/queries'
 
 const defaultSectionLayout: ManagedLocale['sectionLayout'] = [
   'about',
@@ -57,131 +58,155 @@ const defaultMemberships = [
   darkCard: darkCard as boolean,
 }))
 
-function mediaUrl(media: unknown) {
-  return typeof media === 'object' &&
-    media &&
-    'url' in media &&
-    typeof media.url === 'string'
-    ? media.url
-    : ''
+type LocaleString = string | { tr?: string; en?: string } | null | undefined
+
+function pickLocale(value: LocaleString, locale: 'tr' | 'en'): string {
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object') {
+    const picked = value[locale]
+    return typeof picked === 'string' ? picked : ''
+  }
+  return ''
 }
 
-async function queryHomeData(includeDrafts: boolean) {
-  const payload = await getPayload({ config })
+function parseJson<T>(value: unknown): T | null {
+  if (value == null) return null
+  if (typeof value === 'object') return value as T
+  if (typeof value !== 'string' || !value.trim()) return null
+  try {
+    return JSON.parse(value) as T
+  } catch {
+    return null
+  }
+}
 
-  async function loadLocale(locale: 'tr' | 'en'): Promise<ManagedLocale> {
-    const [content, settings, expertise, partners, memberships] = await Promise.all([
-      payload.findGlobal({ slug: 'site-content', locale, depth: 0, draft: includeDrafts }),
-      payload.findGlobal({ slug: 'site-settings', locale, depth: 0, draft: includeDrafts }),
-      payload.find({
-        collection: 'expertise-items',
-        locale,
-        sort: 'order',
-        limit: 20,
-        depth: 0,
-        draft: includeDrafts,
-        where: includeDrafts ? undefined : { _status: { equals: 'published' } },
-      }),
-      payload.find({
-        collection: 'partners',
-        locale,
-        sort: 'order',
-        limit: 100,
-        depth: 1,
-        draft: includeDrafts,
-        where: {
-          and: includeDrafts
-            ? [{ active: { equals: true } }]
-            : [
-                { active: { equals: true } },
-                { _status: { equals: 'published' } },
-              ],
-        },
-      }),
-      payload.find({
-        collection: 'memberships',
-        locale,
-        sort: 'order',
-        limit: 100,
-        depth: 1,
-        draft: includeDrafts,
-        where: {
-          and: includeDrafts
-            ? [{ active: { equals: true } }]
-            : [
-                { active: { equals: true } },
-                { _status: { equals: 'published' } },
-              ],
-        },
-      }),
-    ])
+function buildLocale(
+  locale: 'tr' | 'en',
+  content: Record<string, unknown> | null,
+  settingsDoc: Record<string, unknown> | null,
+  expertise: Array<Record<string, unknown>>,
+  partners: Array<Record<string, unknown>>,
+  memberships: Array<Record<string, unknown>>,
+): ManagedLocale {
+  const contentSafe = content || {}
+  const payloadSettings = parseJson<Record<string, unknown>>(
+    (settingsDoc?.payload as { tr?: string; en?: string } | undefined)?.[locale],
+  )
+  const ui =
+    payloadSettings && payloadSettings.navigation && payloadSettings.hero
+      ? normalizeSiteSettings(
+          {
+            navigation: payloadSettings.navigation,
+            hero: {
+              ...((payloadSettings.hero as Record<string, unknown>) || {}),
+              capabilities: (payloadSettings.hero as { capabilities?: string })?.capabilities,
+              discuss: (payloadSettings.hero as { discuss?: string })?.discuss,
+              slidesLabel: (payloadSettings.hero as { slidesLabel?: string })?.slidesLabel,
+              slideLabel: (payloadSettings.hero as { slideLabel?: string })?.slideLabel,
+              slide2Eyebrow: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[0]?.[0],
+              slide2Title: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[0]?.[1],
+              slide2Description: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[0]?.[2],
+              slide3Eyebrow: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[1]?.[0],
+              slide3Title: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[1]?.[1],
+              slide3Description: (payloadSettings.hero as { secondarySlides?: string[][] })?.secondarySlides?.[1]?.[2],
+            },
+            narratives: {
+              designEyebrow: (payloadSettings.narratives as string[][])?.[0]?.[0],
+              designTitle: (payloadSettings.narratives as string[][])?.[0]?.[1],
+              designDescription: (payloadSettings.narratives as string[][])?.[0]?.[2],
+              manufacturingEyebrow: (payloadSettings.narratives as string[][])?.[1]?.[0],
+              manufacturingTitle: (payloadSettings.narratives as string[][])?.[1]?.[1],
+              manufacturingDescription: (payloadSettings.narratives as string[][])?.[1]?.[2],
+            },
+            process: {
+              label: (payloadSettings.process as { label?: string })?.label,
+              step1Title: (payloadSettings.process as { steps?: string[][] })?.steps?.[0]?.[0],
+              step1Text: (payloadSettings.process as { steps?: string[][] })?.steps?.[0]?.[1],
+              step2Title: (payloadSettings.process as { steps?: string[][] })?.steps?.[1]?.[0],
+              step2Text: (payloadSettings.process as { steps?: string[][] })?.steps?.[1]?.[1],
+              step3Title: (payloadSettings.process as { steps?: string[][] })?.steps?.[2]?.[0],
+              step3Text: (payloadSettings.process as { steps?: string[][] })?.steps?.[2]?.[1],
+              step4Title: (payloadSettings.process as { steps?: string[][] })?.steps?.[4]?.[0],
+              step4Text: (payloadSettings.process as { steps?: string[][] })?.steps?.[4]?.[1],
+            },
+            sections: payloadSettings.sections,
+            directory: payloadSettings.directory,
+            form: payloadSettings.form,
+            footer: payloadSettings.footer,
+          },
+          locale,
+        )
+      : DEFAULT_SITE_SETTINGS[locale]
 
-    const dictionary = Object.fromEntries(
+  const dictionary = Object.fromEntries(
+    (
       [
-        ['hero1Subtitle', content.heroEyebrow],
-        ['hero1Title', content.heroTitle],
-        ['hero1Description', content.heroDescription],
-        ['aboutTitle', content.aboutTitle],
-        ['aboutDescription', content.aboutDescription],
-        ['aboutGoal', content.aboutGoal],
-        ['visionTitle', content.visionTitle],
-        ['visionText', content.visionText],
-        ['missionTitle', content.missionTitle],
-        ['missionText', content.missionText],
-        ['valuesTitle', content.valuesTitle],
-        ['valuesText', content.valuesText],
-        ['referencesTitle', content.referencesTitle],
-        ['referencesText', content.referencesText],
-        ['membershipsTitle', content.membershipsTitle],
-        ['membershipsText', content.membershipsText],
-        ['processTitle', content.processTitle],
-        ['contactTitle', content.contactTitle],
-        ['contactText', content.contactText],
-        ['email', content.email],
-        ['phone', content.phone],
-        ['headOffice', content.headOffice],
-        ['branchOffice', content.branchOffice],
-        ['footerText', content.footerText],
-      ].filter(
-        (entry): entry is [string, string] =>
-          typeof entry[1] === 'string' && entry[1].length > 0,
-      ),
-    )
+        ['hero1Subtitle', pickLocale(contentSafe.heroEyebrow as LocaleString, locale)],
+        ['hero1Title', pickLocale(contentSafe.heroTitle as LocaleString, locale)],
+        ['hero1Description', pickLocale(contentSafe.heroDescription as LocaleString, locale)],
+        ['aboutTitle', pickLocale(contentSafe.aboutTitle as LocaleString, locale)],
+        ['aboutDescription', pickLocale(contentSafe.aboutDescription as LocaleString, locale)],
+        ['aboutGoal', pickLocale(contentSafe.aboutGoal as LocaleString, locale)],
+        ['visionTitle', pickLocale(contentSafe.visionTitle as LocaleString, locale)],
+        ['visionText', pickLocale(contentSafe.visionText as LocaleString, locale)],
+        ['missionTitle', pickLocale(contentSafe.missionTitle as LocaleString, locale)],
+        ['missionText', pickLocale(contentSafe.missionText as LocaleString, locale)],
+        ['valuesTitle', pickLocale(contentSafe.valuesTitle as LocaleString, locale)],
+        ['valuesText', pickLocale(contentSafe.valuesText as LocaleString, locale)],
+        ['referencesTitle', pickLocale(contentSafe.referencesTitle as LocaleString, locale)],
+        ['referencesText', pickLocale(contentSafe.referencesText as LocaleString, locale)],
+        ['membershipsTitle', pickLocale(contentSafe.membershipsTitle as LocaleString, locale)],
+        ['membershipsText', pickLocale(contentSafe.membershipsText as LocaleString, locale)],
+        ['processTitle', pickLocale(contentSafe.processTitle as LocaleString, locale)],
+        ['contactTitle', pickLocale(contentSafe.contactTitle as LocaleString, locale)],
+        ['contactText', pickLocale(contentSafe.contactText as LocaleString, locale)],
+        ['email', pickLocale(contentSafe.email as LocaleString, locale)],
+        ['phone', pickLocale(contentSafe.phone as LocaleString, locale)],
+        ['headOffice', pickLocale(contentSafe.headOffice as LocaleString, locale)],
+        ['branchOffice', pickLocale(contentSafe.branchOffice as LocaleString, locale)],
+        ['footerText', pickLocale(contentSafe.footerText as LocaleString, locale)],
+      ] as Array<[string, string]>
+    ).filter((entry) => entry[1].length > 0),
+  )
 
-    return {
-      dictionary,
-      seo: {
-        title: typeof content.seoTitle === 'string' ? content.seoTitle : '',
-        description: typeof content.seoDescription === 'string' ? content.seoDescription : '',
-      },
-      ui: normalizeSiteSettings(settings, locale),
-      sectionLayout:
-        Array.isArray(content.sectionLayout) && content.sectionLayout.length > 0
-          ? content.sectionLayout.map((item) => ({
-              section: item.section as SectionKey,
-              enabled: item.enabled !== false,
-            }))
-          : defaultSectionLayout,
-      expertise: expertise.docs.map((item) => ({
-        order: item.order,
-        title: item.title,
-        description: item.description,
-      })),
-      partners: partners.docs.length > 0
-        ? partners.docs.map((item) => ({
-            name: item.name,
-            caption: item.caption || item.name,
-            website: item.website,
-            logo: mediaUrl(item.logo),
+  const sectionLayout =
+    Array.isArray(contentSafe.sectionLayout) && contentSafe.sectionLayout.length > 0
+      ? (contentSafe.sectionLayout as Array<{ section?: string; enabled?: boolean }>).map((item) => ({
+          section: item.section as SectionKey,
+          enabled: item.enabled !== false,
+        }))
+      : defaultSectionLayout
+
+  return {
+    dictionary,
+    seo: {
+      title: pickLocale(contentSafe.seoTitle as LocaleString, locale),
+      description: pickLocale(contentSafe.seoDescription as LocaleString, locale),
+    },
+    ui,
+    sectionLayout,
+    expertise: expertise.map((item) => ({
+      order: Number(item.order) || 0,
+      title: pickLocale(item.title as LocaleString, locale),
+      description: pickLocale(item.description as LocaleString, locale),
+    })),
+    partners:
+      partners.length > 0
+        ? partners.map((item) => ({
+            name: String(item.name || ''),
+            caption: pickLocale(item.caption as LocaleString, locale) || String(item.name || ''),
+            website: String(item.website || ''),
+            logo: resolveLogo(item as { logoUrl?: string; logo?: unknown }),
           }))
         : defaultPartners,
-      memberships: (memberships.docs.length > 0
-        ? memberships.docs.map((item) => ({
-            name: item.name,
-            category: item.category,
-            website: item.website,
-            logo: mediaUrl(item.logo),
-            darkCard: item.darkCard || false,
+    memberships: (
+      memberships.length > 0
+        ? memberships.map((item) => ({
+            name: String(item.name || ''),
+            category: pickLocale(item.category as LocaleString, locale),
+            website: String(item.website || ''),
+            logo: resolveLogo(item as { logoUrl?: string; logo?: unknown }),
+            darkCard: Boolean(item.darkCard),
           }))
         : defaultMemberships.map((item) => ({
             name: item.name,
@@ -189,21 +214,46 @@ async function queryHomeData(includeDrafts: boolean) {
             website: item.website,
             logo: item.logo,
             darkCard: item.darkCard,
-          }))).filter((item) => item.name.trim().toLowerCase() !== 'composites united'),
+          }))
+    ).filter((item) => item.name.trim().toLowerCase() !== 'composites united'),
+  }
+}
+
+async function queryHomeData(includeDrafts: boolean) {
+  if (!isSanityConfigured()) {
+    return {
+      tr: buildLocale('tr', null, null, [], [], []),
+      en: buildLocale('en', null, null, [], [], []),
     }
   }
 
-  const [tr, en] = await Promise.all([loadLocale('tr'), loadLocale('en')])
-  return { tr, en }
+  const client = getSanityClient({ preview: includeDrafts })
+  if (!client) {
+    return {
+      tr: buildLocale('tr', null, null, [], [], []),
+      en: buildLocale('en', null, null, [], [], []),
+    }
+  }
+
+  const data = await client.fetch<{
+    siteContent: Record<string, unknown> | null
+    siteSettings: Record<string, unknown> | null
+    expertise: Array<Record<string, unknown>>
+    partners: Array<Record<string, unknown>>
+    memberships: Array<Record<string, unknown>>
+  }>(homeBundleQuery)
+
+  return {
+    tr: buildLocale('tr', data.siteContent, data.siteSettings, data.expertise || [], data.partners || [], data.memberships || []),
+    en: buildLocale('en', data.siteContent, data.siteSettings, data.expertise || [], data.partners || [], data.memberships || []),
+  }
 }
 
-const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v4'], {
+const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v5'], {
   tags: Object.values(CACHE_TAGS),
   revalidate: 86_400,
 })
 
 export async function getHomeData({ includeDrafts = false } = {}) {
-  // Draft responses are deliberately never stored in Next's shared data cache.
-  // Only the public, published response uses tagged ISR.
   return includeDrafts ? queryHomeData(true) : getPublishedHomeData()
 }

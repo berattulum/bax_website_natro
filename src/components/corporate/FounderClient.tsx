@@ -55,7 +55,7 @@ export const founderCopy = {
 
 export function FounderClient({ content = founderCopy }: { content?: typeof founderCopy }) {
   const [lang, setLang] = useSiteLanguage()
-  const text = content[lang]
+  const text = (content?.[lang] && 'eyebrow' in content[lang] ? content[lang] : founderCopy[lang])
 
   return <main className={styles.page}>
     <CorporateHeader lang={lang} active="founder" onLangChange={setLang} />

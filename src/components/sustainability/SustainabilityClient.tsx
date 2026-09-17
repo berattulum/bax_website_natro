@@ -160,7 +160,8 @@ export const sustainabilityCopy = {
 
 export function SustainabilityClient({ content = sustainabilityCopy }: { content?: typeof sustainabilityCopy }) {
   const [lang, setLang] = useSiteLanguage()
-  const c = removePeriods(content[lang])
+  const localeCopy = content?.[lang] ?? sustainabilityCopy[lang]
+  const c = removePeriods(localeCopy && 'heroKicker' in localeCopy ? localeCopy : sustainabilityCopy[lang])
 
   return <main className={styles.page}>
     <CorporateHeader lang={lang} active="sustainability" onLangChange={setLang} />

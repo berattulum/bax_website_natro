@@ -1,9 +1,8 @@
 import { createHash } from 'node:crypto'
 import { type NextRequest, NextResponse } from 'next/server'
-import { getPayload } from 'payload'
+import { Resend } from 'resend'
 import { z } from 'zod'
 
-import config from '@payload-config'
 import { checkFormRateLimit } from '@/lib/security/form-rate-limit'
 import { verifyTurnstile } from '@/lib/security/verify-turnstile'
 
@@ -42,9 +41,16 @@ function getClientIP(request: NextRequest) {
 }
 
 function rateLimitIdentifier(ip: string) {
-  return createHash('sha256')
-    .update(ip)
-    .digest('hex')
+  return createHash('sha256').update(ip).digest('hex')
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
 }
 
 export async function POST(request: NextRequest) {
@@ -55,6 +61,17 @@ export async function POST(request: NextRequest) {
   const contentLength = Number(request.headers.get('content-length') ?? 0)
   if (!Number.isFinite(contentLength) || contentLength > 20_000) {
     return jsonResponse({ error: 'Request too large' }, 413)
+  }
+
+  const apiKey = process.env.RESEND_API_KEY
+  const fromEmail = process.env.CONTACT_FROM_EMAIL
+  const notifyEmail = process.env.CONTACT_NOTIFY_EMAIL
+  if (!apiKey || !fromEmail || !notifyEmail) {
+    return jsonResponse(
+      { error: 'E-posta servisi yapılandırılmamış. Lütfen daha sonra tekrar deneyin.' },
+      503,
+      { 'Retry-After': '60' },
+    )
   }
 
   const json = await request.json().catch(() => null)
@@ -76,9 +93,7 @@ export async function POST(request: NextRequest) {
       { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' },
       429,
       {
-        'Retry-After': String(
-          Math.max(1, Math.ceil((rateLimit.reset - Date.now()) / 1000)),
-        ),
+        'Retry-After': String(Math.max(1, Math.ceil((rateLimit.reset - Date.now()) / 1000))),
       },
     )
   }
@@ -92,25 +107,49 @@ export async function POST(request: NextRequest) {
     return jsonResponse({ error: 'Güvenlik doğrulaması başarısız.' }, 403)
   }
 
-  try {
-    const payload = await getPayload({ config })
-    await payload.create({
-      collection: 'messages',
-      overrideAccess: true,
-      data: {
-        name: data.name,
-        company: data.company,
-        email: data.email,
-        phone: data.phone,
-        subject: data.subject,
-        message: data.message,
-        consent: data.consent,
-        status: 'new',
-      },
-      context: { source: 'secure-contact-form' },
+  const resend = new Resend(apiKey)
+  const safe = {
+    name: escapeHtml(data.name),
+    company: escapeHtml(data.company || '—'),
+    email: escapeHtml(data.email),
+    phone: escapeHtml(data.phone || '—'),
+    subject: escapeHtml(data.subject),
+    message: escapeHtml(data.message).replaceAll('\n', '<br />'),
+  }
+
+  const result = await resend.emails
+    .send({
+      from: fromEmail,
+      to: [notifyEmail],
+      replyTo: data.email,
+      subject: `[BaX Contact] ${data.subject}`,
+      html: `
+        <h2>Yeni iletişim formu</h2>
+        <p><strong>Ad Soyad:</strong> ${safe.name}</p>
+        <p><strong>Şirket:</strong> ${safe.company}</p>
+        <p><strong>E-posta:</strong> ${safe.email}</p>
+        <p><strong>Telefon:</strong> ${safe.phone}</p>
+        <p><strong>Konu:</strong> ${safe.subject}</p>
+        <p><strong>Mesaj:</strong><br />${safe.message}</p>
+      `,
+      text: [
+        `Ad Soyad: ${data.name}`,
+        `Şirket: ${data.company || '—'}`,
+        `E-posta: ${data.email}`,
+        `Telefon: ${data.phone || '—'}`,
+        `Konu: ${data.subject}`,
+        '',
+        data.message,
+      ].join('\n'),
     })
-  } catch {
-    return jsonResponse({ error: 'Mesaj şu anda kaydedilemiyor. Lütfen daha sonra tekrar deneyin.' }, 503, { 'Retry-After': '60' })
+    .catch(() => null)
+
+  if (!result || result.error) {
+    return jsonResponse(
+      { error: 'Mesaj şu anda gönderilemiyor. Lütfen daha sonra tekrar deneyin.' },
+      502,
+      { 'Retry-After': '60' },
+    )
   }
 
   return jsonResponse({ success: true, message: 'Talebiniz başarıyla gönderildi.' }, 201)

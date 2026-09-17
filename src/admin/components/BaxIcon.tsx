@@ -1,8 +1,0 @@
-import Image from 'next/image'
-export default function BaxIcon() {
-  return (
-    <div aria-label="BaX Composites">
-      <Image src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} />
-    </div>
-  )
-}

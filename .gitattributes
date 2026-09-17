@@ -1,4 +1,4 @@
-# Use LF for text files so the Windows checkout matches Linux/Docker/Natro.
+# Use LF for text files so the Windows checkout matches Linux (Vercel).
 * text=auto eol=lf
 
 # Windows-native scripts keep their required line endings.

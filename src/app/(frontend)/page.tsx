@@ -4,7 +4,7 @@ import { draftMode } from 'next/headers'
 import DraftModeControls from '@/components/DraftModeControls'
 import SiteClient from '@/components/SiteClient'
 import { getHomeData } from '@/lib/cms/get-home-data'
-import { getManagedGlobal } from '@/lib/cms/get-managed-pages'
+import { getManagedGlobal, coalesceManagedContent } from '@/lib/cms/get-managed-pages'
 import { homeNarrativesCopy } from '@/lib/cms/home-narratives-defaults'
 
 export default async function HomePage() {
@@ -21,8 +21,8 @@ export default async function HomePage() {
       <SiteClient
         locales={{ tr, en }}
         narratives={{
-          tr: (narrativesPage?.contentTr || homeNarrativesCopy.tr) as typeof homeNarrativesCopy.tr,
-          en: (narrativesPage?.contentEn || homeNarrativesCopy.en) as typeof homeNarrativesCopy.en,
+          tr: coalesceManagedContent(narrativesPage?.contentTr, homeNarrativesCopy.tr),
+          en: coalesceManagedContent(narrativesPage?.contentEn, homeNarrativesCopy.en),
         }}
       />
       {isDraftMode && <DraftModeControls />}

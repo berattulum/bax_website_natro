@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const baseURL = process.env.VISUAL_TEST_BASE_URL || 'https://127.0.0.1:8443'
+const baseURL = process.env.VISUAL_TEST_BASE_URL || 'http://127.0.0.1:3000'
 
 export default defineConfig({
   testDir: './tests/visual',
@@ -19,7 +19,6 @@ export default defineConfig({
   },
   use: {
     baseURL,
-    ignoreHTTPSErrors: true,
     locale: 'tr-TR',
     timezoneId: 'Europe/Istanbul',
     colorScheme: 'light',

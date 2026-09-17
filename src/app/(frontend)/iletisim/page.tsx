@@ -2,7 +2,7 @@ import { connection } from 'next/server'
 import { ContactPageClient } from '@/components/contact/ContactPageClient'
 import { contactPageCopy } from '@/lib/cms/contact-page-defaults'
 import { getHomeData } from '@/lib/cms/get-home-data'
-import { getManagedGlobal } from '@/lib/cms/get-managed-pages'
+import { coalesceManagedContent, getManagedGlobal } from '@/lib/cms/get-managed-pages'
 
 export default async function ContactPage() {
   await connection()
@@ -14,8 +14,8 @@ export default async function ContactPage() {
     <ContactPageClient
       locales={{ tr, en }}
       content={{
-        tr: (page?.contentTr || contactPageCopy.tr) as typeof contactPageCopy.tr,
-        en: (page?.contentEn || contactPageCopy.en) as typeof contactPageCopy.en,
+        tr: coalesceManagedContent(page?.contentTr, contactPageCopy.tr),
+        en: coalesceManagedContent(page?.contentEn, contactPageCopy.en),
       }}
     />
   )

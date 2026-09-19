@@ -192,7 +192,7 @@ async function queryHomeData(includeDrafts: boolean) {
   }
 }
 
-const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v6'], {
+const getPublishedHomeData = unstable_cache(() => queryHomeData(false), ['bax-home-data-v8'], {
   tags: Object.values(CACHE_TAGS),
   revalidate: 86_400,
 })

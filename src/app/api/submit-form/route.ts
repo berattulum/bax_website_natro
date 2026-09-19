@@ -20,16 +20,24 @@ function jsonResponse(body: Record<string, unknown>, status: number, headers?: R
   })
 }
 
+const emptyToUndefined = (value: unknown) =>
+  value === '' || value === null || value === undefined ? undefined : value
+
 const formSchema = z.object({
   name: z.string().trim().min(2).max(100),
-  company: z.string().trim().max(150).optional(),
+  company: z.preprocess(emptyToUndefined, z.string().trim().max(150).optional()),
   email: z.string().trim().email().max(200),
-  phone: z.string().trim().max(40).optional(),
+  phone: z.preprocess(emptyToUndefined, z.string().trim().max(40).optional()),
   subject: z.string().trim().min(2).max(200),
   message: z.string().trim().min(10).max(5_000),
   consent: z.literal(true),
-  turnstileToken: z.string().max(2_500),
-  website: z.string().max(0).optional().default(''),
+  // Turnstile tokens can exceed 2k; keep headroom for longer responses.
+  turnstileToken: z.preprocess(emptyToUndefined, z.string().max(8_192).optional().default('')),
+  // Honeypot — must stay empty. Text inputs get autofilled; prefer checkbox.
+  baxHp: z.preprocess(
+    (value) => (value === true || value === 'on' || value === '1' ? '1' : ''),
+    z.string().max(1).optional().default(''),
+  ),
 })
 
 function getClientIP(request: NextRequest) {
@@ -59,7 +67,8 @@ export async function POST(request: NextRequest) {
   }
 
   const contentLength = Number(request.headers.get('content-length') ?? 0)
-  if (!Number.isFinite(contentLength) || contentLength > 20_000) {
+  // Missing Content-Length is allowed (chunked); only reject clearly oversized bodies.
+  if (Number.isFinite(contentLength) && contentLength > 32_000) {
     return jsonResponse({ error: 'Request too large' }, 413)
   }
 
@@ -77,10 +86,17 @@ export async function POST(request: NextRequest) {
   const json = await request.json().catch(() => null)
   const parsed = formSchema.safeParse(json)
   if (!parsed.success) {
+    const fields = parsed.error.issues.map((issue) => issue.path.join('.') || 'root').slice(0, 8)
+    console.error('[contact] validation failed:', fields.join(','))
     return jsonResponse({ error: 'Geçersiz form verisi.' }, 400)
   }
 
   const data = parsed.data
+  if (data.baxHp) {
+    console.error('[contact] honeypot tripped')
+    return jsonResponse({ error: 'Geçersiz form verisi.' }, 400)
+  }
+
   const ip = getClientIP(request)
   const rateLimit = await checkFormRateLimit(rateLimitIdentifier(ip)).catch(() => null)
 
@@ -142,15 +158,27 @@ export async function POST(request: NextRequest) {
         data.message,
       ].join('\n'),
     })
-    .catch(() => null)
+    .catch((error: unknown) => {
+      const message = error instanceof Error ? error.message : 'Resend request failed'
+      console.error('[contact] resend throw:', message.slice(0, 240))
+      return null
+    })
 
   if (!result || result.error) {
+    const providerMessage = result?.error?.message || 'unknown'
+    console.error('[contact] resend error:', providerMessage.slice(0, 240))
+    const testingOnly = /only send testing emails|verify a domain/i.test(providerMessage)
     return jsonResponse(
-      { error: 'Mesaj şu anda gönderilemiyor. Lütfen daha sonra tekrar deneyin.' },
+      {
+        error: testingOnly
+          ? 'E-posta servisi henüz üretim domaini ile doğrulanmamış. Lütfen Resend domain ayarını tamamlayın veya test alıcısını güncelleyin.'
+          : 'Mesaj şu anda gönderilemiyor. Lütfen daha sonra tekrar deneyin.',
+      },
       502,
       { 'Retry-After': '60' },
     )
   }
 
+  console.info('[contact] resend ok:', result.data?.id || 'sent')
   return jsonResponse({ success: true, message: 'Talebiniz başarıyla gönderildi.' }, 201)
 }

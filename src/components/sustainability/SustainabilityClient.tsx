@@ -6,6 +6,7 @@ import { cloneElement, isValidElement, type ReactElement, type ReactNode } from 
 import { CorporateHeader } from '@/components/corporate/CorporateHeader'
 import { PublicFooter } from '@/components/PublicFooter'
 import { sustainabilityCopy } from '@/lib/cms/sustainability-page-defaults'
+import { hrefFor } from '@/lib/i18n/site-routes'
 import styles from './SustainabilityClient.module.css'
 import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
@@ -91,7 +92,7 @@ export function SustainabilityClient({ content = sustainabilityCopy }: { content
 
     <section className={styles.closing}>
       <p className={styles.kicker}>{c.closingKicker}</p><h2>{c.closingTitle[0]}<br /><em>{c.closingTitle[1]}</em></h2>
-      <div><p>{c.closingText}</p><Link href="/iletisim">{c.closingCta}<span>↗</span></Link></div>
+      <div><p>{c.closingText}</p><Link href={hrefFor('contact', lang)}>{c.closingCta}<span>↗</span></Link></div>
     </section>
 
     <PublicFooter lang={lang} />

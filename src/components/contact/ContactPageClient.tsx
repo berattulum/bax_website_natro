@@ -9,6 +9,7 @@ import { PublicFooter } from '@/components/PublicFooter'
 import type { ManagedLocale } from '@/components/ManagedSections'
 import styles from './ContactPageClient.module.css'
 import { contactPageCopy, type ContactPageCopy } from '@/lib/cms/contact-page-defaults'
+import { hrefFor } from '@/lib/i18n/site-routes'
 import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
 type TurnstileApi = {
@@ -33,6 +34,7 @@ export function ContactPageClient({
 }) {
   const [lang, setLang] = useSiteLanguage()
   const [status, setStatus] = useState<'idle' | 'sending' | 'received' | 'failed'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
   const [turnstileReady, setTurnstileReady] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
   const turnstileContainer = useRef<HTMLDivElement | null>(null)
@@ -64,6 +66,7 @@ export function ContactPageClient({
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) {
+      setErrorMessage(lang === 'tr' ? 'Güvenlik doğrulaması tamamlanmadı.' : 'Security check is incomplete.')
       setStatus('failed')
       return
     }
@@ -71,6 +74,7 @@ export function ContactPageClient({
     const form = event.currentTarget
     const data = new FormData(form)
     setStatus('sending')
+    setErrorMessage('')
 
     try {
       const response = await fetch('/api/submit-form', {
@@ -79,18 +83,29 @@ export function ContactPageClient({
         cache: 'no-store',
         signal: AbortSignal.timeout(15_000),
         body: JSON.stringify({
-          name: data.get('name'), company: data.get('company'), email: data.get('email'), phone: data.get('phone'),
-          subject: data.get('subject'), message: data.get('message'), consent: data.get('consent') === 'on',
-          website: data.get('website') || '', turnstileToken,
+          name: String(data.get('name') || '').trim(),
+          company: String(data.get('company') || '').trim(),
+          email: String(data.get('email') || '').trim(),
+          phone: String(data.get('phone') || '').trim(),
+          subject: String(data.get('subject') || '').trim(),
+          message: String(data.get('message') || '').trim(),
+          consent: data.get('consent') === 'on',
+          baxHp: data.get('bax_hp') === 'on',
+          turnstileToken: turnstileToken || '',
         }),
       })
-      if (!response.ok) throw new Error('Contact request failed')
+      const payload = await response.json().catch(() => null) as { error?: string; message?: string } | null
+      if (!response.ok) {
+        setErrorMessage(payload?.error || t.failed)
+        throw new Error(payload?.error || 'Contact request failed')
+      }
       form.reset()
       if (turnstileWidgetId.current) (window as Window & { turnstile?: TurnstileApi }).turnstile?.reset(turnstileWidgetId.current)
       setTurnstileToken('')
       setStatus('received')
     } catch {
       setStatus('failed')
+      setErrorMessage((current) => current || t.failed)
     }
   }
 
@@ -119,7 +134,7 @@ export function ContactPageClient({
 
           <div className={styles.contactGrid}>
             <form className={styles.form} onSubmit={submit}>
-              <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className={styles.honeypot} />
+              <input type="checkbox" name="bax_hp" tabIndex={-1} autoComplete="off" aria-hidden="true" className={styles.honeypot} />
               <fieldset className={styles.types}>
                 <legend>{t.requestType}</legend>
                 <div>{t.requestTypes.map((item) => <label key={item}><input type="radio" name="subject" value={item} required /><span>{item}</span></label>)}</div>
@@ -129,10 +144,10 @@ export function ContactPageClient({
               <label className={styles.field}><span>{t.email}</span><input type="email" name="email" autoComplete="email" required /></label>
               <label className={styles.field}><span>{t.phone}</span><input type="tel" name="phone" autoComplete="tel" /></label>
               <label className={`${styles.field} ${styles.wide}`}><span>{t.message}</span><textarea name="message" rows={5} minLength={10} required placeholder={t.messagePlaceholder} /></label>
-              <label className={`${styles.consent} ${styles.wide}`}><input type="checkbox" name="consent" required /><span>{t.consent} <Link href="/kvkk/aydinlatma-metni">{t.privacy}</Link>.</span></label>
+              <label className={`${styles.consent} ${styles.wide}`}><input type="checkbox" name="consent" required /><span>{t.consent} <Link href={hrefFor('privacy', lang)}>{t.privacy}</Link>.</span></label>
               {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <div ref={turnstileContainer} className={styles.wide} />}
               <div className={`${styles.submit} ${styles.wide}`}>
-                <p role="status" aria-live="polite" data-status={status}>{status === 'received' ? t.received : status === 'failed' ? t.failed : ''}</p>
+                <p role="status" aria-live="polite" data-status={status}>{status === 'received' ? t.received : status === 'failed' ? (errorMessage || t.failed) : ''}</p>
                 <button type="submit" disabled={status === 'sending' || Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken)}><span>{status === 'sending' ? t.sending : t.send}</span><b aria-hidden="true">↗</b></button>
               </div>
             </form>

@@ -1,5 +1,6 @@
 import '../globals.css'
 import '../typography.css'
+import '../nav-mega.css'
 import { headers } from 'next/headers'
 
 import { PublicRootLayout } from '@/components/PublicRootLayout'

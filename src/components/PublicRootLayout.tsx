@@ -55,7 +55,7 @@ export function PublicRootLayout({ children, locale = 'en' }: { children: React.
         <meta name="theme-color" content="#00205b" />
         <meta name="geo.region" content="TR-34" />
         <meta name="geo.placename" content="Istanbul" />
-        <link rel="preload" href="/assets/aircraft-hero-keyframe-v2.png" as="image" type="image/png" />
+        <link rel="preload" href="/assets/hero-aircraft-entry.png" as="image" type="image/png" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData).replace(/</g, '\\u003c') }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData).replace(/</g, '\\u003c') }} />
       </head>

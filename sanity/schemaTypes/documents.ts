@@ -39,6 +39,17 @@ export const expertiseItem = defineType({
   },
 })
 
+const ecosystemChromeFields = [
+  localeString('eyebrow', 'Eyebrow'),
+  localeString('lead', 'Lead'),
+  localeString('title', 'Title'),
+  localeText('description', 'Description'),
+  localeString('index', 'Directory heading'),
+  localeString('next', 'Next section title'),
+  localeText('nextText', 'Next section text'),
+  localeString('explore', 'Explore CTA'),
+]
+
 export const partner = defineType({
   name: 'partner',
   title: 'Partner',
@@ -53,6 +64,14 @@ export const partner = defineType({
     defineField({ name: 'active', type: 'boolean', initialValue: true }),
   ],
   orderings: [{ title: 'Order', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
+  preview: {
+    select: { title: 'name', subtitle: 'caption.tr', media: 'logo', order: 'order' },
+    prepare: ({ title, subtitle, media, order }) => ({
+      title: `${order ?? '?'}. ${title || 'Partner'}`,
+      subtitle,
+      media,
+    }),
+  },
 })
 
 export const membership = defineType({
@@ -70,4 +89,36 @@ export const membership = defineType({
     defineField({ name: 'active', type: 'boolean', initialValue: true }),
   ],
   orderings: [{ title: 'Order', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
+  preview: {
+    select: { title: 'name', subtitle: 'category.tr', media: 'logo', order: 'order' },
+    prepare: ({ title, subtitle, media, order }) => ({
+      title: `${order ?? '?'}. ${title || 'Membership'}`,
+      subtitle,
+      media,
+    }),
+  },
+})
+
+/** Singleton — page titles/copy for Partnerships + Networks & Memberships. */
+export const ecosystemPage = defineType({
+  name: 'ecosystemPage',
+  title: 'Ecosystem Pages',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'partnerships',
+      title: 'İş Ortaklıkları / Partnerships',
+      type: 'object',
+      fields: ecosystemChromeFields,
+    }),
+    defineField({
+      name: 'networks',
+      title: 'Ağlar ve Üyelikler / Networks & Memberships',
+      type: 'object',
+      fields: ecosystemChromeFields,
+    }),
+  ],
+  preview: {
+    prepare: () => ({ title: 'Ecosystem page copy' }),
+  },
 })

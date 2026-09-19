@@ -6,6 +6,7 @@ import { EcosystemPreview, type ManagedLocale } from './ManagedSections'
 import { HeaderLanguageMenu } from './HeaderLanguageMenu'
 import { PublicFooter } from './PublicFooter'
 import { homeNarrativesCopy, type HomeNarratives } from '@/lib/cms/home-narratives-defaults'
+import { hrefFor, localizeHref } from '@/lib/i18n/site-routes'
 import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
 type Lang = 'tr' | 'en'
@@ -78,6 +79,7 @@ export default function SiteClient({
   }
 
   const scheduleMegaClose = () => {
+    if (typeof window !== 'undefined' && !window.matchMedia('(min-width: 769px)').matches) return
     cancelMegaClose()
     megaCloseTimer.current = window.setTimeout(() => {
       setOpenMegaMenu(null)
@@ -85,6 +87,7 @@ export default function SiteClient({
   }
 
   const showMegaMenu = (menu: MegaMenu) => {
+    if (typeof window !== 'undefined' && !window.matchMedia('(min-width: 769px)').matches) return
     cancelMegaClose()
     setOpenMegaMenu(menu)
   }
@@ -366,32 +369,76 @@ export default function SiteClient({
               </div>
               <div className="container home-engineering-layout">
                 <div className="home-engineering-intro">
-                  <span className="home-engineering-kicker">{lang === 'tr' ? 'LOCO3 / DÖNGÜSEL MALZEME MÜHENDİSLİĞİ' : 'LOCO3 / CIRCULAR MATERIAL ENGINEERING'}</span>
+                  <span className="home-engineering-kicker">{lang === 'tr' ? 'KURUMSAL YAKLAŞIM' : 'COMPANY PURPOSE'}</span>
                   <h2>
-                    <span>{lang === 'tr' ? 'Üretim atığından' : 'From production waste'}</span>
-                    <strong>{lang === 'tr' ? 'doğrulanmış malzeme sistemine' : 'to a verified material system'}</strong>
+                    <strong>{lang === 'tr' ? 'Misyonumuz' : 'Our Mission'}</strong>
                   </h2>
                   <div className="home-engineering-statement">
-                    <p>{lang === 'tr' ? 'Kompozit üretim atıklarını; lif değerini koruyan hazırlama, kontrollü yeniden işleme ve karakterizasyon adımlarıyla otomotiv ve havacılık programlarına hazır, izlenebilir malzeme sistemlerine dönüştürüyoruz.' : 'We convert composite production waste into traceable material systems through fibre-preserving preparation, controlled reprocessing and characterisation—ready for scalable automotive and aerospace programmes.'}</p>
-                    <a className="home-engineering-link" href="#capability-transition"><span>{lang === 'tr' ? 'MALZEME ROTASINI İNCELE' : 'FOLLOW THE MATERIAL ROUTE'}</span><span aria-hidden="true">↘</span></a>
+                    <p>{lang === 'tr'
+                      ? 'Havacılık ve otomotiv ortaklarımız için kavramsal tasarımdan yüksek hacimli üretime kadar ileri kompozit mühendislik çözümleri geliştiriyor; partnerlerimizin tasarım ve üretim yetkinliklerini güçlendiriyoruz. Tasarım, analiz, proses, doğrulama ve sanayileştirmeyi tek teknik sorumluluk altında birleştirerek üretilebilir ve ölçeklenebilir ürünler sunuyoruz. Karbon-nylon üretim atıkları gibi kompozit kaynakları lif değerini koruyan hazırlama ve kontrollü yeniden işleme ile izlenebilir malzeme sistemlerine dönüştürüyor; geri kazanılmış termoplastik kompozitleri doğrulanmış bileşenlere taşıyoruz.'
+                      : 'We develop advanced composite engineering solutions for aerospace and automotive partners—from conceptual design through high-volume production—and strengthen their design and manufacturing capabilities. Design, analysis, process development, verification and industrialization stay under one technical responsibility to deliver manufacturable, scalable products. We also convert composite resources such as carbon-nylon waste into traceable material systems through fibre-preserving preparation and controlled reprocessing, then carry recovered thermoplastic composites into verified components.'}</p>
+                    <a className="home-engineering-link" href="#capability-transition"><span>{lang === 'tr' ? 'YAKLAŞIMIMIZI İNCELEYİN' : 'EXPLORE OUR APPROACH'}</span><span aria-hidden="true">↘</span></a>
                   </div>
                 </div>
                 <div className="home-engineering-media-carousel" role="region" aria-roledescription="carousel" aria-label={sliderControl.region}>
-                  <div className="home-engineering-media-viewport">
-                    {loco3Process.map((item, index) => <div
-                      key={`engineering-media-${lang}-${index}`}
-                      className={`home-engineering-media-slide${index === slide ? ' is-active' : ''}`}
-                      aria-hidden={index !== slide}
-                      role="img"
-                      aria-label={`${item.stage} · ${item.label}`}
-                      style={{ backgroundImage: `url('${item.image}')` }}
+                  <div className="home-engineering-media-track-wrap">
+                    <div
+                      className="home-engineering-media-track"
+                      style={{ ['--mission-slide' as string]: String(slide) }}
                     >
-                      <div className="home-engineering-media-caption"><strong>{item.stage}</strong><span>{item.label}</span></div>
-                    </div>)}
+                      {loco3Process.map((item, index) => (
+                        <article
+                          key={`engineering-media-${lang}-${index}`}
+                          className={`home-engineering-media-card${index === slide ? ' is-active' : ''}`}
+                          aria-label={`${item.stage} · ${item.label}`}
+                        >
+                          <div className="home-engineering-media-card-image" style={{ backgroundImage: `url('${item.image}')` }} />
+                          <div className="home-engineering-media-card-overlay">
+                            <strong>{item.stage}</strong>
+                            <span>{item.label}</span>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
                   </div>
-                  <div className="home-engineering-media-controls" role="group" aria-label={settings.hero.slidesLabel}>
-                    {loco3Process.map((item, index) => <button type="button" key={`engineering-control-${index}-${index === slide ? rotationCycle : 'idle'}`} className={index === slide ? 'is-active' : undefined} aria-current={index === slide ? 'true' : undefined} aria-label={`${item.stage} · ${item.label}`} onClick={() => { setSlide(index); setRotationCycle((cycle) => cycle + 1) }} />)}
-                    <button type="button" className="home-engineering-media-pause" aria-pressed={sliderPaused} aria-label={sliderPaused ? sliderControl.resume : sliderControl.pause} onClick={() => { setSliderPaused((paused) => !paused); setRotationCycle((cycle) => cycle + 1) }}>{sliderPaused ? '▶' : 'Ⅱ'}</button>
+                  <div className="home-engineering-media-nav" role="group" aria-label={settings.hero.slidesLabel}>
+                    <button
+                      type="button"
+                      className="home-engineering-media-nav-arrow"
+                      aria-label={lang === 'tr' ? 'Önceki görsel' : 'Previous image'}
+                      onClick={() => {
+                        setSlide((current) => (current - 1 + loco3Process.length) % loco3Process.length)
+                        setRotationCycle((cycle) => cycle + 1)
+                      }}
+                    >
+                      ‹
+                    </button>
+                    <div className="home-engineering-media-nav-dots">
+                      {loco3Process.map((item, index) => (
+                        <button
+                          type="button"
+                          key={`engineering-control-${index}-${index === slide ? rotationCycle : 'idle'}`}
+                          className={index === slide ? 'is-active' : undefined}
+                          aria-current={index === slide ? 'true' : undefined}
+                          aria-label={`${item.stage} · ${item.label}`}
+                          onClick={() => {
+                            setSlide(index)
+                            setRotationCycle((cycle) => cycle + 1)
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      className="home-engineering-media-nav-arrow"
+                      aria-label={lang === 'tr' ? 'Sonraki görsel' : 'Next image'}
+                      onClick={() => {
+                        setSlide((current) => (current + 1) % loco3Process.length)
+                        setRotationCycle((cycle) => cycle + 1)
+                      }}
+                    >
+                      ›
+                    </button>
                   </div>
                 </div>
               </div>
@@ -423,8 +470,8 @@ export default function SiteClient({
           <section id="expertise" className="home-capability-index scroll-reveal" aria-labelledby="home-capability-title">
             <div className="container home-capability-shell">
               <header><span>{lang === 'tr' ? 'YETKİNLİKLER' : 'CAPABILITIES'}</span><h2 id="home-capability-title">{lang === 'tr' ? 'Bir proje için gereken üç mühendislik sistemi' : 'Three engineering systems for one production programme'}</h2><p>{lang === 'tr' ? 'Tasarım kararlarını malzeme ve proses geliştirme ile birleştiriyor, doğrulanmış üretim sistemlerine taşıyoruz' : 'We connect design decisions with material and process development, then carry them into verified production systems'}</p></header>
-              <div className="home-capability-grid">{engineeringCards.map((card) => <a href={card.href} key={card.index}><figure><Image src={card.image} alt="" fill sizes="(max-width: 900px) 100vw, 33vw" /></figure><h3>{card.title}</h3><p>{card.text}</p><small>{card.meta}</small><i aria-hidden="true">↗</i></a>)}</div>
-              <a className="home-capability-all" href="/capabilities">{lang === 'tr' ? 'TÜM YETKİNLİKLERİ İNCELE' : 'EXPLORE ALL CAPABILITIES'}<span aria-hidden="true">↗</span></a>
+              <div className="home-capability-grid">{engineeringCards.map((card) => <a href={localizeHref(card.href, lang)} key={card.index}><figure><Image src={card.image} alt="" fill sizes="(max-width: 900px) 100vw, 33vw" /></figure><h3>{card.title}</h3><p>{card.text}</p><small>{card.meta}</small><i aria-hidden="true">↗</i></a>)}</div>
+              <a className="home-capability-all" href={hrefFor('capabilities', lang)}>{lang === 'tr' ? 'TÜM YETKİNLİKLERİ İNCELE' : 'EXPLORE ALL CAPABILITIES'}<span aria-hidden="true">↗</span></a>
             </div>
           </section>
           <section id="sector-applications" className="sector-applications scroll-reveal" aria-labelledby="sector-applications-title">
@@ -449,7 +496,7 @@ export default function SiteClient({
                     <div><span>{sectorApplications[sectorSlide].sector}</span><small>{sectorApplications[sectorSlide].meta}</small></div>
                     <h3>{sectorApplications[sectorSlide].title}</h3>
                     <p>{sectorApplications[sectorSlide].text}</p>
-                    <a href="/capabilities">{lang === 'tr' ? 'İLGİLİ YETKİNLİKLERİ İNCELE' : 'EXPLORE RELATED CAPABILITIES'} <i aria-hidden="true">↗</i></a>
+                    <a href={hrefFor('capabilities', lang)}>{lang === 'tr' ? 'İLGİLİ YETKİNLİKLERİ İNCELE' : 'EXPLORE RELATED CAPABILITIES'} <i aria-hidden="true">↗</i></a>
                   </article>
                 </div>
               </div>
@@ -490,7 +537,7 @@ export default function SiteClient({
       case 'memberships':
         return null
       case 'contact':
-        return <section id="contact" className="contact-section"><div className="container contact-grid"><div className="contact-intro"><h2>{d.contactTitle}</h2><p>{d.contactText}</p><a className="contact-action" href="/iletisim">{copy.tellProject}</a></div><div className="contact-directory"><article data-contact-icon="BX"><span>{copy.company}</span><strong>{copy.companyName}</strong></article><article data-contact-icon="@"><span>{copy.email}</span><a href={`mailto:${d.email}`}>{d.email}</a></article><article data-contact-icon="+"><span>{copy.phone}</span><a href={`tel:${(d.phone || '').replace(/[^+\d]/g, '')}`}>{d.phone}</a></article><article data-contact-icon="↗"><span>{copy.web}</span><a href={copy.websiteUrl}>{copy.websiteLabel}</a></article></div></div></section>
+        return <section id="contact" className="contact-section"><div className="container contact-grid"><div className="contact-intro"><h2>{d.contactTitle}</h2><p>{d.contactText}</p><a className="contact-action" href={hrefFor('contact', lang)}>{copy.tellProject}</a></div><div className="contact-directory"><article data-contact-icon="BX"><span>{copy.company}</span><strong>{copy.companyName}</strong></article><article data-contact-icon="@"><span>{copy.email}</span><a href={`mailto:${d.email}`}>{d.email}</a></article><article data-contact-icon="+"><span>{copy.phone}</span><a href={`tel:${(d.phone || '').replace(/[^+\d]/g, '')}`}>{d.phone}</a></article><article data-contact-icon="↗"><span>{copy.web}</span><a href={copy.websiteUrl}>{copy.websiteLabel}</a></article></div></div></section>
     }
   }
 
@@ -500,24 +547,24 @@ export default function SiteClient({
         <div className="logo"><a href="#home" aria-label="BaX Composites"><Image className="brand-logo brand-logo-header" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} priority /></a></div>
         <nav className={`main-nav${menuOpen ? ' is-open' : ''}`} aria-label={copy.mainNavigationLabel} onMouseEnter={cancelMegaClose} onMouseLeave={scheduleMegaClose}><ul>
           {headerNavigationItems.map(([label, id]) => {
-            if (id === 'about') return <li className={`nav-with-submenu${openMegaMenu === 'about' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('about')}><div className="nav-parent-row"><a href="/sirket-profili" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'about'} aria-label={aboutNavigation.toggle} onClick={() => toggleMegaMenu('about')}><span aria-hidden="true">⌄</span></button></div></li>
-            if (id === 'expertise') return <li className={`nav-with-submenu nav-expertise${openMegaMenu === 'expertise' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('expertise')}><div className="nav-parent-row"><a href="/capabilities" className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'expertise'} aria-label={lang === 'tr' ? 'Yetkinlikler menüsünü aç' : 'Open capabilities menu'} onClick={() => toggleMegaMenu('expertise')}><span aria-hidden="true">⌄</span></button></div></li>
-            if (id === 'ecosystem') return <li className={`nav-with-submenu nav-ecosystem${openMegaMenu === 'ecosystem' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('ecosystem')}><div className="nav-parent-row"><a href="#ecosystem" className={activeSection === id ? 'active' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'ecosystem'} aria-label={ecosystemNavigation.toggle} onClick={() => toggleMegaMenu('ecosystem')}><span aria-hidden="true">⌄</span></button></div></li>
-            if (id === 'sustainability') return <li className={`nav-with-submenu nav-sustainability${openMegaMenu === 'sustainability' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('sustainability')}><div className="nav-parent-row"><a href="/surdurulebilirlik"><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'sustainability'} aria-label={lang === 'tr' ? 'Sürdürülebilirlik menüsünü aç' : 'Open sustainability menu'} onClick={() => toggleMegaMenu('sustainability')}><span aria-hidden="true">⌄</span></button></div></li>
+            if (id === 'about') return <li className={`nav-with-submenu${openMegaMenu === 'about' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('about')}><div className="nav-parent-row"><a href={hrefFor('company', lang)} className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'about'} aria-label={aboutNavigation.toggle} onClick={() => toggleMegaMenu('about')}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu" aria-hidden={openMegaMenu !== 'about'}><a href={hrefFor('company', lang)}>{aboutNavigation.profile}</a><a href={hrefFor('founder', lang)}>{aboutNavigation.founder}</a><a href={hrefFor('corporate', lang)}>{aboutNavigation.corporate}</a></div></li>
+            if (id === 'expertise') return <li className={`nav-with-submenu nav-expertise${openMegaMenu === 'expertise' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('expertise')}><div className="nav-parent-row"><a href={hrefFor('capabilities', lang)} className={activeSection === id ? 'active' : undefined}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'expertise'} aria-label={lang === 'tr' ? 'Yetkinlikler menüsünü aç' : 'Open capabilities menu'} onClick={() => toggleMegaMenu('expertise')}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu" aria-hidden={openMegaMenu !== 'expertise'}><a href={hrefFor('capabilities', lang)}>{lang === 'tr' ? 'Tüm yetkinlikler' : 'Explore capabilities'}</a></div></li>
+            if (id === 'ecosystem') return <li className={`nav-with-submenu nav-ecosystem${openMegaMenu === 'ecosystem' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('ecosystem')}><div className="nav-parent-row"><a href="#ecosystem" className={activeSection === id ? 'active' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'ecosystem'} aria-label={ecosystemNavigation.toggle} onClick={() => toggleMegaMenu('ecosystem')}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu" aria-hidden={openMegaMenu !== 'ecosystem'}><a href={hrefFor('partnerships', lang)}>{ecosystemNavigation.partnerships}</a><a href={hrefFor('networks', lang)}>{ecosystemNavigation.networks}</a></div></li>
+            if (id === 'sustainability') return <li className={`nav-with-submenu nav-sustainability${openMegaMenu === 'sustainability' ? ' is-submenu-open' : ''}`} key={id} onMouseEnter={() => showMegaMenu('sustainability')}><div className="nav-parent-row"><a href={hrefFor('sustainability', lang)}><span className="nav-dot" aria-hidden="true" />{label}</a><button type="button" className="nav-submenu-toggle" aria-expanded={openMegaMenu === 'sustainability'} aria-label={lang === 'tr' ? 'Sürdürülebilirlik menüsünü aç' : 'Open sustainability menu'} onClick={() => toggleMegaMenu('sustainability')}><span aria-hidden="true">⌄</span></button></div><div className="nav-submenu" aria-hidden={openMegaMenu !== 'sustainability'}><a href={hrefFor('sustainability', lang)}>{lang === 'tr' ? 'Yaklaşımımız' : 'Our approach'}</a></div></li>
             return <li key={id} onMouseEnter={() => setOpenMegaMenu(null)}><a href={`#${id}`} className={activeSection === id ? 'active' : undefined} aria-current={activeSection === id ? 'page' : undefined} onClick={(event) => navigateToSection(event, id)}><span className="nav-dot" aria-hidden="true" />{label}</a></li>
           })}
         </ul><div className={`nav-mega-panel${megaMenuOpen ? ` is-open menu-${openMegaMenu}` : ''}`} aria-hidden={!megaMenuOpen}>
           <div className="nav-mega-inner">
             <div className="nav-mega-content">
-              <section className={openMegaMenu === 'about' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'KURUMSAL' : 'CORPORATE'}</span><h3>{lang === 'tr' ? 'BaX’ı tanıyın' : 'Discover BaX'}</h3><a href="/sirket-profili">{aboutNavigation.profile}</a><a href="/kurucu">{aboutNavigation.founder}</a><a href="/kurumsal-bilgiler">{aboutNavigation.corporate}</a></section>
-              <section className={openMegaMenu === 'expertise' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'YETKİNLİKLER' : 'CAPABILITIES'}</span><h3>{lang === 'tr' ? 'Mühendislik' : 'Engineering'}</h3><a href="/capabilities">{lang === 'tr' ? 'Tüm yetkinlikler' : 'Explore capabilities'}</a></section>
-              <section className={openMegaMenu === 'ecosystem' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'EKOSİSTEM' : 'ECOSYSTEM'}</span><h3>{ecosystemNavigation.label}</h3><a href="/is-ortakliklari">{ecosystemNavigation.partnerships}</a><a href="/aglar-ve-uyelikler">{ecosystemNavigation.networks}</a></section>
-              <section className={openMegaMenu === 'sustainability' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'SÜRDÜRÜLEBİLİRLİK' : 'SUSTAINABILITY'}</span><h3>{lang === 'tr' ? 'Döngüsel mühendislik' : 'Circular engineering'}</h3><a href="/surdurulebilirlik">{lang === 'tr' ? 'Yaklaşımımız' : 'Our approach'}</a></section>
+              <section className={openMegaMenu === 'about' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'KURUMSAL' : 'CORPORATE'}</span><h3>{lang === 'tr' ? 'BaX’ı tanıyın' : 'Discover BaX'}</h3><a href={hrefFor('company', lang)}>{aboutNavigation.profile}</a><a href={hrefFor('founder', lang)}>{aboutNavigation.founder}</a><a href={hrefFor('corporate', lang)}>{aboutNavigation.corporate}</a></section>
+              <section className={openMegaMenu === 'expertise' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'YETKİNLİKLER' : 'CAPABILITIES'}</span><h3>{lang === 'tr' ? 'Mühendislik' : 'Engineering'}</h3><a href={hrefFor('capabilities', lang)}>{lang === 'tr' ? 'Tüm yetkinlikler' : 'Explore capabilities'}</a></section>
+              <section className={openMegaMenu === 'ecosystem' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'EKOSİSTEM' : 'ECOSYSTEM'}</span><h3>{ecosystemNavigation.label}</h3><a href={hrefFor('partnerships', lang)}>{ecosystemNavigation.partnerships}</a><a href={hrefFor('networks', lang)}>{ecosystemNavigation.networks}</a></section>
+              <section className={openMegaMenu === 'sustainability' ? 'is-current' : undefined}><span>{lang === 'tr' ? 'SÜRDÜRÜLEBİLİRLİK' : 'SUSTAINABILITY'}</span><h3>{lang === 'tr' ? 'Döngüsel mühendislik' : 'Circular engineering'}</h3><a href={hrefFor('sustainability', lang)}>{lang === 'tr' ? 'Yaklaşımımız' : 'Our approach'}</a></section>
             </div>
           </div>
         </div></nav>
-        <button type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-label={copy.mobileMenuLabel} onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>
-        <div className="header-right"><a className="header-contact-link" href="/iletisim">{copy.contactUs}</a><HeaderLanguageMenu value={lang} onChange={selectLanguage} label={copy.languageLabel} /></div>
+        <button type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-label={copy.mobileMenuLabel} onClick={() => setMenuOpen((open) => { if (open) setOpenMegaMenu(null); return !open })}><span /><span /></button>
+        <div className="header-right"><a className="header-contact-link" href={hrefFor('contact', lang)}>{copy.contactUs}</a><HeaderLanguageMenu value={lang} onChange={selectLanguage} label={copy.languageLabel} /></div>
       </div>
     </header>
 
@@ -527,13 +574,15 @@ export default function SiteClient({
         <span className="showcase-factory" />
         <span className="showcase-white-balance" />
       </div>
-      <div className="container showcase-layout">
+      <div className="showcase-layout">
         <div className="showcase-copy">
           <p>{cleanEyebrow(mainSlide[0])}</p>
           <h1 id="showcase-title">{lang === 'tr' ? <>İleri ve geri dönüştürülmüş kompozitler<strong>Üretim için tasarlandı</strong></> : <>Advanced and recycled composites<strong>Engineered for production</strong></>}</h1>
+        </div>
+        <div className="showcase-band">
           <div className="showcase-description">{mainSlide[2]}</div>
           <div className="showcase-actions">
-            <a className="showcase-primary" href="/iletisim">{copy.discuss}</a>
+            <a className="showcase-primary" href={hrefFor('contact', lang)}>{copy.discuss}</a>
             <a href="#expertise">{lang === 'tr' ? 'YETKİNLİKLERİMİZİ KEŞFEDİN' : 'EXPLORE OUR CAPABILITIES'}</a>
           </div>
         </div>

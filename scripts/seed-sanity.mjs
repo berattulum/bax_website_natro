@@ -1,11 +1,14 @@
 /**
- * Seed Sanity with list documents only (expertise, partners, memberships).
- * Page copy lives in `src/content/i18n/*.json` — not seeded to Sanity.
+ * Seed Sanity with list documents + ecosystem page chrome.
+ * Other page copy still lives in `src/content/i18n/*.json`.
  *
  * Requires: NEXT_PUBLIC_SANITY_PROJECT_ID, SANITY_API_WRITE_TOKEN
  * Run: pnpm seed:sanity
  */
 import { createClient } from '@sanity/client'
+import { readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
@@ -23,6 +26,9 @@ const client = createClient({
   token,
   useCdn: false,
 })
+
+const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..')
+const ecosystemJson = JSON.parse(readFileSync(join(rootDir, 'src/content/i18n/ecosystem.json'), 'utf8'))
 
 const defaultPartners = [
   ['CTC', 'CTC · an Airbus company', 'https://ctc-composites.com/', '/logos/ctc.png'],
@@ -82,6 +88,25 @@ const defaultExpertise = [
   },
 ]
 
+function localePair(tr, en) {
+  return { tr, en }
+}
+
+function chromeFromJson(kind) {
+  const tr = ecosystemJson.tr[kind]
+  const en = ecosystemJson.en[kind]
+  return {
+    eyebrow: localePair(tr.eyebrow, en.eyebrow),
+    lead: localePair(tr.lead, en.lead),
+    title: localePair(tr.title, en.title),
+    description: localePair(tr.description, en.description),
+    index: localePair(tr.index, en.index),
+    next: localePair(tr.next, en.next),
+    nextText: localePair(tr.nextText, en.nextText),
+    explore: localePair(tr.explore, en.explore),
+  }
+}
+
 async function upsert(doc) {
   await client.createOrReplace(doc)
   console.log('upserted', doc._id)
@@ -125,7 +150,14 @@ async function main() {
     })
   }
 
-  console.log('Sanity seed complete (expertise, partners, memberships).')
+  await upsert({
+    _id: 'ecosystemPage',
+    _type: 'ecosystemPage',
+    partnerships: chromeFromJson('partnerships'),
+    networks: chromeFromJson('networks'),
+  })
+
+  console.log('Sanity seed complete (expertise, partners, memberships, ecosystemPage).')
 }
 
 main().catch((error) => {

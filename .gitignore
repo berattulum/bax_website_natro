@@ -24,3 +24,6 @@ scripts/create_staj_defteri.py
 
 .vercel
 .env*
+
+.tools/
+

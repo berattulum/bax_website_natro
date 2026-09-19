@@ -1,0 +1,402 @@
+/* Dedicated mega-nav curtain open ? imported after globals.css */
+
+@media (min-width: 769px) {
+  .main-header {
+    --bax-mega-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .main-header .main-nav {
+    position: static !important;
+  }
+
+  .main-header:has(.nav-mega-panel.is-open)::before {
+    content: '';
+    position: fixed;
+    top: 100%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 90;
+    background: rgba(6, 20, 28, 0.28);
+    pointer-events: none;
+    animation: bax-mega-scrim 0.38s var(--bax-mega-ease) both;
+  }
+
+  .main-header .nav-mega-panel {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1100 !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    color: #102a34 !important;
+    background:
+      linear-gradient(180deg, rgba(252, 253, 251, 0.99), rgba(244, 248, 246, 0.985)),
+      #f4f8f7 !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(16, 42, 52, 0.1) !important;
+    border-bottom: 1px solid rgba(16, 42, 52, 0.12) !important;
+    border-radius: 0 !important;
+    box-shadow: 0 28px 64px rgba(6, 28, 36, 0.22) !important;
+    backdrop-filter: blur(20px) saturate(118%);
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    clip-path: inset(0 0 100% 0);
+    transform: none !important;
+    transition:
+      clip-path 0.48s var(--bax-mega-ease),
+      opacity 0.28s ease,
+      visibility 0.28s linear,
+      box-shadow 0.4s ease !important;
+  }
+
+  .main-header .nav-mega-panel::before {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: linear-gradient(90deg, transparent 0%, #22abc1 18%, #67843d 55%, #22abc1 82%, transparent 100%) !important;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.55s var(--bax-mega-ease) 0.06s;
+    pointer-events: none !important;
+  }
+
+  .main-header .nav-mega-panel::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background:
+      radial-gradient(ellipse 48% 80% at 8% 0%, rgba(34, 171, 193, 0.08), transparent 55%),
+      radial-gradient(ellipse 40% 70% at 92% 100%, rgba(103, 132, 61, 0.07), transparent 50%) !important;
+    pointer-events: none !important;
+  }
+
+  .main-header .nav-mega-panel.is-open {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    clip-path: inset(0 0 0 0);
+    box-shadow: 0 36px 80px rgba(6, 28, 36, 0.26) !important;
+  }
+
+  .main-header .nav-mega-panel.is-open::before {
+    transform: scaleX(1);
+  }
+
+  .main-header .nav-mega-inner {
+    position: relative !important;
+    z-index: 1 !important;
+    width: min(1200px, calc(100% - 48px)) !important;
+    min-height: 248px !important;
+    margin: 0 auto !important;
+    padding: 36px 0 40px !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  .main-header .nav-mega-content {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+  }
+
+  .main-header .nav-mega-content section {
+    position: relative !important;
+    min-height: 200px !important;
+    padding: 8px clamp(18px, 2vw, 28px) 12px !important;
+    background: transparent !important;
+    border-right: 1px solid rgba(16, 42, 52, 0.08) !important;
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.42s var(--bax-mega-ease),
+      transform 0.48s var(--bax-mega-ease),
+      background 0.28s ease;
+  }
+
+  .main-header .nav-mega-content section:last-child {
+    border-right: 0 !important;
+  }
+
+  .main-header .nav-mega-panel.is-open .nav-mega-content section {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .main-header .nav-mega-panel.is-open .nav-mega-content section:nth-child(1) {
+    transition-delay: 0.08s;
+  }
+  .main-header .nav-mega-panel.is-open .nav-mega-content section:nth-child(2) {
+    transition-delay: 0.14s;
+  }
+  .main-header .nav-mega-panel.is-open .nav-mega-content section:nth-child(3) {
+    transition-delay: 0.2s;
+  }
+  .main-header .nav-mega-panel.is-open .nav-mega-content section:nth-child(4) {
+    transition-delay: 0.26s;
+  }
+
+  .main-header .nav-mega-content section.is-current {
+    background: linear-gradient(180deg, rgba(34, 171, 193, 0.07), rgba(34, 171, 193, 0.015)) !important;
+  }
+
+  .main-header .nav-mega-content section.is-current::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: #22abc1;
+    transform: scaleY(0);
+    transform-origin: top;
+    animation: bax-mega-rail 0.45s var(--bax-mega-ease) 0.18s both;
+  }
+
+  .main-header .nav-mega-content section > span {
+    display: block !important;
+    margin-bottom: 14px !important;
+    color: #6b8131 !important;
+    font: 700 0.72rem/1.3 Arial, Helvetica, sans-serif !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  .main-header .nav-mega-content section.is-current > span {
+    color: #1a8fa3 !important;
+  }
+
+  .main-header .nav-mega-content h3 {
+    margin: 0 0 18px !important;
+    color: #102a34 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: clamp(1.28rem, 1.4vw, 1.55rem) !important;
+    font-weight: 400 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  .main-header .main-nav .nav-mega-content a,
+  .main-header.is-hero .main-nav .nav-mega-content a {
+    position: relative !important;
+    display: block !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    padding: 9px 0 !important;
+    color: #314f59 !important;
+    border: 0 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: clamp(0.95rem, 0.98vw, 1.05rem) !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+    letter-spacing: -0.01em !important;
+    text-transform: none !important;
+    transition: color 0.2s ease, padding-left 0.28s var(--bax-mega-ease) !important;
+  }
+
+  .main-header .main-nav .nav-mega-content a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    width: 0;
+    height: 1px;
+    background: #22abc1;
+    transition: width 0.28s var(--bax-mega-ease);
+  }
+
+  .main-header .main-nav .nav-mega-content a:hover,
+  .main-header.is-hero .main-nav .nav-mega-content a:hover,
+  .main-header .main-nav .nav-mega-content a:focus-visible {
+    color: #102a34 !important;
+    border: 0 !important;
+    padding-left: 10px !important;
+    transform: none !important;
+  }
+
+  .main-header .main-nav .nav-mega-content a:hover::after,
+  .main-header .main-nav .nav-mega-content a:focus-visible::after {
+    width: calc(100% - 10px);
+  }
+
+  .main-header .nav-submenu-toggle {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 999px;
+    transition: background 0.28s ease, color 0.28s ease;
+  }
+
+  .main-header .nav-with-submenu:is(:hover, :focus-within) .nav-submenu-toggle {
+    background: rgba(103, 132, 61, 0.12);
+  }
+
+  .main-header .nav-with-submenu:is(.is-submenu-open, :focus-within) .nav-submenu-toggle {
+    background: rgba(103, 132, 61, 0.18);
+  }
+
+  .main-header .nav-with-submenu:is(:hover, :focus-within):not(.is-submenu-open) .nav-submenu-toggle span {
+    animation: none !important;
+    transform: translateY(1px) rotate(45deg);
+  }
+
+  .main-header .nav-with-submenu:is(.is-submenu-open, :focus-within) .nav-submenu-toggle span {
+    animation: none !important;
+    transform: translateY(1px) rotate(225deg);
+  }
+}
+
+@keyframes bax-mega-scrim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bax-mega-rail {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (min-width: 769px) and (prefers-reduced-motion: reduce) {
+  .main-header:has(.nav-mega-panel.is-open)::before,
+  .main-header .nav-mega-panel,
+  .main-header .nav-mega-panel::before,
+  .main-header .nav-mega-content section,
+  .main-header .nav-mega-content section.is-current::before,
+  .main-header .main-nav .nav-mega-content a,
+  .main-header .main-nav .nav-mega-content a::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .main-header .nav-mega-panel {
+    clip-path: none !important;
+  }
+
+  .main-header .nav-mega-content section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Mobile: accordion under each parent ? not the shared mega panel */
+@media (max-width: 768px) {
+  .main-header .nav-mega-panel,
+  .main-header .nav-mega-panel.is-open {
+    display: none !important;
+  }
+
+  .main-header .nav-submenu-toggle {
+    display: grid !important;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    color: #173a4a !important;
+  }
+
+  .main-nav .nav-with-submenu {
+    display: block;
+    width: 100%;
+  }
+
+  .main-nav .nav-parent-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .main-nav .nav-submenu {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    display: grid;
+    width: 100% !important;
+    height: 0;
+    max-height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    background: transparent;
+    border: 0 !important;
+    border-radius: 10px;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    transform: none !important;
+    clip-path: none !important;
+    pointer-events: none;
+    transition:
+      max-height 0.28s ease,
+      height 0.28s ease,
+      opacity 0.18s ease,
+      padding 0.28s ease,
+      margin 0.28s ease,
+      visibility 0.28s ease,
+      background 0.2s ease;
+  }
+
+  .main-nav .nav-with-submenu.is-submenu-open .nav-submenu {
+    height: auto;
+    max-height: 280px;
+    margin: 0 0 6px !important;
+    padding: 4px 8px 10px !important;
+    visibility: visible;
+    opacity: 1;
+    background: rgba(16, 42, 52, 0.04);
+    pointer-events: auto;
+  }
+
+  .main-header .main-nav .nav-submenu a,
+  .main-header.is-hero .main-nav .nav-submenu a {
+    display: block;
+    width: 100%;
+    min-height: 42px;
+    padding: 11px 14px !important;
+    color: #3d5a66 !important;
+    border: 0 !important;
+    border-radius: 8px;
+    font-size: 0.86rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    transform: none !important;
+  }
+
+  .main-header .main-nav .nav-submenu a:hover,
+  .main-header.is-hero .main-nav .nav-submenu a:hover {
+    color: #102a34 !important;
+    background: rgba(34, 171, 193, 0.08);
+    padding-left: 14px !important;
+  }
+
+  .main-nav .nav-submenu::before,
+  .main-nav .nav-submenu::after {
+    display: none !important;
+  }
+}
+
+/* Desktop: nested accordion links stay hidden ? mega panel owns the menu */
+@media (min-width: 769px) {
+  .main-nav > ul > .nav-with-submenu > .nav-submenu {
+    display: none !important;
+  }
+}

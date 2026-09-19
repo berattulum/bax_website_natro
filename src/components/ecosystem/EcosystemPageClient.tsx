@@ -7,6 +7,7 @@ import { CorporateHeader, type CorporateLang } from '@/components/corporate/Corp
 import { PublicFooter } from '@/components/PublicFooter'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
 import { ecosystemPageCopy, type EcosystemChrome } from '@/lib/cms/ecosystem-page-defaults'
+import { hrefFor } from '@/lib/i18n/site-routes'
 import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 
 type PageKind = 'partnerships' | 'networks'
@@ -28,7 +29,7 @@ export default function EcosystemPageClient({
   const copy = isPartnerships ? chrome.partnerships : chrome.networks
 
   const items: Array<Partner | Membership> = isPartnerships ? locale.partners : locale.memberships
-  const nextHref = isPartnerships ? '/aglar-ve-uyelikler' : '/is-ortakliklari'
+  const nextHref = hrefFor(isPartnerships ? 'networks' : 'partnerships', lang)
 
   return (
     <main className={styles.page}>

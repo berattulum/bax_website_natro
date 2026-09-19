@@ -1,4 +1,5 @@
 import type { SiteUISettings } from '@/lib/cms/site-settings-defaults'
+import { hrefFor } from '@/lib/i18n/site-routes'
 import type { CSSProperties } from 'react'
 
 type ExpertiseItem = { order: number; title: string; description: string }
@@ -191,8 +192,8 @@ export function EcosystemPreview({
         <div className="ecosystem-preview-intro">
           <p>{copy.text}</p>
           <div className="ecosystem-preview-actions">
-            <a href="/is-ortakliklari">{copy.partners}<span aria-hidden="true">↗</span></a>
-            <a href="/aglar-ve-uyelikler">{copy.networks}<span aria-hidden="true">↗</span></a>
+            <a href={hrefFor('partnerships', lang)}>{copy.partners}<span aria-hidden="true">↗</span></a>
+            <a href={hrefFor('networks', lang)}>{copy.networks}<span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </div>

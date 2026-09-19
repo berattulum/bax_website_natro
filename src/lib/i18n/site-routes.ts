@@ -97,6 +97,18 @@ export function localizedPath(pathname: string, locale: SiteLocale) {
   return routeFromPath(pathname)?.[1].paths[locale] ?? `/${locale}`
 }
 
+export function hrefFor(key: SiteRouteKey, locale: SiteLocale, hash = '') {
+  return `${siteRoutes[key].paths[locale]}${hash}`
+}
+
+/** Turn a legacy or already-localized internal href into the locale-prefixed path. */
+export function localizeHref(href: string, locale: SiteLocale) {
+  if (!href.startsWith('/') || href.startsWith('//') || href.startsWith('/#')) return href
+  const [path, hash] = href.split('#')
+  const localized = localizedPath(path, locale)
+  return hash ? `${localized}#${hash}` : localized
+}
+
 export function routeByLocalizedSlug(locale: SiteLocale, slug: string[]) {
   const path = `/${locale}${slug.length ? `/${slug.join('/')}` : ''}`
   return Object.entries(siteRoutes).find(([, route]) => route.paths[locale] === path) ?? null

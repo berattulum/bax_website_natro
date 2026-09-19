@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PublicFooter } from '@/components/PublicFooter'
 import { companyProfileCopy, type CompanyProfileCopy } from '@/lib/cms/company-profile-defaults'
+import { hrefFor } from '@/lib/i18n/site-routes'
 import { useSiteLanguage } from '@/lib/i18n/use-site-language'
 import { CorporateHeader, type CorporateLang } from './CorporateHeader'
 
@@ -95,8 +96,8 @@ export function CompanyProfileClient({
         <h2>{copy.nextTitle}<br />{copy.nextTitleAccent}</h2>
       </div>
       <nav>
-        <Link href="/kurucu">{copy.nextFounder}<span>↗</span></Link>
-        <Link href="/kurumsal-bilgiler">{copy.nextCorporate}<span>↗</span></Link>
+        <Link href={hrefFor('founder', lang)}>{copy.nextFounder}<span>↗</span></Link>
+        <Link href={hrefFor('corporate', lang)}>{copy.nextCorporate}<span>↗</span></Link>
       </nav>
     </section>
 

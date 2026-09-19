@@ -3,8 +3,10 @@ import type { ReactNode } from 'react'
 import { PublicFooter } from '@/components/PublicFooter'
 import { CorporateHeader } from '@/components/corporate/CorporateHeader'
 import styles from '@/components/institutional/InstitutionalSimple.module.css'
+import { hrefFor, type SiteLocale } from '@/lib/i18n/site-routes'
 
 type LegalPageProps = {
+  lang?: SiteLocale
   eyebrow: string
   title: string
   description: string
@@ -18,10 +20,10 @@ type LegalPageProps = {
   children: ReactNode
 }
 
-export function LegalPage({ eyebrow, title, description, pdfHref, asideTitle = 'Belge erişimi', asideDescription = 'İçeriği bu sayfadan okuyabilir veya kaynak PDF belgesini indirebilirsiniz.', externalHref, externalLabel, metaTitle = 'Mevcut şirket belgesi', metaDescription = 'Nihai yayından önce hukuk onayı planlanmaktadır.', children }: LegalPageProps) {
+export function LegalPage({ lang = 'tr', eyebrow, title, description, pdfHref, asideTitle = 'Belge erişimi', asideDescription = 'İçeriği bu sayfadan okuyabilir veya kaynak PDF belgesini indirebilirsiniz.', externalHref, externalLabel, metaTitle = 'Mevcut şirket belgesi', metaDescription = 'Nihai yayından önce hukuk onayı planlanmaktadır.', children }: LegalPageProps) {
   return (
     <main className={styles.page}>
-      <CorporateHeader lang="en" active="records" />
+      <CorporateHeader lang={lang} active="records" />
       <section className={styles.legalHero}>
         <div>
           <span className={styles.legalEyebrow}>{eyebrow}</span>
@@ -45,12 +47,12 @@ export function LegalPage({ eyebrow, title, description, pdfHref, asideTitle = '
           {externalHref && <a href={externalHref} target="_blank" rel="noreferrer">
             {externalLabel || 'Kaydı doğrula'} <span aria-hidden="true">↗</span>
           </a>}
-          <Link href="/kvkk">KVKK ve yasal belgeler</Link>
+          <Link href={hrefFor('privacyHub', lang)}>{lang === 'tr' ? 'KVKK ve yasal belgeler' : 'Privacy documents'}</Link>
         </aside>
         <article className={styles.document}>{children}</article>
       </div>
 
-      <PublicFooter lang="tr" />
+      <PublicFooter lang={lang} />
     </main>
   )
 }

@@ -1,3 +1,3 @@
-import { expertiseItem, membership, partner } from './documents'
+import { ecosystemPage, expertiseItem, membership, partner } from './documents'
 
-export const schemaTypes = [expertiseItem, partner, membership]
+export const schemaTypes = [expertiseItem, partner, membership, ecosystemPage]

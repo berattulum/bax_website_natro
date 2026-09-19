@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { hrefFor } from '@/lib/i18n/site-routes'
+
 type FooterLang = 'tr' | 'en'
 
 export function PublicFooter({ lang = 'en' }: { lang?: FooterLang }) {
@@ -19,18 +21,18 @@ export function PublicFooter({ lang = 'en' }: { lang?: FooterLang }) {
   return <footer className="site-footer">
     <div className="container footer-grid">
       <div className="footer-brand">
-        <Link href="/#home" className="footer-logo" aria-label="BaX Composites">
+        <Link href={hrefFor('home', lang)} className="footer-logo" aria-label="BaX Composites">
           <Image className="brand-logo brand-logo-footer" src="/images/bax-composites-logo-original.png" alt="BaX Composites" width={1526} height={781} />
         </Link>
         <p>{t.description}</p>
       </div>
       <div role="navigation" aria-label={t.navigation}>
         <h3>{t.navigation}</h3>
-        <Link href="/sirket-profili">{t.about}</Link>
-        <Link href="/capabilities">{t.capabilities}</Link>
-        <Link href="/is-ortakliklari">{t.ecosystem}</Link>
-        <Link href="/surdurulebilirlik">{t.sustainability}</Link>
-        <Link href="/iletisim">{t.contactLink}</Link>
+        <Link href={hrefFor('company', lang)}>{t.about}</Link>
+        <Link href={hrefFor('capabilities', lang)}>{t.capabilities}</Link>
+        <Link href={hrefFor('partnerships', lang)}>{t.ecosystem}</Link>
+        <Link href={hrefFor('sustainability', lang)}>{t.sustainability}</Link>
+        <Link href={hrefFor('contact', lang)}>{t.contactLink}</Link>
       </div>
       <div><h3>{t.contact}</h3><a href="mailto:info@baxcomposites.com">info@baxcomposites.com</a><a href="tel:+902125650008">+90 (212) 565 00 08</a></div>
       <div className="footer-address"><h3>{t.head}</h3><p><span>Yıldız Technical University Technopark</span><span>Çifte Havuzlar District, Eski Londra Asfaltı Avenue</span><span>A1 Block No: B35, 34220 Esenler / İstanbul</span></p></div>
@@ -38,7 +40,7 @@ export function PublicFooter({ lang = 'en' }: { lang?: FooterLang }) {
     </div>
     <div className="container footer-bottom">
       <span>© 2026 BaX Composites Inc</span>
-      <nav className="footer-legal" aria-label={t.corporate}><Link href="/kurumsal-bilgiler">{t.corporate}</Link><Link href="/kvkk/aydinlatma-metni">{t.privacy}</Link><Link href="/cerez-politikasi">{t.cookies}</Link><Link href="/kvkk/basvuru">{t.application}</Link></nav>
+      <nav className="footer-legal" aria-label={t.corporate}><Link href={hrefFor('corporate', lang)}>{t.corporate}</Link><Link href={hrefFor('privacy', lang)}>{t.privacy}</Link><Link href={hrefFor('cookies', lang)}>{t.cookies}</Link><Link href={hrefFor('application', lang)}>{t.application}</Link></nav>
       <span>{t.rights}</span>
     </div>
   </footer>

@@ -12,10 +12,15 @@ export async function verifyTurnstile({
   token: string
   ip: string
 }) {
-  const secret = process.env.TURNSTILE_SECRET_KEY
-  if (!secret) {
-    return process.env.NODE_ENV !== 'production'
+  const secret = process.env.TURNSTILE_SECRET_KEY?.trim()
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim()
+
+  // Turnstile is optional until both site key and secret are configured.
+  if (!secret || !siteKey) {
+    return true
   }
+
+  if (!token) return false
 
   const body = new URLSearchParams({
     secret,
